@@ -15,14 +15,20 @@ GITHUB_TOKEN = config['GITHUB_TOKEN']
 GITHUB_REPO = 'https://github.com/Exohayvan/astuko'
 RESTART_EXIT_CODE = 42
 
-class AdminCommands(commands.Cog):
+class Admin(commands.Cog):
+    """
+    A cog that provides commands for bot administration.
+    """
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command()
     async def update(self, ctx):
+        """
+        Updates the bot with the latest code from the repository.
+        """
         # Check if the user has the correct ID
-        if ctx.message.author.id != 276782057412362241:
+        if ctx.message.author.id != config['owner_id']:
             await ctx.send("You don't have permission to use this command.")
             return
 
@@ -58,13 +64,16 @@ class AdminCommands(commands.Cog):
 
     @commands.command()
     async def restart(self, ctx):
+        """
+        Restarts the bot.
+        """
         # Check if the user has the correct ID
-        if ctx.message.author.id != 276782057412362241:
+        if ctx.message.author.id != config['owner_id']:
             await ctx.send("You don't have permission to use this command.")
             return
 
         await ctx.send('Bot restarting.')
         sys.exit(RESTART_EXIT_CODE)
 
-async def setup(bot):
-    bot.add_cog(AdminCommands(bot))
+def setup(bot):
+    bot.add_cog(Admin(bot))
