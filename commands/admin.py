@@ -6,7 +6,9 @@ import json
 from github import Github
 
 def get_config():
-    with open('../../config.json', 'r') as f:
+    parent_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    config_path = os.path.join(parent_dir, "config.json")
+    with open(config_path, "r") as f:
         config = json.load(f)
     return config
 
