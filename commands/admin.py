@@ -31,7 +31,11 @@ class AdminCommands(commands.Cog):
         result = subprocess.run(["git", "pull"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output = result.stdout.decode("utf-8")
         error = result.stderr.decode("utf-8")
-    
+
+        if "Already up to date." in output:
+            await ctx.send('Already up to date.')
+            return
+
         if error:
             await ctx.send(f'Update failed with error: {error}')
         else:
