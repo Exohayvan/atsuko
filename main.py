@@ -24,15 +24,15 @@ def get_config():
         config = json.load(f)
     return config
 
-def load_cogs(bot, root_dir):
-    for dirpath, dirnames, filenames in os.walk(root_dir):
+@bot.event
+async def setup_hook():
+    for dirpath, dirnames, filenames in os.walk('./Commands'):
         for filename in filenames:
             if filename.endswith('.py'):
-                path = os.path.join(dirpath, filename)
-                module = path.replace(os.sep, ".")[:-3]  # replace path separators with '.' and remove '.py'
-                bot.load_extension(module)
-
-load_cogs(bot, 'Commands')
+                await bot.load_extension(f'{dirpath.replace("/",".")}.{filename[:-3]}')
+                print(f"Loaded Command: {filename[:-3]}")
+            else:
+                print("Unable to load pycache folder.")
 
 config = get_config()
 bot.run(config['bot_token'])
