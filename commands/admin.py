@@ -3,6 +3,7 @@ import os
 import subprocess
 import sys
 import json
+from github import Github
 
 def get_config():
     config_path = "../config.json"
