@@ -13,7 +13,7 @@ def get_config():
 
 config = get_config()
 GITHUB_TOKEN = config['GITHUB_TOKEN']
-GITHUB_REPO = 'Exohayvan/astuko'
+GITHUB_REPO = 'https://www.github.com/Exohayvan/astuko'
 RESTART_EXIT_CODE = 42
 
 class AdminCommands(commands.Cog):
