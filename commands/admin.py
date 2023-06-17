@@ -34,9 +34,6 @@ class AdminCommands(commands.Cog):
     
         if error:
             await ctx.send(f'Update failed with error: {error}')
-        if output == 'Already up to date.':
-            await ctx.send(f'{output}')
-            return
         else:
             await ctx.send(f'Update successful: {output}')
             await ctx.send('Bot restarting.')
