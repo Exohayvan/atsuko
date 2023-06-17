@@ -2,6 +2,8 @@ from discord.ext import commands
 import os
 import subprocess
 import sys
+import json
+from github import Github
 
 def get_config():
     with open('../../config.json', 'r') as f:
@@ -64,5 +66,5 @@ class AdminCommands(commands.Cog):
         await ctx.send('Bot restarting.')
         sys.exit(RESTART_EXIT_CODE)
 
-def setup(bot):
+async def setup(bot):
     bot.add_cog(AdminCommands(bot))
