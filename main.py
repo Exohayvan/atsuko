@@ -8,20 +8,19 @@ logging.basicConfig(level=logging.INFO)
 
 class CustomHelpCommand(commands.HelpCommand):
     async def send_bot_help(self, mapping):
+        embed = discord.Embed(title="Bot Commands", color=discord.Color.blue())
+        
         for cog, commands in mapping.items():
             if not commands:
                 continue  # Ignore empty cogs/uncategorized commands
 
             cog_name = getattr(cog, "qualified_name", "No Category")
-            description = cog.description if cog else "Uncategorized commands."
+            commands_list = ', '.join([command.name for command in commands if not command.hidden])
 
-            embed = discord.Embed(title=cog_name, description=description, color=discord.Color.blue())
+            if commands_list:
+                embed.add_field(name=cog_name, value=commands_list, inline=False)
 
-            for command in commands:
-                if not command.hidden:
-                    embed.add_field(name=command.name, value=command.help, inline=False)
-
-            await self.context.send(embed=embed)
+        await self.context.send(embed=embed)
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
