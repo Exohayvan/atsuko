@@ -3,6 +3,11 @@ import os
 import subprocess
 import sys
 
+def get_config():
+    with open('../../config.json', 'r') as f:
+        config = json.load(f)
+    return config
+
 GITHUB_TOKEN = 'your-github-token'
 GITHUB_REPO = 'https://github.com/yourusername/yourrepo'
 RESTART_EXIT_CODE = 42
