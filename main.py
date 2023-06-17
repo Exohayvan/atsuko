@@ -2,21 +2,26 @@ import os
 import discord
 from discord.ext import commands
 import json
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 class CustomHelpCommand(commands.HelpCommand):
-    def get_command_signature(self, command):
-        return f'{self.context.prefix}{command.qualified_name} {command.signature}'
-
     async def send_bot_help(self, mapping):
         for cog, commands in mapping.items():
-            if cog:
-                await self.get_destination().send(f'{cog.qualified_name}: {[command.name for command in commands]}')
+            if not commands:
+                continue  # Ignore empty cogs/uncategorized commands
 
-    async def send_cog_help(self, cog):
-        await self.get_destination().send(f'{cog.qualified_name}: {[command.name for command in cog.get_commands()]}')
+            cog_name = getattr(cog, "qualified_name", "No Category")
+            description = cog.description if cog else "Uncategorized commands."
 
-    async def send_command_help(self, command):
-        await self.get_destination().send(f'{self.get_command_signature(command)}\n{command.help}')
+            embed = discord.Embed(title=cog_name, description=description, color=discord.Color.blue())
+
+            for command in commands:
+                if not command.hidden:
+                    embed.add_field(name=command.name, value=command.help, inline=False)
+
+            await self.context.send(embed=embed)
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
@@ -27,15 +32,18 @@ def get_config():
         config = json.load(f)
     return config
 
-@bot.event
-async def on_ready():
-    for dirpath, dirnames, filenames in os.walk('./Commands'):
+async def load_cogs(bot, root_dir):
+    for dirpath, dirnames, filenames in os.walk(root_dir):
         for filename in filenames:
             if filename.endswith('.py'):
-                await bot.load_extension(f'{dirpath.replace("/",".")}.{filename[:-3]}')
-                print(f"Loaded Command: {filename[:-3]}")
-            else:
-                print("Unable to load pycache folder.")
+                path = os.path.join(dirpath, filename)
+                module = path.replace(os.sep, ".")[:-3]  # replace path separators with '.' and remove '.py'
+                await bot.load_extension(module)
+
+@bot.event
+async def on_ready():
+    print(f'We have logged in as {bot.user}')
+    await load_cogs(bot, 'Commands')
 
 @bot.event
 async def on_command_error(ctx, error):
