@@ -36,7 +36,7 @@ class AdminCommands(commands.Cog):
             await ctx.send('Already up to date.')
             return
 
-        if error:
+        if result.returncode != 0:
             await ctx.send(f'Update failed with error: {error}')
         else:
             await ctx.send(f'Update successful: {output}')
