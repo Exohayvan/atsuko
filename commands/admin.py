@@ -2,6 +2,7 @@ from discord.ext import commands
 import os
 import subprocess
 import sys
+import json
 
 def get_config():
     config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "config.json"))
