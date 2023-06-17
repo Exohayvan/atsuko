@@ -67,4 +67,5 @@ class AdminCommands(commands.Cog):
         sys.exit(RESTART_EXIT_CODE)
 
 def setup(bot):
-    bot.add_cog(AdminCommands(bot))
+    await bot.add_cog(AdminCommands(bot))
+
