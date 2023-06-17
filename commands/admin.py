@@ -8,8 +8,9 @@ def get_config():
         config = json.load(f)
     return config
 
-GITHUB_TOKEN = 'your-github-token'
-GITHUB_REPO = 'https://github.com/yourusername/yourrepo'
+config = get_config()
+GITHUB_TOKEN = config['GITHUB_TOKEN']
+GITHUB_REPO = 'https://github.com/Exohayvan/astuko'
 RESTART_EXIT_CODE = 42
 
 class AdminCommands(commands.Cog):
