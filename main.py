@@ -37,11 +37,11 @@ def load_cogs(bot, root_dir):
             if filename.endswith('.py'):
                 path = os.path.join(dirpath, filename)
                 module = path.replace(os.sep, ".")[:-3]  # replace path separators with '.' and remove '.py'
-                try:
-                    await bot.load_extension(module)
-                    print(f'Successfully loaded cog: {module}')
-                except Exception as e:
-                    print(f'Failed to load cog: {module}\n{e}')
+                bot.load_extension(module)
+                print(f"Loaded Command: {filename[:-3]}")
+            else:
+                print("Unable to load pycache folder.")
+
 @bot.event
 async def on_ready():
     print(f'We have logged in as {bot.user}')
