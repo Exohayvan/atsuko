@@ -38,10 +38,10 @@ class Info(commands.Cog):
         """Shows the total lifetime uptime of the bot."""
         now = datetime.datetime.utcnow()
         delta = now - self.start_time
-        days, seconds = delta.days, delta.seconds
-        hours = days * 24 + seconds // 3600
-        minutes = (seconds % 3600) // 60
-        seconds = seconds % 60
+        seconds = int(delta.total_seconds())
+        days, seconds = divmod(seconds, 86400)
+        hours, seconds = divmod(seconds, 3600)
+        minutes, seconds = divmod(seconds, 60)
 
         await ctx.send(f"Total Lifetime Uptime: {days} days, {hours} hours, {minutes} minutes, {seconds} seconds.")
 
