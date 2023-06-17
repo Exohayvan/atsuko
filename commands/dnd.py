@@ -1,5 +1,4 @@
 from discord.ext import commands
-import random
 
 class Character:
     def __init__(self, name, race, character_class, level):
@@ -14,29 +13,36 @@ class Character:
 class DND(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.characters = {}  # Store characters as {user_id: Character}
+        self.characters = {}
 
     @commands.command()
-    async def attack(self, ctx):
-        """Simulates an attack in D&D."""
-        attack_roll = random.randint(1, 20)
-        await ctx.send(f"You rolled {attack_roll} for your attack!")
-
-    @commands.command()
-    async def spell(self, ctx):
-        """Casts a spell in D&D."""
-        spells = ['Fireball', 'Magic Missile', 'Healing Touch']
-        spell_cast = random.choice(spells)
-        await ctx.send(f"You cast {spell_cast}!")
-
-    @commands.command()
-    async def create_character(self, ctx, name, race, character_class, level=1):
+    async def create_character(self, ctx):
         """Creates a D&D character for the user."""
         user_id = ctx.author.id
         if user_id in self.characters:
             await ctx.send("You already have a character!")
             return
 
+        await ctx.send("Let's create your D&D character! Answer the following questions:")
+
+        def check(m):
+            return m.author == ctx.author and m.channel == ctx.channel
+
+        await ctx.send("What is the name of your character?")
+        name_msg = await self.bot.wait_for('message', check=check)
+        name = name_msg.content
+
+        await ctx.send("What is the race of your character?")
+        race_msg = await self.bot.wait_for('message', check=check)
+        race = race_msg.content
+
+        await ctx.send("What is the class of your character?")
+        class_msg = await self.bot.wait_for('message', check=check)
+        character_class = class_msg.content
+
+        await ctx.send("Your Character Will start at level 1!")
+        level = 1
+        
         character = Character(name, race, character_class, level)
         self.characters[user_id] = character
         await ctx.send(f"Character '{name}' created for user {ctx.author.mention}!")
