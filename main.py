@@ -31,14 +31,17 @@ def get_config():
         config = json.load(f)
     return config
 
-async def load_cogs(bot, root_dir):
+def load_cogs(bot, root_dir):
     for dirpath, dirnames, filenames in os.walk(root_dir):
         for filename in filenames:
             if filename.endswith('.py'):
                 path = os.path.join(dirpath, filename)
                 module = path.replace(os.sep, ".")[:-3]  # replace path separators with '.' and remove '.py'
-                await bot.load_extension(module)
-
+                try:
+                    await bot.load_extension(module)
+                    print(f'Successfully loaded cog: {module}')
+                except Exception as e:
+                    print(f'Failed to load cog: {module}\n{e}')
 @bot.event
 async def on_ready():
     print(f'We have logged in as {bot.user}')
