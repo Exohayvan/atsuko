@@ -34,10 +34,10 @@ class AdminCommands(commands.Cog):
     
         if error:
             await ctx.send(f'Update failed with error: {error}')
+        if output = 'Already up to date.':
+            await ctx.send(f'{output}')
+            return
         else:
-            if output = 'Already up to date.':
-                await ctx.send(f'{output}')
-                return
             await ctx.send(f'Update successful: {output}')
             await ctx.send('Bot restarting.')
             sys.exit(RESTART_EXIT_CODE)
