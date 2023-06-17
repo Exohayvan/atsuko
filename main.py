@@ -20,7 +20,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 bot.help_command = CustomHelpCommand()
 
 def get_config():
-    with open('config.json', 'r') as f:
+    with open('../config.json', 'r') as f:
         config = json.load(f)
     return config
 
