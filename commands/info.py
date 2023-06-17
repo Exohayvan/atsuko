@@ -1,14 +1,24 @@
-from discord.ext import commands
-import datetime
-
 class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.start_time = datetime.datetime.utcnow()
+        self.start_time = self.load_start_time()
+
+    def load_start_time(self):
+        try:
+            with open("start_time.txt", "r") as f:
+                start_time_str = f.read()
+                return datetime.datetime.fromisoformat(start_time_str)
+        except FileNotFoundError:
+            return datetime.datetime.utcnow()
+
+    def save_start_time(self):
+        with open("start_time.txt", "w") as f:
+            start_time_str = self.start_time.isoformat()
+            f.write(start_time_str)
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.start_time = datetime.datetime.utcnow()
+        pass
 
     @commands.command()
     async def uptime(self, ctx):
@@ -26,10 +36,10 @@ class Info(commands.Cog):
         """Shows the total lifetime uptime of the bot."""
         now = datetime.datetime.utcnow()
         delta = now - self.start_time
-        seconds = int(delta.total_seconds())
-        days, seconds = divmod(seconds, 86400)
-        hours, seconds = divmod(seconds, 3600)
-        minutes, seconds = divmod(seconds, 60)
+        days, seconds = delta.days, delta.seconds
+        hours = days * 24 + seconds // 3600
+        minutes = (seconds % 3600) // 60
+        seconds = seconds % 60
 
         await ctx.send(f"Total Lifetime Uptime: {days} days, {hours} hours, {minutes} minutes, {seconds} seconds.")
 
