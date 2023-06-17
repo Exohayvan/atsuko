@@ -48,7 +48,7 @@ async def load_cogs(bot, root_dir):
 
 @bot.event
 async def on_ready():
-    print(f'We have logged in as {bot.user}')
+    print(f"We have logged in as {bot.user}")
     await load_cogs(bot, 'Commands')
 
 @bot.event
