@@ -37,5 +37,10 @@ async def on_ready():
             else:
                 print("Unable to load pycache folder.")
 
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandError):
+        await ctx.send(f'An error occurred: {str(error)}')
+
 config = get_config()
 bot.run(config['bot_token'])
