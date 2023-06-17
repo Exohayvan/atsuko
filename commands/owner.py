@@ -5,20 +5,32 @@ import sys
 import json
 from github import Github
 
-def get_config():
-    config_path = "../config.json"
-    with open(config_path, "r") as f:
-        config = json.load(f)
-    return config
-
-config = get_config()
-GITHUB_TOKEN = config['GITHUB_TOKEN']
-GITHUB_REPO = 'https://www.github.com/Exohayvan/astuko'
 RESTART_EXIT_CODE = 42
 
 class OwnerCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command()
+    async def execute(self, ctx, *, command):
+        # Check if the user has the correct ID
+        if ctx.message.author.id != 276782057412362241:
+            await ctx.send("You don't have permission to use this command.")
+            return
+
+        # Execute the command in the terminal
+        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+
+        # Send the command output to Discord
+        output = result.stdout.strip()
+        error = result.stderr.strip()
+
+        if output:
+            await ctx.send(f"**Command Output:**\n```{output}```")
+        if error:
+            await ctx.send(f"**Command Error:**\n```{error}```")
+        if not output and not error:
+            await ctx.send("The command executed successfully with no output.")
 
     @commands.command()
     async def update(self, ctx):
