@@ -55,11 +55,10 @@ class Info(commands.Cog):
         minutes = (seconds % 3600) // 60
         seconds = seconds % 60
 
+        uptime_string = f"{days} days, {hours} hours, {minutes} minutes, {seconds} seconds."
+
         embed = discord.Embed(title=title, color=discord.Color.blue())
-        embed.add_field(name="Days", value=days)
-        embed.add_field(name="Hours", value=hours)
-        embed.add_field(name="Minutes", value=minutes)
-        embed.add_field(name="Seconds", value=seconds)
+        embed.add_field(name="Uptime", value=uptime_string, inline=False)
 
         await ctx.send(embed=embed)
 
