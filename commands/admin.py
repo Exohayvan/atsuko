@@ -16,7 +16,7 @@ GITHUB_TOKEN = config['GITHUB_TOKEN']
 GITHUB_REPO = 'https://www.github.com/Exohayvan/astuko'
 RESTART_EXIT_CODE = 42
 
-class AdminCommands(commands.Cog):
+class OwnerCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -54,4 +54,4 @@ class AdminCommands(commands.Cog):
         sys.exit(RESTART_EXIT_CODE)
 
 async def setup(bot):
-    await bot.add_cog(AdminCommands(bot))
+    await bot.add_cog(OwnerCommands(bot))
