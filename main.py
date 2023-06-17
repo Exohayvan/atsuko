@@ -34,6 +34,8 @@ def get_config():
 
 import asyncio
 
+import asyncio
+
 async def load_cogs(bot, root_dir):
     tasks = []
     for dirpath, dirnames, filenames in os.walk(root_dir):
@@ -43,7 +45,8 @@ async def load_cogs(bot, root_dir):
                 module = path.replace(os.sep, ".")[:-3]  # replace path separators with '.' and remove '.py'
                 cog = module.replace(".", "_")
                 try:
-                    bot.load_extension(module)
+                    task = asyncio.create_task(bot.load_extension(module))
+                    tasks.append(task)
                     print(f"Loaded Cog: {module}")
                 except Exception as e:
                     print(f"Failed to load Cog: {module}\n{e}")
