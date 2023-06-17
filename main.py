@@ -33,26 +33,12 @@ def get_config():
     return config
 
 async def load_cogs(bot, root_dir):
-    tasks = []
     for dirpath, dirnames, filenames in os.walk(root_dir):
         for filename in filenames:
             if filename.endswith('.py'):
                 path = os.path.join(dirpath, filename)
                 module = path.replace(os.sep, ".")[:-3]  # replace path separators with '.' and remove '.py'
-                cog = module.replace(".", "_")
-                try:
-                    bot.load_extension(module)
-                    print(f"Loaded Cog: {module}")
-                except Exception as e:
-                    print(f"Failed to load Cog: {module}\n{e}")
-                try:
-                    setup = getattr(bot.get_cog(cog), "setup")
-                    if setup:
-                        tasks.append(asyncio.create_task(setup(bot)))
-                except AttributeError:
-                    pass
-
-    await asyncio.gather(*tasks)
+                await bot.load_extension(module)
 
 @bot.event
 async def on_ready():
