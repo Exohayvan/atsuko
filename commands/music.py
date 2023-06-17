@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import youtube_dl
+import yt_dlp as ytdlp
 
 class Music(commands.Cog):
     def __init__(self, bot):
@@ -27,7 +27,7 @@ class Music(commands.Cog):
         if not ctx.voice_client:
             await ctx.send("I am not connected to a voice channel!")
             return
-        with youtube_dl.YoutubeDL({'format': 'bestaudio'}) as ydl:
+        with ytdlp.YoutubeDL({'format': 'bestaudio'}) as ydl:
             info = ydl.extract_info(url, download=False)
             url2 = info['formats'][0]['url']
             voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
