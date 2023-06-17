@@ -66,6 +66,5 @@ class AdminCommands(commands.Cog):
         await ctx.send('Bot restarting.')
         sys.exit(RESTART_EXIT_CODE)
 
-def setup(bot):
+async def setup(bot):
     await bot.add_cog(AdminCommands(bot))
-
