@@ -12,6 +12,9 @@ class CustomHelpCommand(commands.HelpCommand):
             if cog:
                 await self.get_destination().send(f'{cog.qualified_name}: {[command.name for command in commands]}')
 
+    async def send_cog_help(self, cog):
+        await self.get_destination().send(f'{cog.qualified_name}: {[command.name for command in cog.get_commands()]}')
+
     async def send_command_help(self, command):
         await self.get_destination().send(f'{self.get_command_signature(command)}\n{command.help}')
 
@@ -25,7 +28,7 @@ def get_config():
     return config
 
 @bot.event
-async def setup_hook():
+async def on_ready():
     for dirpath, dirnames, filenames in os.walk('./Commands'):
         for filename in filenames:
             if filename.endswith('.py'):
