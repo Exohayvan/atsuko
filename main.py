@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 import json
 import logging
+import asyncio
 
 logging.basicConfig(level=logging.INFO)
 
@@ -31,16 +32,19 @@ def get_config():
         config = json.load(f)
     return config
 
-def load_cogs(bot, root_dir):
+async def load_cogs(bot, root_dir):
+    tasks = []
     for dirpath, dirnames, filenames in os.walk(root_dir):
         for filename in filenames:
             if filename.endswith('.py'):
                 path = os.path.join(dirpath, filename)
                 module = path.replace(os.sep, ".")[:-3]  # replace path separators with '.' and remove '.py'
-                bot.load_extension(module)
+                tasks.append(bot.load_extension(module))
                 print(f"Loaded Command: {filename[:-3]}")
             else:
                 print("Unable to load pycache folder.")
+
+    await asyncio.gather(*tasks)
 
 @bot.event
 async def on_ready():
