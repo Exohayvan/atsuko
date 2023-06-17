@@ -39,10 +39,18 @@ async def load_cogs(bot, root_dir):
             if filename.endswith('.py'):
                 path = os.path.join(dirpath, filename)
                 module = path.replace(os.sep, ".")[:-3]  # replace path separators with '.' and remove '.py'
-                tasks.append(bot.load_extension(module))
-                print(f"Loaded Command: {filename[:-3]}")
-            else:
-                print("Unable to load pycache folder.")
+                cog = module.replace(".", "_")
+                try:
+                    bot.load_extension(module)
+                    print(f"Loaded Cog: {module}")
+                except Exception as e:
+                    print(f"Failed to load Cog: {module}\n{e}")
+                try:
+                    setup = getattr(bot.get_cog(cog), "setup")
+                    if setup:
+                        tasks.append(asyncio.create_task(setup(bot)))
+                except AttributeError:
+                    pass
 
     await asyncio.gather(*tasks)
 
