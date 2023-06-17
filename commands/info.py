@@ -1,6 +1,7 @@
 from discord.ext import commands
 import datetime
 import asyncio
+import discord
 
 class Info(commands.Cog):
     def __init__(self, bot):
@@ -53,7 +54,14 @@ class Info(commands.Cog):
         hours = days * 24 + seconds // 3600
         minutes = (seconds % 3600) // 60
         seconds = seconds % 60
-        await ctx.send(f"{title}: {days} days, {hours} hours, {minutes} minutes, {seconds} seconds.")
+
+        embed = discord.Embed(title=title, color=discord.Color.blue())
+        embed.add_field(name="Days", value=days)
+        embed.add_field(name="Hours", value=hours)
+        embed.add_field(name="Minutes", value=minutes)
+        embed.add_field(name="Seconds", value=seconds)
+
+        await ctx.send(embed=embed)
 
 async def setup(bot):
     await bot.add_cog(Info(bot))
