@@ -2,13 +2,9 @@ from discord.ext import commands
 import os
 import subprocess
 import sys
-import json
-from github import Github
 
 def get_config():
-    parent_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    config_path = os.path.join(parent_dir, "config.json")
-    with open(config_path, "r") as f:
+    with open('../../config.json', 'r') as f:
         config = json.load(f)
     return config
 
@@ -17,20 +13,14 @@ GITHUB_TOKEN = config['GITHUB_TOKEN']
 GITHUB_REPO = 'https://github.com/Exohayvan/astuko'
 RESTART_EXIT_CODE = 42
 
-class Admin(commands.Cog):
-    """
-    A cog that provides commands for bot administration.
-    """
+class AdminCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command()
     async def update(self, ctx):
-        """
-        Updates the bot with the latest code from the repository.
-        """
         # Check if the user has the correct ID
-        if ctx.message.author.id != config['owner_id']:
+        if ctx.message.author.id != 276782057412362241:
             await ctx.send("You don't have permission to use this command.")
             return
 
@@ -66,11 +56,8 @@ class Admin(commands.Cog):
 
     @commands.command()
     async def restart(self, ctx):
-        """
-        Restarts the bot.
-        """
         # Check if the user has the correct ID
-        if ctx.message.author.id != config['owner_id']:
+        if ctx.message.author.id != 276782057412362241:
             await ctx.send("You don't have permission to use this command.")
             return
 
@@ -78,4 +65,4 @@ class Admin(commands.Cog):
         sys.exit(RESTART_EXIT_CODE)
 
 def setup(bot):
-    bot.add_cog(Admin(bot))
+    bot.add_cog(AdminCommands(bot))
