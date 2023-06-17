@@ -4,7 +4,6 @@ from discord.ext import commands
 import json
 import logging
 import asyncio
-from github import Github
 
 logging.basicConfig(level=logging.INFO)
 
