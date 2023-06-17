@@ -28,5 +28,5 @@ class Info(commands.Cog):
 
         await ctx.send(f"Total Lifetime Uptime: {days} days, {hours} hours, {minutes} minutes, {seconds} seconds.")
 
-def setup(bot):
-    bot.add_cog(Info(bot))
+async def setup(bot):
+    await bot.add_cog(Info(bot))
