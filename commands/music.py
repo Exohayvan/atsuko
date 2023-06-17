@@ -27,11 +27,11 @@ class Music(commands.Cog):
         if not ctx.voice_client:
             await ctx.send("I am not connected to a voice channel!")
             return
-        with ytdlp.YoutubeDL({'format': 'bestaudio'}) as ydl:
+        with ytdlp.YoutubeDL({'format': 'bestaudio/best'}) as ydl:
             info = ydl.extract_info(url, download=False)
             url2 = info['formats'][0]['url']
             voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
-            voice.play(discord.FFmpegPCMAudio(url2))
+            voice.play(discord.FFmpegPCMAudio(url2, options="-vn"))
             voice.is_playing()
 
     @commands.command()
