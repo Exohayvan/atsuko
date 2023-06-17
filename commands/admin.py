@@ -5,7 +5,7 @@ import sys
 import json
 
 def get_config():
-    config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "config.json"))
+    config_path = "../config.json"
     with open(config_path, "r") as f:
         config = json.load(f)
     return config
