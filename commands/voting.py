@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 import asyncio
+import datetime
 
 class Voting(commands.Cog):
     def __init__(self, bot):
@@ -45,13 +46,16 @@ class Voting(commands.Cog):
             emoji = f"{i+1}\u20e3"  # Generate number emojis
             await voting_message.add_reaction(emoji)
 
-        # Wait for the specified time limit
-        await asyncio.sleep(time_limit * 3600)
+        end_time = datetime.datetime.utcnow() + datetime.timedelta(hours=time_limit)
 
-        # Fetch the updated voting message
+        while datetime.datetime.utcnow() < end_time:
+            remaining_time = end_time - datetime.datetime.utcnow()
+            minutes, seconds = divmod(remaining_time.seconds, 60)
+            embed.set_footer(text=f"Voting Ends in {remaining_time.days}d {minutes}m {seconds}s")
+            await voting_message.edit(embed=embed)
+            await asyncio.sleep(60)
+
         updated_voting_message = await ctx.fetch_message(voting_message.id)
-
-        # Edit the voting message to indicate the end of voting
         embed.set_footer(text="Voting Ended")
         await updated_voting_message.edit(embed=embed)
 
