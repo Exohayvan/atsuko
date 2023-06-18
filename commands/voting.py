@@ -14,15 +14,18 @@ class Voting(commands.Cog):
             CREATE TABLE IF NOT EXISTS active_votes (
                 title TEXT PRIMARY KEY,
                 message_id INTEGER,
+                channel_id INTEGER,
                 option_emojis TEXT,
                 votes TEXT,
-                end_time TEXT,
+                start_time TEXT,
+                duration INTEGER,
                 voted_users TEXT
             )
         """)
         self.conn.commit()
         self.active_votes = {}
         self.load_votes()
+        self.bot.loop.create_task(self.check_end_times())
 
     def cog_unload(self):
         self.conn.close()
@@ -30,12 +33,14 @@ class Voting(commands.Cog):
     def load_votes(self):
         self.cursor.execute("SELECT * FROM active_votes")
         for row in self.cursor.fetchall():
-            title, message_id, option_emojis, votes, end_time, voted_users = row
+            title, message_id, channel_id, option_emojis, votes, start_time, duration, voted_users = row
             self.active_votes[title] = {
                 'message_id': message_id,
+                'channel_id': channel_id,
                 'option_emojis': json.loads(option_emojis),
                 'votes': json.loads(votes),
-                'end_time': datetime.datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S.%f"),
+                'start_time': datetime.datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S.%f"),
+                'duration': duration,
                 'voted_users': json.loads(voted_users),
             }
 
@@ -76,7 +81,7 @@ class Voting(commands.Cog):
 
         time_limit = time_limit.lower()
         time_formats = {
-            "d": ("days", 24),
+            "d": ("days", 24 * 60),
             "h": ("hours", 60),
             "m": ("minutes", 1)
         }
@@ -96,8 +101,8 @@ class Voting(commands.Cog):
             await ctx.send("Time limit must be at least 1 unit.")
             return
 
-        time_name, multiplier = time_formats[unit]
-        end_time = datetime.datetime.utcnow() + datetime.timedelta(**{time_name: amount * multiplier})
+        duration = amount * time_formats[unit][1]
+        start_time = datetime.datetime.utcnow()
 
         embed = discord.Embed(title=f"Vote: {title}", description="React with the number emojis to vote. Votes are anonymous and reaction will disappear after voting. Only last selection will be tracked. Votes after vote ends, will not count.")
         option_emojis = {f"{i+1}\u20e3": option for i, option in enumerate(options)}
@@ -112,41 +117,42 @@ class Voting(commands.Cog):
 
         self.active_votes[title] = {
             'message_id': voting_message.id,
+            'channel_id': ctx.channel.id,
             'option_emojis': option_emojis,
             'votes': {option: 0 for option in options},
-            'end_time': end_time,
+            'start_time': start_time,
+            'duration': duration,
             'voted_users': {}
         }
-        
-        self.cursor.execute("INSERT INTO active_votes VALUES (?, ?, ?, ?, ?, ?)",
-                            (title, voting_message.id, json.dumps(option_emojis), json.dumps({option: 0 for option in options}),
-                            str(end_time), json.dumps({})))
+
+        self.cursor.execute("INSERT INTO active_votes VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                            (title, voting_message.id, ctx.channel.id, json.dumps(option_emojis), json.dumps({option: 0 for option in options}),
+                            str(start_time), duration, json.dumps({})))
         self.conn.commit()
 
-        while datetime.datetime.utcnow() < end_time:
-            updated_voting_message = await ctx.fetch_message(voting_message.id)
-            for reaction in updated_voting_message.reactions:
-                if str(reaction.emoji) in option_emojis:
-                    self.active_votes[title][option_emojis[str(reaction.emoji)]] = reaction.count - 1
+    async def check_end_times(self):
+        while True:
+            for title, vote_data in list(self.active_votes.items()):
+                start_time = vote_data['start_time']
+                duration = vote_data['duration']
+                end_time = start_time + datetime.timedelta(minutes=duration)
+                if datetime.datetime.utcnow() >= end_time:
+                    channel = self.bot.get_channel(vote_data['channel_id'])
+                    if channel:
+                        max_votes = max(vote_data['votes'].values())
+                        winning_options = [option for option, votes in vote_data['votes'].items() if votes == max_votes]
 
-            remaining_time = end_time - datetime.datetime.utcnow()
-            minutes, seconds = divmod(remaining_time.seconds, 60)
-            embed.set_footer(text=f"Voting Ends in {remaining_time.days}d {minutes}m {seconds}s")
-            await voting_message.edit(embed=embed)
+                        winning_embed = discord.Embed(title="Voting Results", description="The vote has ended. Here are the winning option(s):")
+                        for i, option in enumerate(winning_options):
+                            winning_embed.add_field(name=f"Option {i+1}", value=option, inline=False)
+
+                        await channel.send(embed=winning_embed)
+
+                    self.cursor.execute("DELETE FROM active_votes WHERE title = ?", (title,))
+                    self.conn.commit()
+                    del self.active_votes[title]
+
             await asyncio.sleep(15)
-
-        updated_voting_message = await ctx.fetch_message(voting_message.id)
-        embed.set_footer(text="Voting Ended")
-
-        max_votes = max(self.active_votes[title]['votes'].values())
-        winning_options = [option for option, votes in self.active_votes[title]['votes'].items() if votes == max_votes]
-
-        winning_embed = discord.Embed(title="Voting Results", description="The vote has ended. Here are the winning option(s):")
-        for i, option in enumerate(winning_options):
-            winning_embed.add_field(name=f"Option {i+1}", value=option, inline=False)
-
-        await ctx.send(embed=winning_embed)
-        del self.active_votes[title]
 
 async def setup(bot):
     await bot.add_cog(Voting(bot))
