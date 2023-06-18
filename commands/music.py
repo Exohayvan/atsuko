@@ -123,8 +123,9 @@ class Music(commands.Cog):
             info = ydl.extract_info(url, download=False)
             URL = info['entries'][0]['url'] if 'entries' in info else info['url']
             voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
-            voice.play(discord.FFmpegPCMAudio(URL, options="-vn"))
-            voice.is_playing()
+            audio_source = discord.FFmpegPCMAudio(URL, options="-vn")
+            audio_source.volume = self.volume.get(str(ctx.guild.id), 100) / 100.0
+            voice.play(audio_source)
 
     @commands.command()
     async def pause(self, ctx):
