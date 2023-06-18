@@ -53,7 +53,7 @@ class Voting(commands.Cog):
             minutes, seconds = divmod(remaining_time.seconds, 60)
             embed.set_footer(text=f"Voting Ends in {remaining_time.days}d {minutes}m {seconds}s")
             await voting_message.edit(embed=embed)
-            await asyncio.sleep(60)
+            await asyncio.sleep(15)
 
         updated_voting_message = await ctx.fetch_message(voting_message.id)
         embed.set_footer(text="Voting Ended")
