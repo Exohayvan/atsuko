@@ -8,6 +8,29 @@ class Voting(commands.Cog):
         self.bot = bot
         self.active_votes = {}
 
+    @commands.Cog.listener()
+    async def on_reaction_add(self, reaction, user):
+        if user == self.bot.user:
+            return
+
+        message = reaction.message
+        for title, vote_data in self.active_votes.items():
+            if message.id == vote_data['message_id']:
+                emoji = str(reaction.emoji)
+                if emoji in vote_data['option_emojis']:
+                    option = vote_data['option_emojis'][emoji]
+
+                    # If the user has already voted for a different option, remove their old vote
+                    if user.id in vote_data['voted_users']:
+                        old_option = vote_data['voted_users'][user.id]
+                        if old_option != option:
+                            vote_data['votes'][old_option] -= 1
+
+                    vote_data['votes'][option] += 1
+                    vote_data['voted_users'][user.id] = option
+                    await message.remove_reaction(reaction.emoji, user)
+                break
+
     @commands.command()
     async def vote(self, ctx, time_limit, title, *options):
         if title in self.active_votes:
@@ -43,11 +66,6 @@ class Voting(commands.Cog):
         time_name, multiplier = time_formats[unit]
         end_time = datetime.datetime.utcnow() + datetime.timedelta(**{time_name: amount * multiplier})
 
-        self.active_votes[title] = {option: 0 for option in options}
-
-        # Remove the user's message
-        await ctx.message.delete()
-
         # Create and send an embedded message with voting details
         embed = discord.Embed(title=f"Vote: {title}", description="React with the number emojis to vote.")
         option_emojis = {f"{i+1}\u20e3": option for i, option in enumerate(options)}
@@ -60,6 +78,15 @@ class Voting(commands.Cog):
         for i in range(len(options)):
             emoji = f"{i+1}\u20e3"  # Generate number emojis
             await voting_message.add_reaction(emoji)
+
+        # Add the message_id, option_emojis, votes, and voted_users to the active_votes data
+        self.active_votes[title] = {
+            'message_id': voting_message.id,
+            'option_emojis': option_emojis,
+            'votes': {option: 0 for option in options},
+            'end_time': end_time,
+            'voted_users': {}
+        }
 
         while datetime.datetime.utcnow() < end_time:
             # Update the vote counts based on reactions
@@ -78,8 +105,8 @@ class Voting(commands.Cog):
         embed.set_footer(text="Voting Ended")
 
         # Determine the winning option(s)
-        max_votes = max(self.active_votes[title].values())
-        winning_options = [option for option, votes in self.active_votes[title].items() if votes == max_votes]
+        max_votes = max(self.active_votes[title]['votes'].values())
+        winning_options = [option for option, votes in self.active_votes[title]['votes'].items() if votes == max_votes]
 
         # Create an embedded message with the winning option(s)
         winning_embed = discord.Embed(title="Voting Results", description="The vote has ended. Here are the winning option(s):")
