@@ -1,12 +1,57 @@
 import discord
 from discord.ext import commands
 import yt_dlp as ytdlp
+import sqlite3
+import os
 
 class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.song_queue = []
+        self.song_queue = {}
 
+        self.db_conn = sqlite3.connect("./data/music_data.db")
+        self.db_curs = self.db_conn.cursor()
+
+        # Create tables if not exist
+        self.db_curs.execute('''CREATE TABLE IF NOT EXISTS volume
+                                (guild_id text PRIMARY KEY, volume integer)''')
+        self.db_curs.execute('''CREATE TABLE IF NOT EXISTS queue
+                                (guild_id text, song_url text)''')
+
+        # Load the saved volume
+        self.volume = {}
+        self.db_curs.execute("SELECT * FROM volume")
+        for guild_id, volume in self.db_curs.fetchall():
+            self.volume[guild_id] = volume
+
+    @commands.command()
+    async def skip(self, ctx):
+        guild_id = str(ctx.guild.id)
+
+        # Stop the current song
+        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
+        if voice.is_playing():
+            voice.stop()
+
+        # Start the next song
+        await self.play_next(guild_id)
+
+        await ctx.send("Skipped to the next song in the queue.")
+
+    @commands.command()
+    async def clear(self, ctx):
+        guild_id = str(ctx.guild.id)
+
+        # Clear the queue for this server
+        self.song_queue[guild_id] = []
+
+        # Clear the queue in the database
+        self.db_curs.execute("DELETE FROM queue WHERE guild_id = ?",
+                             (guild_id,))
+        self.db_conn.commit()
+
+        await ctx.send("Cleared the song queue.")
+        
     @commands.command()
     async def join(self, ctx):
         if not ctx.message.author.voice:
