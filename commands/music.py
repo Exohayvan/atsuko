@@ -100,5 +100,23 @@ class Music(commands.Cog):
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         voice.stop()
 
+    async def play_next(self, guild_id):
+        # Get the next song for this guild
+        self.db_curs.execute("SELECT song_url FROM queue WHERE guild_id = ? ORDER BY rowid ASC", (guild_id,))
+        result = self.db_curs.fetchone()
+        if result is None:
+            print("No more songs in the queue.")
+            return
+
+        song_url = result[0]
+
+        # Remove the song from the queue in the database
+        self.db_curs.execute("DELETE FROM queue WHERE guild_id = ? AND song_url = ?",
+                             (guild_id, song_url))
+        self.db_conn.commit()
+
+        # Play the song
+        await self.play(guild_id, song_url)
+
 async def setup(bot):
     await bot.add_cog(Music(bot))
