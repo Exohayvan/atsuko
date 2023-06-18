@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import yt_dlp as ytdlp
 import sqlite3
-import os
+from yt_dlp.utils import DownloadError
 
 class Music(commands.Cog):
     def __init__(self, bot):
@@ -34,7 +34,7 @@ class Music(commands.Cog):
             voice.stop()
 
         # Start the next song
-        await self.play_next(guild_id)
+        await self.play_next(ctx)
 
         await ctx.send("Skipped to the next song in the queue.")
 
@@ -58,17 +58,6 @@ class Music(commands.Cog):
 
         await ctx.send(f"Set volume to {volume}%.")
 
-    # Then, in your play function, apply the volume to the audio source:
-
-    with ytdlp.YoutubeDL({'format': 'bestaudio/best', 'noplaylist':'True'}) as ydl:
-        info = ydl.extract_info(url, download=False)
-        URL = info['entries'][0]['url'] if 'entries' in info else info['url']
-        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
-        audio_source = discord.FFmpegPCMAudio(URL, options="-vn")
-        audio_source.volume = self.volume.get(str(ctx.guild.id), 100) / 100.0
-        voice.play(audio_source)
-        voice.is_playing()
-    
     @commands.command()
     async def clear(self, ctx):
         guild_id = str(ctx.guild.id)
@@ -117,13 +106,24 @@ class Music(commands.Cog):
             self.db_curs.execute("DELETE FROM queue WHERE guild_id = ? AND song_url = ?", (guild_id, url))
             self.db_conn.commit()
 
-        with ytdlp.YoutubeDL({'format': 'bestaudio/best', 'noplaylist':'True'}) as ydl:
-            info = ydl.extract_info(url, download=False)
-            URL = info['entries'][0]['url'] if 'entries' in info else info['url']
-            voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
-            audio_source = discord.FFmpegPCMAudio(URL, options="-vn")
-            audio_source.volume = self.volume.get(str(ctx.guild.id), 100) / 100.0
-            voice.play(audio_source)
+        await self.play_youtube(ctx, url)
+
+    async def play_youtube(self, ctx, url):
+        options = {
+            'format': 'bestaudio/best',
+            'noplaylist': 'True',
+            'quiet': True
+        }
+        try:
+            with ytdlp.YoutubeDL(options) as ydl:
+                info = ydl.extract_info(url, download=False)
+                URL = info['entries'][0]['url'] if 'entries' in info else info['url']
+                voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
+                audio_source = discord.FFmpegPCMAudio(URL, options="-vn")
+                audio_source.volume = self.volume.get(str(ctx.guild.id), 100) / 100.0
+                voice.play(audio_source)
+        except DownloadError:
+            await ctx.send("An error occurred while trying to play the song. This could be due to the video being private or not existing.")
 
     async def play_next(self, ctx):
         await self.play(ctx)
@@ -151,3 +151,4 @@ class Music(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(Music(bot))
+                
