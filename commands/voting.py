@@ -88,4 +88,4 @@ class Voting(commands.Cog):
         del self.active_votes[title]  # Clean up after the vote is finished
 
 async def setup(bot):
-    bot.add_cog(Voting(bot))
+    await bot.add_cog(Voting(bot))
