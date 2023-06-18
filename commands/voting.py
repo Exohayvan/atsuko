@@ -81,10 +81,12 @@ class Voting(commands.Cog):
         max_votes = max(self.active_votes[title].values())
         winning_options = [option for option, votes in self.active_votes[title].items() if votes == max_votes]
 
-        # Send a message with the winning option(s)
-        winning_message = f"The vote for '{title}' has ended. The winning option(s) is: {', '.join(winning_options)}"
-        await ctx.send(winning_message)
+        # Create an embedded message with the winning option(s)
+        winning_embed = discord.Embed(title="Voting Results", description="The vote has ended. Here are the winning option(s):")
+        for i, option in enumerate(winning_options):
+            winning_embed.add_field(name=f"Option {i+1}", value=option, inline=False)
 
+        await ctx.send(embed=winning_embed)
         del self.active_votes[title]  # Clean up after the vote is finished
 
 async def setup(bot):
