@@ -68,10 +68,26 @@ class Music(commands.Cog):
         await ctx.voice_client.disconnect()
 
     @commands.command()
-    async def play(self, ctx, url: str):
+    async def play(self, ctx, url: str = None):
+        guild_id = str(ctx.guild.id)
         if not ctx.voice_client:
             await ctx.send("I am not connected to a voice channel!")
             return
+
+        if url is None:  # If no url is provided, play from the queue
+            self.db_curs.execute("SELECT song_url FROM queue WHERE guild_id = ? ORDER BY rowid ASC", (guild_id,))
+            result = self.db_curs.fetchone()
+            if result is None:
+                await ctx.send("No more songs in the queue.")
+                return
+
+            url = result[0]
+
+            # Remove the song from the queue in the database
+            self.db_curs.execute("DELETE FROM queue WHERE guild_id = ? AND song_url = ?",
+                                 (guild_id, url))
+            self.db_conn.commit()
+
         with ytdlp.YoutubeDL({'format': 'bestaudio/best', 'noplaylist':'True'}) as ydl:
             info = ydl.extract_info(url, download=False)
             URL = info['entries'][0]['url'] if 'entries' in info else info['url']
@@ -101,22 +117,8 @@ class Music(commands.Cog):
         voice.stop()
 
     async def play_next(self, guild_id):
-        # Get the next song for this guild
-        self.db_curs.execute("SELECT song_url FROM queue WHERE guild_id = ? ORDER BY rowid ASC", (guild_id,))
-        result = self.db_curs.fetchone()
-        if result is None:
-            print("No more songs in the queue.")
-            return
-
-        song_url = result[0]
-
-        # Remove the song from the queue in the database
-        self.db_curs.execute("DELETE FROM queue WHERE guild_id = ? AND song_url = ?",
-                             (guild_id, song_url))
-        self.db_conn.commit()
-
-        # Play the song
-        await self.play(guild_id, song_url)
+        # The Context object isn't used in this case, so we just pass None
+        await self.play(None, guild_id)
 
 async def setup(bot):
     await bot.add_cog(Music(bot))
