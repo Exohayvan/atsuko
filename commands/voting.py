@@ -162,5 +162,5 @@ class Voting(commands.Cog):
         self.running_votes[title].cancel()
         del self.running_votes[title]
 
-def setup(bot):
+async def setup(bot):
     await bot.add_cog(Voting(bot))
