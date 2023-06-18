@@ -81,13 +81,11 @@ class Voting(commands.Cog):
         max_votes = max(self.active_votes[title].values())
         winning_options = [option for option, votes in self.active_votes[title].items() if votes == max_votes]
 
-        # Add ✅ emoji beside winning option(s)
-        for field in embed.fields:
-            if option_emojis[field.value[-2:]] in winning_options: # Check the emoji associated with each field
-                field.name += " ✅"
+        # Send a message with the winning option(s)
+        winning_message = f"The vote for '{title}' has ended. The winning option(s) is: {', '.join(winning_options)}"
+        await ctx.send(winning_message)
 
-        await updated_voting_message.edit(embed=embed)
         del self.active_votes[title]  # Clean up after the vote is finished
 
 async def setup(bot):
-    await bot.add_cog(Voting(bot))
+    bot.add_cog(Voting(bot))
