@@ -3,11 +3,15 @@ from discord.ext import commands
 import yt_dlp as ytdlp
 import sqlite3
 from yt_dlp.utils import DownloadError
+import os
 
 class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.song_queue = {}
+
+        # Create directory if it does not exist
+        os.makedirs('./data', exist_ok=True)
 
         self.db_conn = sqlite3.connect("./data/music_data.db")
         self.db_curs = self.db_conn.cursor()
