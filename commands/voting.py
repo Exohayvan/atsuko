@@ -28,6 +28,10 @@ class Voting(commands.Cog):
 
                     vote_data['votes'][option] += 1
                     vote_data['voted_users'][user.id] = option
+                
+                    # DM the user to confirm their vote
+                    await user.send(f"Your vote for '{title}' has been changed to: {option}")
+                
                     await message.remove_reaction(reaction.emoji, user)
                 break
 
