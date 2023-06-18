@@ -71,7 +71,7 @@ class Voting(commands.Cog):
         end_time = datetime.datetime.utcnow() + datetime.timedelta(**{time_name: amount * multiplier})
 
         # Create and send an embedded message with voting details
-        embed = discord.Embed(title=f"Vote: {title}", description="React with the number emojis to vote. Votes are anonymous and reaction will disappear after voting. Only last selection will be tracked.")
+        embed = discord.Embed(title=f"Vote: {title}", description="React with the number emojis to vote. Votes are anonymous and reaction will disappear after voting. Only last selection will be tracked. Votes after vote ends, will not count.")
         option_emojis = {f"{i+1}\u20e3": option for i, option in enumerate(options)}
         for i, option in enumerate(options):
             emoji = f"{i+1}\u20e3"  # Generate number emojis
