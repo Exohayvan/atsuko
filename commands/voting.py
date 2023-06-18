@@ -10,7 +10,6 @@ class Voting(commands.Cog):
 
     @commands.command()
     async def vote(self, ctx, time_limit, title, *options):
-        """Starts a voting process."""
         if title in self.active_votes:
             await ctx.send("There is already an active vote with that title.")
             return
@@ -44,10 +43,6 @@ class Voting(commands.Cog):
         time_name, multiplier = time_formats[unit]
         end_time = datetime.datetime.utcnow() + datetime.timedelta(**{time_name: amount * multiplier})
 
-        if title in self.active_votes:
-            await ctx.send("There is already an active vote with that title.")
-            return
-
         self.active_votes[title] = {option: 0 for option in options}
 
         # Remove the user's message
@@ -55,6 +50,7 @@ class Voting(commands.Cog):
 
         # Create and send an embedded message with voting details
         embed = discord.Embed(title=f"Vote: {title}", description="React with the number emojis to vote.")
+        option_emojis = {f"{i+1}\u20e3": option for i, option in enumerate(options)}
         for i, option in enumerate(options):
             emoji = f"{i+1}\u20e3"  # Generate number emojis
             embed.add_field(name=f"Option {i+1}", value=f"{option} {emoji}", inline=False)
@@ -66,6 +62,12 @@ class Voting(commands.Cog):
             await voting_message.add_reaction(emoji)
 
         while datetime.datetime.utcnow() < end_time:
+            # Update the vote counts based on reactions
+            updated_voting_message = await ctx.fetch_message(voting_message.id)
+            for reaction in updated_voting_message.reactions:
+                if str(reaction.emoji) in option_emojis:
+                    self.active_votes[title][option_emojis[str(reaction.emoji)]] = reaction.count - 1
+
             remaining_time = end_time - datetime.datetime.utcnow()
             minutes, seconds = divmod(remaining_time.seconds, 60)
             embed.set_footer(text=f"Voting Ends in {remaining_time.days}d {minutes}m {seconds}s")
@@ -81,10 +83,11 @@ class Voting(commands.Cog):
 
         # Add ✅ emoji beside winning option(s)
         for field in embed.fields:
-            if field.name.split(" ")[0] in winning_options:
-                field.name = f"{field.name} ✅"
+            if option_emojis[field.value[-2:]] in winning_options: # Check the emoji associated with each field
+                field.name += " ✅"
 
         await updated_voting_message.edit(embed=embed)
+        del self.active_votes[title]  # Clean up after the vote is finished
 
 async def setup(bot):
-    await bot.add_cog(Voting(bot))
+    bot.add_cog(Voting(bot))
