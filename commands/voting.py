@@ -99,8 +99,20 @@ class Voting(commands.Cog):
                     ))
                     self.conn.commit()
 
+                    await self.update_vote_count(title)  # Update the vote count in the message
+
                     await message.remove_reaction(reaction.emoji, user)
                 break
+
+    async def update_vote_count(self, title):
+        vote_data = self.active_votes[title]
+        channel = self.bot.get_channel(vote_data['channel_id'])
+        voting_message = await channel.fetch_message(vote_data['message_id'])
+        embed = discord.Embed(title=title)
+        for emoji, option in vote_data['option_emojis'].items():
+            vote_count = vote_data['votes'][option]
+            embed.add_field(name=option, value=f"{emoji}: {vote_count}", inline=False)
+        await voting_message.edit(embed=embed)
 
     @commands.command()
     async def vote(self, ctx, time_limit, title, *options):
@@ -134,10 +146,9 @@ class Voting(commands.Cog):
             'duration': int(time_limit),
             'voted_users': voted_users,
         }
-        self.running_votes[title] = self.bot.loop.create_task(self.run_vote(ctx, time_limit, title, *options))
-
         self.cursor.execute("""
-            INSERT INTO active_votes VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO active_votes (title, message_id, channel_id, option_emojis, votes, start_time, duration, voted_users)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             title,
             message.id,
@@ -150,28 +161,7 @@ class Voting(commands.Cog):
         ))
         self.conn.commit()
 
-    async def run_vote(self, ctx, time_limit, title, *options):
-        vote_data = self.active_votes[title]
-        start_time = datetime.datetime.strptime(vote_data['start_time'], "%Y-%m-%d %H:%M:%S.%f")
-        end_time = start_time + datetime.timedelta(minutes=vote_data['duration'])
-        
-        while datetime.datetime.utcnow() < end_time:
-            remaining_time = end_time - datetime.datetime.utcnow()
-            minutes, seconds = divmod(remaining_time.seconds, 60)
-            voting_message = await ctx.fetch_message(vote_data['message_id'])
-            embed = voting_message.embeds[0]
-            embed.set_footer(text=f"Voting Ends in {remaining_time.days}d {minutes}m {seconds}s")
-            await voting_message.edit(embed=embed)
-            await asyncio.sleep(15)
-
-        embed.set_footer(text="Voting Ended")
-        await voting_message.edit(embed=embed)
-
-        self.cursor.execute("DELETE FROM active_votes WHERE title = ?", (title,))
-        self.conn.commit()
-
-        del self.active_votes[title]
-        del self.running_votes[title]
+        self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))
 
     @commands.command()
     async def endvote(self, ctx, title):
