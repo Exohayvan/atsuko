@@ -76,13 +76,17 @@ class Voting(commands.Cog):
                 emoji = str(reaction.emoji)
                 if emoji in vote_data['option_emojis']:
                     option = vote_data['option_emojis'][emoji]
+                    user_voted = user.id in vote_data['voted_users']
 
-                    if user.id in vote_data['voted_users']:
+                    if user_voted:
                         old_option = vote_data['voted_users'][user.id]
                         if old_option != option:
                             vote_data['votes'][old_option] -= 1
+                            vote_data['votes'][option] += 1  # Only add a vote if it's different from the old option
 
-                    vote_data['votes'][option] += 1
+                    else:
+                        vote_data['votes'][option] += 1  # If user hasn't voted before, simply add a vote
+
                     vote_data['voted_users'][user.id] = option
 
                     await user.send(f"Your vote for '{title}' has been changed to: {option}")
@@ -103,7 +107,7 @@ class Voting(commands.Cog):
 
                     await message.remove_reaction(reaction.emoji, user)
                 break
-
+            
     async def update_vote_count(self, title):
         vote_data = self.active_votes[title]
         channel = self.bot.get_channel(vote_data['channel_id'])
