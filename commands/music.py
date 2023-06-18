@@ -111,12 +111,10 @@ class Music(commands.Cog):
             if result is None:
                 await ctx.send("No more songs in the queue.")
                 return
-
             url = result[0]
 
             # Remove the song from the queue in the database
-            self.db_curs.execute("DELETE FROM queue WHERE guild_id = ? AND song_url = ?",
-                                 (guild_id, url))
+            self.db_curs.execute("DELETE FROM queue WHERE guild_id = ? AND song_url = ?", (guild_id, url))
             self.db_conn.commit()
 
         with ytdlp.YoutubeDL({'format': 'bestaudio/best', 'noplaylist':'True'}) as ydl:
@@ -126,6 +124,9 @@ class Music(commands.Cog):
             audio_source = discord.FFmpegPCMAudio(URL, options="-vn")
             audio_source.volume = self.volume.get(str(ctx.guild.id), 100) / 100.0
             voice.play(audio_source)
+
+    async def play_next(self, ctx):
+        await self.play(ctx)
 
     @commands.command()
     async def pause(self, ctx):
@@ -147,10 +148,6 @@ class Music(commands.Cog):
     async def stop(self, ctx):
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         voice.stop()
-
-    async def play_next(self, guild_id):
-        # The Context object isn't used in this case, so we just pass None
-        await self.play(None, guild_id)
 
 async def setup(bot):
     await bot.add_cog(Music(bot))
