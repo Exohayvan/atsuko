@@ -5,6 +5,7 @@ import asyncio
 class Voting(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.active_votes = {}
         
     @commands.command()
     async def vote(self, ctx, time_limit, title, *options):
