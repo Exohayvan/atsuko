@@ -163,4 +163,4 @@ class Voting(commands.Cog):
         del self.running_votes[title]
 
 def setup(bot):
-    bot.add_cog(Voting(bot))
+    await bot.add_cog(Voting(bot))
