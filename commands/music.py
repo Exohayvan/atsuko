@@ -43,6 +43,22 @@ class Music(commands.Cog):
         await ctx.send("Skipped to the next song in the queue.")
 
     @commands.command()
+    async def queue(self, ctx, url: str):
+        guild_id = str(ctx.guild.id)
+
+        # Add the song to the queue for this server
+        if guild_id not in self.song_queue:
+            self.song_queue[guild_id] = []
+        self.song_queue[guild_id].append(url)
+
+        # Add the song to the queue in the database
+        self.db_curs.execute("INSERT INTO queue VALUES (?, ?)",
+                             (guild_id, url))
+        self.db_conn.commit()
+
+        await ctx.send("Added the song to the queue.")
+        
+    @commands.command()
     async def volume(self, ctx, volume: int):
         # Check the volume is within a reasonable range
         if volume < 0 or volume > 100:
