@@ -39,6 +39,37 @@ class Music(commands.Cog):
         await ctx.send("Skipped to the next song in the queue.")
 
     @commands.command()
+    async def volume(self, ctx, volume: int):
+        # Check the volume is within a reasonable range
+        if volume < 0 or volume > 100:
+            await ctx.send("Volume must be between 0 and 100.")
+            return
+
+        # Save the volume
+        self.volume[str(ctx.guild.id)] = volume
+        self.db_curs.execute("INSERT OR REPLACE INTO volume VALUES (?, ?)",
+                             (str(ctx.guild.id), volume))
+        self.db_conn.commit()
+
+        # Apply the volume to the current player, if any
+        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
+        if voice is not None:
+            voice.source.volume = volume / 100.0
+
+        await ctx.send(f"Set volume to {volume}%.")
+
+    # Then, in your play function, apply the volume to the audio source:
+
+    with ytdlp.YoutubeDL({'format': 'bestaudio/best', 'noplaylist':'True'}) as ydl:
+        info = ydl.extract_info(url, download=False)
+        URL = info['entries'][0]['url'] if 'entries' in info else info['url']
+        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
+        audio_source = discord.FFmpegPCMAudio(URL, options="-vn")
+        audio_source.volume = self.volume.get(str(ctx.guild.id), 100) / 100.0
+        voice.play(audio_source)
+        voice.is_playing()
+    
+    @commands.command()
     async def clear(self, ctx):
         guild_id = str(ctx.guild.id)
 
