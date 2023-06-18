@@ -87,6 +87,18 @@ class Voting(commands.Cog):
 
                     await user.send(f"Your vote for '{title}' has been changed to: {option}")
 
+                    self.cursor.execute("""
+                        UPDATE active_votes
+                        SET option_emojis = ?, votes = ?, voted_users = ?
+                        WHERE title = ?
+                    """, (
+                        json.dumps(vote_data['option_emojis']),
+                        json.dumps(vote_data['votes']),
+                        json.dumps(vote_data['voted_users']),
+                        title,
+                    ))
+                    self.conn.commit()
+
                     await message.remove_reaction(reaction.emoji, user)
                 break
 
@@ -124,6 +136,20 @@ class Voting(commands.Cog):
         }
         self.running_votes[title] = self.bot.loop.create_task(self.run_vote(ctx, time_limit, title, *options))
 
+        self.cursor.execute("""
+            INSERT INTO active_votes VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            title,
+            message.id,
+            message.channel.id,
+            json.dumps(option_emojis),
+            json.dumps(votes),
+            start_time.strftime("%Y-%m-%d %H:%M:%S.%f"),
+            int(time_limit),
+            json.dumps(voted_users),
+        ))
+        self.conn.commit()
+
     async def run_vote(self, ctx, time_limit, title, *options):
         vote_data = self.active_votes[title]
         start_time = datetime.datetime.strptime(vote_data['start_time'], "%Y-%m-%d %H:%M:%S.%f")
@@ -140,6 +166,10 @@ class Voting(commands.Cog):
 
         embed.set_footer(text="Voting Ended")
         await voting_message.edit(embed=embed)
+
+        self.cursor.execute("DELETE FROM active_votes WHERE title = ?", (title,))
+        self.conn.commit()
+
         del self.active_votes[title]
         del self.running_votes[title]
 
@@ -157,6 +187,9 @@ class Voting(commands.Cog):
 
         winner = max(vote_data['votes'], key=vote_data['votes'].get)
         await ctx.send(f"The winner of the vote '{title}' is: {winner}")
+
+        self.cursor.execute("DELETE FROM active_votes WHERE title = ?", (title,))
+        self.conn.commit()
 
         del self.active_votes[title]
         self.running_votes[title].cancel()
