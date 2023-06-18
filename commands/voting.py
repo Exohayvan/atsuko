@@ -74,6 +74,16 @@ class Voting(commands.Cog):
 
         updated_voting_message = await ctx.fetch_message(voting_message.id)
         embed.set_footer(text="Voting Ended")
+        
+        # Determine the winning option(s)
+        max_votes = max(self.active_votes[title].values())
+        winning_options = [option for option, votes in self.active_votes[title].items() if votes == max_votes]
+
+        # Add ✅ emoji beside winning option(s)
+        for field in embed.fields:
+            if field.value.split(" ")[0] in winning_options:
+                field.name += " ✅"
+
         await updated_voting_message.edit(embed=embed)
 
 async def setup(bot):
