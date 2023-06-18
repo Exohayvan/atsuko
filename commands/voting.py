@@ -24,11 +24,31 @@ class Voting(commands.Cog):
         """)
         self.conn.commit()
         self.active_votes = {}
+        self.running_votes = {}  # Store active voting tasks
         self.load_votes()
-        self.bot.loop.create_task(self.check_end_times())
 
     def cog_unload(self):
         self.conn.close()
+
+    async def resume_vote(self, title):
+        vote_data = self.active_votes[title]
+        channel = self.bot.get_channel(vote_data['channel_id'])
+        start_time = datetime.datetime.strptime(vote_data['start_time'], "%Y-%m-%d %H:%M:%S.%f")
+        end_time = start_time + datetime.timedelta(minutes=vote_data['duration'])
+
+        while datetime.datetime.utcnow() < end_time:
+            remaining_time = end_time - datetime.datetime.utcnow()
+            minutes, seconds = divmod(remaining_time.seconds, 60)
+            voting_message = await channel.fetch_message(vote_data['message_id'])
+            embed = voting_message.embeds[0]
+            embed.set_footer(text=f"Voting Ends in {remaining_time.days}d {minutes}m {seconds}s")
+            await voting_message.edit(embed=embed)
+            await asyncio.sleep(15)
+
+        embed.set_footer(text="Voting Ended")
+        await voting_message.edit(embed=embed)
+        del self.active_votes[title]
+        del self.running_votes[title]
 
     def load_votes(self):
         self.cursor.execute("SELECT * FROM active_votes")
@@ -39,10 +59,11 @@ class Voting(commands.Cog):
                 'channel_id': channel_id,
                 'option_emojis': json.loads(option_emojis),
                 'votes': json.loads(votes),
-                'start_time': datetime.datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S.%f"),
+                'start_time': start_time,
                 'duration': duration,
                 'voted_users': json.loads(voted_users),
             }
+            self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
@@ -72,87 +93,74 @@ class Voting(commands.Cog):
     @commands.command()
     async def vote(self, ctx, time_limit, title, *options):
         if title in self.active_votes:
-            await ctx.send("There is already an active vote with that title.")
+            await ctx.send("A vote with that title already exists.")
+            return
+        if len(options) < 2:
+            await ctx.send("You need at least two options to start a vote.")
             return
 
-        if len(options) < 2 or len(options) > 10:
-            await ctx.send("Please provide between 2 and 10 voting options.")
-            return
+        option_emojis = {f"{i+1}\N{combining enclosing keycap}": option for i, option in enumerate(options)}
+        votes = {option: 0 for option in options}
+        voted_users = {}
 
-        time_limit = time_limit.lower()
-        time_formats = {
-            "d": ("days", 24 * 60),
-            "h": ("hours", 60),
-            "m": ("minutes", 1)
-        }
+        embed = discord.Embed(title=title)
+        for emoji, option in option_emojis.items():
+            embed.add_field(name=option, value=f"{emoji}: 0", inline=False)
 
-        unit = time_limit[-1]
-        if unit not in time_formats:
-            await ctx.send("Please provide a valid time limit format. Use 'd' for days, 'h' for hours, or 'm' for minutes.")
-            return
+        message = await ctx.send(embed=embed)
+        for emoji in option_emojis:
+            await message.add_reaction(emoji)
 
-        try:
-            amount = int(time_limit[:-1])
-        except ValueError:
-            await ctx.send("Please provide a valid time limit.")
-            return
-
-        if amount < 1:
-            await ctx.send("Time limit must be at least 1 unit.")
-            return
-
-        duration = amount * time_formats[unit][1]
         start_time = datetime.datetime.utcnow()
 
-        embed = discord.Embed(title=f"Vote: {title}", description="React with the number emojis to vote. Votes are anonymous and reaction will disappear after voting. Only last selection will be tracked. Votes after vote ends, will not count.")
-        option_emojis = {f"{i+1}\u20e3": option for i, option in enumerate(options)}
-        for i, option in enumerate(options):
-            emoji = f"{i+1}\u20e3"  
-            embed.add_field(name=f"Option {i+1}", value=f"{option} {emoji}", inline=False)
-        voting_message = await ctx.send(embed=embed)
-
-        for i in range(len(options)):
-            emoji = f"{i+1}\u20e3"  
-            await voting_message.add_reaction(emoji)
-
         self.active_votes[title] = {
-            'message_id': voting_message.id,
-            'channel_id': ctx.channel.id,
+            'message_id': message.id,
+            'channel_id': message.channel.id,
             'option_emojis': option_emojis,
-            'votes': {option: 0 for option in options},
-            'start_time': start_time,
-            'duration': duration,
-            'voted_users': {}
+            'votes': votes,
+            'start_time': start_time.strftime("%Y-%m-%d %H:%M:%S.%f"),
+            'duration': int(time_limit),
+            'voted_users': voted_users,
         }
+        self.running_votes[title] = self.bot.loop.create_task(self.run_vote(ctx, time_limit, title, *options))
 
-        self.cursor.execute("INSERT INTO active_votes VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                            (title, voting_message.id, ctx.channel.id, json.dumps(option_emojis), json.dumps({option: 0 for option in options}),
-                            str(start_time), duration, json.dumps({})))
-        self.conn.commit()
-
-    async def check_end_times(self):
-        while True:
-            for title, vote_data in list(self.active_votes.items()):
-                start_time = vote_data['start_time']
-                duration = vote_data['duration']
-                end_time = start_time + datetime.timedelta(minutes=duration)
-                if datetime.datetime.utcnow() >= end_time:
-                    channel = self.bot.get_channel(vote_data['channel_id'])
-                    if channel:
-                        max_votes = max(vote_data['votes'].values())
-                        winning_options = [option for option, votes in vote_data['votes'].items() if votes == max_votes]
-
-                        winning_embed = discord.Embed(title="Voting Results", description="The vote has ended. Here are the winning option(s):")
-                        for i, option in enumerate(winning_options):
-                            winning_embed.add_field(name=f"Option {i+1}", value=option, inline=False)
-
-                        await channel.send(embed=winning_embed)
-
-                    self.cursor.execute("DELETE FROM active_votes WHERE title = ?", (title,))
-                    self.conn.commit()
-                    del self.active_votes[title]
-
+    async def run_vote(self, ctx, time_limit, title, *options):
+        vote_data = self.active_votes[title]
+        start_time = datetime.datetime.strptime(vote_data['start_time'], "%Y-%m-%d %H:%M:%S.%f")
+        end_time = start_time + datetime.timedelta(minutes=vote_data['duration'])
+        
+        while datetime.datetime.utcnow() < end_time:
+            remaining_time = end_time - datetime.datetime.utcnow()
+            minutes, seconds = divmod(remaining_time.seconds, 60)
+            voting_message = await ctx.fetch_message(vote_data['message_id'])
+            embed = voting_message.embeds[0]
+            embed.set_footer(text=f"Voting Ends in {remaining_time.days}d {minutes}m {seconds}s")
+            await voting_message.edit(embed=embed)
             await asyncio.sleep(15)
 
-async def setup(bot):
-    await bot.add_cog(Voting(bot))
+        embed.set_footer(text="Voting Ended")
+        await voting_message.edit(embed=embed)
+        del self.active_votes[title]
+        del self.running_votes[title]
+
+    @commands.command()
+    async def endvote(self, ctx, title):
+        if title not in self.active_votes:
+            await ctx.send("There is no active vote with that title.")
+            return
+
+        vote_data = self.active_votes[title]
+        message = await ctx.fetch_message(vote_data['message_id'])
+        embed = message.embeds[0]
+        embed.set_footer(text="Voting Ended")
+        await message.edit(embed=embed)
+
+        winner = max(vote_data['votes'], key=vote_data['votes'].get)
+        await ctx.send(f"The winner of the vote '{title}' is: {winner}")
+
+        del self.active_votes[title]
+        self.running_votes[title].cancel()
+        del self.running_votes[title]
+
+def setup(bot):
+    bot.add_cog(Voting(bot))
