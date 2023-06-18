@@ -7,7 +7,7 @@ class Voting(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.active_votes = {}
-        
+
     @commands.command()
     async def vote(self, ctx, time_limit, title, *options):
         """Starts a voting process."""
@@ -19,14 +19,33 @@ class Voting(commands.Cog):
             await ctx.send("Please provide between 2 and 10 voting options.")
             return
 
-        try:
-            time_limit = int(time_limit)
-        except ValueError:
-            await ctx.send("Please provide a valid time limit in hours.")
+        time_limit = time_limit.lower()
+        time_formats = {
+            "d": ("days", 24),
+            "h": ("hours", 60),
+            "m": ("minutes", 1)
+        }
+
+        unit = time_limit[-1]
+        if unit not in time_formats:
+            await ctx.send("Please provide a valid time limit format. Use 'd' for days, 'h' for hours, or 'm' for minutes.")
             return
 
-        if time_limit < 1:
-            await ctx.send("Time limit must be at least 1 hour.")
+        try:
+            amount = int(time_limit[:-1])
+        except ValueError:
+            await ctx.send("Please provide a valid time limit.")
+            return
+
+        if amount < 1:
+            await ctx.send("Time limit must be at least 1 unit.")
+            return
+
+        time_name, multiplier = time_formats[unit]
+        end_time = datetime.datetime.utcnow() + datetime.timedelta(**{time_name: amount * multiplier})
+
+        if title in self.active_votes:
+            await ctx.send("There is already an active vote with that title.")
             return
 
         self.active_votes[title] = {option: 0 for option in options}
@@ -45,8 +64,6 @@ class Voting(commands.Cog):
         for i in range(len(options)):
             emoji = f"{i+1}\u20e3"  # Generate number emojis
             await voting_message.add_reaction(emoji)
-
-        end_time = datetime.datetime.utcnow() + datetime.timedelta(hours=time_limit)
 
         while datetime.datetime.utcnow() < end_time:
             remaining_time = end_time - datetime.datetime.utcnow()
