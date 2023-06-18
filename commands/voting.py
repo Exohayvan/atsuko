@@ -47,7 +47,9 @@ class Voting(commands.Cog):
 
         embed.set_footer(text="Voting Ended")
         await voting_message.edit(embed=embed)
-        await self.endvote(None, title)
+        await self.endvote(None, title)  # calling the endvote function when the time is over
+        del self.active_votes[title]
+        del self.running_votes[title]
 
     def load_votes(self):
         self.cursor.execute("SELECT * FROM active_votes")
@@ -169,21 +171,20 @@ class Voting(commands.Cog):
     @commands.command()
     async def endvote(self, ctx, title):
         if title not in self.active_votes:
-            if ctx is not None:
+            if ctx:  # this check is needed because when called from resume_vote, ctx is None
                 await ctx.send("There is no active vote with that title.")
             return
 
         vote_data = self.active_votes[title]
-        message = await self.bot.fetch_message(vote_data['message_id'])
+        channel = self.bot.get_channel(vote_data['channel_id'])
+        message = await channel.fetch_message(vote_data['message_id'])
         embed = message.embeds[0]
         embed.set_footer(text="Voting Ended")
         await message.edit(embed=embed)
 
         winner = max(vote_data['votes'], key=vote_data['votes'].get)
-        embed = discord.Embed(title=f"Vote Results for {title}", description=f"The winner is: {winner}")
-        for option, count in vote_data['votes'].items():
-            embed.add_field(name=option, value=f"Votes: {count}", inline=False)
-        await self.bot.get_channel(vote_data['channel_id']).send(embed=embed)
+        if ctx:  # this check is needed because when called from resume_vote, ctx is None
+            await ctx.send(f"The winner of the vote '{title}' is: {winner}")
 
         self.cursor.execute("DELETE FROM active_votes WHERE title = ?", (title,))
         self.conn.commit()
