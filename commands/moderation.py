@@ -29,9 +29,8 @@ class Moderation(commands.Cog):
         """Locks a channel."""
         # Save the original permissions
         permissions = {str(target): {
-            'id': overwrite.id,
-            'type': str(overwrite.type),
-            'permissions': overwrite.permissions.value
+            'type': str(type(target)),
+            'permissions': overwrite.to_pair()
         } for target, overwrite in ctx.channel.overwrites.items()}
         permissions_json = json.dumps(permissions)
         self.lock_c.execute("INSERT OR REPLACE INTO locks VALUES (?, ?)", (str(ctx.channel.id), permissions_json))
@@ -53,11 +52,16 @@ class Moderation(commands.Cog):
             # Restore the original permissions
             permissions = json.loads(result[0])
             for target, overwrite in permissions.items():
-                target = self.bot.get_user(int(target)) if target.isdigit() else ctx.guild.get_role(int(target))
+                target_type = overwrite['type']
+                if "Role" in target_type:
+                    target = ctx.guild.get_role(int(target))
+                else:
+                    target = await self.bot.fetch_user(int(target))
+
                 if target:
                     overwrite = PermissionOverwrite.from_pair(
-                        discord.Permissions(overwrite['allow']),
-                        discord.Permissions(overwrite['deny'])
+                        discord.Permissions(overwrite['permissions'][0]),
+                        discord.Permissions(overwrite['permissions'][1])
                     )
                     await ctx.channel.set_permissions(target, overwrite=overwrite)
             await ctx.send("Channel unlocked.")
