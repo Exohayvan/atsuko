@@ -34,7 +34,9 @@ class Moderation(commands.Cog):
         if member.premium_since is not None:
             embed.add_field(name="Boosting Since", value=member.premium_since.strftime("%#d %B %Y, %I:%M %p UTC"), inline=False)
 
-        embed.set_thumbnail(url=member.avatar_url)
+        # Set the user's avatar or a default avatar
+        avatar = member.avatar.url if member.avatar else member.default_avatar.url
+        embed.set_thumbnail(url=avatar)
 
         await ctx.send(embed=embed)
 
