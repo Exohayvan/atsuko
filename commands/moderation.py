@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 import sqlite3
 import os
+from discord import Embed, Color
 
 DATABASE_PATH = './data/allowed_mods.db'
 MOD_ROLE_TABLE = 'mod_roles'
@@ -18,7 +19,24 @@ class Moderation(commands.Cog):
     @commands.command()
     async def info(self, ctx, member: discord.Member):
         """Pulls info from a user."""
-        await ctx.send(f'User: {member.name}, ID: {member.id}, Status: {member.status}, Joined at: {member.joined_at}')
+
+        # Create a new embed message
+        embed = Embed(title=f"User Info: {member.name}", color=Color.blue())
+
+        # Fill in the embed message
+        embed.add_field(name="User ID", value=member.id, inline=True)
+        embed.add_field(name="User Name", value=member.display_name, inline=True)
+        embed.add_field(name="Created At", value=member.created_at.strftime("%#d %B %Y, %I:%M %p UTC"), inline=True)
+        embed.add_field(name="Joined At", value=member.joined_at.strftime("%#d %B %Y, %I:%M %p UTC"), inline=False)
+        embed.add_field(name="Status", value=str(member.status).title(), inline=True)
+        embed.add_field(name="Top Role", value=member.top_role.mention, inline=True)
+
+        if member.premium_since is not None:
+            embed.add_field(name="Boosting Since", value=member.premium_since.strftime("%#d %B %Y, %I:%M %p UTC"), inline=False)
+
+        embed.set_thumbnail(url=member.avatar_url)
+
+        await ctx.send(embed=embed)
 
     @commands.command()
     @commands.has_permissions(administrator=True)
