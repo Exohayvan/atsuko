@@ -100,19 +100,20 @@ class Voting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
+        if user == self.bot.user:
+            return
+
         message = reaction.message
         for title, vote_data in self.active_votes.items():
             if message.id == vote_data['message_id']:
                 emoji = str(reaction.emoji)
-                if emoji in vote_data['option_emojis']:
-                    if user == self.bot.user:
-                        continue  # Don't count bot's own reactions
-                    elif user.id not in vote_data['voted_users']:
+                if emoji in vote_data['option_emojis'].keys():
+                    if user.id not in vote_data['voted_users']:
                         vote_data['votes'][emoji] += 1
                         vote_data['voted_users'].append(user.id)
                         await self.update_vote_count(title)  # Update the vote count in the message
                         try:
-                            await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
+                            await reaction.remove(user)  # Remove user reaction
                         except NotFound:
                             pass  # Handle case when reaction is not found
                     break
