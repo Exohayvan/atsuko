@@ -78,8 +78,7 @@ class Voting(commands.Cog):
         message = await channel.fetch_message(vote_data['message_id'])
 
         for reaction in message.reactions:
-            users = await reaction.users().flatten()
-            for user in users:
+            async for user in reaction.users():
                 if user == self.bot.user:
                     continue
                 emoji = str(reaction.emoji)
