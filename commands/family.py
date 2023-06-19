@@ -32,4 +32,4 @@ class Family(commands.Cog):
         await ctx.send(f"Showing family tree for {ctx.author.mention}.")
 
 async def setup(bot):
-    bot.add_cog(Family(bot))
+    await bot.add_cog(Family(bot))
