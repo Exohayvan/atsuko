@@ -17,6 +17,69 @@ class Moderation(commands.Cog):
         self.c.execute(f"CREATE TABLE IF NOT EXISTS {MOD_ROLE_TABLE} (guild_id integer, role_id integer)")
 
     @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def kick(self, ctx, member: discord.Member, *, reason=None):
+        """Kicks a user out of the server."""
+        await member.kick(reason=reason)
+        await ctx.send(f'User {member} has been kick')
+
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def ban(self, ctx, member: discord.Member, *, reason=None):
+        """Bans a user from the server."""
+        await member.ban(reason=reason)
+        await ctx.send(f'User {member} has been banned')
+
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def unban(self, ctx, *, member):
+        """Unbans a user."""
+        banned_users = await ctx.guild.bans()
+        member_name, member_discriminator = member.split('#')
+
+        for ban_entry in banned_users:
+            user = ban_entry.user
+
+            if (user.name, user.discriminator) == (member_name, member_discriminator):
+                await ctx.guild.unban(user)
+                await ctx.send(f'User {user} has been unbanned')
+                return
+
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def clear(self, ctx, amount : int):
+        """Clears a specified amount of messages in the channel."""
+        await ctx.channel.purge(limit=amount)
+
+    # You would need a role named 'Muted' created and its permissions set to disallow sending messages or adding reactions in every channel.
+    @commands.command()
+    @commands.has_permissions(manage_roles=True)
+    async def mute(self, ctx, member: discord.Member, *, reason=None):
+        """Mutes a user."""
+        muted_role = discord.utils.get(ctx.guild.roles, name="Muted")
+
+        if not muted_role:
+            muted_role = await ctx.guild.create_role(name="Muted")
+            for channel in ctx.guild.channels:
+                await channel.set_permissions(muted_role, speak=False, send_messages=False, read_message_history=True, read_messages=False)
+
+        await member.add_roles(muted_role, reason=reason)
+        await ctx.send(f"User {member} has been muted")
+
+    @commands.command()
+    @commands.has_permissions(manage_roles=True)
+    async def unmute(self, ctx, member: discord.Member):
+        """Unmutes a user."""
+        muted_role = discord.utils.get(ctx.guild.roles, name="Muted")
+
+        if not muted_role:
+            await ctx.send("No 'Muted' role found. The user could not have been muted.")
+            return
+
+        await member.remove_roles(muted_role)
+        await ctx.send(f"User {member} has been unmuted")
+
+    @commands.command()
     async def info(self, ctx, member: discord.Member):
         """Pulls info from a user."""
 
