@@ -62,4 +62,4 @@ class Counter(commands.Cog):
         await self.update_counter(channel)
 
 async def setup(bot):
-    bot.add_cog(Counter(bot))
+    await bot.add_cog(Counter(bot))
