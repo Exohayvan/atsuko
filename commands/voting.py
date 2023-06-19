@@ -78,19 +78,25 @@ class Voting(commands.Cog):
         channel = self.bot.get_channel(vote_data['channel_id'])
         message = await channel.fetch_message(vote_data['message_id'])
 
+        # Create a set to keep track of voted users
+        voted_users = set(vote_data['voted_users'])
+
         for reaction in message.reactions:
             async for user in reaction.users():
                 if user == self.bot.user:
                     continue
                 emoji = str(reaction.emoji)
                 if emoji in vote_data['option_emojis']:
-                    if user.id not in vote_data['voted_users']:
+                    if user.id not in voted_users:
                         vote_data['votes'][emoji] += 1
-                        vote_data['voted_users'].append(user.id)
+                        voted_users.add(user.id)
                         try:
                             await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
                         except NotFound:
                             pass  # Handle case when reaction is not found
+
+        # Update the 'voted_users' list after processing all reactions
+        vote_data['voted_users'] = list(voted_users)
 
     @commands.Cog.listener()
     async def on_ready(self):
