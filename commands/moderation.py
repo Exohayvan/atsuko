@@ -37,7 +37,10 @@ class Moderation(commands.Cog):
         await ctx.send(f'Role {role.name} has been removed from mod roles.')
 
     async def cog_check(self, ctx):
-        # Check if the command invoker has mod role
+        # Check if the command invoker has mod role or is the owner
+        if ctx.guild is not None and ctx.guild.owner_id == ctx.author.id:
+            return True
+
         self.c.execute(f"SELECT role_id FROM {MOD_ROLE_TABLE} WHERE guild_id = ?", (ctx.guild.id,))
         mod_roles = self.c.fetchall()
         mod_roles = [role[0] for role in mod_roles]
