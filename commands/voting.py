@@ -64,14 +64,49 @@ class Voting(commands.Cog):
                 'message_id': message_id,
                 'channel_id': channel_id,
                 'option_emojis': json.loads(option_emojis),
-                'votes': {option: 0 for option in json.loads(votes)},  # Reset votes count to 0
+                'votes': {option: 0 for option in json.loads(option_emojis).values()},  # Reset votes count to 0
                 'start_time': start_time,
                 'duration': duration,
                 'voted_users': json.loads(voted_users),
             }
-            self.running_votes[title] = self.bot.loop.create_task(self.count_votes(title))  # Count existing votes
+            self.running_votes[title] = self.bot.loop.create_task(self.recount_votes(title))  # Recount existing votes
             self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))  # Resume countdown
+        
+    async def recount_votes(self, title):
+        vote_data = self.active_votes[title]
+        channel = self.bot.get_channel(vote_data['channel_id'])
+        message = await channel.fetch_message(vote_data['message_id'])
 
+        for reaction in message.reactions:
+            async for user in reaction.users():
+                if user == self.bot.user:
+                    continue
+                emoji = str(reaction.emoji)
+                if emoji in vote_data['option_emojis']:
+                    option = vote_data['option_emojis'][emoji]
+                    user_voted = user.id in vote_data['voted_users']
+                    if user_voted:
+                        old_option = vote_data['voted_users'][user.id]
+                        if old_option != option:
+                            vote_data['votes'][old_option] -= 1
+                            vote_data['votes'][option] += 1
+                    else:
+                        vote_data['votes'][option] += 1
+                    vote_data['voted_users'][user.id] = option
+
+        self.cursor.execute("""
+            UPDATE active_votes
+            SET votes = ?, voted_users = ?
+            WHERE title = ?
+        """, (
+            json.dumps(vote_data['votes']),
+            json.dumps(vote_data['voted_users']),
+            title,
+        ))
+        self.conn.commit()
+
+        await self.update_vote_count(title)
+    
     async def count_votes(self, title):
         vote_data = self.active_votes[title]
         channel = self.bot.get_channel(vote_data['channel_id'])
