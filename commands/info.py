@@ -36,6 +36,18 @@ class Info(commands.Cog):
         self.uptime_start = datetime.datetime.utcnow()
 
     @commands.command()
+    async def stats(self, ctx):
+        """Shows the bot's current stats, including the number of guilds and users."""
+        total_guilds = len(self.bot.guilds)
+        total_users = sum(guild.member_count for guild in self.bot.guilds)
+
+        embed = discord.Embed(title="Bot Stats", color=discord.Color.blue())
+        embed.add_field(name="Servers", value=str(total_guilds), inline=True)
+        embed.add_field(name="Users", value=str(total_users), inline=True)
+
+        await ctx.send(embed=embed)
+        
+    @commands.command()
     async def uptime(self, ctx):
         """Shows the current uptime of the bot since last reboot."""
         current_uptime = datetime.datetime.utcnow() - self.uptime_start
