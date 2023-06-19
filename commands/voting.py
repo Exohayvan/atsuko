@@ -4,6 +4,7 @@ import asyncio
 import datetime
 import sqlite3
 import json
+from discord.errors import NotFound
 
 class Voting(commands.Cog):
     def __init__(self, bot):
@@ -71,7 +72,7 @@ class Voting(commands.Cog):
             }
             self.running_votes[title] = self.bot.loop.create_task(self.recount_votes(title))  # Recount existing votes
             self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))  # Resume countdown
-        
+
     async def recount_votes(self, title):
         vote_data = self.active_votes[title]
         channel = self.bot.get_channel(vote_data['channel_id'])
@@ -82,66 +83,20 @@ class Voting(commands.Cog):
                 if user == self.bot.user:
                     continue
                 emoji = str(reaction.emoji)
-                if emoji in vote_data['option_emojis']:
-                    option = vote_data['option_emojis'][emoji]
-                    user_voted = user.id in vote_data['voted_users']
-                    if user_voted:
-                        old_option = vote_data['voted_users'][user.id]
-                        if old_option != option:
-                            vote_data['votes'][old_option] -= 1
-                            vote_data['votes'][option] += 1
-                    else:
-                        vote_data['votes'][option] += 1
-                    vote_data['voted_users'][user.id] = option
+                if emoji in vote_data['option_emojis'] and user.id not in vote_data['voted_users']:
+                    vote_data['votes'][emoji] += 1
+                    vote_data['voted_users'].append(user.id)
+                    try:
+                        await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
+                    except NotFound:
+                        pass  # Handle case when reaction is not found
 
-        self.cursor.execute("""
-            UPDATE active_votes
-            SET votes = ?, voted_users = ?
-            WHERE title = ?
-        """, (
-            json.dumps(vote_data['votes']),
-            json.dumps(vote_data['voted_users']),
-            title,
-        ))
-        self.conn.commit()
+    @commands.Cog.listener()
+    async def on_ready(self):
+        # When the bot starts/restarts, recount votes for all active votes
+        for title in self.active_votes:
+            self.bot.loop.create_task(self.recount_votes(title))
 
-        await self.update_vote_count(title)
-    
-    async def count_votes(self, title):
-        vote_data = self.active_votes[title]
-        channel = self.bot.get_channel(vote_data['channel_id'])
-        message = await channel.fetch_message(vote_data['message_id'])
-
-        for reaction in message.reactions:
-            async for user in reaction.users():
-                if user == self.bot.user:
-                    continue
-                emoji = str(reaction.emoji)
-                if emoji in vote_data['option_emojis']:
-                    option = vote_data['option_emojis'][emoji]
-                    user_voted = user.id in vote_data['voted_users']
-                    if user_voted:
-                        old_option = vote_data['voted_users'][user.id]
-                        if old_option != option:
-                            vote_data['votes'][old_option] -= 1
-                            vote_data['votes'][option] += 1
-                    else:
-                        vote_data['votes'][option] += 1
-                    vote_data['voted_users'][user.id] = option
-
-        self.cursor.execute("""
-            UPDATE active_votes
-            SET votes = ?, voted_users = ?
-            WHERE title = ?
-        """, (
-            json.dumps(vote_data['votes']),
-            json.dumps(vote_data['voted_users']),
-            title,
-        ))
-        self.conn.commit()
-
-        await self.update_vote_count(title)
-    
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         if user == self.bot.user:
@@ -152,37 +107,14 @@ class Voting(commands.Cog):
             if message.id == vote_data['message_id']:
                 emoji = str(reaction.emoji)
                 if emoji in vote_data['option_emojis']:
-                    option = vote_data['option_emojis'][emoji]
-                    user_voted = user.id in vote_data['voted_users']
-
-                    if user_voted:
-                        old_option = vote_data['voted_users'][user.id]
-                        if old_option != option:
-                            vote_data['votes'][old_option] -= 1
-                            vote_data['votes'][option] += 1  # Only add a vote if it's different from the old option
-
-                    else:
-                        vote_data['votes'][option] += 1  # If user hasn't voted before, simply add a vote
-
-                    vote_data['voted_users'][user.id] = option
-
-                    await user.send(f"Your vote for '{title}' has been changed to: {option}")
-
-                    self.cursor.execute("""
-                        UPDATE active_votes
-                        SET option_emojis = ?, votes = ?, voted_users = ?
-                        WHERE title = ?
-                    """, (
-                        json.dumps(vote_data['option_emojis']),
-                        json.dumps(vote_data['votes']),
-                        json.dumps(vote_data['voted_users']),
-                        title,
-                    ))
-                    self.conn.commit()
-
-                    await self.update_vote_count(title)  # Update the vote count in the message
-
-                    await message.remove_reaction(reaction.emoji, user)
+                    if user.id not in vote_data['voted_users']:
+                        vote_data['votes'][emoji] += 1
+                        vote_data['voted_users'].append(user.id)
+                        await self.update_vote_count(title)  # Update the vote count in the message
+                        try:
+                            await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
+                        except NotFound:
+                            pass  # Handle case when reaction is not found
                 break
 
     async def update_vote_count(self, title):
