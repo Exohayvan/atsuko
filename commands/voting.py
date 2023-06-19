@@ -109,7 +109,7 @@ class Voting(commands.Cog):
                 emoji = str(reaction.emoji)
                 if emoji in vote_data['option_emojis'].keys():
                     if user.id not in vote_data['voted_users']:
-                        vote_data['votes'][emoji] += 1
+                        vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
                         vote_data['voted_users'].append(user.id)
                         await self.update_vote_count(title)  # Update the vote count in the message
                         try:
