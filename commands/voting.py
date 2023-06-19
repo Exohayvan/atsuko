@@ -47,9 +47,14 @@ class Voting(commands.Cog):
 
         embed.set_footer(text="Voting Ended")
         await voting_message.edit(embed=embed)
-        await self.endvote(None, title)  # calling the endvote function when the time is over
         del self.active_votes[title]
         del self.running_votes[title]
+
+        winner = max(vote_data['votes'], key=vote_data['votes'].get)
+
+        # create a new embed object for the winner announcement
+        winner_embed = discord.Embed(title=f"Vote Results for '{title}'", description=f"The winner is: {winner}", color=0x00ff00)
+        await channel.send(embed=winner_embed)
 
     def load_votes(self):
         self.cursor.execute("SELECT * FROM active_votes")
