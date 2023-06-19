@@ -96,26 +96,18 @@ class Voting(commands.Cog):
         # When the bot starts/restarts, recount votes for all active votes
         for title in self.active_votes:
             self.bot.loop.create_task(self.recount_votes(title))
-
-        # Re-fetch each message and add a listener for new reactions
-        for title, vote_data in self.active_votes.items():
-            channel = self.bot.get_channel(vote_data['channel_id'])
-            message = await channel.fetch_message(vote_data['message_id'])
-
-            for emoji in vote_data['option_emojis'].keys():
-                await message.add_reaction(emoji)
+            self.bot.loop.create_task(self.resume_vote(title))
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-        if user == self.bot.user:
-            return
-
         message = reaction.message
         for title, vote_data in self.active_votes.items():
             if message.id == vote_data['message_id']:
                 emoji = str(reaction.emoji)
                 if emoji in vote_data['option_emojis']:
-                    if user.id not in vote_data['voted_users']:
+                    if user == self.bot.user:
+                        continue  # Don't count bot's own reactions
+                    elif user.id not in vote_data['voted_users']:
                         vote_data['votes'][emoji] += 1
                         vote_data['voted_users'].append(user.id)
                         await self.update_vote_count(title)  # Update the vote count in the message
@@ -123,7 +115,7 @@ class Voting(commands.Cog):
                             await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
                         except NotFound:
                             pass  # Handle case when reaction is not found
-                break
+                    break
 
     async def update_vote_count(self, title):
         vote_data = self.active_votes[title]
