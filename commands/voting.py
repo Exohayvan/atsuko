@@ -94,7 +94,6 @@ class Voting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print("Voting Commands are Online!")  # Add this line
         # When the bot starts/restarts, recount votes for all active votes
         for title in self.active_votes:
             self.bot.loop.create_task(self.recount_votes(title))
@@ -102,31 +101,28 @@ class Voting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-        try:
-            if user == self.bot.user:
-                return
+        if user == self.bot.user:
+            return
 
-            print(f"Reaction added: {reaction.emoji} by user {user.name}")  # debug print
+        print(f"Reaction added: {reaction.emoji} by user {user.name}")
 
-            message = reaction.message
-            for title, vote_data in self.active_votes.items():
-                if message.id == vote_data['message_id']:
-                    emoji = str(reaction.emoji)
-                    if emoji in vote_data['option_emojis'].keys():
-                        if user.id not in vote_data['voted_users']:
-                            print(f"Valid vote by {user.name} on option {emoji}")  # debug print
-                            vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
-                            vote_data['voted_users'].append(user.id)
-                            await self.update_vote_count(title)  # Update the vote count in the message
-                            try:
-                                await reaction.remove(user)  # Remove user reaction
-                            except NotFound:
-                                pass  # Handle case when reaction is not found
-                        else:
-                            print(f"User {user.name} has already voted!")  # debug print
-                        break
-        except Exception as e:
-            print(f"Error in on_reaction_add: {e}")
+        message = reaction.message
+        for title, vote_data in self.active_votes.items():
+            if message.id == vote_data['message_id']:
+                emoji = str(reaction.emoji)
+                if emoji in vote_data['option_emojis'].keys():
+                    if user.id not in vote_data['voted_users']:
+                        print(f"Valid vote by {user.name} on option {emoji}")
+                        vote_data['votes'][emoji] += 1
+                        vote_data['voted_users'].append(user.id)
+                        await self.update_vote_count(title)  # Update the vote count in the message
+                        try:
+                            await reaction.remove(user)  # Remove user reaction
+                        except NotFound:
+                            pass  # Handle case when reaction is not found
+                    else:
+                        print(f"User {user.name} has already voted!")
+                    break
 
     async def update_vote_count(self, title):
         vote_data = self.active_votes[title]
@@ -134,9 +130,9 @@ class Voting(commands.Cog):
         voting_message = await channel.fetch_message(vote_data['message_id'])
         embed = discord.Embed(title=title)
         for emoji, option in vote_data['option_emojis'].items():
-            vote_count = vote_data['votes'][option]
+            vote_count = vote_data['votes'][emoji]
             embed.add_field(name=option, value=f"{emoji}: {vote_count}", inline=False)
-        print(f"Updating vote count: {vote_data['votes']}")  # debug print
+        print(f"Updating vote count: {vote_data['votes']}")
         await voting_message.edit(embed=embed)
 
     @commands.command()
@@ -150,7 +146,7 @@ class Voting(commands.Cog):
 
         option_emojis = {f"{i+1}\N{combining enclosing keycap}": option for i, option in enumerate(options)}
         votes = {emoji: 0 for emoji in option_emojis.keys()}
-        voted_users = {}
+        voted_users = []
 
         embed = discord.Embed(title=title)
         for emoji, option in option_emojis.items():
@@ -180,13 +176,13 @@ class Voting(commands.Cog):
             message.channel.id,
             json.dumps(option_emojis),
             json.dumps(votes),
-            self.active_votes[title]['start_time'],
+            start_time.strftime("%Y-%m-%d %H:%M:%S.%f"),
             int(time_limit),
             json.dumps(voted_users),
         ))
         self.conn.commit()
 
-        self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))  # Start the vote
+        self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))
 
 async def setup(bot):
     await bot.add_cog(Voting(bot))
