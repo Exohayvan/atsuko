@@ -178,5 +178,5 @@ class Voting(commands.Cog):
 
         self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))  # Start the vote
 
-def setup(bot):
+async def setup(bot):
     await bot.add_cog(Voting(bot))
