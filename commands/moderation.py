@@ -28,7 +28,11 @@ class Moderation(commands.Cog):
     async def lock(self, ctx):
         """Locks a channel."""
         # Save the original permissions
-        permissions = {str(target): vars(overwrite) for target, overwrite in ctx.channel.overwrites.items()}
+        permissions = {str(target): {
+            'id': overwrite.id,
+            'type': str(overwrite.type),
+            'permissions': overwrite.permissions.value
+        } for target, overwrite in ctx.channel.overwrites.items()}
         permissions_json = json.dumps(permissions)
         self.lock_c.execute("INSERT OR REPLACE INTO locks VALUES (?, ?)", (str(ctx.channel.id), permissions_json))
         self.lock_conn.commit()
@@ -51,7 +55,11 @@ class Moderation(commands.Cog):
             for target, overwrite in permissions.items():
                 target = self.bot.get_user(int(target)) if target.isdigit() else ctx.guild.get_role(int(target))
                 if target:
-                    await ctx.channel.set_permissions(target, overwrite=PermissionOverwrite(**overwrite))
+                    overwrite = PermissionOverwrite.from_pair(
+                        discord.Permissions(overwrite['allow']),
+                        discord.Permissions(overwrite['deny'])
+                    )
+                    await ctx.channel.set_permissions(target, overwrite=overwrite)
             await ctx.send("Channel unlocked.")
         else:
             await ctx.send("Channel was not previously locked.")
