@@ -94,6 +94,7 @@ class Voting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
+        print("Voting Commands are Online!")  # Add this line
         # When the bot starts/restarts, recount votes for all active votes
         for title in self.active_votes:
             self.bot.loop.create_task(self.recount_votes(title))
@@ -101,28 +102,31 @@ class Voting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-        if user == self.bot.user:
-            return
+        try:
+            if user == self.bot.user:
+                return
 
-        print(f"Reaction added: {reaction.emoji} by user {user.name}")  # debug print
+            print(f"Reaction added: {reaction.emoji} by user {user.name}")  # debug print
 
-        message = reaction.message
-        for title, vote_data in self.active_votes.items():
-            if message.id == vote_data['message_id']:
-                emoji = str(reaction.emoji)
-                if emoji in vote_data['option_emojis'].keys():
-                    if user.id not in vote_data['voted_users']:
-                        print(f"Valid vote by {user.name} on option {emoji}")  # debug print
-                        vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
-                        vote_data['voted_users'].append(user.id)
-                        await self.update_vote_count(title)  # Update the vote count in the message
-                        try:
-                            await reaction.remove(user)  # Remove user reaction
-                        except NotFound:
-                            pass  # Handle case when reaction is not found
-                    else:
-                        print(f"User {user.name} has already voted!")  # debug print
-                    break
+            message = reaction.message
+            for title, vote_data in self.active_votes.items():
+                if message.id == vote_data['message_id']:
+                    emoji = str(reaction.emoji)
+                    if emoji in vote_data['option_emojis'].keys():
+                        if user.id not in vote_data['voted_users']:
+                            print(f"Valid vote by {user.name} on option {emoji}")  # debug print
+                            vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
+                            vote_data['voted_users'].append(user.id)
+                            await self.update_vote_count(title)  # Update the vote count in the message
+                            try:
+                                await reaction.remove(user)  # Remove user reaction
+                            except NotFound:
+                                pass  # Handle case when reaction is not found
+                        else:
+                            print(f"User {user.name} has already voted!")  # debug print
+                        break
+        except Exception as e:
+            print(f"Error in on_reaction_add: {e}")
 
     async def update_vote_count(self, title):
         vote_data = self.active_votes[title]
