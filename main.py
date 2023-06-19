@@ -13,13 +13,19 @@ class CustomHelpCommand(commands.HelpCommand):
         
         for cog, commands in mapping.items():
             if not commands:
-                continue  # Ignore empty cogs/uncategorized commands
+                continue
 
             cog_name = getattr(cog, "qualified_name", "No Category")
             commands_list = ', '.join([command.name for command in commands if not command.hidden])
 
             if commands_list:
                 embed.add_field(name=cog_name, value=commands_list, inline=False)
+
+        await self.context.send(embed=embed)
+
+    async def send_command_help(self, command):
+        embed = discord.Embed(title=f'!{command.name}', description=command.help or "No description provided", color=discord.Color.blue())
+        embed.add_field(name="Usage", value=f'!{command.name} {command.signature}', inline=False)
 
         await self.context.send(embed=embed)
 
