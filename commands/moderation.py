@@ -1,20 +1,60 @@
-from discord.ext import commands
-import discord
 import sqlite3
-import os
-from discord import Embed, Color
+import json
+from discord.ext import commands
+from discord import Embed, Color, PermissionOverwrite
+import discord
 
 DATABASE_PATH = './data/allowed_mods.db'
 MOD_ROLE_TABLE = 'mod_roles'
+LOCK_DB_PATH = './data/channel_locking.db'
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        # Initialize database
+        # Initialize database for mod roles
         self.conn = sqlite3.connect(DATABASE_PATH)
         self.c = self.conn.cursor()
         self.c.execute(f"CREATE TABLE IF NOT EXISTS {MOD_ROLE_TABLE} (guild_id integer, role_id integer)")
+
+        # Initialize database for channel locking
+        self.lock_conn = sqlite3.connect(LOCK_DB_PATH)
+        self.lock_c = self.lock_conn.cursor()
+        self.lock_c.execute('''CREATE TABLE IF NOT EXISTS locks
+                               (channel_id TEXT PRIMARY KEY, permissions TEXT)''')
+
+    @commands.command()
+    @commands.has_permissions(manage_channels=True)
+    async def lock(self, ctx):
+        """Locks a channel."""
+        # Save the original permissions
+        permissions = {str(target): overwrite.to_dict() for target, overwrite in ctx.channel.overwrites.items()}
+        permissions_json = json.dumps(permissions)
+        self.lock_c.execute("INSERT OR REPLACE INTO locks VALUES (?, ?)", (str(ctx.channel.id), permissions_json))
+        self.lock_conn.commit()
+
+        # Deny send_messages permission for every role
+        for role in ctx.guild.roles:
+            await ctx.channel.set_permissions(role, overwrite=PermissionOverwrite(send_messages=False))
+
+        await ctx.send("Channel locked.")
+
+    @commands.command()
+    @commands.has_permissions(manage_channels=True)
+    async def unlock(self, ctx):
+        """Unlocks a channel."""
+        self.lock_c.execute("SELECT permissions FROM locks WHERE channel_id = ?", (str(ctx.channel.id),))
+        result = self.lock_c.fetchone()
+        if result:
+            # Restore the original permissions
+            permissions = json.loads(result[0])
+            for target, overwrite in permissions.items():
+                target = self.bot.get_user(int(target)) if target.isdigit() else ctx.guild.get_role(int(target))
+                if target:
+                    await ctx.channel.set_permissions(target, overwrite=PermissionOverwrite.from_dict(overwrite))
+            await ctx.send("Channel unlocked.")
+        else:
+            await ctx.send("Channel was not previously locked.")
 
     @commands.command()
     @commands.has_permissions(kick_members=True)
