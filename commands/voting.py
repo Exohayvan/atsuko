@@ -82,9 +82,10 @@ class Voting(commands.Cog):
                     continue
                 emoji = str(reaction.emoji)
                 if emoji in vote_data['option_emojis']:
-                    if user.id not in vote_data['voted_users']:
+                    user_id = str(user.id)  # user.id should be converted to string because JSON stores keys as string
+                    if user_id not in vote_data['user_votes']:
                         vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
-                        vote_data['voted_users'].append(user.id)
+                        vote_data['user_votes'][user_id] = vote_data['option_emojis'][emoji]
                         try:
                             await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
                         except NotFound:
