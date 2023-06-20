@@ -60,19 +60,17 @@ class Voting(commands.Cog):
     def load_votes(self):
         self.cursor.execute("SELECT * FROM active_votes")
         for row in self.cursor.fetchall():
-            title, message_id, channel_id, option_emojis, votes, start_time, duration, voted_users = row
+            title, message_id, channel_id, option_emojis, votes, start_time, duration, user_votes = row
             self.active_votes[title] = {
                 'message_id': message_id,
                 'channel_id': channel_id,
                 'option_emojis': json.loads(option_emojis),
-                'votes': {emoji: 0 for emoji in json.loads(option_emojis).keys()},  # Reset votes count to 0
+                'votes': json.loads(votes),
                 'start_time': start_time,
                 'duration': duration,
-                'voted_users': json.loads(voted_users),
+                'user_votes': json.loads(user_votes),
             }
-            self.running_votes[title] = self.bot.loop.create_task(self.recount_votes(title))  # Recount existing votes
-            self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))  # Resume countdown
-
+            
     async def recount_votes(self, title):
         vote_data = self.active_votes[title]
         channel = self.bot.get_channel(vote_data['channel_id'])
@@ -94,11 +92,12 @@ class Voting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        # When the bot starts/restarts, recount votes for all active votes
+        # When the bot starts/restarts, load votes from the database, recount votes for all active votes, and resume voting countdown
+        self.load_votes()
         for title in self.active_votes:
-            self.bot.loop.create_task(self.recount_votes(title))
-            self.bot.loop.create_task(self.resume_vote(title))
-
+            self.running_votes[title] = self.bot.loop.create_task(self.recount_votes(title))
+            self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))
+        
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         if user == self.bot.user:
