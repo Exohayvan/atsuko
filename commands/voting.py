@@ -100,7 +100,7 @@ class Voting(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         # When the bot starts/restarts, load votes from the database and resume voting countdown
-        self.load_votes()
+        await self.load_votes()
         
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
