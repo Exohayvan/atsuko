@@ -4,6 +4,11 @@ import random
 import sqlite3
 import discord
 
+# Constants for adjusting leveling parameters
+XP_RATE = 1.5  # Exponential growth rate for leveling up
+CHANCE_RATE = 0.1  # Chance of a message counting for points
+CHAR_XP = 0.1  # XP given per character in a message
+
 class Leveling(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -19,8 +24,8 @@ class Leveling(commands.Cog):
     async def on_message(self, message):
         if message.author.bot:
             return
-        if random.random() < 0.1: # 10% chance
-            xp = len(message.content) * 0.1
+        if random.random() < CHANCE_RATE: # Chance of message counting for points
+            xp = len(message.content) * CHAR_XP
             self.cursor.execute("SELECT * FROM users WHERE id = ?", (message.author.id,))
             user = self.cursor.fetchone()
             if user is None:
@@ -32,7 +37,7 @@ class Leveling(commands.Cog):
                 while total_xp >= level_xp:
                     total_xp -= level_xp
                     level += 1
-                    level_xp = level_xp * 1.5
+                    level_xp = level_xp * XP_RATE
                 self.cursor.execute("UPDATE users SET xp = ?, level = ?, level_xp = ? WHERE id = ?", (total_xp, level, level_xp, message.author.id))
             self.db.commit()
 
@@ -64,7 +69,7 @@ class Leveling(commands.Cog):
             while total_xp >= level_xp:
                 total_xp -= level_xp
                 level += 1
-                level_xp = level_xp * 1.5
+                level_xp = level_xp * XP_RATE
             self.cursor.execute("UPDATE users SET xp = ?, level = ?, level_xp = ? WHERE id = ?", (total_xp, level, level_xp, user[0]))
         self.db.commit()
 
