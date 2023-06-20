@@ -28,7 +28,7 @@ class Leveling(commands.Cog):
                     await message.channel.send(f'Congratulations {message.author.name}, you have leveled up to level {level}!')
                 self.cursor.execute("UPDATE users SET xp = ?, level = ? WHERE id = ?", (total_xp, level, message.author.id))
             self.db.commit()
-            await message.add_reaction("✨") # Adds a reaction to the message
+            #await message.add_reaction("✨") # Adds a reaction to the message
             
     @commands.command()
     async def xp(self, ctx):
