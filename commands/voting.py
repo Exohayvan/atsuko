@@ -40,7 +40,7 @@ class Voting(commands.Cog):
         while not self.bot.is_closed():  # While the bot is still running
             for title in list(self.active_votes.keys()):  # Iterate over a copy of the keys
                 await self.recount_votes(title)  # Recount the votes for each active vote
-            await asyncio.sleep(1)  # Wait for 1 seconds before repeating the process
+            await asyncio.sleep(20)  # Wait for 1 seconds before repeating the process
                         
     async def resume_vote(self, title):
         vote_data = self.active_votes[title]
