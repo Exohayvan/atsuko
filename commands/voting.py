@@ -30,6 +30,9 @@ class Voting(commands.Cog):
         # Schedule the load_votes() coroutine to run as soon as possible
         self.bot.loop.create_task(self.load_votes())
 
+    def cog_check(self, ctx):
+        return self.bot.is_ready()
+
     def cog_unload(self):
         self.conn.close()
                         
@@ -149,7 +152,11 @@ class Voting(commands.Cog):
                         vote_data['user_votes'][user_id] = option
                         await self.update_vote_count(title)
                     break
-
+        else:
+            # Delay reaction processing if the message fetching fails
+            await asyncio.sleep(5)
+            await self.on_reaction_add(reaction, user)
+            
     async def update_vote_count(self, title):
         vote_data = self.active_votes[title]
         channel = self.bot.get_channel(vote_data['channel_id'])
