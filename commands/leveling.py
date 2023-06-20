@@ -2,7 +2,6 @@ from discord import Embed
 from discord.ext import commands
 import random
 import sqlite3
-import math
 import discord
 
 class Leveling(commands.Cog):
@@ -29,11 +28,11 @@ class Leveling(commands.Cog):
             else:
                 total_xp = user[1] + xp
                 level = user[2]
-                xp_needed_for_next_level = 100 * (1.5 ** (level - 1))
-                if total_xp >= xp_needed_for_next_level:
+                xp_needed_for_next_level = 100 * (1.5 ** (level - 1)) if level > 1 else 100
+                while total_xp >= xp_needed_for_next_level:
+                    total_xp -= xp_needed_for_next_level
                     level += 1
-                    embed = Embed(title="Level Up", description=f'Congratulations {message.author.name}, you have leveled up to level {level}!', color=0x00FFFF)
-                    await message.channel.send(embed=embed)
+                    xp_needed_for_next_level = 100 * (1.5 ** (level - 1))
                 self.cursor.execute("UPDATE users SET xp = ?, level = ? WHERE id = ?", (total_xp, level, message.author.id))
             self.db.commit()
 
@@ -50,7 +49,7 @@ class Leveling(commands.Cog):
             xp_to_next_level = 100 * (1.5 ** user_data[2]) - user_data[1]
             rounded_xp = round(user_data[1], 1)
             await ctx.send(embed=discord.Embed(description=f'{user.mention} is level {user_data[2]}, with {rounded_xp} experience points. They need {xp_to_next_level} more XP to level up.', color=0x00FFFF))
-    
+
     async def recalculate_levels(self):
         # Get all users from the database
         self.cursor.execute("SELECT * FROM users")
@@ -60,7 +59,7 @@ class Leveling(commands.Cog):
             total_xp = user[1]
             # Recalculate level based on new system
             level = 1
-            xp_needed_for_next_level = 100 * (1.5 ** (level - 1))
+            xp_needed_for_next_level = 100  # Initial requirement for level 2
 
             while total_xp >= xp_needed_for_next_level:
                 total_xp -= xp_needed_for_next_level
@@ -68,7 +67,7 @@ class Leveling(commands.Cog):
                 xp_needed_for_next_level = 100 * (1.5 ** (level - 1))
 
             # Update the level in the database
-            self.cursor.execute("UPDATE users SET level = ? WHERE id = ?", (level, user[0]))
+            self.cursor.execute("UPDATE users SET xp = ?, level = ? WHERE id = ?", (total_xp, level, user[0]))
 
         self.db.commit()
     
