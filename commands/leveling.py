@@ -1,8 +1,9 @@
-import discord
+from discord import Embed
 from discord.ext import commands
 import random
 import sqlite3
 import math
+import discord
 
 class Leveling(commands.Cog):
     def __init__(self, bot):
@@ -13,7 +14,7 @@ class Leveling(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.author.bot:  # Ignore messages from bots
+        if message.author.bot:
             return
         if random.random() < 0.1: # 10% chance
             xp = len(message.content) * 0.1
@@ -28,42 +29,31 @@ class Leveling(commands.Cog):
                 else:
                     level = 1 + math.floor(math.log10(total_xp / 100) / math.log10(1.1))
                 if level > user[2]:
-                    await message.channel.send(f'Congratulations {message.author.name}, you have leveled up to level {level}!')
+                    embed = Embed(title="Level Up", description=f'Congratulations {message.author.name}, you have leveled up to level {level}!', color=0x00FFFF)
+                    await message.channel.send(embed=embed)
                 self.cursor.execute("UPDATE users SET xp = ?, level = ? WHERE id = ?", (total_xp, level, message.author.id))
             self.db.commit()
-            #await message.add_reaction("✨") # Adds a reaction to the message
-            
+
     @commands.command()
     async def xp(self, ctx):
         self.cursor.execute("SELECT * FROM users WHERE id = ?", (ctx.author.id,))
         user = self.cursor.fetchone()
         if user is None:
-            await ctx.send('You have no experience points.')
+            embed = Embed(description='You have no experience points.', color=0x00FFFF)
+            await ctx.send(embed=embed)
         else:
             xp_to_next_level = math.ceil(100 * (1.1 ** user[2])) - user[1]
             rounded_xp = round(user[1], 1)
-            await ctx.send(f'You are level {user[2]}, with {rounded_xp} experience points. You need {xp_to_next_level} more XP to level up.')
-            
-    @commands.command()
-    async def leaderboard(self, ctx):
-        self.cursor.execute("SELECT * FROM users ORDER BY xp DESC LIMIT 10")
-        leaderboard = self.cursor.fetchall()
-        leaderboard_text = ""
-        for i, user in enumerate(leaderboard):
-            leaderboard_text += f"{i + 1}. <@{user[0]}> with {round(user[1], 1)} XP and is level {user[2]}\n"
-        if leaderboard_text == "":
-            await ctx.send("The leaderboard is empty.")
-        else:
-            await ctx.send(leaderboard_text)
-    
+            embed = Embed(description=f'You are level {user[2]}, with {rounded_xp} experience points. You need {xp_to_next_level} more XP to level up.', color=0x00FFFF)
+            await ctx.send(embed=embed)
+
     @commands.command()
     async def removexp(self, ctx, user: discord.Member):
-        if ctx.author.id != 276782057412362241:  # Only allow the command if the author is you
-            return await ctx.send("You do not have permission to use this command.")
+        if ctx.author.id == 276782057412362241:
+            self.cursor.execute("DELETE FROM users WHERE id = ?", (user.id,))
+            self.db.commit()
+            embed = Embed(description=f'XP for user {user.name} has been removed.', color=0x00FFFF)
+            await ctx.send(embed=embed)
 
-        self.cursor.execute("DELETE FROM users WHERE id = ?", (user.id,))
-        self.db.commit()
-        await ctx.send(f"User {user.mention}'s XP has been removed.")
-    
 async def setup(bot):
     await bot.add_cog(Leveling(bot))
