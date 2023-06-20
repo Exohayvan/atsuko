@@ -92,7 +92,7 @@ class Voting(commands.Cog):
                     if emoji in vote_data['option_emojis']:
                         print(f"Processing vote for emoji: {emoji}, user: {user.name}")  # Debug print
                         if user.id not in voted_users:
-                            vote_data['votes'][emoji] += 1
+                            vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
                             voted_users.add(user.id)
                             try:
                                 await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
