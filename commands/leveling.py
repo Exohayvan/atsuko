@@ -37,8 +37,9 @@ class Leveling(commands.Cog):
         if user is None:
             await ctx.send('You have no experience points.')
         else:
-            xp_to_next_level = math.ceil(100 * (1.1 ** user[2])) - user[1]  # Change the 1.2 to 1.1 here
-            await ctx.send(f'You are level {user[2]}, with {user[1]} experience points. You need {xp_to_next_level} more XP to level up.')
+            xp_to_next_level = math.ceil(100 * (1.1 ** user[2])) - user[1]
+            rounded_xp = round(user[1], 1)
+            await ctx.send(f'You are level {user[2]}, with {rounded_xp} experience points. You need {xp_to_next_level} more XP to level up.')nd(f'You are level {user[2]}, with {user[1]} experience points. You need {xp_to_next_level} more XP to level up.')
 
 async def setup(bot):
     await bot.add_cog(Leveling(bot))
