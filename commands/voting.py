@@ -93,6 +93,7 @@ class Voting(commands.Cog):
                             await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
                         except NotFound:
                             pass  # Handle case when reaction is not found
+        await self.update_vote_count(title)  # Add this line to update the vote count in the embed message
 
     async def recount_and_resume_votes(self, title):
         # Recount votes and then resume the vote
