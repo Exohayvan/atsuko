@@ -63,7 +63,7 @@ class Leveling(commands.Cog):
         for i, user in enumerate(leaderboard, start=1):
             member = ctx.guild.get_member(user[0])
             if member is not None and not member.bot:
-                embed.add_field(name=f"{i}) {member.name} | Level {user[2]} | XP {round(user[1], 1)}", value='\u200b', inline=False)
+                embed.add_field(name=f"{i}) {member.mention} | Level {user[2]} | XP {round(user[1], 1)}", value='\u200b', inline=False)
         await ctx.send(embed=embed)
     
 async def setup(bot):
