@@ -253,3 +253,13 @@ class Voting(commands.Cog):
 
         winner = max(vote_data['votes'], key=vote_data['votes'].get)
         await ctx.send(f"The winner of the vote '{title}' is: {winner}")
+
+        self.cursor.execute("DELETE FROM active_votes WHERE title = ?", (title,))
+        self.conn.commit()
+
+        del self.active_votes[title]
+        self.running_votes[title].cancel()
+        del self.running_votes[title]
+
+async def setup(bot):
+    await bot.add_cog(Voting(bot))
