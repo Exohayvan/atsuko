@@ -12,6 +12,8 @@ class Leveling(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        if message.author.bot:  # Ignore messages from bots
+            return
         if random.random() < 0.1: # 10% chance
             xp = len(message.content) * 0.1
             self.cursor.execute("SELECT * FROM users WHERE id = ?", (message.author.id,))
