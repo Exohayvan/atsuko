@@ -30,6 +30,9 @@ class Voting(commands.Cog):
         # Schedule the load_votes() coroutine to run as soon as possible
         self.bot.loop.create_task(self.load_votes())
 
+    def cog_check(self, ctx):
+        return self.bot.is_ready()
+
     def cog_unload(self):
         self.conn.close()
                         
@@ -136,7 +139,7 @@ class Voting(commands.Cog):
                         previous_option = vote_data['user_votes'][user_id]
                         if previous_option == option:
                             try:
-                                await await message.remove_reaction(reaction.emoji, user)
+                                await message.remove_reaction(reaction.emoji, user)
                             except NotFound:
                                 pass
                         else:
