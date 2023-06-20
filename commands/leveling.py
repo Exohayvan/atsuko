@@ -60,8 +60,11 @@ class Leveling(commands.Cog):
             total_xp = user[1]
             # Recalculate level based on new system
             level = 1
-            while total_xp >= 100 * (1.5 ** (level - 1)):
+            xp_needed_for_next_level = 100 * (1.5 ** (level - 1))
+
+            while total_xp >= xp_needed_for_next_level:
                 level += 1
+                xp_needed_for_next_level = 100 * (1.5 ** (level - 1))
 
             # Update the level in the database
             self.cursor.execute("UPDATE users SET level = ? WHERE id = ?", (level, user[0]))
