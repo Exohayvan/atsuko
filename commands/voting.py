@@ -80,23 +80,28 @@ class Voting(commands.Cog):
 
         # Create a set to keep track of voted users
         voted_users = set(vote_data['voted_users'])
+        print(f"Current voted users: {voted_users}")  # Debug print
 
-        for reaction in message.reactions:
-            async for user in reaction.users():
-                if user == self.bot.user:
-                    continue
-                emoji = str(reaction.emoji)
-                if emoji in vote_data['option_emojis']:
-                    if user.id not in voted_users:
-                        vote_data['votes'][emoji] += 1
-                        voted_users.add(user.id)
-                        try:
-                            await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
-                        except NotFound:
-                            pass  # Handle case when reaction is not found
+        # Process reactions only on the voting message
+        if message.author == self.bot.user:
+            for reaction in message.reactions:
+                async for user in reaction.users():
+                    if user == self.bot.user:
+                        continue
+                    emoji = str(reaction.emoji)
+                    if emoji in vote_data['option_emojis']:
+                        print(f"Processing vote for emoji: {emoji}, user: {user.name}")  # Debug print
+                        if user.id not in voted_users:
+                            vote_data['votes'][emoji] += 1
+                            voted_users.add(user.id)
+                            try:
+                                await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
+                            except NotFound:
+                                pass  # Handle case when reaction is not found
 
         # Update the 'voted_users' list after processing all reactions
         vote_data['voted_users'] = list(voted_users)
+        print(f"Updated voted users: {vote_data['voted_users']}")  # Debug print
 
     @commands.Cog.listener()
     async def on_ready(self):
