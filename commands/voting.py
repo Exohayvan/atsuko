@@ -90,13 +90,17 @@ class Voting(commands.Cog):
                         except NotFound:
                             pass  # Handle case when reaction is not found
 
+    async def recount_and_resume_votes(self, title):
+        # Recount votes and then resume the vote
+        await self.recount_votes(title)
+        self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))
+
     @commands.Cog.listener()
     async def on_ready(self):
         # When the bot starts/restarts, load votes from the database, recount votes for all active votes, and resume voting countdown
         self.load_votes()
         for title in self.active_votes:
-            self.running_votes[title] = self.bot.loop.create_task(self.recount_votes(title))
-            self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))
+            self.running_votes[title] = self.bot.loop.create_task(self.recount_and_resume_votes(title))
         
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
