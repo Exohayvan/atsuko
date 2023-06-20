@@ -78,33 +78,19 @@ class Voting(commands.Cog):
         channel = self.bot.get_channel(vote_data['channel_id'])
         message = await channel.fetch_message(vote_data['message_id'])
 
-        # Create a set to keep track of voted users
-        voted_users = set(vote_data['voted_users'])
-        print(f"Current voted users: {voted_users}")  # Debug print
-
-        # Process reactions only on the voting message
-        if message.author == self.bot.user:
-            for reaction in message.reactions:
-                async for user in reaction.users():
-                    if user == self.bot.user:
-                        continue
-                    emoji = str(reaction.emoji)
-                    print(f"Processing reaction: {emoji}")  # Debug print
-                    if emoji in vote_data['option_emojis']:
-                        print(f"Valid emoji: {emoji}")  # Debug print
-                        if user.id not in voted_users:
-                            print(f"Vote counted for user: {user.name}")  # Debug print
-                            option = vote_data['option_emojis'][emoji]
-                            vote_data['votes'][option] += 1
-                            voted_users.add(user.id)
-                            try:
-                                await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
-                            except NotFound:
-                                pass  # Handle case when reaction is not found
-
-        # Update the 'voted_users' list after processing all reactions
-        vote_data['voted_users'] = list(voted_users)
-        print(f"Updated voted users: {vote_data['voted_users']}")  # Debug print
+        for reaction in message.reactions:
+            async for user in reaction.users():
+                if user == self.bot.user:
+                    continue
+                emoji = str(reaction.emoji)
+                if emoji in vote_data['option_emojis']:
+                    if user.id not in vote_data['voted_users']:
+                        vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
+                        vote_data['voted_users'].append(user.id)
+                        try:
+                            await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
+                        except NotFound:
+                            pass  # Handle case when reaction is not found
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -118,24 +104,19 @@ class Voting(commands.Cog):
         if user == self.bot.user:
             return
 
-        print(f"Reaction added: {reaction.emoji} by user {user.name}")
-
         message = reaction.message
         for title, vote_data in self.active_votes.items():
             if message.id == vote_data['message_id']:
                 emoji = str(reaction.emoji)
                 if emoji in vote_data['option_emojis'].keys():
                     if user.id not in vote_data['voted_users']:
-                        print(f"Valid vote by {user.name} on option {emoji}")
-                        vote_data['votes'][emoji] += 1
+                        vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
                         vote_data['voted_users'].append(user.id)
                         await self.update_vote_count(title)  # Update the vote count in the message
                         try:
                             await reaction.remove(user)  # Remove user reaction
                         except NotFound:
                             pass  # Handle case when reaction is not found
-                    else:
-                        print(f"User {user.name} has already voted!")
                     break
 
     async def update_vote_count(self, title):
@@ -144,9 +125,8 @@ class Voting(commands.Cog):
         voting_message = await channel.fetch_message(vote_data['message_id'])
         embed = discord.Embed(title=title)
         for emoji, option in vote_data['option_emojis'].items():
-            vote_count = vote_data['votes'][emoji]
+            vote_count = vote_data['votes'][option]
             embed.add_field(name=option, value=f"{emoji}: {vote_count}", inline=False)
-        print(f"Updating vote count: {vote_data['votes']}")
         await voting_message.edit(embed=embed)
 
     @commands.command()
@@ -159,7 +139,7 @@ class Voting(commands.Cog):
             return
 
         option_emojis = {f"{i+1}\N{combining enclosing keycap}": option for i, option in enumerate(options)}
-        votes = {emoji: 0 for emoji in option_emojis.keys()}
+        votes = {option: 0 for option in options}
         voted_users = []
 
         embed = discord.Embed(title=title)
@@ -197,6 +177,29 @@ class Voting(commands.Cog):
         self.conn.commit()
 
         self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))
+
+    @commands.command()
+    async def endvote(self, ctx, title):
+        if title not in self.active_votes:
+            await ctx.send("There is no active vote with that title.")
+            return
+
+        vote_data = self.active_votes[title]
+        channel = self.bot.get_channel(vote_data['channel_id'])
+        message = await channel.fetch_message(vote_data['message_id'])
+        embed = message.embeds[0]
+        embed.set_footer(text="Voting Ended")
+        await message.edit(embed=embed)
+
+        winner = max(vote_data['votes'], key=vote_data['votes'].get)
+        await ctx.send(f"The winner of the vote '{title}' is: {winner}")
+
+        self.cursor.execute("DELETE FROM active_votes WHERE title = ?", (title,))
+        self.conn.commit()
+
+        del self.active_votes[title]
+        self.running_votes[title].cancel()
+        del self.running_votes[title]
 
 async def setup(bot):
     await bot.add_cog(Voting(bot))
