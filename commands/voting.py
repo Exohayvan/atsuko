@@ -136,7 +136,7 @@ class Voting(commands.Cog):
                         previous_option = vote_data['user_votes'][user_id]
                         if previous_option == option:
                             try:
-                                await await message.remove_reaction(reaction.emoji, user)
+                                await message.remove_reaction(reaction.emoji, user)
                             except NotFound:
                                 pass
                         else:
