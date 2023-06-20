@@ -69,7 +69,7 @@ class Leveling(commands.Cog):
             # Update the level in the database
             self.cursor.execute("UPDATE users SET xp = ?, level = ? WHERE id = ?", (total_xp, level, user[0]))
 
-        self.db.commit()
+    self.db.commit()
     
     @commands.command()
     async def removexp(self, ctx, user: discord.Member):
