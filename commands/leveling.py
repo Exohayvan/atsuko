@@ -55,5 +55,16 @@ class Leveling(commands.Cog):
             embed = Embed(description=f'XP for user {user.name} has been removed.', color=0x00FFFF)
             await ctx.send(embed=embed)
 
+    @commands.command()
+    async def leaderboard(self, ctx):
+        self.cursor.execute("SELECT * FROM users ORDER BY xp DESC LIMIT 10")
+        leaderboard = self.cursor.fetchall()
+        embed = Embed(title="XP Leaderboard", color=0x00FFFF)
+        for i, user in enumerate(leaderboard, start=1):
+            member = ctx.guild.get_member(user[0])
+            if member is not None and not member.bot:
+                embed.add_field(name=f"{i}. {member.name}", value=f"Level: {user[2]}\nXP: {round(user[1], 1)}", inline=False)
+        await ctx.send(embed=embed)
+    
 async def setup(bot):
     await bot.add_cog(Leveling(bot))
