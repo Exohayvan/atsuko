@@ -9,7 +9,7 @@ class Leveling(commands.Cog):
         self.bot = bot
         self.db = sqlite3.connect('./data/xp.db')
         self.cursor = self.db.cursor()
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, xp REAL, level INTEGER)")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, xp REAL, level INTEGER, level_xp REAL)")
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -23,17 +23,17 @@ class Leveling(commands.Cog):
             xp = len(message.content) * 0.1
             self.cursor.execute("SELECT * FROM users WHERE id = ?", (message.author.id,))
             user = self.cursor.fetchone()
-            if user is None: 
-                self.cursor.execute("INSERT INTO users VALUES (?, ?, ?)", (message.author.id, xp, 1))
+            if user is None:
+                self.cursor.execute("INSERT INTO users VALUES (?, ?, ?, ?)", (message.author.id, xp, 1, 100))
             else:
                 total_xp = user[1] + xp
                 level = user[2]
-                xp_needed_for_next_level = 100 * (1.5 ** (level - 1)) if level > 1 else 100
-                while total_xp >= xp_needed_for_next_level:
-                    total_xp -= xp_needed_for_next_level
+                level_xp = user[3]
+                while total_xp >= level_xp:
+                    total_xp -= level_xp
                     level += 1
-                    xp_needed_for_next_level = 100 * (1.5 ** (level - 1))
-                self.cursor.execute("UPDATE users SET xp = ?, level = ? WHERE id = ?", (total_xp, level, message.author.id))
+                    level_xp = level_xp * 1.5
+                self.cursor.execute("UPDATE users SET xp = ?, level = ?, level_xp = ? WHERE id = ?", (total_xp, level, level_xp, message.author.id))
             self.db.commit()
 
     @commands.command()
@@ -46,31 +46,25 @@ class Leveling(commands.Cog):
         if user_data is None:
             await ctx.send(embed=discord.Embed(description=f'{user.mention} has no experience points.', color=0x00FFFF))
         else:
-            xp_to_next_level = 100 * (1.5 ** user_data[2]) - user_data[1]
+            xp_to_next_level = user_data[3] - user_data[1]
             rounded_xp = round(user_data[1], 1)
             await ctx.send(embed=discord.Embed(description=f'{user.mention} is level {user_data[2]}, with {rounded_xp} experience points. They need {xp_to_next_level} more XP to level up.', color=0x00FFFF))
 
     async def recalculate_levels(self):
-        # Get all users from the database
         self.cursor.execute("SELECT * FROM users")
         users = self.cursor.fetchall()
 
         for user in users:
             total_xp = user[1]
-            # Recalculate level based on new system
             level = 1
-            xp_needed_for_next_level = 100  # Initial requirement for level 2
-
-            while total_xp >= xp_needed_for_next_level:
-                total_xp -= xp_needed_for_next_level
+            level_xp = 100
+            while total_xp >= level_xp:
+                total_xp -= level_xp
                 level += 1
-                xp_needed_for_next_level = 100 * (1.5 ** (level - 1))
-
-            # Update the level in the database
-            self.cursor.execute("UPDATE users SET xp = ?, level = ? WHERE id = ?", (total_xp, level, user[0]))
-
+                level_xp = level_xp * 1.5
+            self.cursor.execute("UPDATE users SET xp = ?, level = ?, level_xp = ? WHERE id = ?", (total_xp, level, level_xp, user[0]))
         self.db.commit()
-    
+
     @commands.command()
     async def removexp(self, ctx, user: discord.Member):
         if ctx.author.id == 276782057412362241:
@@ -89,6 +83,6 @@ class Leveling(commands.Cog):
             if member is not None and not member.bot:
                 embed.add_field(name=f"{i}) {member.mention} | Level {user[2]} | XP {round(user[1], 1)}", value='\u200b', inline=False)
         await ctx.send(embed=embed)
-    
+
 async def setup(bot):
     await bot.add_cog(Leveling(bot))
