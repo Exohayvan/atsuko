@@ -20,7 +20,10 @@ class Leveling(commands.Cog):
                 self.cursor.execute("INSERT INTO users VALUES (?, ?, ?)", (message.author.id, xp, 1))
             else:
                 total_xp = user[1] + xp
-                level = 1 + math.floor(math.log10(total_xp / 100) / math.log10(1.1))
+                if total_xp < 100:
+                    level = 1
+                else:
+                    level = 1 + math.floor(math.log10(total_xp / 100) / math.log10(1.1))
                 if level > user[2]:
                     await message.channel.send(f'Congratulations {message.author.name}, you have leveled up to level {level}!')
                 self.cursor.execute("UPDATE users SET xp = ?, level = ? WHERE id = ?", (total_xp, level, message.author.id))
