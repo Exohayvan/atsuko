@@ -86,13 +86,23 @@ class Voting(commands.Cog):
                 emoji = str(reaction.emoji)
                 if emoji in vote_data['option_emojis']:
                     user_id = str(user.id)  # user.id should be converted to string because JSON stores keys as string
-                    if user_id not in vote_data['user_votes']:
+                    if user_id in vote_data['user_votes']:
+                        # If the user has already voted and their new vote is different from their old vote
+                        if vote_data['user_votes'][user_id] != vote_data['option_emojis'][emoji]:
+                            # Subtract one from the previous vote
+                            vote_data['votes'][vote_data['user_votes'][user_id]] -= 1
+                            # Add one to the new vote
+                            vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
+                            # Update the user's vote in the vote_data
+                            vote_data['user_votes'][user_id] = vote_data['option_emojis'][emoji]
+                    else:
+                        # If the user has not voted before, count their vote as usual
                         vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
                         vote_data['user_votes'][user_id] = vote_data['option_emojis'][emoji]
-                        try:
-                            await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
-                        except NotFound:
-                            pass  # Handle case when reaction is not found
+                    try:
+                        await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
+                    except NotFound:
+                        pass  # Handle case when reaction is not found
         await self.update_vote_count(title)  # Add this line to update the vote count in the embed message
 
     async def recount_and_resume_votes(self, title):
