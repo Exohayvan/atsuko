@@ -9,21 +9,7 @@ class Leveling(commands.Cog):
         self.bot = bot
         self.db = sqlite3.connect('./data/xp.db')
         self.cursor = self.db.cursor()
-        # Create new table
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS users_new (id INTEGER PRIMARY KEY, xp REAL, level INTEGER, level_xp REAL)")
-        # Copy data from old table
-        self.cursor.execute("INSERT INTO users_new(id, xp, level) SELECT id, xp, level FROM users")
-        # Drop old table
-        self.cursor.execute("DROP TABLE users")
-        # Rename new table to old table name
-        self.cursor.execute("ALTER TABLE users_new RENAME TO users")
-        self.db.commit()
-
-    #def __init__(self, bot):
-        #self.bot = bot
-        #self.db = sqlite3.connect('./data/xp.db')
-        #self.cursor = self.db.cursor()
-        #self.cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, xp REAL, level INTEGER, level_xp REAL)")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, xp REAL, level INTEGER, level_xp REAL)")
 
     @commands.Cog.listener()
     async def on_ready(self):
