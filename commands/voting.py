@@ -20,7 +20,7 @@ class Voting(commands.Cog):
                 votes TEXT,
                 start_time TEXT,
                 duration INTEGER,
-                voted_users TEXT
+                user_votes TEXT
             )
         """)
         self.conn.commit()
@@ -109,14 +109,17 @@ class Voting(commands.Cog):
             if message.id == vote_data['message_id']:
                 emoji = str(reaction.emoji)
                 if emoji in vote_data['option_emojis'].keys():
-                    if user.id not in vote_data['voted_users']:
-                        vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
-                        vote_data['voted_users'].append(user.id)
-                        await self.update_vote_count(title)  # Update the vote count in the message
-                        try:
-                            await reaction.remove(user)  # Remove user reaction
-                        except NotFound:
-                            pass  # Handle case when reaction is not found
+                    option = vote_data['option_emojis'][emoji]
+                    if user.id in vote_data['user_votes']:
+                        previous_option = vote_data['user_votes'][user.id]
+                        vote_data['votes'][previous_option] -= 1
+                    vote_data['votes'][option] += 1
+                    vote_data['user_votes'][user.id] = option
+                    await self.update_vote_count(title)
+                    try:
+                        await reaction.remove(user)
+                    except NotFound:
+                        pass
                     break
 
     async def update_vote_count(self, title):
@@ -140,7 +143,7 @@ class Voting(commands.Cog):
 
         option_emojis = {f"{i+1}\N{combining enclosing keycap}": option for i, option in enumerate(options)}
         votes = {option: 0 for option in options}
-        voted_users = []
+        user_votes = {}
 
         embed = discord.Embed(title=title)
         for emoji, option in option_emojis.items():
@@ -159,10 +162,10 @@ class Voting(commands.Cog):
             'votes': votes,
             'start_time': start_time.strftime("%Y-%m-%d %H:%M:%S.%f"),
             'duration': int(time_limit),
-            'voted_users': voted_users,
+            'user_votes': user_votes,
         }
         self.cursor.execute("""
-            INSERT INTO active_votes (title, message_id, channel_id, option_emojis, votes, start_time, duration, voted_users)
+            INSERT INTO active_votes (title, message_id, channel_id, option_emojis, votes, start_time, duration, user_votes)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             title,
@@ -172,11 +175,11 @@ class Voting(commands.Cog):
             json.dumps(votes),
             start_time.strftime("%Y-%m-%d %H:%M:%S.%f"),
             int(time_limit),
-            json.dumps(voted_users),
+            json.dumps(user_votes),
         ))
         self.conn.commit()
 
-        self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))
+        self.running_votes[title] = self.bot.loop.create_task(self.end_vote(title))
 
     @commands.command()
     async def endvote(self, ctx, title):
