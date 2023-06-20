@@ -120,21 +120,9 @@ class Voting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        # Fetch the active voting messages and recount the votes
-        for title, vote_data in self.active_votes.items():
-            try:
-                channel = self.bot.get_channel(vote_data['channel_id'])
-                message = await channel.fetch_message(vote_data['message_id'])
-                await self.recount_votes(title, message)  # Recount the votes with the fetched message
-            except NotFound:
-                # The voting message is not found, handle the case when the message is deleted
-                print(f"Voting message not found for '{title}'.")
-                continue
-
-            # Resume the vote countdown if it's still running
-            if datetime.datetime.utcnow() < vote_data['end_time']:
-                self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))
-
+        # When the bot starts/restarts, load votes from the database and resume voting countdown
+        await self.load_votes()
+        
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         if user == self.bot.user:
@@ -164,9 +152,8 @@ class Voting(commands.Cog):
                         vote_data['user_votes'][user_id] = option
                         await self.update_vote_count(title)
                     break
-
-        # If the bot is not ready, delay reaction processing
-        if not self.bot.is_ready():
+        else:
+            # Delay reaction processing if the message fetching fails
             await asyncio.sleep(5)
             await self.on_reaction_add(reaction, user)
             
