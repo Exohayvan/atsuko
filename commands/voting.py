@@ -33,6 +33,19 @@ class Voting(commands.Cog):
     def cog_unload(self):
         self.conn.close()
 
+    async def remove_reactions(self, title):
+        vote_data = self.active_votes[title]
+        channel = self.bot.get_channel(vote_data['channel_id'])
+        message = await channel.fetch_message(vote_data['message_id'])
+
+        for reaction in message.reactions:
+            async for user in reaction.users():
+                if user != self.bot.user:
+                    try:
+                        await message.remove_reaction(reaction.emoji, user)
+                    except NotFound:
+                        pass
+                        
     async def resume_vote(self, title):
         vote_data = self.active_votes[title]
         channel = self.bot.get_channel(vote_data['channel_id'])
