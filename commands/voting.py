@@ -26,7 +26,9 @@ class Voting(commands.Cog):
         self.conn.commit()
         self.active_votes = {}
         self.running_votes = {}  # Store active voting tasks
-        self.load_votes()
+
+        # Schedule the load_votes() coroutine to run as soon as possible
+        self.bot.loop.create_task(self.load_votes())
 
     def cog_unload(self):
         self.conn.close()
