@@ -14,7 +14,7 @@ class Leveling(commands.Cog):
         self.bot = bot
         self.db = sqlite3.connect('./data/xp.db')
         self.cursor = self.db.cursor()
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, xp REAL, level INTEGER, level_xp REAL)")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, xp REAL, total_xp REAL, level INTEGER, level_xp REAL)")
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -24,21 +24,22 @@ class Leveling(commands.Cog):
     async def on_message(self, message):
         if message.author.bot:
             return
+        xp = len(message.content) * CHAR_XP
         if random.random() < CHANCE_RATE: # Chance of message counting for points
-            xp = len(message.content) * CHAR_XP
             self.cursor.execute("SELECT * FROM users WHERE id = ?", (message.author.id,))
             user = self.cursor.fetchone()
             if user is None:
-                self.cursor.execute("INSERT INTO users VALUES (?, ?, ?, ?)", (message.author.id, xp, 1, 100))
+                self.cursor.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?)", (message.author.id, xp, xp, 1, 100))
             else:
-                total_xp = user[1] + xp
-                level = user[2]
-                level_xp = user[3]
-                while total_xp >= level_xp:
-                    total_xp -= level_xp
+                total_xp = user[2] + xp
+                remaining_xp = user[1] + xp
+                level = user[3]
+                level_xp = user[4]
+                while remaining_xp >= level_xp:
+                    remaining_xp -= level_xp
                     level += 1
                     level_xp = level_xp * XP_RATE
-                self.cursor.execute("UPDATE users SET xp = ?, level = ?, level_xp = ? WHERE id = ?", (total_xp, level, level_xp, message.author.id))
+                self.cursor.execute("UPDATE users SET xp = ?, total_xp = ?, level = ?, level_xp = ? WHERE id = ?", (remaining_xp, total_xp, level, level_xp, message.author.id))
             self.db.commit()
 
     @commands.command()
@@ -51,16 +52,16 @@ class Leveling(commands.Cog):
         if user_data is None:
             await ctx.send(embed=discord.Embed(description=f'{user.mention} has no experience points.', color=0x00FFFF))
         else:
-            xp_to_next_level = user_data[3] - user_data[1]  # The remaining XP needed for the next level
-            rounded_xp = round(user_data[1], 1)
-            await ctx.send(embed=discord.Embed(description=f'{user.mention} is level {user_data[2]}, with {rounded_xp} experience points. They need {xp_to_next_level} more XP to level up.', color=0x00FFFF))
+            xp_to_next_level = user_data[4] - user_data[1]  # The remaining XP needed for the next level
+            rounded_total_xp = round(user_data[2], 1)
+            await ctx.send(embed=discord.Embed(description=f'{user.mention} is level {user_data[3]}, with {rounded_total_xp} total experience points. They need {xp_to_next_level} more XP to level up.', color=0x00FFFF))
 
     async def recalculate_levels(self):
         self.cursor.execute("SELECT * FROM users")
         users = self.cursor.fetchall()
 
         for user in users:
-            total_xp = user[1]
+            total_xp = user[2]
             level = 1
             level_xp = 100
             while total_xp >= level_xp:
@@ -80,13 +81,13 @@ class Leveling(commands.Cog):
 
     @commands.command()
     async def leaderboard(self, ctx):
-        self.cursor.execute("SELECT * FROM users ORDER BY xp DESC LIMIT 10")
+        self.cursor.execute("SELECT * FROM users ORDER BY total_xp DESC LIMIT 10")
         leaderboard = self.cursor.fetchall()
         embed = discord.Embed(title="XP Leaderboard", color=0x00FFFF)
         for i, user in enumerate(leaderboard, start=1):
             member = ctx.guild.get_member(user[0])
             if member is not None and not member.bot:
-                embed.add_field(name=f"{i}) {member.mention} | Level {user[2]} | XP {round(user[1], 1)}", value='\u200b', inline=False)
+                embed.add_field(name=f"{i}) {member.mention} | Level {user[3]} | Total XP {round(user[2], 1)}", value='\u200b', inline=False)
         await ctx.send(embed=embed)
 
 async def setup(bot):
