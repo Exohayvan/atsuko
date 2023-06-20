@@ -30,9 +30,6 @@ class Voting(commands.Cog):
         # Schedule the load_votes() coroutine to run as soon as possible
         self.bot.loop.create_task(self.load_votes())
 
-    def cog_check(self, ctx):
-        return self.bot.is_ready()
-
     def cog_unload(self):
         self.conn.close()
                         
