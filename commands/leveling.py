@@ -41,5 +41,17 @@ class Leveling(commands.Cog):
             rounded_xp = round(user[1], 1)
             await ctx.send(f'You are level {user[2]}, with {rounded_xp} experience points. You need {xp_to_next_level} more XP to level up.')
             
+    @commands.command()
+    async def leaderboard(self, ctx):
+        self.cursor.execute("SELECT * FROM users ORDER BY xp DESC LIMIT 10")
+        leaderboard = self.cursor.fetchall()
+        leaderboard_text = ""
+        for i, user in enumerate(leaderboard):
+            leaderboard_text += f"{i + 1}. <@{user[0]}> with {round(user[1], 1)} XP and is level {user[2]}\n"
+        if leaderboard_text == "":
+            await ctx.send("The leaderboard is empty.")
+        else:
+            await ctx.send(leaderboard_text)
+        
 async def setup(bot):
     await bot.add_cog(Leveling(bot))
