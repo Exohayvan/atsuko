@@ -13,6 +13,10 @@ class Leveling(commands.Cog):
         self.cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, xp REAL, level INTEGER)")
 
     @commands.Cog.listener()
+    async def on_ready(self):
+        await self.recalculate_levels()
+
+    @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.bot:
             return
@@ -46,6 +50,23 @@ class Leveling(commands.Cog):
             xp_to_next_level = 100 * (1.5 ** user_data[2]) - user_data[1]
             rounded_xp = round(user_data[1], 1)
             await ctx.send(embed=discord.Embed(description=f'{user.mention} is level {user_data[2]}, with {rounded_xp} experience points. They need {xp_to_next_level} more XP to level up.', color=0x00FFFF))
+    
+    async def recalculate_levels(self):
+        # Get all users from the database
+        self.cursor.execute("SELECT * FROM users")
+        users = self.cursor.fetchall()
+
+        for user in users:
+            total_xp = user[1]
+            # Recalculate level based on new system
+            level = 1
+            while total_xp >= 100 * (1.5 ** (level - 1)):
+                level += 1
+
+            # Update the level in the database
+            self.cursor.execute("UPDATE users SET level = ? WHERE id = ?", (level, user[0]))
+
+        self.db.commit()
     
     @commands.command()
     async def removexp(self, ctx, user: discord.Member):
