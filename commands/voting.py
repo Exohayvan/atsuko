@@ -134,8 +134,18 @@ class Voting(commands.Cog):
                     user_id = str(user.id)  # Convert user ID to string
                     if user_id in vote_data['user_votes']:
                         previous_option = vote_data['user_votes'][user_id]
+                        # If the user reacts with the same emoji as their previous vote, remove the reaction
+                        if option == previous_option:
+                            try:
+                                await reaction.remove(user)
+                            except NotFound:
+                                pass
+                            return
+                        # If the user reacts with a different emoji, subtract one from the previous vote
                         vote_data['votes'][previous_option] -= 1
+                    # Add one to the new vote
                     vote_data['votes'][option] += 1
+                    # Update the user's vote in the vote_data
                     vote_data['user_votes'][user_id] = option
 
                     # Update the vote data in the database
@@ -147,10 +157,6 @@ class Voting(commands.Cog):
                     self.conn.commit()
 
                     await self.update_vote_count(title)
-                    try:
-                        await reaction.remove(user)
-                    except NotFound:
-                        pass
                     break
 
     async def update_vote_count(self, title):
