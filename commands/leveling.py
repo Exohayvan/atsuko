@@ -25,6 +25,7 @@ class Leveling(commands.Cog):
                     await message.channel.send(f'Congratulations {message.author.name}, you have leveled up to level {level}!')
                 self.cursor.execute("UPDATE users SET xp = ?, level = ? WHERE id = ?", (total_xp, level, message.author.id))
             self.db.commit()
+            await message.add_reaction("✨") # Adds a reaction to the message
 
     @commands.command()
     async def xp(self, ctx):
@@ -33,7 +34,7 @@ class Leveling(commands.Cog):
         if user is None:
             await ctx.send('You have no experience points.')
         else:
-            xp_to_next_level = math.ceil(100 * (1.2 ** user[2])) - user[1]
+            xp_to_next_level = math.ceil(100 * (1.1 ** user[2])) - user[1]  # Change the 1.2 to 1.1 here
             await ctx.send(f'You are level {user[2]}, with {user[1]} experience points. You need {xp_to_next_level} more XP to level up.')
 
 async def setup(bot):
