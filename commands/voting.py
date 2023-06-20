@@ -144,10 +144,12 @@ class Voting(commands.Cog):
                             vote_data['votes'][option] += 1
                             vote_data['user_votes'][user_id] = option
                             await self.update_vote_count(title)
+                            await self.recount_votes(title)  # Add this line
                     else:
                         vote_data['votes'][option] += 1
                         vote_data['user_votes'][user_id] = option
                         await self.update_vote_count(title)
+                        await self.recount_votes(title)  # And this line
                     break
 
     async def update_vote_count(self, title):
