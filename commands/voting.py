@@ -116,11 +116,21 @@ class Voting(commands.Cog):
                 emoji = str(reaction.emoji)
                 if emoji in vote_data['option_emojis'].keys():
                     option = vote_data['option_emojis'][emoji]
-                    if user.id in vote_data['user_votes']:
-                        previous_option = vote_data['user_votes'][user.id]
+                    user_id = str(user.id)  # Convert user ID to string
+                    if user_id in vote_data['user_votes']:
+                        previous_option = vote_data['user_votes'][user_id]
                         vote_data['votes'][previous_option] -= 1
                     vote_data['votes'][option] += 1
-                    vote_data['user_votes'][user.id] = option
+                    vote_data['user_votes'][user_id] = option
+
+                    # Update the vote data in the database
+                    self.cursor.execute("""
+                        UPDATE active_votes
+                        SET votes = ?, user_votes = ?
+                        WHERE title = ?
+                    """, (json.dumps(vote_data['votes']), json.dumps(vote_data['user_votes']), title))
+                    self.conn.commit()
+
                     await self.update_vote_count(title)
                     try:
                         await reaction.remove(user)
