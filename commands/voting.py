@@ -164,6 +164,7 @@ class Voting(commands.Cog):
             'duration': int(time_limit),
             'user_votes': user_votes,
         }
+
         self.cursor.execute("""
             INSERT INTO active_votes (title, message_id, channel_id, option_emojis, votes, start_time, duration, user_votes)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -179,7 +180,7 @@ class Voting(commands.Cog):
         ))
         self.conn.commit()
 
-        self.running_votes[title] = self.bot.loop.create_task(self.end_vote(title))
+        self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))
 
     @commands.command()
     async def endvote(self, ctx, title):
