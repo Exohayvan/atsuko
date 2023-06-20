@@ -35,43 +35,7 @@ class Voting(commands.Cog):
 
     def cog_unload(self):
         self.conn.close()
-    
-    async def watch_reactions(self, title):
-        vote_data = self.active_votes[title]
-        channel = self.bot.get_channel(vote_data['channel_id'])
-        message = await channel.fetch_message(vote_data['message_id'])
-
-        while True:
-            try:
-                reaction, user = await self.bot.wait_for('reaction_add', timeout=None, check=lambda r, u: r.message.id == message.id and u != self.bot.user)
-                emoji = str(reaction.emoji)
-                if emoji in vote_data['option_emojis'].keys():
-                    option = vote_data['option_emojis'][emoji]
-                    user_id = str(user.id)
-                    if user_id in vote_data['user_votes']:
-                        previous_option = vote_data['user_votes'][user_id]
-                        if previous_option == option:
-                            try:
-                                await message.remove_reaction(reaction.emoji, user)
-                            except NotFound:
-                                pass
-                        else:
-                            vote_data['votes'][previous_option] -= 1
-                            vote_data['votes'][option] += 1
-                            vote_data['user_votes'][user_id] = option
-                            await self.update_vote_count(title)
-                    else:
-                        vote_data['votes'][option] += 1
-                        vote_data['user_votes'][user_id] = option
-                        await self.update_vote_count(title)
-            except asyncio.TimeoutError:
-                # Timeout reached, stop watching reactions
-                break
-            except NotFound:
-                # The voting message is not found, handle the case when the message is deleted
-                print(f"Voting message not found for '{title}'.")
-                break
-
+                        
     async def resume_vote(self, title):
         vote_data = self.active_votes[title]
         channel = self.bot.get_channel(vote_data['channel_id'])
@@ -170,9 +134,6 @@ class Voting(commands.Cog):
             # Resume the vote countdown if it's still running
             if datetime.datetime.utcnow() < vote_data['end_time']:
                 self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))
-
-            # Start watching for new reactions on the voting message
-            self.bot.loop.create_task(self.watch_reactions(title))
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
@@ -292,13 +253,3 @@ class Voting(commands.Cog):
 
         winner = max(vote_data['votes'], key=vote_data['votes'].get)
         await ctx.send(f"The winner of the vote '{title}' is: {winner}")
-
-        self.cursor.execute("DELETE FROM active_votes WHERE title = ?", (title,))
-        self.conn.commit()
-
-        del self.active_votes[title]
-        self.running_votes[title].cancel()
-        del self.running_votes[title]
-
-async def setup(bot):
-    await bot.add_cog(Voting(bot))
