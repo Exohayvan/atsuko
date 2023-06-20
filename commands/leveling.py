@@ -54,6 +54,15 @@ class Leveling(commands.Cog):
             await ctx.send("The leaderboard is empty.")
         else:
             await ctx.send(leaderboard_text)
-        
+    
+    @commands.command()
+    async def removexp(self, ctx, user: discord.Member):
+        if ctx.author.id != 276782057412362241:  # Only allow the command if the author is you
+            return await ctx.send("You do not have permission to use this command.")
+
+        self.cursor.execute("DELETE FROM users WHERE id = ?", (user.id,))
+        self.db.commit()
+        await ctx.send(f"User {user.mention}'s XP has been removed.")
+    
 async def setup(bot):
     await bot.add_cog(Leveling(bot))
