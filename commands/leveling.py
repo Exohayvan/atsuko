@@ -35,17 +35,18 @@ class Leveling(commands.Cog):
             self.db.commit()
 
     @commands.command()
-    async def xp(self, ctx):
-        self.cursor.execute("SELECT * FROM users WHERE id = ?", (ctx.author.id,))
-        user = self.cursor.fetchone()
+    async def xp(self, ctx, user: discord.Member = None):
         if user is None:
-            embed = Embed(description='You have no experience points.', color=0x00FFFF)
-            await ctx.send(embed=embed)
+            user = ctx.author
+
+        self.cursor.execute("SELECT * FROM users WHERE id = ?", (user.id,))
+        user_data = self.cursor.fetchone()
+        if user_data is None:
+            await ctx.send(embed=discord.Embed(description=f'{user.mention} has no experience points.', color=0x00FFFF))
         else:
-            xp_to_next_level = math.ceil(100 * (1.1 ** user[2])) - user[1]
-            rounded_xp = round(user[1], 1)
-            embed = Embed(description=f'You are level {user[2]}, with {rounded_xp} experience points. You need {xp_to_next_level} more XP to level up.', color=0x00FFFF)
-            await ctx.send(embed=embed)
+            xp_to_next_level = math.ceil(100 * (1.1 ** user_data[2])) - user_data[1]
+            rounded_xp = round(user_data[1], 1)
+            await ctx.send(embed=discord.Embed(description=f'{user.mention} is level {user_data[2]}, with {rounded_xp} experience points. They need {xp_to_next_level} more XP to level up.', color=0x00FFFF))
 
     @commands.command()
     async def removexp(self, ctx, user: discord.Member):
