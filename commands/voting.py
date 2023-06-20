@@ -89,10 +89,13 @@ class Voting(commands.Cog):
                     if user == self.bot.user:
                         continue
                     emoji = str(reaction.emoji)
+                    print(f"Processing reaction: {emoji}")  # Debug print
                     if emoji in vote_data['option_emojis']:
-                        print(f"Processing vote for emoji: {emoji}, user: {user.name}")  # Debug print
+                        print(f"Valid emoji: {emoji}")  # Debug print
                         if user.id not in voted_users:
-                            vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
+                            print(f"Vote counted for user: {user.name}")  # Debug print
+                            option = vote_data['option_emojis'][emoji]
+                            vote_data['votes'][option] += 1
                             voted_users.add(user.id)
                             try:
                                 await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
