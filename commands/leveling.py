@@ -24,11 +24,10 @@ class Leveling(commands.Cog):
                 self.cursor.execute("INSERT INTO users VALUES (?, ?, ?)", (message.author.id, xp, 1))
             else:
                 total_xp = user[1] + xp
-                if total_xp < 100:
-                    level = 1
-                else:
-                    level = 1 + math.floor(math.log10(total_xp / 100) / math.log10(1.1))
-                if level > user[2]:
+                level = user[2]
+                xp_needed_for_next_level = 100 * (1.5 ** (level - 1))
+                if total_xp >= xp_needed_for_next_level:
+                    level += 1
                     embed = Embed(title="Level Up", description=f'Congratulations {message.author.name}, you have leveled up to level {level}!', color=0x00FFFF)
                     await message.channel.send(embed=embed)
                 self.cursor.execute("UPDATE users SET xp = ?, level = ? WHERE id = ?", (total_xp, level, message.author.id))
@@ -44,10 +43,10 @@ class Leveling(commands.Cog):
         if user_data is None:
             await ctx.send(embed=discord.Embed(description=f'{user.mention} has no experience points.', color=0x00FFFF))
         else:
-            xp_to_next_level = math.ceil(100 * (1.1 ** user_data[2])) - user_data[1]
+            xp_to_next_level = 100 * (1.5 ** user_data[2]) - user_data[1]
             rounded_xp = round(user_data[1], 1)
             await ctx.send(embed=discord.Embed(description=f'{user.mention} is level {user_data[2]}, with {rounded_xp} experience points. They need {xp_to_next_level} more XP to level up.', color=0x00FFFF))
-
+    
     @commands.command()
     async def removexp(self, ctx, user: discord.Member):
         if ctx.author.id == 276782057412362241:
