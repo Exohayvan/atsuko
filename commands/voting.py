@@ -95,6 +95,11 @@ class Voting(commands.Cog):
                             vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
                             # Update the user's vote in the vote_data
                             vote_data['user_votes'][user_id] = vote_data['option_emojis'][emoji]
+                        else:
+                            try:
+                                await message.remove_reaction(reaction.emoji, user)  # Remove repeated reaction
+                            except NotFound:
+                                pass  # Handle case when reaction is not found
                     else:
                         # If the user has not voted before, count their vote as usual
                         vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
