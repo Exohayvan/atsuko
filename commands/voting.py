@@ -29,9 +29,18 @@ class Voting(commands.Cog):
 
         # Schedule the load_votes() coroutine to run as soon as possible
         self.bot.loop.create_task(self.load_votes())
-
+        self.check_votes_task = self.bot.loop.create_task(self.check_votes_periodically())
+        
     def cog_unload(self):
+        self.check_votes_task.cancel()
         self.conn.close()
+        
+    async def check_votes_periodically(self):
+        await self.bot.wait_until_ready()  # Wait until the bot is ready
+        while not self.bot.is_closed():  # While the bot is still running
+            for title in list(self.active_votes.keys()):  # Iterate over a copy of the keys
+                await self.recount_votes(title)  # Recount the votes for each active vote
+            await asyncio.sleep(1)  # Wait for 60 seconds before repeating the process
                         
     async def resume_vote(self, title):
         vote_data = self.active_votes[title]
