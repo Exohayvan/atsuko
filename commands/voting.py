@@ -57,7 +57,7 @@ class Voting(commands.Cog):
         winner_embed = discord.Embed(title=f"Vote Results for '{title}'", description=f"The winner is: {winner}", color=0x00ff00)
         await channel.send(embed=winner_embed)
 
-    def load_votes(self):
+    async def load_votes(self):
         self.cursor.execute("SELECT * FROM active_votes")
         for row in self.cursor.fetchall():
             title, message_id, channel_id, option_emojis, votes, start_time, duration, user_votes = row
@@ -70,7 +70,8 @@ class Voting(commands.Cog):
                 'duration': duration,
                 'user_votes': json.loads(user_votes),
             }
-            
+            await self.recount_and_resume_votes(title)  # Add this line to recount and resume votes
+
     async def recount_votes(self, title):
         vote_data = self.active_votes[title]
         channel = self.bot.get_channel(vote_data['channel_id'])
@@ -98,10 +99,8 @@ class Voting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        # When the bot starts/restarts, load votes from the database, recount votes for all active votes, and resume voting countdown
+        # When the bot starts/restarts, load votes from the database and resume voting countdown
         self.load_votes()
-        for title in self.active_votes:
-            self.running_votes[title] = self.bot.loop.create_task(self.recount_and_resume_votes(title))
         
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
