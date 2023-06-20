@@ -63,6 +63,7 @@ class Leveling(commands.Cog):
             xp_needed_for_next_level = 100 * (1.5 ** (level - 1))
 
             while total_xp >= xp_needed_for_next_level:
+                total_xp -= xp_needed_for_next_level
                 level += 1
                 xp_needed_for_next_level = 100 * (1.5 ** (level - 1))
 
