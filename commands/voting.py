@@ -40,7 +40,7 @@ class Voting(commands.Cog):
         while not self.bot.is_closed():  # While the bot is still running
             for title in list(self.active_votes.keys()):  # Iterate over a copy of the keys
                 await self.recount_votes(title)  # Recount the votes for each active vote
-            await asyncio.sleep(1)  # Wait for 60 seconds before repeating the process
+            await asyncio.sleep(1)  # Wait for 1 seconds before repeating the process
                         
     async def resume_vote(self, title):
         vote_data = self.active_votes[title]
@@ -55,10 +55,15 @@ class Voting(commands.Cog):
             embed = voting_message.embeds[0]
             embed.set_footer(text=f"Voting Ends in {remaining_time.days}d {minutes}m {seconds}s")
             await voting_message.edit(embed=embed)
-            await asyncio.sleep(15)
+            await asyncio.sleep(20)
 
         embed.set_footer(text="Voting Ended")
         await voting_message.edit(embed=embed)
+
+        # Add these lines to delete the vote from the database when it ends
+        self.cursor.execute("DELETE FROM active_votes WHERE title = ?", (title,))
+        self.conn.commit()
+
         del self.active_votes[title]
         del self.running_votes[title]
 
@@ -67,7 +72,7 @@ class Voting(commands.Cog):
         # create a new embed object for the winner announcement
         winner_embed = discord.Embed(title=f"Vote Results for '{title}'", description=f"The winner is: {winner}", color=0x00ff00)
         await channel.send(embed=winner_embed)
-
+    
     async def load_votes(self):
         self.cursor.execute("SELECT * FROM active_votes")
         for row in self.cursor.fetchall():
