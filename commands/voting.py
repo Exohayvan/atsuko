@@ -136,6 +136,14 @@ class Voting(commands.Cog):
             embed.add_field(name=option, value=f"{emoji}: {vote_count}", inline=False)
         await voting_message.edit(embed=embed)
 
+        # Update the vote counts in the database
+        self.cursor.execute("""
+            UPDATE active_votes
+            SET votes = ?, user_votes = ?
+            WHERE title = ?
+        """, (json.dumps(vote_data['votes']), json.dumps(vote_data['user_votes']), title))
+        self.conn.commit()
+
     @commands.command()
     async def vote(self, ctx, time_limit, title, *options):
         if title in self.active_votes:
