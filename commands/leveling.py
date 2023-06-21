@@ -89,5 +89,23 @@ class Leveling(commands.Cog):
                 embed.add_field(name=f"{i}) {member.mention} | Level {user[3]} | Total XP {round(user[2], 1)}", value='\u200b', inline=False)
         await ctx.send(embed=embed)
 
+    @commands.command()
+    async def rexp(self, ctx, user: discord.Member):
+        self.cursor.execute("SELECT * FROM users WHERE id = ?", (user.id,))
+        user_data = self.cursor.fetchone()
+        if user_data is not None:
+            total_xp = user_data[2]
+            level = 0
+            next_level_xp = 100
+            while total_xp > next_level_xp:
+                total_xp -= next_level_xp
+                level += 1
+                next_level_xp *= XP_RATE
+            self.cursor.execute("UPDATE users SET xp = ?, level = ?, level_xp = ? WHERE id = ?", (total_xp, level, next_level_xp, user.id))
+            self.db.commit()
+            await ctx.send(f"Recalculated level for {user.mention}. They are now at level {level} with {total_xp} XP remaining.")
+        else:
+            await ctx.send(f"{user.mention} does not exist in the database.")
+
 async def setup(bot):
     await bot.add_cog(Leveling(bot))
