@@ -39,6 +39,9 @@ class Leveling(commands.Cog):
                     remaining_xp -= level_xp
                     level += 1
                     level_xp = level_xp * XP_RATE
+                    # Check if the user leveled up
+                    if remaining_xp < level_xp:
+                        await message.channel.send(f'{message.author.mention} has leveled up to level {level}!')
                 self.cursor.execute("UPDATE users SET xp = ?, total_xp = ?, level = ?, level_xp = ? WHERE id = ?", (remaining_xp, total_xp, level, level_xp, message.author.id))
             self.db.commit()
 
