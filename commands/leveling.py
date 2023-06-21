@@ -4,10 +4,9 @@ import random
 import sqlite3
 import discord
 
-# Constants for adjusting leveling parameters
-XP_RATE = 1.5  # Exponential growth rate for leveling up
-CHANCE_RATE = 0.1  # Chance of a message counting for points
-CHAR_XP = 0.1  # XP given per character in a message
+XP_RATE = 1.5
+CHANCE_RATE = 0.1
+CHAR_XP = 0.1
 
 class Leveling(commands.Cog):
     def __init__(self, bot):
@@ -25,11 +24,11 @@ class Leveling(commands.Cog):
         if message.author.bot:
             return
         xp = len(message.content) * CHAR_XP
-        if random.random() < CHANCE_RATE: # Chance of message counting for points
+        if random.random() < CHANCE_RATE:
             self.cursor.execute("SELECT * FROM users WHERE id = ?", (message.author.id,))
             user = self.cursor.fetchone()
             if user is None:
-                self.cursor.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?)", (message.author.id, xp, xp, 1, 100))
+                self.cursor.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?)", (message.author.id, xp, xp, 0, 100))
             else:
                 total_xp = user[2] + xp
                 remaining_xp = user[1] + xp
@@ -39,7 +38,6 @@ class Leveling(commands.Cog):
                     remaining_xp -= level_xp
                     level += 1
                     level_xp = level_xp * XP_RATE
-                    # Check if the user leveled up
                     if remaining_xp < level_xp:
                         await message.channel.send(f'{message.author.mention} has leveled up to level {level}!')
                 self.cursor.execute("UPDATE users SET xp = ?, total_xp = ?, level = ?, level_xp = ? WHERE id = ?", (remaining_xp, total_xp, level, level_xp, message.author.id))
@@ -49,23 +47,21 @@ class Leveling(commands.Cog):
     async def xp(self, ctx, user: discord.Member = None):
         if user is None:
             user = ctx.author
-
         self.cursor.execute("SELECT * FROM users WHERE id = ?", (user.id,))
         user_data = self.cursor.fetchone()
         if user_data is None:
             await ctx.send(embed=discord.Embed(description=f'{user.mention} has no experience points.', color=0x00FFFF))
         else:
-            xp_to_next_level = round(user_data[4] - user_data[1], 1)  # The remaining XP needed for the next level
+            xp_to_next_level = round(user_data[4] - user_data[1], 1)
             rounded_total_xp = round(user_data[2], 1)
             await ctx.send(embed=discord.Embed(description=f'{user.mention} is level {user_data[3]}, with {rounded_total_xp} total experience points. They need {xp_to_next_level} more XP to level up.', color=0x00FFFF))
 
     async def recalculate_levels(self):
         self.cursor.execute("SELECT * FROM users")
         users = self.cursor.fetchall()
-
         for user in users:
             total_xp = user[2]
-            level = 1
+            level = 0
             level_xp = 100
             while total_xp >= level_xp:
                 total_xp -= level_xp
