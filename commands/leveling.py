@@ -1,4 +1,5 @@
 from discord import Embed
+from discord.ext.commands import Greedy
 from discord.ext import commands
 import random
 import sqlite3
@@ -90,11 +91,11 @@ class Leveling(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def rexp(self, ctx, user: discord.Member = None):
+    async def rexp(self, ctx, *, user: Greedy[discord.Member] = None):
         if user == "all":
             await self.recalculate_levels()
             await ctx.send("Recalculated levels for all users.")
-        else:
+        elif isinstance(user, discord.Member):
             self.cursor.execute("SELECT * FROM users WHERE id = ?", (user.id,))
             user_data = self.cursor.fetchone()
             if user_data is not None:
@@ -110,6 +111,8 @@ class Leveling(commands.Cog):
                 await ctx.send(f"Recalculated level for {user.mention}. They are now at level {level} with {total_xp} XP remaining.")
             else:
                 await ctx.send(f"{user.mention} does not exist in the database.")
+        else:
+            await ctx.send("Invalid command. Please provide a valid user or 'all'.")
 
 async def setup(bot):
     await bot.add_cog(Leveling(bot))
