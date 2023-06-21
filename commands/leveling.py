@@ -63,12 +63,13 @@ class Leveling(commands.Cog):
             total_xp = user[2]
             level = 0
             level_xp = 100
-            while total_xp >= level_xp:
+            while total_xp > level_xp:
                 total_xp -= level_xp
                 level += 1
                 level_xp = level_xp * XP_RATE
             self.cursor.execute("UPDATE users SET xp = ?, level = ?, level_xp = ? WHERE id = ?", (total_xp, level, level_xp, user[0]))
         self.db.commit()
+
 
     @commands.command()
     async def removexp(self, ctx, user: discord.Member):
