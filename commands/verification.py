@@ -13,7 +13,7 @@ class Verification(commands.Cog):
         self.verification_dict[ctx.author.id] = verification_number
         await ctx.author.send(f"Please respond with this number to verify that you are a human: {verification_number}")
         await ctx.send(f"{ctx.author.mention}, I've sent you a DM with your verification number!", delete_after=20)
-        await ctx.message.delete(delay=20)
+        await ctx.message.delete(delay=10)
 
     @commands.Cog.listener()
     async def on_message(self, message):
