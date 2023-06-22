@@ -23,4 +23,4 @@ class Verification(commands.Cog):
             await message.author.send("Verification failed.")
 
 async def setup(bot):
-    bot.add_cog(Verification(bot))
+    await bot.add_cog(Verification(bot))
