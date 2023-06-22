@@ -9,10 +9,10 @@ class Verification(commands.Cog):
     @commands.command()
     async def verify(self, ctx):
         """Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs."""
-        verification_number = random.randint(100, 999)
+        verification_number = random.randint(100, 99999)
         self.verification_dict[ctx.author.id] = verification_number
         await ctx.author.send(f"Please respond with this number to verify that you are a human: {verification_number}")
-        await ctx.send(f"{ctx.author.mention}, I've sent you a DM with your verification number!", delete_after=20)
+        await ctx.send(f"{ctx.author.mention}, I've sent you a DM with your verification number!", delete_after=10)
         await ctx.message.delete(delay=10)
 
     @commands.Cog.listener()
