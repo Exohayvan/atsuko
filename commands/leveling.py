@@ -5,8 +5,8 @@ import random
 import sqlite3
 import discord
 
-XP_RATE = 1.5
-CHANCE_RATE = 0.1
+XP_RATE = 2.2
+CHANCE_RATE = 0.45
 CHAR_XP = 0.1
 
 class Leveling(commands.Cog):
