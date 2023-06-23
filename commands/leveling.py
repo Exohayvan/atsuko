@@ -97,7 +97,7 @@ class Leveling(commands.Cog):
         for i, user in enumerate(leaderboard, start=1):
             member = ctx.guild.get_member(user[0])
             if member is not None and not member.bot:
-                formatted_xp = format_xp(user[2])  # use the function to format XP
+                formatted_xp = self.format_xp(user[2])  # use the function to format XP
                 embed.add_field(name=f"{i}) {member.mention} | Level {user[3]} | Total XP {formatted_xp}", value='\u200b', inline=False)
         await ctx.send(embed=embed)
 
