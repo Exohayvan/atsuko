@@ -68,6 +68,8 @@ async def load_cogs(bot, root_dir):
 @bot.event
 async def on_ready():
     print(f"We have logged in as {bot.user}")
+    user_count = sum(guild.member_count for guild in bot.guilds)
+    await bot.change_presence(activity=discord.Game(name=f"!help with {user_count} users"))
     await load_cogs(bot, 'commands')
 
 @bot.event
