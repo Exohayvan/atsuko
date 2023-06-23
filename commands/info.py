@@ -2,6 +2,7 @@ from discord.ext import commands
 import datetime
 import asyncio
 import discord
+import sqlite3
 
 class Info(commands.Cog):
     def __init__(self, bot):
