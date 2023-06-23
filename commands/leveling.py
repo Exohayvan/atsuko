@@ -54,8 +54,8 @@ class Leveling(commands.Cog):
         if user_data is None:
             await ctx.send(embed=discord.Embed(description=f'{user.mention} has no experience points.', color=0x00FFFF))
         else:
-            xp_to_next_level = round(user_data[4] - user_data[1], 1)
-            rounded_total_xp = round(user_data[2], 1)
+            xp_to_next_level = self.format_xp(user_data[4] - user_data[1])
+            rounded_total_xp = self.format_xp(user_data[2])
             await ctx.send(embed=discord.Embed(description=f'{user.mention} is level {user_data[3]}, with {rounded_total_xp} total experience points. They need {xp_to_next_level} more XP to level up.', color=0x00FFFF))
 
     async def recalculate_levels(self):
