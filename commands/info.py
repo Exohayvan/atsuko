@@ -62,10 +62,10 @@ class Info(commands.Cog):
         await self.send_uptime_message(ctx, "Total Lifetime Uptime", total_uptime)
 
     async def send_uptime_message(self, ctx, title, delta):
-        days, seconds = delta.days, delta.seconds
-        hours = days * 24 + seconds // 3600
-        minutes = (seconds % 3600) // 60
-        seconds = seconds % 60
+        days = delta.days
+        hours = delta.seconds // 3600
+        minutes = (delta.seconds // 60) % 60
+        seconds = delta.seconds % 60
 
         uptime_string = f"{days} days, {hours} hours, {minutes} minutes, {seconds} seconds."
 
