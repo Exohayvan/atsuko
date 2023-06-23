@@ -77,6 +77,20 @@ class Info(commands.Cog):
         embed.add_field(name=":black_heart: Offline Users", value=str(total_offline), inline=True)
         embed.add_field(name=":smiley: Emojis", value=str(total_emojis), inline=True)
 
+        # Most used commands
+        conn = sqlite3.connect('./data/command_usage.db')
+        c = conn.cursor()
+
+        # Get the most used commands
+        c.execute('SELECT command_name, SUM(usage_count) as total_usage FROM CommandUsage GROUP BY command_name ORDER BY total_usage DESC LIMIT ?', (number_of_commands,))
+
+        most_used_commands = c.fetchall()
+        conn.close()
+
+        # Add most used commands to the embed
+        if most_used_commands:
+            embed.add_field(name="Most Used Commands", value="\n".join(f"**{command[0]}**: {command[1]} uses" for command in most_used_commands), inline=False)
+
         await ctx.send(embed=embed)
 
     @commands.command()
