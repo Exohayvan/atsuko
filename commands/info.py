@@ -79,6 +79,7 @@ class Info(commands.Cog):
         embed.add_field(name=":smiley: Emojis", value=str(total_emojis), inline=True)
 
         # Most used commands
+        number_of_commands = 3
         conn = sqlite3.connect('./data/command_usage.db')
         c = conn.cursor()
 
