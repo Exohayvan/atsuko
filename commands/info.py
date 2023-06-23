@@ -46,6 +46,22 @@ class Info(commands.Cog):
         total_roles = sum(len(guild.roles) for guild in self.bot.guilds)
         api_latency = round(self.bot.latency * 1000, 2)  # in milliseconds
 
+        # Presence information
+        total_online = total_idle = total_dnd = total_offline = 0
+        for guild in self.bot.guilds:
+            for member in guild.members:
+                if str(member.status) == "online":
+                    total_online += 1
+                elif str(member.status) == "idle":
+                    total_idle += 1
+                elif str(member.status) == "dnd":
+                    total_dnd += 1
+                else:
+                    total_offline += 1
+
+        # Emoji count
+        total_emojis = sum(len(guild.emojis) for guild in self.bot.guilds)
+
         embed = discord.Embed(title="Bot Stats", color=discord.Color.blue())
 
         embed.add_field(name=":satellite: Servers", value=str(total_guilds), inline=True)
@@ -55,6 +71,11 @@ class Info(commands.Cog):
         embed.add_field(name=":loud_sound: Voice Channels", value=str(total_voice_channels), inline=True)
         embed.add_field(name=":military_medal: Roles", value=str(total_roles), inline=True)
         embed.add_field(name=":stopwatch: API Latency", value=f"{api_latency} ms", inline=True)
+        embed.add_field(name=":green_heart: Online Users", value=str(total_online), inline=True)
+        embed.add_field(name=":yellow_heart: Idle Users", value=str(total_idle), inline=True)
+        embed.add_field(name=":heart: DND Users", value=str(total_dnd), inline=True)
+        embed.add_field(name=":black_heart: Offline Users", value=str(total_offline), inline=True)
+        embed.add_field(name=":smiley: Emojis", value=str(total_emojis), inline=True)
 
         await ctx.send(embed=embed)
 
