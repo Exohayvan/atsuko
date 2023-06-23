@@ -40,4 +40,4 @@ class CommandUsageTracker(commands.Cog):
         conn.close()
 
 async def setup(bot):
-    bot.add_cog(CommandUsageTracker(bot))
+    await bot.add_cog(CommandUsageTracker(bot))
