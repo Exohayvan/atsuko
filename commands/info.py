@@ -37,17 +37,24 @@ class Info(commands.Cog):
 
     @commands.command()
     async def stats(self, ctx):
-        """Shows the bot's current stats, including the number of guilds and users."""
+        """Shows the bot's current stats, including the number of guilds, users, and more."""
         total_guilds = len(self.bot.guilds)
         total_users = sum(guild.member_count for guild in self.bot.guilds)
         total_channels = sum(len(guild.channels) for guild in self.bot.guilds)
+        total_text_channels = sum(len(guild.text_channels) for guild in self.bot.guilds)
+        total_voice_channels = total_channels - total_text_channels
+        total_roles = sum(len(guild.roles) for guild in self.bot.guilds)
         api_latency = round(self.bot.latency * 1000, 2)  # in milliseconds
 
         embed = discord.Embed(title="Bot Stats", color=discord.Color.blue())
-        embed.add_field(name="Servers", value=str(total_guilds), inline=True)
-        embed.add_field(name="Users", value=str(total_users), inline=True)
-        embed.add_field(name="Channels", value=str(total_channels), inline=True)
-        embed.add_field(name="API Latency", value=f"{api_latency} ms", inline=True)
+
+        embed.add_field(name=":satellite: Servers", value=str(total_guilds), inline=True)
+        embed.add_field(name=":busts_in_silhouette: Users", value=str(total_users), inline=True)
+        embed.add_field(name=":file_folder: Channels", value=str(total_channels), inline=True)
+        embed.add_field(name=":speech_balloon: Text Channels", value=str(total_text_channels), inline=True)
+        embed.add_field(name=":loud_sound: Voice Channels", value=str(total_voice_channels), inline=True)
+        embed.add_field(name=":military_medal: Roles", value=str(total_roles), inline=True)
+        embed.add_field(name=":stopwatch: API Latency", value=f"{api_latency} ms", inline=True)
 
         await ctx.send(embed=embed)
 
