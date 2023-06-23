@@ -38,10 +38,6 @@ def get_config():
         config = json.load(f)
     return config
 
-import asyncio
-
-import asyncio
-
 async def load_cogs(bot, root_dir):
     tasks = []
     for dirpath, dirnames, filenames in os.walk(root_dir):
