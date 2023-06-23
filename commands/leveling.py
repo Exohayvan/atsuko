@@ -80,9 +80,7 @@ class Leveling(commands.Cog):
             embed = Embed(description=f'XP for user {user.name} has been removed.', color=0x00FFFF)
             await ctx.send(embed=embed)
 
-    async def format_xp(amount):
-        # Credit to Martijn Pieters for this solution:
-        # https://stackoverflow.com/questions/3154460/python-human-readable-large-numbers
+    def format_xp(self, amount):
         magnitude = 0
         while abs(amount) >= 1000:
             magnitude += 1
