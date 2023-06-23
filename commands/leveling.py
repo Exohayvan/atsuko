@@ -8,6 +8,7 @@ import discord
 XP_RATE = 2.2
 CHANCE_RATE = 0.45
 CHAR_XP = 0.1
+START_CAP = 100 #not implemented
 
 class Leveling(commands.Cog):
     def __init__(self, bot):
