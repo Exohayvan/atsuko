@@ -80,6 +80,15 @@ class Leveling(commands.Cog):
             embed = Embed(description=f'XP for user {user.name} has been removed.', color=0x00FFFF)
             await ctx.send(embed=embed)
 
+    def format_xp(amount):
+        # Credit to Martijn Pieters for this solution:
+        # https://stackoverflow.com/questions/3154460/python-human-readable-large-numbers
+        magnitude = 0
+        while abs(amount) >= 1000:
+            magnitude += 1
+            amount /= 1000.0
+        return '%.1f%s' % (amount, ['', 'K', 'M', 'B', 'T', 'P'][magnitude])
+
     @commands.command()
     async def leaderboard(self, ctx):
         self.cursor.execute("SELECT * FROM users ORDER BY total_xp DESC LIMIT 10")
@@ -88,7 +97,8 @@ class Leveling(commands.Cog):
         for i, user in enumerate(leaderboard, start=1):
             member = ctx.guild.get_member(user[0])
             if member is not None and not member.bot:
-                embed.add_field(name=f"{i}) {member.mention} | Level {user[3]} | Total XP {round(user[2], 1)}", value='\u200b', inline=False)
+                formatted_xp = format_xp(user[2])  # use the function to format XP
+                embed.add_field(name=f"{i}) {member.mention} | Level {user[3]} | Total XP {formatted_xp}", value='\u200b', inline=False)
         await ctx.send(embed=embed)
 
     @commands.command()
