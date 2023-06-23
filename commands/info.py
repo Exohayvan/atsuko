@@ -40,13 +40,17 @@ class Info(commands.Cog):
         """Shows the bot's current stats, including the number of guilds and users."""
         total_guilds = len(self.bot.guilds)
         total_users = sum(guild.member_count for guild in self.bot.guilds)
+        total_channels = sum(len(guild.channels) for guild in self.bot.guilds)
+        api_latency = round(self.bot.latency * 1000, 2)  # in milliseconds
 
         embed = discord.Embed(title="Bot Stats", color=discord.Color.blue())
         embed.add_field(name="Servers", value=str(total_guilds), inline=True)
         embed.add_field(name="Users", value=str(total_users), inline=True)
+        embed.add_field(name="Channels", value=str(total_channels), inline=True)
+        embed.add_field(name="API Latency", value=f"{api_latency} ms", inline=True)
 
         await ctx.send(embed=embed)
-        
+
     @commands.command()
     async def uptime(self, ctx):
         """Shows the current uptime of the bot since last reboot."""
