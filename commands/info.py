@@ -54,7 +54,7 @@ class Info(commands.Cog):
             description=f"Here is some info about {self.bot.user.name}!",
             color=discord.Color.blue()
         )
-        embed.set_thumbnail(url=self.bot.user.avatar_url_as(format='png'))
+        embed.set_thumbnail(url=self.bot.user.avatar_url)
 
         embed.add_field(name=":bust_in_silhouette: Owner", value=f"{owner.name}#{owner.discriminator}", inline=True)
         embed.add_field(name=":calendar: Created On", value=creation_time.strftime("%B %d, %Y at %H:%M UTC"), inline=True)
