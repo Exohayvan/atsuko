@@ -79,7 +79,7 @@ class Random(commands.Cog):
     @random.command()
     async def emoji(self, ctx):
         """Returns a random emoji."""
-        random_emoji = emoji.random_emoji()
+        random_emoji = random.choice(emoji.emojize(":{}:".format(random.choice(list(emoji.UNICODE_EMOJI.keys())))))
         await ctx.send(f"Random Emoji: {random_emoji}")
 
 async def setup(bot):
