@@ -1,11 +1,17 @@
 from discord.ext import commands
+import string
 import random
-import requests
+import aiohttp
 import discord
 
 class Random(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.session = aiohttp.ClientSession()
+
+    async def fetch(self, url):
+        async with self.session.get(url) as response:
+            return response.status
 
     @commands.group(invoke_without_command=True)
     async def random(self, ctx):
@@ -15,14 +21,31 @@ class Random(commands.Cog):
     @random.command()
     async def website(self, ctx):
         """Returns a random website."""
-        # you need a list of websites to choose from
-        websites = ['http://example1.com', 'http://example2.com', 'http://example3.com']
-        result = random.choice(websites)
 
-        embed = discord.Embed(title="Random Website", description=result)
-        embed.set_footer(text="This is a randomly generated website. Please browse at your own risk.")
+        websites_checked = 0
+        loading_message = await ctx.send(embed=discord.Embed(
+            title="Generating a random website…",
+            description=f"Websites checked: {websites_checked}"
+        ))
 
-        await ctx.send(embed=embed)
+        while True:
+            random_url = f"https://www.{''.join(random.choices(string.ascii_lowercase, k=10))}.com"
+            status = await self.fetch(random_url)
+            websites_checked += 1
+
+            if websites_checked % 20 == 0:
+                await loading_message.edit(embed=discord.Embed(
+                    title="Generating a random website…",
+                    description=f"Websites checked: {websites_checked}"
+                ))
+
+            if status == 200:
+                await loading_message.edit(embed=discord.Embed(
+                    title="Random Website", 
+                    description=random_url,
+                    footer="This is a randomly generated website. Please browse at your own risk."
+                ))
+                break
 
     @random.command()
     async def reddit(self, ctx):
