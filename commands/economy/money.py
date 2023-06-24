@@ -161,7 +161,7 @@ class Money(commands.Cog):
             if roll <= 1:  # Win
                 self.cursor.execute('SELECT balance FROM Pot WHERE pot_id=1')
                 pot_balance = self.cursor.fetchone()[0]
-                win_ammount = (pot_balance - amount)
+                win_balance = (pot_balance - amount)
                 self.cursor.execute('UPDATE UserBalance SET balance=balance+? WHERE user_id=?', (pot_balance, user_id))
                 self.cursor.execute('UPDATE Pot SET balance=100 WHERE pot_id=1')
                 self.db.commit()
