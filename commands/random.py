@@ -1,9 +1,9 @@
+import re
 from discord.ext import commands
 import string
 import random
 import aiohttp
 import discord
-from bs4 import BeautifulSoup
 
 class Random(commands.Cog):
     def __init__(self, bot):
@@ -32,11 +32,9 @@ class Random(commands.Cog):
 
         html = await self.fetch("http://random.whatsmyip.org/")
         if html is not None:
-            print(html)  # Debugging output
-            soup = BeautifulSoup(html, 'html.parser')
-            random_link_element = soup.find(id="random_link")
-            if random_link_element is not None and 'href' in random_link_element.attrs:
-                random_url = random_link_element['href']  # extract the URL from the href attribute
+            random_url = re.search(r'<a id="random_link" target="_top" href="(.*?)"', html)
+            if random_url:
+                random_url = random_url.group(1)
                 await loading_message.edit(embed=discord.Embed(
                     title="Random Website", 
                     description=random_url,
