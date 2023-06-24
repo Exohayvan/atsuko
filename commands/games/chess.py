@@ -7,7 +7,12 @@ class Chess(commands.Cog):
         self.bot = bot
         self.games = {}
 
-    @commands.command()
+    @commands.group(invoke_without_command=True)
+    async def chess(self, ctx):
+        """Main chess command."""
+        await ctx.send("Use '!chess start' to start a new game or '!chess move [move]' to make a move.")
+
+    @chess.command()
     async def start(self, ctx):
         """Starts a new chess game."""
         if ctx.channel.id in self.games:
@@ -17,20 +22,20 @@ class Chess(commands.Cog):
         game = chess.Board()
         self.games[ctx.channel.id] = game
 
-        await ctx.send("A new chess game has started. Use the move command to play.")
+        await ctx.send("A new chess game has started. Use '!chess move [move]' to play.")
 
-    @commands.command()
+    @chess.command()
     async def move(self, ctx, move: str):
         """Makes a move in the current chess game."""
         if ctx.channel.id not in self.games:
-            await ctx.send("No game in progress. Start a new game with the start command.")
+            await ctx.send("No game in progress. Start a new game with '!chess start'.")
             return
 
         game = self.games[ctx.channel.id]
         try:
             chess.Move.from_uci(move)  # Validate the move format
         except ValueError:
-            await ctx.send("Invalid move format. Use the move command followed by a valid move in UCI format (e.g., e2e4).")
+            await ctx.send("Invalid move format. Use '!chess move [move]' with a valid move in UCI format (e.g., e2e4).")
             return
 
         if chess.Move.from_uci(move) not in game.legal_moves:
