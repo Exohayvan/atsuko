@@ -22,7 +22,7 @@ class Random(commands.Cog):
     @commands.group(invoke_without_command=True)
     async def random(self, ctx):
         """Shows a help message for the random group command."""
-        await ctx.send("Use !random with one of the following: website, reddit, saying")
+        await ctx.send("Use !random with one of the following: website, reddit, saying, emoji")
 
     @random.command()
     async def website(self, ctx):
