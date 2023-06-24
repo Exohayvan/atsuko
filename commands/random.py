@@ -34,7 +34,7 @@ class Random(commands.Cog):
         if html is not None:
             soup = BeautifulSoup(html, 'html.parser')
             random_link_element = soup.find(id="random_link")
-            if random_link_element is not None:
+            if random_link_element is not None and 'href' in random_link_element.attrs:
                 random_url = random_link_element['href']  # extract the URL from the href attribute
                 await loading_message.edit(embed=discord.Embed(
                     title="Random Website", 
