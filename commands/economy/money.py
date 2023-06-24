@@ -157,7 +157,7 @@ class Money(commands.Cog):
         # Start rolling
         await ctx.send("Starting roll...")
         for _ in range(amount):
-            roll = random.randint(1, 300)
+            roll = random.randint(1, 1000)
             if roll <= 1:  # Win
                 self.cursor.execute('SELECT balance FROM Pot WHERE pot_id=1')
                 pot_balance = self.cursor.fetchone()[0]
