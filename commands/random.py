@@ -37,16 +37,19 @@ class Random(commands.Cog):
     @random.command()
     async def saying(self, ctx):
         """Returns a random saying."""
-        response = requests.get("https://quote-garden.herokuapp.com/api/v3/quotes/random")
-        data = response.json()
+        response = requests.get("https://api.quotable.io/random")
+    
+        if response.status_code == 200:
+            try:
+                data = response.json()
+                quote = data['content']
+                author = data['author']
 
-        if response.status_code == 200 and data.get('data'):
-            result = data['data'][0]['quoteText']
-            author = data['data'][0]['quoteAuthor']
-
-            embed = discord.Embed(title="Random Saying", description=f'"{result}" - {author}')
-            embed.set_footer(text="This is a randomly generated saying. Interpret at your own risk.")
-            await ctx.send(embed=embed)
+                embed = discord.Embed(title="Random Saying", description=f'"{quote}" - {author}')
+                embed.set_footer(text="This is a randomly generated saying. Interpret at your own risk.")
+                await ctx.send(embed=embed)
+            except json.JSONDecodeError:
+                await ctx.send("Sorry, the quote API did not return valid JSON.")
         else:
             await ctx.send("Sorry, I couldn't fetch a saying right now.")
 
