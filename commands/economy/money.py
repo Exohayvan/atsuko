@@ -172,7 +172,6 @@ class Money(commands.Cog):
             # If not a win, take bet from balance and add to pot
             self.cursor.execute('UPDATE UserBalance SET balance=balance-1 WHERE user_id=?', (user_id,))
             self.cursor.execute('UPDATE Pot SET balance=balance+1 WHERE pot_id=1')
-            await ctx.send("Sorry but you didn't win.")
         self.db.commit()
         await ctx.send("Rolls finished.")
         
