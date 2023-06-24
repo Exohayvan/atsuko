@@ -30,15 +30,15 @@ class Money(commands.Cog):
         if member is None:
             member = ctx.author
         user_id = str(member.id)
-
-        self.cursor.execute('SELECT balance FROM UserBalance WHERE user_id=?', (user_id,))
+    
+        self.cursor.execute('SELECT balance, investment FROM UserBalance WHERE user_id=?', (user_id,))
         result = self.cursor.fetchone()
-
+    
         if result:
-            await ctx.send(f"{member.mention} has {result[0]} {CURRENCY_NAME}.")
+            await ctx.send(f"{member.mention} has {result[0]} {CURRENCY_NAME} and {result[1]} {CURRENCY_NAME} invested.")
         else:
             await ctx.send(f"{member.mention} has 0 {CURRENCY_NAME}.")
-
+    
     @commands.command()
     async def daily(self, ctx):
         """Receive your daily gold."""
@@ -87,6 +87,26 @@ class Money(commands.Cog):
 
         await ctx.send(f"You invested {amount} {CURRENCY_NAME}.")
 
+    @commands.command()
+    async def uninvest(self, ctx, amount: int):
+        """Uninvest your gold, with a 10% penalty."""
+        user_id = str(ctx.author.id)
+    
+        # Check if the user has enough gold invested
+        self.cursor.execute('SELECT investment FROM UserBalance WHERE user_id=?', (user_id,))
+        result = self.cursor.fetchone()
+        if result is None or result[0] < amount:
+            await ctx.send("You don't have enough gold invested to withdraw.")
+            return
+    
+        # Subtract gold from the investment and add 90% to balance
+        penalty = int(amount * 0.1)  # 10% penalty
+        return_amount = int(amount - penalty)  # Amount returned to balance (ensure it's integer by rounding down)
+        self.cursor.execute('UPDATE UserBalance SET balance=balance+?, investment=investment-? WHERE user_id=?', (return_amount, amount, user_id))
+        self.db.commit()
+    
+        await ctx.send(f"You uninvested {amount} {CURRENCY_NAME}. You received {return_amount} {CURRENCY_NAME} back after a 10% penalty.")
+    
     @commands.command()
     async def give(self, ctx, member: commands.MemberConverter, amount: int):
         """Give gold to someone."""
