@@ -32,6 +32,7 @@ class Random(commands.Cog):
 
         html = await self.fetch("http://random.whatsmyip.org/")
         if html is not None:
+            print(html)  # Debugging output
             soup = BeautifulSoup(html, 'html.parser')
             random_link_element = soup.find(id="random_link")
             if random_link_element is not None and 'href' in random_link_element.attrs:
