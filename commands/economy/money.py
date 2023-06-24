@@ -47,9 +47,12 @@ class Money(commands.Cog):
         self.cursor.execute('SELECT balance, investment, last_daily FROM UserBalance WHERE user_id=?', (user_id,))
         result = self.cursor.fetchone()
 
-        if result and result[2] is not None and datetime.now() - datetime.strptime(result[2], "%Y-%m-%d %H:%M:%S.%f") < timedelta(days=1):
-            await ctx.send('You already received your daily gold. Please wait until tomorrow.')
-            return
+        if result and result[2] is not None:
+            time_difference = datetime.now() - datetime.strptime(result[2], "%Y-%m-%d %H:%M:%S.%f")
+            if time_difference < timedelta(days=1):
+                time_left = timedelta(days=1) - time_difference
+                await ctx.send(f'You already received your daily gold. Please wait {str(time_left)} to claim again.')
+                return
 
         gold_gain = random.randint(MIN_AMT, MAX_AMT) if random.randint(1, 100) > ZERO_AMT_CHANCE else 0
         invest_gain = int(result[1] * INVEST_RETURN) if result else 0
