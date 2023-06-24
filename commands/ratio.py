@@ -68,5 +68,5 @@ class Ratio(commands.Cog):
         response = random.choice(ratios)
         await ctx.send(response)
 
-def setup(bot):
+async def setup(bot):
     await bot.add_cog(Ratio(bot))
