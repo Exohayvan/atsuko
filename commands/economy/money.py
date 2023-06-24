@@ -51,7 +51,9 @@ class Money(commands.Cog):
             time_difference = datetime.now() - datetime.strptime(result[2], "%Y-%m-%d %H:%M:%S.%f")
             if time_difference < timedelta(days=1):
                 time_left = timedelta(days=1) - time_difference
-                await ctx.send(f'You already received your daily gold. Please wait {str(time_left)} to claim again.')
+                hours, remainder = divmod(time_left.seconds, 3600)
+                minutes, _ = divmod(remainder, 60)
+                await ctx.send(f'You already received your daily gold. Please wait {hours} hour(s) and {minutes} minute(s) to claim again.')
                 return
 
         gold_gain = random.randint(MIN_AMT, MAX_AMT) if random.randint(1, 100) > ZERO_AMT_CHANCE else 0
