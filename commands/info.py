@@ -38,6 +38,33 @@ class Info(commands.Cog):
         self.uptime_start = datetime.datetime.utcnow()
 
     @commands.command()
+    async def info(self, ctx):
+        """Provides detailed information about the bot."""
+        creation_time = self.bot.user.created_at
+        owner_id = 276782057412362241  # change this to your user ID
+        github_link = "https://github.com/Exohayvan/astuko"  # change this to your repository URL
+        library_version = discord.__version__  # discord.py library version
+        permissions = Permissions.all()
+        invite_link = f"https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&permissions={permissions.value}&scope=bot"
+
+        owner = await self.bot.fetch_user(owner_id)
+
+        embed = discord.Embed(
+            title="🤖 Bot Information",
+            description=f"Here is some info about {self.bot.user.name}!",
+            color=discord.Color.blue()
+        )
+        embed.set_thumbnail(url=self.bot.user.avatar_url)
+
+        embed.add_field(name=":bust_in_silhouette: Owner", value=f"{owner.name}#{owner.discriminator}", inline=True)
+        embed.add_field(name=":calendar: Created On", value=creation_time.strftime("%B %d, %Y at %H:%M UTC"), inline=True)
+        embed.add_field(name=":books: Library", value=f"discord.py {library_version}", inline=True)
+        embed.add_field(name=":link: GitHub", value=f"[Repository]({github_link})", inline=True)
+        embed.add_field(name=":mailbox_with_mail: Invite", value=f"[Click here]({invite_link})", inline=True)
+
+        await ctx.send(embed=embed)
+
+    @commands.command()
     async def invite(self, ctx):
         """Generates an invite link for the bot."""
         permissions = Permissions.all()
