@@ -64,7 +64,7 @@ class Leveling(commands.Cog):
         for user in users:
             total_xp = user[2]
             level = 0
-            next_level_xp = 100
+            next_level_xp = START_CAP
             while total_xp > next_level_xp:
                 total_xp -= next_level_xp
                 level += 1
@@ -114,7 +114,7 @@ class Leveling(commands.Cog):
                 if user_data is not None:
                     total_xp = user_data[2]
                     level = 0
-                    next_level_xp = 100
+                    next_level_xp = START_CAP
                     while total_xp > next_level_xp:
                         total_xp -= next_level_xp
                         level += 1
