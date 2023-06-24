@@ -54,10 +54,12 @@ class Money(commands.Cog):
         gold_gain = random.randint(MIN_AMT, MAX_AMT) if random.randint(1, 100) > ZERO_AMT_CHANCE else 0
         invest_gain = int(result[1] * INVEST_RETURN) if result else 0
 
+        total_gain = int(gold_gain + invest_gain)  # Ensure total gain is an integer
+
         if result:
-            self.cursor.execute('UPDATE UserBalance SET balance=balance+?+?, last_daily=? WHERE user_id=?', (gold_gain, invest_gain, datetime.now(), user_id))
+            self.cursor.execute('UPDATE UserBalance SET balance=balance+?, last_daily=? WHERE user_id=?', (total_gain, datetime.now(), user_id))
         else:
-            self.cursor.execute('INSERT INTO UserBalance (user_id, balance, last_daily) VALUES (?, ?, ?)', (user_id, gold_gain + invest_gain, datetime.now()))
+            self.cursor.execute('INSERT INTO UserBalance (user_id, balance, last_daily) VALUES (?, ?, ?)', (user_id, total_gain, datetime.now()))
 
         self.db.commit()
         await ctx.send(f"You received {gold_gain} {CURRENCY_NAME}.\nYour investments brought in an additional {invest_gain} {CURRENCY_NAME}!")
