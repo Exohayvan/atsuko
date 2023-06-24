@@ -159,7 +159,6 @@ class Money(commands.Cog):
         rolled = 0
         for _ in range(amount):
             roll = random.randint(1, 1000)
-            rolled += 1
             if roll <= 1:  # Win
                 self.cursor.execute('SELECT balance FROM Pot WHERE pot_id=1')
                 pot_balance = self.cursor.fetchone()[0]
@@ -170,7 +169,7 @@ class Money(commands.Cog):
 
                 await ctx.send(f"You won the pot of {win_balance} {CURRENCY_NAME}!")
                 return  # Return after winning
-
+            rolled += 1
             # If not a win, take bet from balance and add to pot
             self.cursor.execute('UPDATE UserBalance SET balance=balance-1 WHERE user_id=?', (user_id,))
             self.cursor.execute('UPDATE Pot SET balance=balance+1 WHERE pot_id=1')
