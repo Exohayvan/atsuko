@@ -83,7 +83,14 @@ class Random(commands.Cog):
         emoji_end = 0x1F9FF
         random_code_point = random.randint(emoji_start, emoji_end)
         random_emoji = chr(random_code_point)
-        await ctx.send(f"Random Emoji: {random_emoji}")
+        
+        embed = discord.Embed(title="Random Emoji", description=random_emoji)
+        embed.set_footer(text="This is a randomly generated emoji.")
+        
+        emoji_url = f"https://twemoji.maxcdn.com/v/latest/72x72/{random_code_point:x}.png"
+        embed.set_thumbnail(url=emoji_url)
 
+        await ctx.send(embed=embed)
+        
 async def setup(bot):
     await bot.add_cog(Random(bot))
