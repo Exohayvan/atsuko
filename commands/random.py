@@ -32,7 +32,7 @@ class Random(commands.Cog):
 
         html = await self.fetch("http://random.whatsmyip.org/")
         if html is not None:
-            random_url = re.search(r'<a id="random_link" target="_top" href="(.*?)"', html)
+            random_url = re.search(r'<a\s+id="random_link"\s+target="_top"\s+href="(.*?)"', html)
             if random_url:
                 random_url = random_url.group(1)
                 await loading_message.edit(embed=discord.Embed(
