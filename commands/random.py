@@ -5,6 +5,7 @@ import random
 import aiohttp
 import discord
 import requests
+import emoji
 
 class Random(commands.Cog):
     def __init__(self, bot):
@@ -74,6 +75,12 @@ class Random(commands.Cog):
                 await ctx.send("Sorry, the quote API did not return valid JSON.")
         else:
             await ctx.send("Sorry, I couldn't fetch a saying right now.")
+
+    @random.command()
+    async def emoji(self, ctx):
+        """Returns a random emoji."""
+        random_emoji = emoji.emojize(random.choice(list(emoji.UNICODE_EMOJI.keys())))
+        await ctx.send(f"Random Emoji: {random_emoji}")
 
 async def setup(bot):
     await bot.add_cog(Random(bot))
