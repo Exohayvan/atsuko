@@ -37,6 +37,13 @@ class Info(commands.Cog):
         self.uptime_start = datetime.datetime.utcnow()
 
     @commands.command()
+    async def invite(self, ctx):
+        """Generates an invite link for the bot."""
+        permissions = Permissions.all()
+        invite_link = f"https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&permissions={permissions}&scope=bot"
+        await ctx.send(f"Invite me to your server using this link: {invite_link}")
+
+    @commands.command()
     async def stats(self, ctx):
         """Shows the bot's current stats, including the number of guilds, users, and more."""
         total_guilds = len(self.bot.guilds)
