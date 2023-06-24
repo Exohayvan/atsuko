@@ -166,7 +166,7 @@ class Money(commands.Cog):
                 self.cursor.execute('UPDATE Pot SET balance=100 WHERE pot_id=1')
                 self.db.commit()
 
-                await ctx.send(f"You won the pot of {pot_balance} {CURRENCY_NAME}!")
+                await ctx.send(f"You won the pot of {win_balance} {CURRENCY_NAME}!")
                 return  # Return after winning
 
             # If not a win, take bet from balance and add to pot
