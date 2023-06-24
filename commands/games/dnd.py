@@ -15,8 +15,12 @@ class DND(commands.Cog):
         self.bot = bot
         self.characters = {}
 
-    @commands.command()
-    async def create_character(self, ctx):
+    @commands.group(invoke_without_command=True)
+    async def dnd(self, ctx):
+        await ctx.send('D&D command group. Use !dnd create to create a character or !dnd show to show your character.')
+
+    @dnd.command()
+    async def create(self, ctx):
         """Creates a D&D character for the user."""
         user_id = ctx.author.id
         if user_id in self.characters:
@@ -42,13 +46,13 @@ class DND(commands.Cog):
 
         await ctx.send("Your Character Will start at level 1!")
         level = 1
-        
+
         character = Character(name, race, character_class, level)
         self.characters[user_id] = character
         await ctx.send(f"Character '{name}' created for user {ctx.author.mention}!")
 
-    @commands.command()
-    async def show_character(self, ctx):
+    @dnd.command()
+    async def show(self, ctx):
         """Displays the character of the user."""
         user_id = ctx.author.id
         character = self.characters.get(user_id)
