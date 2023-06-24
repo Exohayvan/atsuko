@@ -1,7 +1,12 @@
 from discord.ext import commands
 import random
 import sqlite3
-import datetime
+from datetime import datetime, timedelta
+
+# Define these at the top of your script
+MAX_AMT = 250
+MIN_AMT = 50
+CURRENCY_NAME = "gold"
 
 class Money(commands.Cog):
     def __init__(self, bot):
@@ -27,9 +32,9 @@ class Money(commands.Cog):
         result = self.cursor.fetchone()
 
         if result:
-            await ctx.send(f"{member.mention} has {result[0]} gold.")
+            await ctx.send(f"{member.mention} has {result[0]} {CURRENCY_NAME}.")
         else:
-            await ctx.send(f"{member.mention} has 0 gold.")
+            await ctx.send(f"{member.mention} has 0 {CURRENCY_NAME}.")
 
     @commands.command()
     async def daily(self, ctx):
@@ -38,21 +43,22 @@ class Money(commands.Cog):
 
         self.cursor.execute('SELECT balance, last_daily FROM UserBalance WHERE user_id=?', (user_id,))
         result = self.cursor.fetchone()
-        if result and result[1] == str(datetime.date.today()):
-            await ctx.send('You already received your daily gold.')
+
+        if result and result[1] is not None and datetime.now() - datetime.strptime(result[1], "%Y-%m-%d %H:%M:%S.%f") < timedelta(days=1):
+            await ctx.send('You already received your daily gold. Please wait until tomorrow.')
             return
 
         gold_gain = 0
         if random.randint(1, 100) <= 80:
-            gold_gain = random.randint(50, 250)
+            gold_gain = random.randint(MIN_AMT, MAX_AMT)
 
         if result:
-            self.cursor.execute('UPDATE UserBalance SET balance=balance+?, last_daily=? WHERE user_id=?', (gold_gain, str(datetime.date.today()), user_id))
+            self.cursor.execute('UPDATE UserBalance SET balance=balance+?, last_daily=? WHERE user_id=?', (gold_gain, datetime.now(), user_id))
         else:
-            self.cursor.execute('INSERT INTO UserBalance (user_id, balance, last_daily) VALUES (?, ?, ?)', (user_id, gold_gain, str(datetime.date.today())))
+            self.cursor.execute('INSERT INTO UserBalance (user_id, balance, last_daily) VALUES (?, ?, ?)', (user_id, gold_gain, datetime.now()))
 
         self.db.commit()
-        await ctx.send(f"You received {gold_gain} gold.")
+        await ctx.send(f"You received {gold_gain} {CURRENCY_NAME}.")
 
 async def setup(bot):
     await bot.add_cog(Money(bot))
