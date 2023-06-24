@@ -161,7 +161,7 @@ class Money(commands.Cog):
             if roll <= 1:  # Win
                 self.cursor.execute('SELECT balance FROM Pot WHERE pot_id=1')
                 pot_balance = self.cursor.fetchone()[0]
-
+                win_ammount = (pot_balance - amount)
                 self.cursor.execute('UPDATE UserBalance SET balance=balance+? WHERE user_id=?', (pot_balance, user_id))
                 self.cursor.execute('UPDATE Pot SET balance=100 WHERE pot_id=1')
                 self.db.commit()
@@ -173,7 +173,7 @@ class Money(commands.Cog):
             self.cursor.execute('UPDATE UserBalance SET balance=balance-1 WHERE user_id=?', (user_id,))
             self.cursor.execute('UPDATE Pot SET balance=balance+1 WHERE pot_id=1')
         self.db.commit()
-        await ctx.send("Rolls finished.")
+        await ctx.send("All Rolls finished. You didn't win the pot, new pot balance is {pot_balance} {CURRENCY_NAME}!")
         
     @commands.command(aliases=['pot'])
     async def jackpot(self, ctx):
