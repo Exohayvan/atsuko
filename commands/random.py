@@ -3,6 +3,7 @@ import string
 import random
 import aiohttp
 import discord
+from bs4 import BeautifulSoup
 
 class Random(commands.Cog):
     def __init__(self, bot):
@@ -12,7 +13,7 @@ class Random(commands.Cog):
     async def fetch(self, url):
         try:
             async with self.session.get(url) as response:
-                return response.status
+                return await response.text()
         except Exception:
             return None
 
@@ -25,30 +26,25 @@ class Random(commands.Cog):
     async def website(self, ctx):
         """Returns a random website."""
 
-        websites_checked = 0
         loading_message = await ctx.send(embed=discord.Embed(
             title="Generating a random website…",
-            description=f"Websites checked: {websites_checked}"
         ))
 
-        while True:
-            random_url = f"https://www.{''.join(random.choices(string.ascii_lowercase, k=10))}.com"
-            status = await self.fetch(random_url)
-            websites_checked += 1
-
-            if websites_checked % 20 == 0:
-                await loading_message.edit(embed=discord.Embed(
-                    title="Generating a random website…",
-                    description=f"Websites checked: {websites_checked}"
-                ))
-
-            if status == 200:
+        html = await self.fetch("http://random.whatsmyip.org/")
+        if html is not None:
+            soup = BeautifulSoup(html, 'html.parser')
+            random_link_element = soup.find(id="random_link")
+            if random_link_element is not None:
+                random_url = random_link_element['href']  # extract the URL from the href attribute
                 await loading_message.edit(embed=discord.Embed(
                     title="Random Website", 
                     description=random_url,
                     footer="This is a randomly generated website. Please browse at your own risk."
                 ))
-                break
+            else:
+                await ctx.send("Failed to find random URL in HTML")
+        else:
+            await ctx.send("Failed to fetch random URL")
 
     @random.command()
     async def reddit(self, ctx):
