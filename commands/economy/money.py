@@ -22,6 +22,14 @@ class Money(commands.Cog):
         investment INTEGER DEFAULT 0,
         last_daily TEXT DEFAULT NULL
         )''')
+
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS Pot (
+        pot_id INTEGER PRIMARY KEY,
+        balance INTEGER DEFAULT 100
+        )''')
+
+        self.cursor.execute("INSERT INTO Pot (pot_id, balance) SELECT 1, 100 WHERE NOT EXISTS(SELECT 1 FROM Pot WHERE pot_id = 1)")
         self.db.commit()
 
     @commands.command(aliases=['bal'])
