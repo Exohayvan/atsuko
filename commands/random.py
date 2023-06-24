@@ -4,6 +4,7 @@ import string
 import random
 import aiohttp
 import discord
+import requests
 
 class Random(commands.Cog):
     def __init__(self, bot):
