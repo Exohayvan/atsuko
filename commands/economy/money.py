@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 MAX_AMT = 250
 MIN_AMT = 50
 ZERO_AMT_CHANCE = 20  # Chance of receiving zero gold
+INVEST_RETURN = 0.05  # 5% return on investment
 CURRENCY_NAME = "gold"
 
 class Money(commands.Cog):
@@ -18,6 +19,7 @@ class Money(commands.Cog):
         CREATE TABLE IF NOT EXISTS UserBalance (
         user_id TEXT PRIMARY KEY,
         balance INTEGER DEFAULT 0,
+        investment INTEGER DEFAULT 0,
         last_daily TEXT DEFAULT NULL
         )''')
         self.db.commit()
@@ -42,22 +44,41 @@ class Money(commands.Cog):
         """Receive your daily gold."""
         user_id = str(ctx.author.id)
 
-        self.cursor.execute('SELECT balance, last_daily FROM UserBalance WHERE user_id=?', (user_id,))
+        self.cursor.execute('SELECT balance, investment, last_daily FROM UserBalance WHERE user_id=?', (user_id,))
         result = self.cursor.fetchone()
 
-        if result and result[1] is not None and datetime.now() - datetime.strptime(result[1], "%Y-%m-%d %H:%M:%S.%f") < timedelta(days=1):
+        if result and result[2] is not None and datetime.now() - datetime.strptime(result[2], "%Y-%m-%d %H:%M:%S.%f") < timedelta(days=1):
             await ctx.send('You already received your daily gold. Please wait until tomorrow.')
             return
 
         gold_gain = random.randint(MIN_AMT, MAX_AMT) if random.randint(1, 100) > ZERO_AMT_CHANCE else 0
+        invest_gain = int(result[1] * INVEST_RETURN) if result else 0
 
         if result:
-            self.cursor.execute('UPDATE UserBalance SET balance=balance+?, last_daily=? WHERE user_id=?', (gold_gain, datetime.now(), user_id))
+            self.cursor.execute('UPDATE UserBalance SET balance=balance+?+?, last_daily=? WHERE user_id=?', (gold_gain, invest_gain, datetime.now(), user_id))
         else:
-            self.cursor.execute('INSERT INTO UserBalance (user_id, balance, last_daily) VALUES (?, ?, ?)', (user_id, gold_gain, datetime.now()))
+            self.cursor.execute('INSERT INTO UserBalance (user_id, balance, last_daily) VALUES (?, ?, ?)', (user_id, gold_gain + invest_gain, datetime.now()))
 
         self.db.commit()
-        await ctx.send(f"You received {gold_gain} {CURRENCY_NAME}.")
+        await ctx.send(f"You received {gold_gain} {CURRENCY_NAME}.\nYour investments brought in an additional {invest_gain} {CURRENCY_NAME}!")
+
+    @commands.command()
+    async def invest(self, ctx, amount: int):
+        """Invest your gold to earn more."""
+        user_id = str(ctx.author.id)
+
+        # Check if the user has enough gold to invest
+        self.cursor.execute('SELECT balance FROM UserBalance WHERE user_id=?', (user_id,))
+        result = self.cursor.fetchone()
+        if result is None or result[0] < amount:
+            await ctx.send("You don't have enough gold to invest.")
+            return
+
+        # Subtract gold from the balance and add to investment
+        self.cursor.execute('UPDATE UserBalance SET balance=balance-?, investment=investment+? WHERE user_id=?', (amount, amount, user_id))
+        self.db.commit()
+
+        await ctx.send(f"You invested {amount} {CURRENCY_NAME}.")
 
     @commands.command()
     async def give(self, ctx, member: commands.MemberConverter, amount: int):
