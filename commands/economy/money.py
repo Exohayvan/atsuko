@@ -142,5 +142,39 @@ class Money(commands.Cog):
         self.db.commit()
         await ctx.send(f"You gave {amount} {CURRENCY_NAME} to {member.mention}.")
 
+    @commands.command()
+    async def gamble(self, ctx, amount: int):
+        """Gamble your gold for a chance to win the pot."""
+        user_id = str(ctx.author.id)
+
+        # Check if the user has enough gold to gamble
+        self.cursor.execute('SELECT balance FROM UserBalance WHERE user_id=?', (user_id,))
+        user_balance = self.cursor.fetchone()
+        if user_balance is None or user_balance[0] < amount:
+            await ctx.send("You don't have enough gold to gamble.")
+            return
+
+        # Start rolling
+        await ctx.send("Starting roll...")
+        for _ in range(amount):
+            roll = random.randint(1, 100)
+            if roll <= 1:  # Win
+                self.cursor.execute('SELECT balance FROM Pot WHERE pot_id=1')
+                pot_balance = self.cursor.fetchone()[0]
+
+                self.cursor.execute('UPDATE UserBalance SET balance=balance+? WHERE user_id=?', (pot_balance, user_id))
+                self.cursor.execute('UPDATE Pot SET balance=100 WHERE pot_id=1')
+                self.db.commit()
+
+                await ctx.send(f"You won the pot of {pot_balance} {CURRENCY_NAME}!")
+                return  # Return after winning
+
+            # If not a win, take bet from balance and add to pot
+            self.cursor.execute('UPDATE UserBalance SET balance=balance-1 WHERE user_id=?', (user_id,))
+            self.cursor.execute('UPDATE Pot SET balance=balance+1 WHERE pot_id=1')
+            await ctx.send("Sorry but you didn't win.")
+        self.db.commit()
+        await ctx.send("Rolls finished.")
+        
 async def setup(bot):
     await bot.add_cog(Money(bot))
