@@ -175,5 +175,12 @@ class Money(commands.Cog):
         self.db.commit()
         await ctx.send("Rolls finished.")
         
+    @commands.command(aliases=['pot'])
+    async def jackpot(self, ctx):
+        """Check the current jackpot amount."""
+        self.cursor.execute('SELECT balance FROM Pot WHERE pot_id=1')
+        pot_balance = self.cursor.fetchone()[0]
+        await ctx.send(f"The current jackpot is {pot_balance} {CURRENCY_NAME}.")
+
 async def setup(bot):
     await bot.add_cog(Money(bot))
