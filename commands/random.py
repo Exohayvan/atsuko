@@ -10,8 +10,11 @@ class Random(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     async def fetch(self, url):
-        async with self.session.get(url) as response:
-            return response.status
+        try:
+            async with self.session.get(url) as response:
+                return response.status
+        except Exception:
+            return None
 
     @commands.group(invoke_without_command=True)
     async def random(self, ctx):
