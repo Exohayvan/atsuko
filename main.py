@@ -9,9 +9,28 @@ import sqlite3
 
 logging.basicConfig(level=logging.INFO)
 
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix='!', intents=intents)
+bot.help_command = CustomHelpCommand()
+
 class CustomHelpCommand(commands.HelpCommand):
+    async def get_prefix(self, bot, message):
+        # Retrieve the prefix for the guild from the database
+        conn = sqlite3.connect('./data/prefix.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT prefix FROM prefixes WHERE guild_id = ?", (message.guild.id,))
+        result = cursor.fetchone()
+        conn.close()
+
+        # Return the prefix if found, otherwise use the default prefix '!'
+        if result and result[0]:
+            return result[0]
+        return '!'
+
     async def send_bot_help(self, mapping):
+        prefix = await self.get_prefix(self.context.bot, self.context.message)
         embed = discord.Embed(title="Bot Commands", color=discord.Color.blue())
+        embed.set_footer(text=f"Prefix: {prefix}")
 
         for cog, commands in mapping.items():
             if not commands:
@@ -26,14 +45,11 @@ class CustomHelpCommand(commands.HelpCommand):
         await self.context.send(embed=embed)
 
     async def send_command_help(self, command):
-        embed = discord.Embed(title=f'!{command.name}', description=command.help or "No description provided", color=discord.Color.blue())
-        embed.add_field(name="Usage", value=f'!{command.name} {command.signature}', inline=False)
+        prefix = await self.get_prefix(self.context.bot, self.context.message)
+        embed = discord.Embed(title=f'{prefix}{command.name}', description=command.help or "No description provided", color=discord.Color.blue())
+        embed.add_field(name="Usage", value=f'{prefix}{command.name} {command.signature}', inline=False)
 
         await self.context.send(embed=embed)
-
-intents = discord.Intents.all()
-bot = commands.Bot(command_prefix='!', intents=intents)
-bot.help_command = CustomHelpCommand()
 
 def get_config():
     with open('../config.json', 'r') as f:
