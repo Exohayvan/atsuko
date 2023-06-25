@@ -9,7 +9,6 @@ class Hangman(commands.Cog):
         self.current_word = ""
         self.guessed_letters = []
 
-    @commands.command()
     @commands.group(invoke_without_command=True)
     async def hangman(self, ctx):
         """Start or play a game of Hangman! Use '!hangman start' to start a new game and '!hangman guess <letter>' to make a guess."""
