@@ -158,9 +158,9 @@ class Info(commands.Cog):
     @commands.command()
     async def uptime(self, ctx):
         """Shows the current uptime of the bot since last reboot."""
-        current_uptime = datetime.datetime.utcnow() - self.uptime_start
+        current_uptime = self.total_uptime + (datetime.datetime.utcnow() - self.uptime_start)
         await self.send_uptime_message(ctx, "Current Uptime", current_uptime)
-
+    
     @commands.command()
     async def lifetime(self, ctx):
         """Shows the total lifetime uptime of the bot."""
