@@ -32,7 +32,7 @@ cd astuko
 The entry point for Astuko is the `Watcher.py` script. To start the bot and enable the watchdog functionality, execute `Watcher.py` using Python:
 
 ```bash
-python Watcher.py
+python3 watcher.py
 ```
 
 This will start the Astuko bot and keep it running, restarting it if necessary.
