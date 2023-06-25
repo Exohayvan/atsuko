@@ -11,6 +11,7 @@ class Info(commands.Cog):
         self.bot = bot
         self.uptime_start = datetime.datetime.utcnow()
         self.init_db()
+        self.init_daily_uptime_db()
         self.migrate_from_file_if_exists()
         self.total_uptime = self.load_total_uptime()
         self.bot.loop.create_task(self.uptime_background_task())
@@ -20,7 +21,13 @@ class Info(commands.Cog):
         rv = sqlite3.connect('./data/uptime.db')
         rv.row_factory = sqlite3.Row
         return rv
-
+        
+    def init_daily_uptime_db(self):
+        """Initializes the daily uptime database."""
+        db = self.connect_db()
+        db.execute("CREATE TABLE IF NOT EXISTS daily_uptime (date DATE, uptime INTEGER);")
+        db.commit()
+    
     def init_db(self):
         """Initializes the database."""
         db = self.connect_db()
