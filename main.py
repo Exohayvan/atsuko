@@ -127,7 +127,7 @@ async def on_message(message):
         response = random.choice(roast_messages)
         await message.channel.send(response)
 
-    prefix = await bot.command_prefix(bot, message)
+    prefix = await bot.get_prefix(message)  # Get the command prefix
     prefixes = [prefix, '?', '.']  # List of alternative prefixes
 
     for p in prefixes:
@@ -143,9 +143,6 @@ async def on_message(message):
                 prefix = result[0]
             else:
                 prefix = '!'
-
-            # Update the bot's command prefix dynamically
-            bot.command_prefix = prefix
 
             # Slice the message content to remove the prefix
             message.content = message.content[len(p):].lstrip()
