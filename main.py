@@ -46,7 +46,7 @@ class CustomHelpCommand(commands.HelpCommand):
         await self.context.send(embed=embed)
 
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix=None, intents=intents)  # Set initial prefix to None
 bot.help_command = CustomHelpCommand()
 
 def get_config():
@@ -141,9 +141,11 @@ async def on_message(message):
 
             if result and result[0]:
                 prefix = result[0]
-                bot.command_prefix = prefix  # Update the bot's command prefix
             else:
                 prefix = '!'
+
+            # Update the bot's command prefix dynamically
+            bot.command_prefix = prefix
 
             # Slice the message content to remove the prefix
             message.content = message.content[len(p):].lstrip()
