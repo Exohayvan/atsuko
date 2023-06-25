@@ -163,6 +163,18 @@ class Info(commands.Cog):
             self.save_total_uptime()
             self.save_daily_uptime(current_uptime)  # save the current uptime to the daily uptime database
             self.uptime_start += datetime.timedelta(minutes=1)
+    def get_uptime_for_last_30_days(self):
+        date_today = datetime.date.today()
+        cutoff_date = date_today - datetime.timedelta(days=30)
+    
+        db = self.connect_db()
+        cursor = db.cursor()
+    
+        # Get the sum of the uptime for the last 30 days
+        cursor.execute("SELECT SUM(uptime) as total_uptime FROM daily_uptime WHERE date >= ?", (cutoff_date,))
+        result = cursor.fetchone()
+    
+        return datetime.timedelta(seconds=result['total_uptime'] if result['total_uptime'] else 0)
     
     def save_daily_uptime(self, current_uptime):
         date_today = datetime.date.today()
