@@ -96,7 +96,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandError):
         await ctx.send(f'An error occurred: {str(error)}')
 
-@async def get_prefix(bot, message):
+async def get_prefix(bot, message):
     conn = sqlite3.connect('./data/prefix.db')
     cursor = conn.cursor()
     cursor.execute("SELECT prefix FROM prefixes WHERE guild_id = ?", (message.guild.id,))
