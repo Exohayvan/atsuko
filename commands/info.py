@@ -178,6 +178,7 @@ class Info(commands.Cog):
             self.save_total_uptime()
             self.save_daily_uptime(current_uptime)  # save the current uptime to the daily uptime database
             self.uptime_start += datetime.timedelta(minutes=1)
+            
     def get_uptime_for_last_30_days(self):
         date_today = datetime.date.today()
         cutoff_date = date_today - datetime.timedelta(days=30)
@@ -216,6 +217,19 @@ class Info(commands.Cog):
     
         db.commit()
     
+    def get_uptime_for_last_7_days(self):
+        date_today = datetime.date.today()
+        cutoff_date = date_today - datetime.timedelta(days=7)
+        
+        db = self.connect_db()
+        cursor = db.cursor()
+        
+        # Get the sum of the uptime for the last 7 days
+        cursor.execute("SELECT SUM(uptime) as total_uptime FROM daily_uptime WHERE date >= ?", (cutoff_date,))
+        result = cursor.fetchone()
+        
+        return datetime.timedelta(seconds=result['total_uptime'] if result['total_uptime'] else 0)
+    
     @commands.command()
     async def uptime(self, ctx):
         """Shows the current uptime of the bot since last restart."""
@@ -225,10 +239,16 @@ class Info(commands.Cog):
         total_seconds_last_30_days = 30 * 24 * 60 * 60
         uptime_percentage_last_30_days = (uptime_last_30_days.total_seconds() / total_seconds_last_30_days) * 100
     
+        # Uptime for last 7 days
+        uptime_last_7_days = self.get_uptime_for_last_7_days()
+        total_seconds_last_7_days = 7 * 24 * 60 * 60
+        uptime_percentage_last_7_days = (uptime_last_7_days.total_seconds() / total_seconds_last_7_days) * 100
+    
         embed = discord.Embed(title="Current Uptime", color=discord.Color.blue())
         embed.add_field(name="Since Last Restart", value=self.format_timedelta(current_uptime), inline=False)
         embed.add_field(name="Lifetime", value=self.format_timedelta(total_uptime), inline=False)
         embed.add_field(name="Last 30 Days", value=f"{uptime_percentage_last_30_days:.2f}% of total time", inline=False)
+        embed.add_field(name="Last 7 Days", value=f"{uptime_percentage_last_7_days:.2f}% of total time", inline=False)
     
         await ctx.send(embed=embed)
         
