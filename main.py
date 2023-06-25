@@ -104,7 +104,7 @@ async def get_prefix(bot, message):
         result = cursor.fetchone()
         conn.close()
 
-        prefix = result[0] if result and result[0] else '!'
+        prefix = result[0] if (result and result[0]) else '!'
     except Exception:
         prefix = '!'
 
