@@ -66,12 +66,13 @@ class Info(commands.Cog):
 
     async def uptime_background_task(self):
         while True:
-            await asyncio.sleep(60)
+            await asyncio.sleep(10)
             current_uptime = datetime.datetime.utcnow() - self.uptime_start
             self.total_uptime += current_uptime
             self.save_total_uptime()
-            self.uptime_start += datetime.timedelta(minutes=1)  # increment the start time instead of resetting it
-
+            self.save_daily_uptime(current_uptime)  # save the current uptime to the daily uptime database
+            self.uptime_start += datetime.timedelta(seconds=10)  # increment the start time by 10 seconds
+        
     @commands.Cog.listener()
     async def on_ready(self):
         self.uptime_start = datetime.datetime.utcnow()
