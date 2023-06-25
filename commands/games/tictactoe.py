@@ -17,7 +17,7 @@ class TicTacToe(commands.Cog):
         """Start or play a game of Tic-Tac-Toe! Use '!tictactoe start' to start a new game and '!tictactoe move <position>' to make a move."""
         pass
 
-    @tictactoe_group.command()
+    @tictactoe.command()
     async def start(self, ctx):
         """Start a game of Tic-Tac-Toe."""
         self.board = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -26,7 +26,7 @@ class TicTacToe(commands.Cog):
 
         await ctx.send("Let's play Tic-Tac-Toe!\nUse the command '!tictactoe move <position>' to make your move.\nThe board looks like this:\n" + self.get_board())
 
-    @tictactoe_group.command()
+    @tictactoe.command()
     async def move(self, ctx, position: int):
         """Make a move in the Tic-Tac-Toe game."""
         if self.game_over:
