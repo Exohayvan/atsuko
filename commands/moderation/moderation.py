@@ -132,7 +132,7 @@ class Moderation(commands.Cog):
         await ctx.send(f"User {member} has been unmuted")
 
     @commands.command()
-    async def info(self, ctx, member: discord.Member):
+    async def user(self, ctx, member: discord.Member):
         """Pulls info from a user."""
 
         # Create a new embed message
