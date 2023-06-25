@@ -13,6 +13,7 @@ class Info(commands.Cog):
         self.init_db()
         self.init_daily_uptime_db()
         self.migrate_from_file_if_exists()
+        self.bot_start_time = datetime.datetime.utcnow()
         self.total_uptime = self.load_total_uptime()
         self.bot.loop.create_task(self.uptime_background_task())
 
@@ -216,15 +217,17 @@ class Info(commands.Cog):
     
     @commands.command()
     async def uptime(self, ctx):
-        """Shows the current uptime of the bot since last reboot."""
-        current_uptime = datetime.datetime.utcnow() - self.uptime_start
-        lifetime_uptime = self.total_uptime + current_uptime
-        last_30_days_uptime = self.get_uptime_for_last_30_days()  # implement this function
+        """Shows the current uptime of the bot since last restart."""
+        current_uptime = datetime.datetime.utcnow() - self.bot_start_time
+        lifetime_uptime = self.get_total_uptime() + current_uptime
+        uptime_last_30_days = self.get_uptime_for_last_30_days()
+        total_seconds_last_30_days = 30 * 24 * 60 * 60
+        uptime_percentage_last_30_days = (uptime_last_30_days.total_seconds() / total_seconds_last_30_days) * 100
     
-        embed = discord.Embed(title="Uptime", color=discord.Color.blue())
+        embed = discord.Embed(title="Current Uptime", color=discord.Color.blue())
         embed.add_field(name="Since Last Restart", value=self.format_timedelta(current_uptime), inline=False)
         embed.add_field(name="Lifetime", value=self.format_timedelta(lifetime_uptime), inline=False)
-        embed.add_field(name="Last 30 Days", value=f"{self.format_timedelta(last_30_days_uptime)} ({last_30_days_uptime.total_seconds() / (30 * 24 * 60 * 60):.1%})", inline=False)
+        embed.add_field(name="Last 30 Days", value=f"{uptime_percentage_last_30_days:.2f}% of total time", inline=False)
     
         await ctx.send(embed=embed)
         
