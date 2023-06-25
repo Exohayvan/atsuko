@@ -231,7 +231,7 @@ class Info(commands.Cog):
     
         await ctx.send(embed=embed)
         
-    @commands.command()
+    #@commands.command()
     async def lifetime(self, ctx):
         """Shows the total lifetime uptime of the bot."""
         # Lifetime uptime includes current uptime
