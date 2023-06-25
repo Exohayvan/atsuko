@@ -273,30 +273,30 @@ class Info(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command()
-    @commands.is_owner()  # This command can only be used by the bot owner
-    async def remove_uptime(self, ctx, date: str):
-        """Removes the uptime record for the specified date."""
-        try:
+    #@commands.command()
+    #@commands.is_owner()  # This command can only be used by the bot owner
+    #async def remove_uptime(self, ctx, date: str):
+        #"""Removes the uptime record for the specified date."""
+        #try:
             # Convert the date string to a datetime object
-            date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
+            #date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
 
-            db = self.connect_db()
-            cursor = db.cursor()
+            #db = self.connect_db()
+            #cursor = db.cursor()
 
             # Check if a record for the date exists
-            cursor.execute("SELECT * FROM daily_uptime WHERE date = ?", (date,))
-            record = cursor.fetchone()
+            #cursor.execute("SELECT * FROM daily_uptime WHERE date = ?", (date,))
+            #record = cursor.fetchone()
 
-            if record:
+            #if record:
                 # If a record exists, remove it
-                cursor.execute("DELETE FROM daily_uptime WHERE date = ?", (date,))
-                db.commit()
-                await ctx.send(f"Removed uptime record for {date}.")
-            else:
-                await ctx.send("No uptime record found for the specified date.")
-        except Exception as e:
-            await ctx.send(f"An error occurred: {e}")
+                #cursor.execute("DELETE FROM daily_uptime WHERE date = ?", (date,))
+                #db.commit()
+                #await ctx.send(f"Removed uptime record for {date}.")
+            #else:
+                #await ctx.send("No uptime record found for the specified date.")
+        #except Exception as e:
+            #await ctx.send(f"An error occurred: {e}")
 
     #@commands.command()
     #@commands.is_owner()  # this command can only be used by the bot owner
