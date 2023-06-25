@@ -4,26 +4,51 @@ import datetime
 import asyncio
 import discord
 import sqlite3
+import os
 
 class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.uptime_start = datetime.datetime.utcnow()
+        self.init_db()
+        self.migrate_from_file_if_exists()
         self.total_uptime = self.load_total_uptime()
         self.bot.loop.create_task(self.uptime_background_task())
 
-    def load_total_uptime(self):
-        try:
+    def connect_db(self):
+        """Connects to the specific database."""
+        rv = sqlite3.connect('./data/uptime.db')
+        rv.row_factory = sqlite3.Row
+        return rv
+
+    def init_db(self):
+        """Initializes the database."""
+        db = self.connect_db()
+        db.execute("CREATE TABLE IF NOT EXISTS uptime (total_uptime INTEGER);")
+        db.execute("INSERT INTO uptime (total_uptime) SELECT 0 WHERE NOT EXISTS (SELECT 1 FROM uptime);")
+        db.commit()
+
+    def migrate_from_file_if_exists(self):
+        """If total_uptime.txt exists, migrate its data to the database and delete the file."""
+        if os.path.exists("total_uptime.txt"):
             with open("total_uptime.txt", "r") as f:
                 total_uptime_seconds = int(f.read())
-                return datetime.timedelta(seconds=total_uptime_seconds)
-        except FileNotFoundError:
-            return datetime.timedelta(seconds=0)
+                self.save_total_uptime(total_uptime_seconds)
+                os.remove("total_uptime.txt")
 
-    def save_total_uptime(self):
-        total_uptime_seconds = int(self.total_uptime.total_seconds())
-        with open("total_uptime.txt", "w") as f:
-            f.write(str(total_uptime_seconds))
+    def load_total_uptime(self):
+        db = self.connect_db()
+        cursor = db.cursor()
+        cursor.execute("SELECT total_uptime FROM uptime")
+        total_uptime_seconds = cursor.fetchone()[0]
+        return datetime.timedelta(seconds=total_uptime_seconds)
+
+    def save_total_uptime(self, total_uptime_seconds=None):
+        if total_uptime_seconds is None:
+            total_uptime_seconds = int(self.total_uptime.total_seconds())
+        db = self.connect_db()
+        db.execute("UPDATE uptime SET total_uptime = ?", (total_uptime_seconds,))
+        db.commit()
 
     async def uptime_background_task(self):
         while True:
