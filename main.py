@@ -127,6 +127,10 @@ async def on_message(message):
         response = random.choice(roast_messages)
         await message.channel.send(response)
 
+    # Get the command prefix using the CustomHelpCommand's get_prefix method
+    prefix = await bot.help_command.get_prefix(bot, message)
+    bot.command_prefix = prefix  # Set the command prefix for the bot
+
     await bot.process_commands(message)
 
 initialize_database()
