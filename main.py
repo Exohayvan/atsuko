@@ -11,14 +11,12 @@ logging.basicConfig(level=logging.INFO)
 
 class CustomHelpCommand(commands.HelpCommand):
     async def get_prefix(self, bot, message):
-        # Retrieve the prefix for the guild from the database
         conn = sqlite3.connect('./data/prefix.db')
         cursor = conn.cursor()
         cursor.execute("SELECT prefix FROM prefixes WHERE guild_id = ?", (message.guild.id,))
         result = cursor.fetchone()
         conn.close()
 
-        # Return the prefix if found, otherwise use the default prefix '!'
         if result and result[0]:
             return result[0]
         return '!'
@@ -143,6 +141,7 @@ async def on_message(message):
 
             if result and result[0]:
                 prefix = result[0]
+                bot.command_prefix = prefix  # Update the bot's command prefix
             else:
                 prefix = '!'
 
