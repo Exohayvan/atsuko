@@ -10,7 +10,6 @@ class Uno(commands.Cog):
         self.current_player = None
         self.direction = 1
 
-    @commands.command()
     @commands.group(invoke_without_command=True)
     async def uno(self, ctx):
         """Start or play a game of Uno! Use '!uno start' to start a new game and other commands to interact with the game."""
