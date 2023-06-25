@@ -100,6 +100,9 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_message(message):
+    if message.author.bot:
+        return
+        
     if message.content.lower() == 'ratio':
         roast_messages = [
             "Your ratio is like dividing by zero. It doesn't make any sense.",
@@ -125,6 +128,27 @@ async def on_message(message):
         ]
         response = random.choice(roast_messages)
         await message.channel.send(response)
+
+    prefix = await bot.command_prefix(bot, message)
+    prefixes = [prefix, '?', '.']  # List of alternative prefixes
+
+    for p in prefixes:
+        if message.content.startswith(p + 'help'):
+            # Retrieve the prefix from the database or default to '!'
+            conn = sqlite3.connect('./data/prefix.db')
+            cursor = conn.cursor()
+            cursor.execute("SELECT prefix FROM prefixes WHERE guild_id = ?", (message.guild.id,))
+            result = cursor.fetchone()
+            conn.close()
+
+            if result and result[0]:
+                prefix = result[0]
+            else:
+                prefix = '!'
+
+            # Slice the message content to remove the prefix
+            message.content = message.content[len(p):].lstrip()
+            break
 
     await bot.process_commands(message)
 
