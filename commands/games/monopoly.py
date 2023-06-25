@@ -7,7 +7,6 @@ class Monopoly(commands.Cog):
         self.active_game = False
         self.board = {}  # Placeholder for the Monopoly board data structure
 
-    @commands.command()
     @commands.group(invoke_without_command=True)
     async def monopoly(self, ctx):
         """Start or play a game of Monopoly! Use '!monopoly start' to start a new game and other commands to interact with the game."""
