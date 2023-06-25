@@ -75,8 +75,9 @@ class Moderation(commands.Cog):
         await member.kick(reason=reason)
         await ctx.send(f'User {member} has been kick')
 
+    @commands.command()
     @commands.has_permissions(manage_guild=True)
-    async def set_prefix(self, ctx, prefix):
+    async def setprefix(self, ctx, prefix):
         conn = sqlite3.connect('./data/prefix.db')
         cursor = conn.cursor()
         cursor.execute("REPLACE INTO prefixes (guild_id, prefix) VALUES (?, ?)", (ctx.guild.id, prefix))
