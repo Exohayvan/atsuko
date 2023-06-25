@@ -155,12 +155,54 @@ class Info(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    async def uptime_background_task(self):
+        while True:
+            await asyncio.sleep(60)
+            current_uptime = datetime.datetime.utcnow() - self.uptime_start
+            self.total_uptime += current_uptime
+            self.save_total_uptime()
+            self.save_daily_uptime(current_uptime)  # save the current uptime to the daily uptime database
+            self.uptime_start += datetime.timedelta(minutes=1)
+    
+    def save_daily_uptime(self, current_uptime):
+        date_today = datetime.date.today()
+        daily_uptime_seconds = int(current_uptime.total_seconds())
+    
+        db = self.connect_db()
+        cursor = db.cursor()
+    
+        # Check if today's record already exists
+        cursor.execute("SELECT * FROM daily_uptime WHERE date = ?", (date_today,))
+        record = cursor.fetchone()
+    
+        if record:
+            # If today's record exists, update it
+            new_daily_uptime_seconds = record['uptime'] + daily_uptime_seconds
+            cursor.execute("UPDATE daily_uptime SET uptime = ? WHERE date = ?", (new_daily_uptime_seconds, date_today))
+        else:
+            # If today's record does not exist, insert it
+            cursor.execute("INSERT INTO daily_uptime (date, uptime) VALUES (?, ?)", (date_today, daily_uptime_seconds))
+    
+        # Delete records older than 31 days
+        cutoff_date = date_today - datetime.timedelta(days=31)
+        cursor.execute("DELETE FROM daily_uptime WHERE date < ?", (cutoff_date,))
+    
+        db.commit()
+    
     @commands.command()
     async def uptime(self, ctx):
         """Shows the current uptime of the bot since last reboot."""
         current_uptime = datetime.datetime.utcnow() - self.uptime_start
-        await self.send_uptime_message(ctx, "Current Uptime", current_uptime)
+        lifetime_uptime = self.total_uptime + current_uptime
+        last_30_days_uptime = self.get_uptime_for_last_30_days()  # implement this function
     
+        embed = discord.Embed(title="Uptime", color=discord.Color.blue())
+        embed.add_field(name="Since Last Restart", value=self.format_timedelta(current_uptime), inline=False)
+        embed.add_field(name="Lifetime", value=self.format_timedelta(lifetime_uptime), inline=False)
+        embed.add_field(name="Last 30 Days", value=f"{self.format_timedelta(last_30_days_uptime)} ({last_30_days_uptime.total_seconds() / (30 * 24 * 60 * 60):.1%})", inline=False)
+    
+        await ctx.send(embed=embed)
+        
     @commands.command()
     async def lifetime(self, ctx):
         """Shows the total lifetime uptime of the bot."""
