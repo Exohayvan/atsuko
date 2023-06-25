@@ -7,7 +7,6 @@ class Sorry(commands.Cog):
         self.active_game = False
         self.board = {}  # Placeholder for the Sorry! board data structure
 
-    @commands.command()
     @commands.group(invoke_without_command=True)
     async def sorry(self, ctx):
         """Start or play a game of Sorry! Use '!sorry start' to start a new game and other commands to interact with the game."""
