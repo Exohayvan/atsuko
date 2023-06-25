@@ -103,9 +103,8 @@ async def get_prefix(bot, message):
     result = cursor.fetchone()
     conn.close()
 
-    if result and result[0]:
-        return result[0]
-    return '!'
+    prefix = result[0] if result and result[0] else '!'
+    return prefix
 
 @bot.event
 async def on_message(message):
@@ -137,20 +136,6 @@ async def on_message(message):
         ]
         response = random.choice(roast_messages)
         await message.channel.send(response)
-
-    prefixes = ['?', '.']  # List of alternative prefixes
-
-    for p in prefixes:
-        if message.content.startswith(p + 'help'):
-            # Retrieve the prefix from the database or default to '!'
-            prefix = await get_prefix(bot, message)
-
-            # Update the bot's command prefix dynamically
-            bot.command_prefix = prefix if prefix else '!'
-
-            # Slice the message content to remove the prefix
-            message.content = message.content[len(p):].lstrip()
-            break
 
     await bot.process_commands(message)
 
