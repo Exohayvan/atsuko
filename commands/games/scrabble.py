@@ -8,7 +8,6 @@ class Scrabble(commands.Cog):
         self.tiles = {}  # Placeholder for the Scrabble tile distribution
         self.board = {}  # Placeholder for the Scrabble board data structure
         
-    @commands.command()
     @commands.group(invoke_without_command=True)
     async def scrabble(self, ctx):
         """Start or play a game of Scrabble! Use '!scrabble start' to start a new game and other commands to interact with the game."""
