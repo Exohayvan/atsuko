@@ -253,5 +253,38 @@ class Info(commands.Cog):
 
         await ctx.send(embed=embed)
 
+
+
+    @commands.command()
+    @commands.is_owner()  # this command can only be used by the bot owner
+    async def add_uptime(self, ctx, date: str, uptime: str):
+        """Adds a specified uptime to a specific date."""
+        try:
+            # Convert the date and uptime strings to datetime objects
+            date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
+            hours, minutes, seconds = map(int, uptime.split(":"))
+            added_uptime = datetime.timedelta(hours=hours, minutes=minutes, seconds=seconds)
+    
+            db = self.connect_db()
+            cursor = db.cursor()
+    
+            # Check if a record for the date already exists
+            cursor.execute("SELECT * FROM daily_uptime WHERE date = ?", (date,))
+            record = cursor.fetchone()
+    
+            if record:
+                # If a record exists, add the uptime to it
+                new_uptime_seconds = record['uptime'] + int(added_uptime.total_seconds())
+                cursor.execute("UPDATE daily_uptime SET uptime = ? WHERE date = ?", (new_uptime_seconds, date))
+            else:
+                # If a record does not exist, create a new one
+                cursor.execute("INSERT INTO daily_uptime (date, uptime) VALUES (?, ?)", (date, int(added_uptime.total_seconds())))
+    
+            db.commit()
+    
+            await ctx.send(f"Added {uptime} uptime to {date}.")
+        except Exception as e:
+            await ctx.send(f"An error occurred: {e}")
+        
 async def setup(bot):
     await bot.add_cog(Info(bot))
