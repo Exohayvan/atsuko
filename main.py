@@ -45,7 +45,7 @@ def initialize_database():
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS prefixes (guild_id INTEGER PRIMARY KEY, prefix TEXT)")
     conn.commit()
-    conn.close()
+    return conn
 
 async def load_cogs(bot, root_dir):
     tasks = []
