@@ -9,10 +9,6 @@ import sqlite3
 
 logging.basicConfig(level=logging.INFO)
 
-intents = discord.Intents.all()
-bot = commands.Bot(command_prefix='!', intents=intents)
-bot.help_command = CustomHelpCommand()
-
 class CustomHelpCommand(commands.HelpCommand):
     async def get_prefix(self, bot, message):
         # Retrieve the prefix for the guild from the database
@@ -50,6 +46,10 @@ class CustomHelpCommand(commands.HelpCommand):
         embed.add_field(name="Usage", value=f'{prefix}{command.name} {command.signature}', inline=False)
 
         await self.context.send(embed=embed)
+
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix='!', intents=intents)
+bot.help_command = CustomHelpCommand()
 
 def get_config():
     with open('../config.json', 'r') as f:
