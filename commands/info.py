@@ -52,11 +52,11 @@ class Info(commands.Cog):
 
     async def uptime_background_task(self):
         while True:
+            await asyncio.sleep(60)
             current_uptime = datetime.datetime.utcnow() - self.uptime_start
             self.total_uptime += current_uptime
             self.save_total_uptime()
-            self.uptime_start = datetime.datetime.utcnow()
-            await asyncio.sleep(60)
+            self.uptime_start += datetime.timedelta(minutes=1)  # increment the start time instead of resetting it
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -158,7 +158,7 @@ class Info(commands.Cog):
     @commands.command()
     async def uptime(self, ctx):
         """Shows the current uptime of the bot since last reboot."""
-        current_uptime = self.total_uptime + (datetime.datetime.utcnow() - self.uptime_start)
+        current_uptime = datetime.datetime.utcnow() - self.uptime_start
         await self.send_uptime_message(ctx, "Current Uptime", current_uptime)
     
     @commands.command()
