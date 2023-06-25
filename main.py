@@ -146,7 +146,7 @@ async def on_message(message):
             prefix = await get_prefix(bot, message)
 
             # Update the bot's command prefix dynamically
-            bot.command_prefix = prefix
+            bot.command_prefix = prefix if prefix else '!'
 
             # Slice the message content to remove the prefix
             message.content = message.content[len(p):].lstrip()
