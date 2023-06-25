@@ -12,9 +12,8 @@ class TicTacToe(commands.Cog):
         ]
         self.game_over = False
 
-    @commands.command(name='tictactoe')
-    @commands.group()
-    async def tictactoe_group(self, ctx):
+    @commands.group(invoke_without_command=True)
+    async def tictactoe(self, ctx):
         """Start or play a game of Tic-Tac-Toe! Use '!tictactoe start' to start a new game and '!tictactoe move <position>' to make a move."""
         pass
 
