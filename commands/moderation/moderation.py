@@ -47,6 +47,7 @@ class Moderation(commands.Cog):
     async def set_prefix(self, ctx, prefix):
         conn = sqlite3.connect('./data/prefix.db')
         cursor = conn.cursor()
+        cursor.execute("CREATE TABLE IF NOT EXISTS prefixes (guild_id integer PRIMARY KEY, prefix text)")
         cursor.execute("REPLACE INTO prefixes (guild_id, prefix) VALUES (?, ?)", (ctx.guild.id, prefix))
         conn.commit()
         conn.close()
