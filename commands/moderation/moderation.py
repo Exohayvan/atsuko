@@ -41,7 +41,17 @@ class Moderation(commands.Cog):
             await ctx.channel.set_permissions(role, overwrite=PermissionOverwrite(send_messages=False))
 
         await ctx.send("Channel locked.")
-
+        
+    @commands.command(name='setprefix')
+    @commands.has_permissions(manage_guild=True)
+    async def set_prefix(self, ctx, prefix):
+        conn = sqlite3.connect('./data/prefix.db')
+        cursor = conn.cursor()
+        cursor.execute("REPLACE INTO prefixes (guild_id, prefix) VALUES (?, ?)", (ctx.guild.id, prefix))
+        conn.commit()
+        conn.close()
+        await ctx.send(f"The prefix has been set to '{prefix}'")
+        
     @commands.command()
     @commands.has_permissions(manage_channels=True)
     async def unlock(self, ctx):
