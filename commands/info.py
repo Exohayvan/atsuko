@@ -43,6 +43,12 @@ class Info(commands.Cog):
                 self.save_total_uptime(total_uptime_seconds)
                 os.remove("total_uptime.txt")
 
+    def format_timedelta(self, delta):
+        days = delta.days
+        hours, remainder = divmod(delta.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        return f"{days} days, {hours} hours, {minutes} minutes, {seconds} seconds."
+
     def load_total_uptime(self):
         db = self.connect_db()
         cursor = db.cursor()
