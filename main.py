@@ -5,13 +5,14 @@ import json
 import logging
 import asyncio
 import random
+import sqlite3
 
 logging.basicConfig(level=logging.INFO)
 
 class CustomHelpCommand(commands.HelpCommand):
     async def send_bot_help(self, mapping):
         embed = discord.Embed(title="Bot Commands", color=discord.Color.blue())
-        
+
         for cog, commands in mapping.items():
             if not commands:
                 continue
@@ -38,6 +39,13 @@ def get_config():
     with open('../config.json', 'r') as f:
         config = json.load(f)
     return config
+
+def initialize_database():
+    conn = sqlite3.connect('./data/prefix.db')
+    cursor = conn.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS prefixes (guild_id INTEGER PRIMARY KEY, prefix TEXT)")
+    conn.commit()
+    conn.close()
 
 async def load_cogs(bot, root_dir):
     tasks = []
@@ -103,6 +111,8 @@ async def on_message(message):
         await message.channel.send(response)
 
     await bot.process_commands(message)
+
+initialize_database()
 
 config = get_config()
 bot.run(config['bot_token'])
