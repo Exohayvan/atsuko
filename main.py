@@ -96,6 +96,17 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandError):
         await ctx.send(f'An error occurred: {str(error)}')
 
+@async def get_prefix(bot, message):
+    conn = sqlite3.connect('./data/prefix.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT prefix FROM prefixes WHERE guild_id = ?", (message.guild.id,))
+    result = cursor.fetchone()
+    conn.close()
+
+    if result and result[0]:
+        return result[0]
+    return '!'
+
 @bot.event
 async def on_message(message):
     if message.author.bot:
@@ -132,16 +143,7 @@ async def on_message(message):
     for p in prefixes:
         if message.content.startswith(p + 'help'):
             # Retrieve the prefix from the database or default to '!'
-            conn = sqlite3.connect('./data/prefix.db')
-            cursor = conn.cursor()
-            cursor.execute("SELECT prefix FROM prefixes WHERE guild_id = ?", (message.guild.id,))
-            result = cursor.fetchone()
-            conn.close()
-
-            if result and result[0]:
-                prefix = result[0]
-            else:
-                prefix = '!'
+            prefix = await get_prefix(bot, message)
 
             # Update the bot's command prefix dynamically
             bot.command_prefix = prefix
