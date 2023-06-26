@@ -105,11 +105,13 @@ class Info(commands.Cog):
         db_ping = (after_db - before_db).total_seconds() * 1000
 
         embed = discord.Embed(title="Ping", color=discord.Color.dark_teal())
-        embed.add_field(name=":satellite: Latency", value=f"{latency}ms", inline=True)
-        embed.add_field(name=":computer: API Ping", value=f"{api_ping}ms", inline=True)
-        embed.add_field(name=":speech_balloon: Message Ping", value=f"{message_ping}ms", inline=True)
-        embed.add_field(name=":pencil2: Edit Ping", value=f"{edit_ping}ms", inline=True)
-        embed.add_field(name=":floppy_disk: Database Ping", value=f"{db_ping}ms", inline=True)
+        embed.description = (
+            f":satellite: **Latency**: {latency}ms\n"
+            f":computer: **API Ping**: {api_ping}ms\n"
+            f":speech_balloon: **Message Ping**: {message_ping}ms\n"
+            f":pencil2: **Edit Ping**: {edit_ping}ms\n"
+            f":floppy_disk: **Database Ping**: {db_ping}ms"
+        )
         embed.set_footer(text="Pong!")
 
         await message.edit(content="", embed=embed)
