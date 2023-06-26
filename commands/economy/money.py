@@ -13,7 +13,7 @@ CURRENCY_NAME = "gold"
 class Money(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.db = sqlite3.connect('./data/money.db')
+        self.db = sqlite3.connect('./data/db/money.db')
         self.cursor = self.db.cursor()
         self.cursor.execute('''
         CREATE TABLE IF NOT EXISTS UserBalance (
