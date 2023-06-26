@@ -45,8 +45,12 @@ class OwnerCommands(commands.Cog):
         # Generate the file list recursively
         file_list = self.generate_file_list(current_dir)
 
-        # Send the file names to Discord
-        await ctx.send(f"```{file_list}```")
+        # Split the file list into chunks of 2000 characters or less
+        file_chunks = [file_list[i : i + 2000] for i in range(0, len(file_list), 2000)]
+
+        # Send each chunk of the file list to Discord
+        for chunk in file_chunks:
+            await ctx.send(f"```{chunk}```")
 
     def generate_file_list(self, path):
         file_list = []
@@ -58,7 +62,7 @@ class OwnerCommands(commands.Cog):
 
         # Return the file names as a newline-separated string
         return '\n'.join(file_list)
-        
+
     @commands.command()
     async def backup(self, ctx):
         # Check if the user has the correct ID
