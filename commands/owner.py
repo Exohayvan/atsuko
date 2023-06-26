@@ -95,16 +95,14 @@ class OwnerCommands(commands.Cog):
     
             # Add connecting lines and corners
             if depth > 0:
-                tree_structure += "|"
-                tree_structure += "  " * (depth - 1)
                 if is_last_item:
-                    tree_structure += "└"
+                    tree_structure += "└─"
                     indent += "  "
                 else:
-                    tree_structure += "├"
+                    tree_structure += "├─"
     
             # Add the item to the tree structure
-            tree_structure += f"_{item}\n"
+            tree_structure += f"{item}\n"
     
             # Recursively process subdirectories
             if os.path.isdir(item_path):
