@@ -93,16 +93,15 @@ class OwnerCommands(commands.Cog):
             # Add indentation based on the depth of the item in the directory tree
             tree_structure += f"{indent}"
     
-            # Add connecting lines
+            # Add connecting lines and corners
             if depth > 0:
                 tree_structure += "|"
                 tree_structure += "  " * (depth - 1)
-                tree_structure += "|"
-    
-            if is_last_item:
-                tree_structure += "_"
-            else:
-                tree_structure += "|"
+                if is_last_item:
+                    tree_structure += "└"
+                    indent += "  "
+                else:
+                    tree_structure += "├"
     
             # Add the item to the tree structure
             tree_structure += f"_{item}\n"
