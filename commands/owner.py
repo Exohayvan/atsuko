@@ -69,7 +69,7 @@ class OwnerCommands(commands.Cog):
     
         # Check if the current directory contains any relevant files
         files_in_directory = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
-        relevant_files_present = any(f.endswith(('.py', '.json', '.db')) for f in files_in_directory)
+        relevant_files_present = any(f.endswith(('.py', '.json', '.db')) and not f.endswith('.pyc') for f in files_in_directory)
     
         # Skip the directory if no relevant files are present
         if not relevant_files_present:
@@ -80,22 +80,19 @@ class OwnerCommands(commands.Cog):
             # Get the absolute path of the item
             item_path = os.path.join(path, item)
     
-            # Skip non-directory items
-            if not os.path.isdir(item_path):
-                continue
-    
-            # Recursively process subdirectories
-            subdirectory_structure = self.generate_tree_structure(item_path, depth + 1)
-            
-            # Skip the subdirectory if it doesn't contain any relevant files
-            if not subdirectory_structure:
-                continue
-    
             # Add indentation based on the depth of the item in the directory tree
             tree_structure += f"{indent}{item}\n"
     
-            # Add the subdirectory structure to the tree structure
-            tree_structure += subdirectory_structure
+            # Recursively process subdirectories
+            if os.path.isdir(item_path):
+                subdirectory_structure = self.generate_tree_structure(item_path, depth + 1)
+                
+                # Skip the subdirectory if it doesn't contain any relevant files
+                if not subdirectory_structure:
+                    continue
+    
+                # Add the subdirectory structure to the tree structure
+                tree_structure += subdirectory_structure
     
         return tree_structure
 
