@@ -42,26 +42,44 @@ class OwnerCommands(commands.Cog):
         # Get the current directory
         current_dir = os.getcwd()
 
-        # Generate the file list recursively
-        file_list = self.generate_file_list(current_dir)
+        # Generate the tree structure recursively
+        tree_structure = self.generate_tree_structure(current_dir)
 
-        # Split the file list into chunks of 2000 characters or less
-        file_chunks = [file_list[i : i + 2000] for i in range(0, len(file_list), 2000)]
+        # Split the tree structure into lines
+        tree_lines = tree_structure.split('\n')
 
-        # Send each chunk of the file list to Discord
-        for chunk in file_chunks:
-            await ctx.send(f"```{chunk}```")
+        # Send each line of the tree structure as a separate message
+        message = ""
+        for line in tree_lines:
+            if len(message) + len(line) > 1800:
+                await ctx.send("```" + message + "```")
+                message = ""
+            message += line + '\n'
 
-    def generate_file_list(self, path):
-        file_list = []
+        if message:
+            await ctx.send("```" + message + "```")
 
-        # Recursively collect file names in the current directory and subdirectories
-        for root, dirs, files in os.walk(path):
-            for file_name in files:
-                file_list.append(file_name)
+    def generate_tree_structure(self, path, depth=0):
+        tree_structure = ""
+        indent = "  " * depth
 
-        # Return the file names as a newline-separated string
-        return '\n'.join(file_list)
+        # Limit the recursion depth to avoid excessive tree size
+        if depth > 4:
+            return ""
+
+        # Iterate through all items (files and directories) in the path
+        for item in os.listdir(path):
+            # Get the absolute path of the item
+            item_path = os.path.join(path, item)
+
+            # Add indentation based on the depth of the item in the directory tree
+            tree_structure += f"{indent}{item}\n"
+
+            # Recursively process subdirectories
+            if os.path.isdir(item_path):
+                tree_structure += self.generate_tree_structure(item_path, depth + 1)
+
+        return tree_structure
 
     @commands.command()
     async def backup(self, ctx):
