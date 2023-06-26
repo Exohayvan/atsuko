@@ -61,7 +61,7 @@ class OwnerCommands(commands.Cog):
 
     def generate_tree_structure(self, path, depth=0, is_last=False):
         tree_structure = ""
-        indent = "│   " * depth
+        indent = "  " * depth
     
         # Limit the recursion depth to avoid excessive tree size
         if depth > 4:
@@ -93,14 +93,15 @@ class OwnerCommands(commands.Cog):
             # Add indentation based on the depth of the item in the directory tree
             tree_structure += f"{indent}"
     
-            # Add the appropriate tree symbols
+            # Add connecting lines and corners
             if depth > 0:
                 if is_last_item:
                     tree_structure += "└── "
                     indent += "    "
                 else:
                     tree_structure += "├── "
-                    indent += "│   "
+    
+            # Add the item to the tree structure
             tree_structure += f"{item}\n"
     
             # Recursively process subdirectories
@@ -110,13 +111,6 @@ class OwnerCommands(commands.Cog):
                 # Skip the subdirectory if it doesn't contain any relevant files
                 if not subdirectory_structure:
                     continue
-    
-                # Adjust the subdirectory structure to maintain the desired output format
-                subdirectory_structure = subdirectory_structure.rstrip()
-                subdirectory_structure = subdirectory_structure.replace("├── ", "│   ├── ")
-                subdirectory_structure = subdirectory_structure.replace("└── ", "│   └── ")
-                subdirectory_structure = subdirectory_structure.replace("│   │   ├── ", "│       ├── ")
-                subdirectory_structure = subdirectory_structure.replace("│   │   └── ", "│       └── ")
     
                 # Add the subdirectory structure to the tree structure
                 tree_structure += subdirectory_structure
