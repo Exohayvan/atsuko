@@ -32,6 +32,11 @@ class OwnerCommands(commands.Cog):
         if not output and not error:
             await ctx.send("The command executed successfully with no output.")
 
+import os
+
+class OwnerCommands(commands.Cog):
+    # Existing code...
+
     @commands.command()
     async def tree(self, ctx):
         # Check if the user has the correct ID
@@ -45,12 +50,12 @@ class OwnerCommands(commands.Cog):
         # Generate the tree structure recursively
         tree_structure = self.generate_tree_structure(current_dir)
 
-        # Truncate the tree structure if it exceeds the character limit
-        if len(tree_structure) > 4000:
-            tree_structure = tree_structure[:3997] + "..."
+        # Split the tree structure into chunks of 2000 characters or less
+        tree_chunks = [tree_structure[i : i + 2000] for i in range(0, len(tree_structure), 2000)]
 
-        # Send the tree structure to Discord
-        await ctx.send(f"```{tree_structure}```")
+        # Send each chunk of the tree structure to Discord
+        for chunk in tree_chunks:
+            await ctx.send(f"```{chunk}```")
 
     def generate_tree_structure(self, path, depth=0):
         tree_structure = ""
