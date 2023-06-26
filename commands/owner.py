@@ -112,10 +112,13 @@ class OwnerCommands(commands.Cog):
                 if not subdirectory_structure:
                     continue
     
+                # Adjust the subdirectory structure to maintain the desired output format
+                subdirectory_structure = subdirectory_structure.replace("  ├─", "  │ ")
+                subdirectory_structure = subdirectory_structure.replace("  └─", "    ")
+                subdirectory_structure = subdirectory_structure.rstrip()
+    
                 # Add the subdirectory structure to the tree structure
-                if not is_last_item:
-                    subdirectory_structure = subdirectory_structure.replace(f"{indent}└─", f"{indent}│ ")
-                tree_structure += subdirectory_structure.rstrip()
+                tree_structure += subdirectory_structure
     
         return tree_structure
 
