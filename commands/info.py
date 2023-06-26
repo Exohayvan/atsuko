@@ -104,7 +104,7 @@ class Info(commands.Cog):
         after_db = discord.utils.utcnow()
         db_ping = (after_db - before_db).total_seconds() * 1000
 
-        embed = discord.Embed(title="Ping", color=discord.Color.dark_cyan)
+        embed = discord.Embed(title="Ping", color=discord.Color.dark_teal())
         embed.add_field(name="Latency", value=f"{latency}ms", inline=False)
         embed.add_field(name="API Ping", value=f"{api_ping}ms", inline=False)
         embed.add_field(name="Message Ping", value=f"{message_ping}ms", inline=False)
