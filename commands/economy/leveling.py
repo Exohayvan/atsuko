@@ -13,7 +13,7 @@ START_CAP = 100 #not implemented
 class Leveling(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.db = sqlite3.connect('./data/xp.db')
+        self.db = sqlite3.connect('./data/db/xp.db')
         self.cursor = self.db.cursor()
         self.cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, xp REAL, total_xp REAL, level INTEGER, level_xp REAL)")
 
