@@ -163,6 +163,9 @@ class OwnerCommands(commands.Cog):
         if result.returncode != 0:
             await ctx.send(f'Update failed with error: {error}')
         else:
+            # Save channel ID before restarting
+            with open('restart_id.temp', 'w') as f:
+                json.dump({'channel_id': ctx.channel.id}, f)
             await ctx.send(f'Update successful: {output}')
             await ctx.send('Bot restarting.')
             sys.exit(RESTART_EXIT_CODE)
@@ -173,7 +176,9 @@ class OwnerCommands(commands.Cog):
         if ctx.message.author.id != 276782057412362241:
             await ctx.send("You don't have permission to use this command.")
             return
-
+        # Save channel ID before restarting
+        with open('restart_id.temp', 'w') as f:
+            json.dump({'channel_id': ctx.channel.id}, f)
         await ctx.send('Bot restarting.')
         sys.exit(RESTART_EXIT_CODE)
 
