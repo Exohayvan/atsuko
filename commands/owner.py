@@ -96,10 +96,10 @@ class OwnerCommands(commands.Cog):
             # Add connecting lines and corners
             if depth > 0:
                 if is_last_item:
-                    tree_structure += "└─"
-                    indent += "  "
+                    tree_structure += "└── "
+                    indent += "    "
                 else:
-                    tree_structure += "├─"
+                    tree_structure += "├── "
     
             # Add the item to the tree structure
             tree_structure += f"{item}\n"
@@ -111,11 +111,6 @@ class OwnerCommands(commands.Cog):
                 # Skip the subdirectory if it doesn't contain any relevant files
                 if not subdirectory_structure:
                     continue
-    
-                # Adjust the subdirectory structure to maintain the desired output format
-                subdirectory_structure = subdirectory_structure.replace("  ├─", "  │ ")
-                subdirectory_structure = subdirectory_structure.replace("  └─", "    ")
-                subdirectory_structure = subdirectory_structure.rstrip()
     
                 # Add the subdirectory structure to the tree structure
                 tree_structure += subdirectory_structure
