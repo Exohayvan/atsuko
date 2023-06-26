@@ -72,20 +72,16 @@ class OwnerCommands(commands.Cog):
             # Get the absolute path of the item
             item_path = os.path.join(path, item)
     
-            # Skip directories and only process files
-            if os.path.isdir(item_path):
-                continue
-    
-            # Check if the file extension matches the desired types
-            if not item_path.endswith(('.py', '.json', '.db')):
-                continue
-    
             # Add indentation based on the depth of the item in the directory tree
             tree_structure += f"{indent}{item}\n"
     
             # Recursively process subdirectories
             if os.path.isdir(item_path):
                 tree_structure += self.generate_tree_structure(item_path, depth + 1)
+            elif os.path.isfile(item_path):
+                # Check if the file extension matches the desired types
+                if item_path.endswith(('.py', '.json', '.db')):
+                    tree_structure += f"{indent}  {item}\n"
     
         return tree_structure
 
