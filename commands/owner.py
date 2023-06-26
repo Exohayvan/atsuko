@@ -61,7 +61,7 @@ class OwnerCommands(commands.Cog):
 
     def generate_tree_structure(self, path, depth=0, is_last=False):
         tree_structure = ""
-        indent = " " * 6 * depth
+        indent = "│   " * depth
     
         # Limit the recursion depth to avoid excessive tree size
         if depth > 4:
@@ -97,7 +97,7 @@ class OwnerCommands(commands.Cog):
             if depth > 0:
                 if is_last_item:
                     tree_structure += "└── "
-                    indent += " " * 4
+                    indent += "    "
                 else:
                     tree_structure += "├── "
                     indent += "│   "
