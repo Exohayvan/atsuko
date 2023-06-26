@@ -62,23 +62,31 @@ class OwnerCommands(commands.Cog):
     def generate_tree_structure(self, path, depth=0):
         tree_structure = ""
         indent = "  " * depth
-
+    
         # Limit the recursion depth to avoid excessive tree size
         if depth > 4:
             return ""
-
+    
         # Iterate through all items (files and directories) in the path
         for item in os.listdir(path):
             # Get the absolute path of the item
             item_path = os.path.join(path, item)
-
+    
+            # Skip directories and only process files
+            if os.path.isdir(item_path):
+                continue
+    
+            # Check if the file extension matches the desired types
+            if not item_path.endswith(('.py', '.json', '.db')):
+                continue
+    
             # Add indentation based on the depth of the item in the directory tree
             tree_structure += f"{indent}{item}\n"
-
+    
             # Recursively process subdirectories
             if os.path.isdir(item_path):
                 tree_structure += self.generate_tree_structure(item_path, depth + 1)
-
+    
         return tree_structure
 
     @commands.command()
