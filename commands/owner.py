@@ -99,7 +99,7 @@ class OwnerCommands(commands.Cog):
                     tree_structure += "└── "
                     indent += "    "
                 else:
-                    tree_structure += "├── "
+                    tree_structure += "│   "
     
             # Add the item to the tree structure
             tree_structure += f"{item}\n"
@@ -113,9 +113,9 @@ class OwnerCommands(commands.Cog):
                     continue
     
                 # Adjust the subdirectory structure to maintain the desired output format
-                subdirectory_structure = subdirectory_structure.replace(f"{indent}├── ", f"{indent}│   ")
-                subdirectory_structure = subdirectory_structure.replace(f"{indent}└── ", f"{indent}    ")
-                subdirectory_structure = subdirectory_structure.rstrip()
+                subdirectory_structure = subdirectory_structure.replace("│   ", "    ")
+                subdirectory_structure = subdirectory_structure.replace("├── ", "│   ")
+                subdirectory_structure = subdirectory_structure.replace("└── ", "    ")
     
                 # Add the subdirectory structure to the tree structure
                 tree_structure += subdirectory_structure
