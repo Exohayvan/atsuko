@@ -80,13 +80,17 @@ class OwnerCommands(commands.Cog):
             # Get the absolute path of the item
             item_path = os.path.join(path, item)
     
+            # Skip directories like "__pycache__"
+            if os.path.isdir(item_path) and item.startswith('__'):
+                continue
+    
             # Add indentation based on the depth of the item in the directory tree
             tree_structure += f"{indent}{item}\n"
     
             # Recursively process subdirectories
             if os.path.isdir(item_path):
                 subdirectory_structure = self.generate_tree_structure(item_path, depth + 1)
-                
+    
                 # Skip the subdirectory if it doesn't contain any relevant files
                 if not subdirectory_structure:
                     continue
