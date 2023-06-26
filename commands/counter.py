@@ -14,7 +14,7 @@ class Counter(commands.Cog):
     @tasks.loop(minutes=10)  # Update every 10 minutes
     async def update_counters(self):
         guilds = self.bot.guilds
-        conn = sqlite3.connect('./data/counter.db')
+        conn = sqlite3.connect('./data/db/counter.db')
         c = conn.cursor()
 
         for guild in guilds:
