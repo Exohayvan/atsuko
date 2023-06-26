@@ -45,12 +45,19 @@ class OwnerCommands(commands.Cog):
         # Generate the tree structure recursively
         tree_structure = self.generate_tree_structure(current_dir)
 
-        # Split the tree structure into chunks of 2000 characters or less
-        tree_chunks = [tree_structure[i : i + 2000] for i in range(0, len(tree_structure), 2000)]
+        # Split the tree structure into lines
+        tree_lines = tree_structure.split('\n')
 
-        # Send each chunk of the tree structure to Discord
-        for chunk in tree_chunks:
-            await ctx.send("```" + chunk + "```")
+        # Send each line of the tree structure as a separate message
+        message = ""
+        for line in tree_lines:
+            if len(message) + len(line) > 1800:
+                await ctx.send("```" + message + "```")
+                message = ""
+            message += line + '\n'
+
+        if message:
+            await ctx.send("```" + message + "```")
 
     def generate_tree_structure(self, path, depth=0):
         tree_structure = ""
