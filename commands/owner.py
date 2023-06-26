@@ -59,7 +59,7 @@ class OwnerCommands(commands.Cog):
         if message:
             await ctx.send("```" + message + "```")
 
-    def generate_tree_structure(self, path, depth=0):
+    def generate_tree_structure(self, path, depth=0, is_last=False):
         tree_structure = ""
         indent = "  " * depth
     
@@ -76,7 +76,8 @@ class OwnerCommands(commands.Cog):
             return ""
     
         # Iterate through all items (files and directories) in the path
-        for item in os.listdir(path):
+        items = sorted(os.listdir(path))
+        for idx, item in enumerate(items):
             # Get the absolute path of the item
             item_path = os.path.join(path, item)
     
@@ -84,12 +85,29 @@ class OwnerCommands(commands.Cog):
             if os.path.isdir(item_path) and item.startswith('__'):
                 continue
     
+            # Check if the item is the last one in the current level
+            is_last_item = is_last and idx == len(items) - 1
+    
             # Add indentation based on the depth of the item in the directory tree
-            tree_structure += f"{indent}{item}\n"
+            tree_structure += f"{indent}"
+            
+            # Add connecting lines
+            if depth > 0:
+                tree_structure += "|"
+                tree_structure += "  " * (depth - 1)
+                tree_structure += "|"
+            
+            if is_last_item:
+                tree_structure += "_"
+            else:
+                tree_structure += "|"
+    
+            # Add the item to the tree structure
+            tree_structure += f"_{item}\n"
     
             # Recursively process subdirectories
             if os.path.isdir(item_path):
-                subdirectory_structure = self.generate_tree_structure(item_path, depth + 1)
+                subdirectory_structure = self.generate_tree_structure(item_path, depth + 1, is_last=is_last_item)
     
                 # Skip the subdirectory if it doesn't contain any relevant files
                 if not subdirectory_structure:
