@@ -32,11 +32,6 @@ class OwnerCommands(commands.Cog):
         if not output and not error:
             await ctx.send("The command executed successfully with no output.")
 
-import os
-
-class OwnerCommands(commands.Cog):
-    # Existing code...
-
     @commands.command()
     async def tree(self, ctx):
         # Check if the user has the correct ID
@@ -55,7 +50,7 @@ class OwnerCommands(commands.Cog):
 
         # Send each chunk of the tree structure to Discord
         for chunk in tree_chunks:
-            await ctx.send(f"```{chunk}```")
+            await ctx.send("```" + chunk + "```")
 
     def generate_tree_structure(self, path, depth=0):
         tree_structure = ""
