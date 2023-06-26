@@ -112,6 +112,11 @@ class OwnerCommands(commands.Cog):
                 if not subdirectory_structure:
                     continue
     
+                # Adjust the subdirectory structure to maintain the desired output format
+                subdirectory_structure = subdirectory_structure.replace(f"{indent}├── ", f"{indent}│   ")
+                subdirectory_structure = subdirectory_structure.replace(f"{indent}└── ", f"{indent}    ")
+                subdirectory_structure = subdirectory_structure.rstrip()
+    
                 # Add the subdirectory structure to the tree structure
                 tree_structure += subdirectory_structure
     
