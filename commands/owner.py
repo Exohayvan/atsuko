@@ -33,6 +33,40 @@ class OwnerCommands(commands.Cog):
             await ctx.send("The command executed successfully with no output.")
 
     @commands.command()
+    async def tree(self, ctx):
+        # Check if the user has the correct ID
+        if ctx.message.author.id != 276782057412362241:
+            await ctx.send("You don't have permission to use this command.")
+            return
+
+        # Get the current directory
+        current_dir = os.getcwd()
+
+        # Generate the tree structure recursively
+        tree_structure = self.generate_tree_structure(current_dir)
+
+        # Send the tree structure to Discord
+        await ctx.send(f"```{tree_structure}```")
+
+    def generate_tree_structure(self, path):
+        tree_structure = ""
+        indent = ""
+
+        # Iterate through all items (files and directories) in the path
+        for item in os.listdir(path):
+            # Get the absolute path of the item
+            item_path = os.path.join(path, item)
+
+            # Add indentation based on the depth of the item in the directory tree
+            tree_structure += f"{indent}{item}\n"
+
+            # Recursively process subdirectories
+            if os.path.isdir(item_path):
+                tree_structure += self.generate_tree_structure(item_path)
+
+        return tree_structure
+        
+    @commands.command()
     async def backup(self, ctx):
         # Check if the user has the correct ID
         if ctx.message.author.id != 276782057412362241:
