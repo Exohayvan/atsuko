@@ -45,12 +45,20 @@ class OwnerCommands(commands.Cog):
         # Generate the tree structure recursively
         tree_structure = self.generate_tree_structure(current_dir)
 
+        # Truncate the tree structure if it exceeds the character limit
+        if len(tree_structure) > 4000:
+            tree_structure = tree_structure[:3997] + "..."
+
         # Send the tree structure to Discord
         await ctx.send(f"```{tree_structure}```")
 
-    def generate_tree_structure(self, path):
+    def generate_tree_structure(self, path, depth=0):
         tree_structure = ""
-        indent = ""
+        indent = "  " * depth
+
+        # Limit the recursion depth to avoid excessive tree size
+        if depth > 4:
+            return ""
 
         # Iterate through all items (files and directories) in the path
         for item in os.listdir(path):
@@ -62,7 +70,7 @@ class OwnerCommands(commands.Cog):
 
             # Recursively process subdirectories
             if os.path.isdir(item_path):
-                tree_structure += self.generate_tree_structure(item_path)
+                tree_structure += self.generate_tree_structure(item_path, depth + 1)
 
         return tree_structure
         
