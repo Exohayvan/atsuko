@@ -76,7 +76,43 @@ class Info(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         self.uptime_start = datetime.datetime.utcnow()
+        
+    @commands.command()
+    async def ping(self, ctx):
+        """Shows the bot's latency and API ping."""
+        # Calculate the latency
+        latency = round(self.bot.latency * 1000)  # in milliseconds
 
+        # Measure the API ping
+        before_api = discord.utils.utcnow()
+        message = await ctx.send("Pinging...")
+        after_api = discord.utils.utcnow()
+        api_ping = (after_api - before_api).total_seconds() * 1000
+
+        # Measure the message ping
+        message_ping = (message.created_at - ctx.message.created_at).total_seconds() * 1000
+
+        # Measure the edit ping
+        before_edit = discord.utils.utcnow()
+        await message.edit(content="Pinging...")
+        after_edit = discord.utils.utcnow()
+        edit_ping = (after_edit - before_edit).total_seconds() * 1000
+
+        # Measure the database ping
+        before_db = discord.utils.utcnow()
+        # Perform a database operation here, replace with actual database query
+        after_db = discord.utils.utcnow()
+        db_ping = (after_db - before_db).total_seconds() * 1000
+
+        embed = discord.Embed(title="Ping", color=discord.Color.dark_cyan())
+        embed.add_field(name="Latency", value=f"{latency}ms", inline=False)
+        embed.add_field(name="API Ping", value=f"{api_ping}ms", inline=False)
+        embed.add_field(name="Message Ping", value=f"{message_ping}ms", inline=False)
+        embed.add_field(name="Edit Ping", value=f"{edit_ping}ms", inline=False)
+        embed.add_field(name="Database Ping", value=f"{db_ping}ms", inline=False)
+
+        await message.edit(content="", embed=embed)
+        
     @commands.command()
     async def info(self, ctx):
         """Provides detailed information about the bot."""
