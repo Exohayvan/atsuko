@@ -64,3 +64,31 @@ a:hover {
 .bar a:hover {
     background-color: #0056b3;
 }
+/* Added dot styles */
+@keyframes moveDots {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(100vw, 100vh);
+    }
+}
+
+.dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #000000;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: moveDots 10s linear infinite;
+}
+
+/* Add dots to the body */
+@for $i from 1 through 50 {
+    .dot:nth-of-type(#{$i}) {
+        top: random(0, 100vh);
+        left: random(0, 100vw);
+        animation-delay: random(0s, 10s);
+    }
+}
