@@ -24,7 +24,7 @@ class ErrorHandling(commands.Cog):
         if isinstance(error, commands.CommandNotFound):
             return
         if isinstance(error, commands.CommandError):
-            issue_title = f"Atsuko Auto Report: {str(error)}"
+            issue_title = f"Auto Generated Report: {str(error)}"
             issue_body = f"**User Message:** {ctx.message.content}\n\n**Error:** {str(error)}"
         
             print(f"Token (first 4 characters): {self.github_token[:4]}")
