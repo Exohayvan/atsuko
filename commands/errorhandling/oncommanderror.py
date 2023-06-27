@@ -23,13 +23,16 @@ class ErrorHandling(commands.Cog):
         if isinstance(error, commands.CommandError):
             issue_title = f"Error Report: {str(error)}"
             issue_body = f"**User Message:** {ctx.message.content}\n\n**Error:** {str(error)}"
-
+    
+            print(f"Token (first 4 characters): {self.github_token[:4]}")
+            print(f"Repository: {self.github_repo}")
+    
             g = Github(self.github_token)
             repo = g.get_repo(self.github_repo)
             repo.create_issue(title=issue_title, body=issue_body)
-
+    
             await ctx.send(f'An error occurred. The issue has been created on GitHub.')
-
+        
 async def setup(bot):
     github_token = config.get('git_token')
     await bot.add_cog(ErrorHandling(bot, github_token))
