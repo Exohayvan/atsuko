@@ -29,12 +29,12 @@ class ErrorHandling(commands.Cog):
             return
         if isinstance(error, commands.CommandError):
             tb = traceback.format_exception(type(error), error, error.__traceback__)
-            traceback_str = "".join(tb)
+            traceback_str = "".join(tb).strip()  # remove leading/trailing white spaces
     
             issue_title = f"Auto Generated Report: {str(error)}"
             issue_body = (f"**User Message:** {ctx.message.content}\n"
                   f"**Error:** {str(error)}\n"
-                  f"**Traceback:** ```python\n{traceback_str}\n```\n"  # end code block here
+                  f"**Traceback:** ```python\n{traceback_str}\n```\n\n"  # extra newline here
                   f"**Command:** `{ctx.command.qualified_name}`\n"  # use inline code format for single line code
                   f"**Author:** {ctx.author}\n"
                   f"**Channel:** {ctx.channel}\n"
