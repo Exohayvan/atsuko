@@ -5,6 +5,7 @@ from github import Github
 def get_config():
     with open('../config.json', 'r') as f:
         config = json.load(f)
+    print(config)
     return config
 
 # Retrieve the GitHub token from the config file
