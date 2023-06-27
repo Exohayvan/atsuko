@@ -33,15 +33,15 @@ class ErrorHandling(commands.Cog):
     
             issue_title = f"Auto Generated Report: {str(error)}"
             issue_body = (f"**User Message:** {ctx.message.content}\n"
-                          f"**Error:** {str(error)}\n"
-                          f"**Traceback:** ```{traceback_str}```\n"
-                          f"**Command:** {ctx.command.qualified_name}\n"
-                          f"**Author:** {ctx.author}\n"
-                          f"**Channel:** {ctx.channel}\n"
-                          f"**Python Version:** {sys.version}\n"
-                          f"**discord.py Version:** {discord.__version__}\n"
-                          f"**OS:** {platform.system()} {platform.release()}")
-    
+                  f"**Error:** {str(error)}\n"
+                  f"**Traceback:** ```python\n{traceback_str}```\n"  # end code block here
+                  f"**Command:** `{ctx.command.qualified_name}`\n"  # use inline code format for single line code
+                  f"**Author:** {ctx.author}\n"
+                  f"**Channel:** {ctx.channel}\n"
+                  f"**Python Version:** `{sys.version}`\n"  # use inline code format for single line code
+                  f"**discord.py Version:** `{discord.__version__}`\n"  # use inline code format for single line code
+                  f"**OS:** `{platform.system()} {platform.release()}`")  # use inline code format for single line code
+                
             g = Github(self.github_token)
             repo = g.get_repo(self.github_repo)
             issue = repo.create_issue(title=issue_title, body=issue_body)
