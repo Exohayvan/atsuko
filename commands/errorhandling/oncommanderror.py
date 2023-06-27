@@ -16,7 +16,7 @@ class ErrorHandling(commands.Cog):
     def __init__(self, bot, github_token):
         self.bot = bot
         self.github_token = github_token
-        self.github_repo = "Exohayvan/atsuko"
+        self.github_repo = "exohayvan/atsuko"
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
