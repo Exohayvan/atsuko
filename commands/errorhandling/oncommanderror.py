@@ -1,3 +1,4 @@
+from discord.ext import commands
 import json
 
 def get_config():
