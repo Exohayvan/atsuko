@@ -26,7 +26,7 @@ class ErrorHandling(commands.Cog):
 
             g = Github(self.github_token)
             repo = g.get_repo(self.github_repo)
-            repo.create_issue(title=issue_title, body=issue_body, user="Atsuko Auto Report")
+            repo.create_issue(title=issue_title, body=issue_body, assignee="Atsuko Auto Report")
 
             await ctx.send(f'An error occurred. The issue has been created on GitHub.')
 
