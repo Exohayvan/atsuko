@@ -34,7 +34,7 @@ class ErrorHandling(commands.Cog):
             issue_title = f"Auto Generated Report: {str(error)}"
             issue_body = (f"**User Message:** {ctx.message.content}\n"
                           f"**Error:** {str(error)}\n"
-                          f"**Traceback:** ```python\n{traceback_str}```\n"
+                          f"**Traceback:** ```{traceback_str}```\n"
                           f"**Command:** {ctx.command.qualified_name}\n"
                           f"**Author:** {ctx.author}\n"
                           f"**Channel:** {ctx.channel}\n"
