@@ -34,7 +34,7 @@ class ErrorHandling(commands.Cog):
             issue_title = f"Auto Generated Report: {str(error)}"
             issue_body = (f"**User Message:** {ctx.message.content}\n"
                   f"**Error:** {str(error)}\n"
-                  f"**Traceback:** ```python\n{traceback_str}\n```\n\n"  # extra newline here
+                  f"**Traceback:** \n```python\n{traceback_str}\n```\n"  # extra newline here
                   f"**Command:** `{ctx.command.qualified_name}`\n"  # use inline code format for single line code
                   f"**Author:** {ctx.author}\n"
                   f"**Channel:** {ctx.channel}\n"
