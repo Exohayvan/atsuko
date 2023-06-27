@@ -64,6 +64,7 @@ a:hover {
 .bar a:hover {
     background-color: #0056b3;
 }
+
 /* Added dot styles */
 @keyframes moveDots {
     0% {
@@ -85,10 +86,21 @@ a:hover {
 }
 
 /* Add dots to the body */
-@for $i from 1 through 50 {
-    .dot:nth-of-type(#{$i}) {
-        top: random(0, 100vh);
-        left: random(0, 100vw);
-        animation-delay: random(0s, 10s);
-    }
+.dot:nth-child(1) {
+    top: 50vh;
+    left: 50vw;
+    animation-delay: 1s;
 }
+
+.dot:nth-child(2) {
+    top: 30vh;
+    left: 80vw;
+    animation-delay: 2s;
+}
+
+/* Add more dot classes as needed */
+/* .dot:nth-child(3) {
+    top: ...;
+    left: ...;
+    animation-delay: ...;
+} */
