@@ -10,7 +10,7 @@ def get_config():
 
 # Retrieve the GitHub token from the config file
 config = get_config()
-github_token = config.get('git_token')
+github_token = config.get('GITHUB_TOKEN')
 
 # Use the retrieved token in your code
 class ErrorHandling(commands.Cog):
@@ -35,5 +35,5 @@ class ErrorHandling(commands.Cog):
             await ctx.send(f'An error occurred. The issue has been created on GitHub.')
         
 async def setup(bot):
-    github_token = config.get('git_token')
+    github_token = config.get('GITHUB_TOKEN')
     await bot.add_cog(ErrorHandling(bot, github_token))
