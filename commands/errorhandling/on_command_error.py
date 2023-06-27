@@ -3,6 +3,7 @@ import json
 from github import Github
 import traceback
 import sys, platform
+import discord
 
 def get_config():
     with open('../config.json', 'r') as f:
