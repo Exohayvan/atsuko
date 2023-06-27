@@ -16,7 +16,7 @@ class ErrorHandling(commands.Cog):
     def __init__(self, bot, github_token):
         self.bot = bot
         self.github_token = github_token
-        self.github_repo = "exohayvan/atsuko"
+        self.github_repo = "Exohayvan/atsuko"
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
@@ -26,7 +26,7 @@ class ErrorHandling(commands.Cog):
 
             g = Github(self.github_token)
             repo = g.get_repo(self.github_repo)
-            repo.create_issue(title=issue_title, body=issue_body, assignee="Atsuko Auto Report")
+            repo.create_issue(title=issue_title, body=issue_body)
 
             await ctx.send(f'An error occurred. The issue has been created on GitHub.')
 
