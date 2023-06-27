@@ -92,11 +92,6 @@ async def on_ready():
     await load_cogs(bot, 'commands')
 
 @bot.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandError):
-        await ctx.send(f'An error occurred: {str(error)}')
-
-@bot.event
 async def on_message(message):
     if message.author.bot:
         return
