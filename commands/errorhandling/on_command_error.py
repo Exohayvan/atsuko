@@ -1,6 +1,7 @@
 from discord.ext import commands
 import json
 from github import Github
+import traceback
 
 def get_config():
     with open('../config.json', 'r') as f:
