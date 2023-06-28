@@ -73,7 +73,7 @@ a:hover {
     width: 10px;
     height: 10px;
     background-color: #000000;
-    border-radius: 50%;
+    border-radius: 100%;
     pointer-events: none;
     animation-name: moveDots;
     animation-timing-function: linear;
