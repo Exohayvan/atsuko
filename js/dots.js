@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 dot.style.left = "0px";
                 break;
         }
-        dot.style.animationDuration = (Math.random() * 5 + 5) + "s";
+        dot.style.animationDuration = (5) + "s";
         document.body.appendChild(dot);
     }
 });
