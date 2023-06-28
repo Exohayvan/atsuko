@@ -73,19 +73,43 @@ a:hover {
     width: 10px;
     height: 10px;
     background-color: #000000;
-    border-radius: 100%;
+    border-radius: 50%;
     pointer-events: none;
-    animation-name: moveDots;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
     z-index: 0;
 }
 
-@keyframes moveDots {
-    0% {
-        transform: translate(0, 0);
-    }
-    100% {
-        transform: translate(var(--end-left), var(--end-top));
-    }
+.dot.top {
+    animation: moveDotsTop 10s linear infinite;
+}
+
+.dot.right {
+    animation: moveDotsRight 10s linear infinite;
+}
+
+.dot.bottom {
+    animation: moveDotsBottom 10s linear infinite;
+}
+
+.dot.left {
+    animation: moveDotsLeft 10s linear infinite;
+}
+
+@keyframes moveDotsTop {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100vh); }
+}
+
+@keyframes moveDotsRight {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100vw); }
+}
+
+@keyframes moveDotsBottom {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100vh); }
+}
+
+@keyframes moveDotsLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100vw); }
 }
