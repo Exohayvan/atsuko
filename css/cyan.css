@@ -75,7 +75,7 @@ a:hover {
     background-color: #000000;
     border-radius: 50%;
     pointer-events: none;
-    animation: moveDots 10s linear infinite;
+    animation: moveDots linear infinite;
     animation-fill-mode: both;
     z-index: 0;
 }
@@ -85,7 +85,6 @@ a:hover {
         transform: translate(0, 0);
     }
     100% {
-        transform: translate(calc(100vw - 10px), calc(100vh - 10px));
+        transform: translate(calc(100vw - var(--dot-left)), calc(100vh - var(--dot-top)));
     }
 }
-
