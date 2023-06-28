@@ -2,9 +2,9 @@
 
 body {
     font-family: Arial, sans-serif;
+    background-color: cyan;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Prevent dots from overflowing */
 }
 
 .container {
@@ -13,7 +13,6 @@ body {
     padding: 40px;
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative; /* Ensure the dots are positioned relative to the container */
 }
 
 h1,
@@ -84,13 +83,4 @@ a:hover {
     border-radius: 50%;
     pointer-events: none;
     animation: moveDots 10s linear infinite;
-}
-
-/* Add dots to the body */
-@for $i from 1 through 50 {
-    .dot:nth-of-type(#{$i}) {
-        top: random(0, 100vh);
-        left: random(0, 100vw);
-        animation-delay: random(0s, 10s);
-    }
 }
