@@ -85,6 +85,6 @@ a:hover {
         transform: translate(0, 0);
     }
     100% {
-        transform: translate(calc(100vw - var(--dot-left)), calc(100vh - var(--dot-top)));
+        transform: translate(100vw, 100vh);
     }
 }
