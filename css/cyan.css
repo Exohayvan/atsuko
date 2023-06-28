@@ -10,6 +10,15 @@ body {
     height: 100vh; /* Make the body cover the whole viewport height */
 }
 
+#dot-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0; /* Make sure this is less than the z-index of other elements */
+}
+
 
 .container {
     max-width: 800px;
