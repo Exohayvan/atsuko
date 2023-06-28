@@ -74,7 +74,7 @@ a:hover {
         transform: translate(0, 0);
     }
     100% {
-        transform: translate(100vw, 100vh);
+        transform: translate(-100%, -100%);
     }
 }
 
@@ -88,4 +88,6 @@ a:hover {
     animation: moveDots 10s linear infinite;
     position: fixed;
     z-index: 0;
+    animation: moveDots 10s linear infinite;
+    animation-fill-mode: both;
 }
