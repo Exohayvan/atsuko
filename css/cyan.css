@@ -6,6 +6,7 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    position: relative;
 }
 
 .container {
@@ -43,6 +44,30 @@ a:hover {
     text-decoration: underline;
 }
 
+.bar {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: right;
+}
+
+.bar a {
+    display: inline-block;
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.bar a:hover {
+    background-color: #0056b3;
+}
+
 .dot {
     position: absolute;
     width: 10px;
@@ -52,15 +77,14 @@ a:hover {
     pointer-events: none;
     animation: moveDots 10s linear infinite;
     animation-fill-mode: both;
+    z-index: 0;
 }
 
 @keyframes moveDots {
     0% {
-        top: 0;
-        left: 0;
+        left: -10px;
     }
     100% {
-        top: calc(100% - 10px);
-        left: calc(100% - 10px);
+        left: 100%;
     }
 }
