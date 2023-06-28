@@ -1,13 +1,25 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var numDots = 1000;  // Increase this if you want more dots
     var bodyRect = document.body.getBoundingClientRect();
+    var directions = ['left', 'right'];
 
-    for (var i = 0; i < numDots; i++) {
+    function createDot() {
         var dot = document.createElement("div");
+        var direction = directions[Math.floor(Math.random() * directions.length)];
         dot.classList.add("dot");
-        dot.style.top = Math.floor(Math.random() * bodyRect.height) + "px"; // Initial position randomly set within the body height
-        dot.style.left = Math.floor(Math.random() * bodyRect.width) + "px"; // Initial position randomly set within the body width
-        dot.style.animationDuration = (Math.random() * 5 + 5) + "s"; // Random animation duration between 5 to 10 seconds
+        dot.classList.add(direction);
+        dot.style.top = Math.floor(Math.random() * bodyRect.height) + "px";
+        dot.style.animationDuration = Math.random() * 5 + 5 + "s";
         document.body.appendChild(dot);
+
+        // Remove dot after it finishes animating
+        dot.addEventListener('animationend', function() {
+            document.body.removeChild(dot);
+        });
+
+        // Limit the number of dots
+        if (document.querySelectorAll('.dot').length < 200) {
+            setTimeout(createDot, 100);  // Create a new dot every 100ms
+        }
     }
+    createDot();  // Start creating dots
 });
