@@ -75,17 +75,29 @@ a:hover {
     background-color: #000000;
     border-radius: 50%;
     pointer-events: none;
-    animation-name: moveDots;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
     z-index: 0;
 }
 
-@keyframes moveDots {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(100vh);
-    }
+.dot.left {
+    left: 0;
+    animation-name: moveDotsRight;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.dot.right {
+    right: 0;
+    animation-name: moveDotsLeft;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes moveDotsRight {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100vw); }
+}
+
+@keyframes moveDotsLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100vw); }
 }
