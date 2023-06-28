@@ -6,9 +6,13 @@ document.addEventListener("DOMContentLoaded", function() {
     for (var i = 0; i < numDots; i++) {
         var dot = document.createElement("div");
         dot.classList.add("dot");
-        dot.style.top = Math.random() * (bodyRect.height - dotSize) + "px";
-        dot.style.left = Math.random() * (bodyRect.width - dotSize) + "px";
+        dot.style.top = getRandomPosition(0, bodyRect.height - dotSize) + "px";
+        dot.style.left = getRandomPosition(0, bodyRect.width - dotSize) + "px";
         dot.style.animationDelay = Math.random() * 10 + "s";
         document.body.appendChild(dot);
     }
 });
+
+function getRandomPosition(min, max) {
+    return Math.random() * (max - min) + min;
+}
