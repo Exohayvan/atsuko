@@ -86,7 +86,7 @@ a:hover {
     background-color: #000000;
     border-radius: 50%;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
 }
 
 .dot.left {
