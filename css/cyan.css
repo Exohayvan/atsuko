@@ -78,6 +78,21 @@ a:hover {
     }
 }
 
+@keyframes fadeContainer {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 .dot {
     position: absolute;
     width: 10px;
@@ -85,7 +100,7 @@ a:hover {
     background-color: #000000;
     border-radius: 50%;
     pointer-events: none;
-    animation: moveDots 10s linear infinite;
+    animation: moveDots 5s linear infinite;
 }
 
 .dots-container {
@@ -95,4 +110,5 @@ a:hover {
     top: 0;
     left: 0;
     z-index: 0;
+    animation: fadeContainer 5s forwards;
 }
