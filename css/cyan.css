@@ -74,7 +74,7 @@ a:hover {
         transform: translate(0, 0);
     }
     100% {
-        transform: translate(100%, 100%);
+        transform: translate(-100%, -100%);
     }
 }
 
@@ -88,9 +88,8 @@ a:hover {
     animation: moveDots 10s linear infinite;
 }
 
-/* JavaScript-generated dots */
 .dots-container {
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
     top: 0;
