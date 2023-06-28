@@ -2,9 +2,9 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: cyan;
     margin: 0;
     padding: 0;
+    overflow: hidden; /* Prevent dots from overflowing */
 }
 
 .container {
@@ -13,6 +13,7 @@ body {
     padding: 40px;
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative; /* Ensure the dots are positioned relative to the container */
 }
 
 h1,
@@ -86,21 +87,10 @@ a:hover {
 }
 
 /* Add dots to the body */
-.dot:nth-child(1) {
-    top: 50vh;
-    left: 50vw;
-    animation-delay: 1s;
+@for $i from 1 through 50 {
+    .dot:nth-of-type(#{$i}) {
+        top: random(0, 100vh);
+        left: random(0, 100vw);
+        animation-delay: random(0s, 10s);
+    }
 }
-
-.dot:nth-child(2) {
-    top: 30vh;
-    left: 80vw;
-    animation-delay: 2s;
-}
-
-/* Add more dot classes as needed */
-/* .dot:nth-child(3) {
-    top: ...;
-    left: ...;
-    animation-delay: ...;
-} */
