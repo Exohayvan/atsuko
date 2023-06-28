@@ -82,9 +82,10 @@ a:hover {
 
 @keyframes moveDots {
     0% {
-        transform: translate(-50%, -50%);
+        transform: translate(0, 0);
     }
     100% {
-        transform: translate(100%, 100%);
+        transform: translate(calc(100vw - 10px), calc(100vh - 10px));
     }
 }
+
