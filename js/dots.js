@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
         dot.classList.add("dot");
         dot.style.top = getRandomPosition(0, bodyRect.height - dotSize) + "px";
         dot.style.left = getRandomPosition(0, bodyRect.width - dotSize) + "px";
-        dot.style.animationDelay = Math.random() * 10 + "s";
+        dot.style.animationDuration = Math.max(bodyRect.width, bodyRect.height)/100 + "s"; // Adjusted the animation duration according to the screen size.
         document.body.appendChild(dot);
     }
 });
