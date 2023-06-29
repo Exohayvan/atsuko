@@ -22,6 +22,7 @@ class Family(commands.Cog):
         if ctx.author == member:
             await ctx.send(f"{ctx.author.mention}, you cannot send an adoption request to yourself.")
             return
+
         cursor = self.conn.cursor()
         try:
             cursor.execute("INSERT INTO AdoptionRequests(sender_id, receiver_id) VALUES (?, ?)", (ctx.author.id, member.id))
@@ -30,21 +31,41 @@ class Family(commands.Cog):
         except Error as e:
             print(e)
 
-    @commands.command()
-    async def accept_adoption(self, ctx):
-        """Accepts an adoption request."""
-        cursor = self.conn.cursor()
+        # Send the adoption request message with reaction options
+        message = await ctx.send(f"{member.mention}, do you want to be adopted by {ctx.author.mention}? React with ✅ to accept or 🚫 to reject.")
+
+        # Add reaction options to the message
+        await message.add_reaction("✅")  # Accept reaction
+        await message.add_reaction("🚫")  # Reject reaction
+
+        def check(reaction, user):
+            return (
+                user == member
+                and reaction.message.id == message.id
+                and str(reaction.emoji) in ["✅", "🚫"]
+            )
+
         try:
-            cursor.execute("SELECT * FROM AdoptionRequests WHERE receiver_id = ?", (ctx.author.id,))
-            if cursor.fetchone() is None:
-                await ctx.send(f"No adoption requests for {ctx.author.mention}.")
-                return
-            cursor.execute("UPDATE AdoptionRequests SET accepted = 1 WHERE receiver_id = ?", (ctx.author.id,))
-            cursor.execute("DELETE FROM AdoptionRequests WHERE accepted = 1 AND receiver_id = ?", (ctx.author.id,))
-            self.conn.commit()
-            await ctx.send(f"{ctx.author.mention} has accepted the adoption request.")
-        except Error as e:
-            print(e)
+            reaction, user = await self.bot.wait_for("reaction_add", timeout=60.0, check=check)
+
+            if str(reaction.emoji) == "✅":
+                # Accept the adoption request
+                cursor.execute(
+                    "UPDATE AdoptionRequests SET accepted = 1 WHERE sender_id = ? AND receiver_id = ?",
+                    (ctx.author.id, member.id),
+                )
+                self.conn.commit()
+                await ctx.send(f"{member.mention} has accepted the adoption request from {ctx.author.mention}.")
+            else:
+                # Reject the adoption request
+                cursor.execute(
+                    "DELETE FROM AdoptionRequests WHERE sender_id = ? AND receiver_id = ?",
+                    (ctx.author.id, member.id),
+                )
+                self.conn.commit()
+                await ctx.send(f"{member.mention} has rejected the adoption request from {ctx.author.mention}.")
+        except asyncio.TimeoutError:
+            await ctx.send(f"The adoption request sent to {member.mention} timed out.")
 
     @commands.command()
     async def reject_adoption(self, ctx):
@@ -54,20 +75,6 @@ class Family(commands.Cog):
             cursor.execute("DELETE FROM AdoptionRequests WHERE receiver_id = ?", (ctx.author.id,))
             self.conn.commit()
             await ctx.send(f"{ctx.author.mention} has rejected the adoption request.")
-        except Error as e:
-            print(e)
-
-    @commands.command()
-    async def propose(self, ctx, *, member: discord.Member):
-        """Sends a marriage proposal to another member."""
-        if ctx.author == member:
-            await ctx.send(f"{ctx.author.mention}, you cannot send a marriage proposal to yourself.")
-            return
-        cursor = self.conn.cursor()
-        try:
-            cursor.execute("INSERT INTO MarriageRequests(sender_id, receiver_id) VALUES (?, ?)", (ctx.author.id, member.id))
-            self.conn.commit()
-            await ctx.send(f"{ctx.author.mention} has sent a marriage proposal to {member.mention}.")
         except Error as e:
             print(e)
 
