@@ -47,7 +47,6 @@ class Family(commands.Cog):
         try:
             cursor.execute("INSERT INTO AdoptionRequests(sender_id, receiver_id) VALUES (?, ?)", (ctx.author.id, member.id))
             self.conn.commit()
-            await ctx.send(f"{ctx.author.mention} has sent an adoption request to {member.mention}.")
         except Error as e:
             print(e)
 
@@ -86,17 +85,6 @@ class Family(commands.Cog):
                 await ctx.send(f"{member.mention} has rejected the adoption request from {ctx.author.mention}.")
         except asyncio.TimeoutError:
             await ctx.send(f"The adoption request sent to {member.mention} timed out.")
-
-    @commands.command()
-    async def reject_adoption(self, ctx):
-        """Rejects an adoption request."""
-        cursor = self.conn.cursor()
-        try:
-            cursor.execute("DELETE FROM AdoptionRequests WHERE receiver_id = ?", (ctx.author.id,))
-            self.conn.commit()
-            await ctx.send(f"{ctx.author.mention} has rejected the adoption request.")
-        except Error as e:
-            print(e)
 
     @commands.command()
     async def accept_marriage(self, ctx):
