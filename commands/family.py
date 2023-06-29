@@ -9,6 +9,9 @@ class Family(commands.Cog):
         self.bot = bot
         self.conn = self.create_connection()
 
+        # Create necessary tables
+        self.create_tables()
+
     def create_connection(self):
         conn = None
         try:
@@ -17,6 +20,21 @@ class Family(commands.Cog):
         except Error as e:
             print(e)
         return conn
+
+    def create_tables(self):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS AdoptionRequests (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                sender_id INTEGER,
+                receiver_id INTEGER,
+                accepted INTEGER DEFAULT 0,
+                FOREIGN KEY (sender_id) REFERENCES Users (id),
+                FOREIGN KEY (receiver_id) REFERENCES Users (id)
+            )
+        """)
+        
+        self.conn.commit()
 
     @commands.command()
     async def adopt(self, ctx, *, member: discord.Member):
