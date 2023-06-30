@@ -39,8 +39,8 @@ class Family(commands.Cog):
         # Add edges for each relationship
         for relationship in relationships:
             # Get user objects using the IDs
-            sender_user = self.bot.get_user(relationship[0])
-            receiver_user = self.bot.get_user(relationship[1])
+            sender_user = await self.bot.fetch_user(relationship[0])
+            receiver_user = await self.bot.fetch_user(relationship[1])
     
             # If the users exist, add them to the graph using their usernames
             if sender_user and receiver_user:
@@ -49,8 +49,8 @@ class Family(commands.Cog):
         # Save the graph to a file with the member_id as the name
         filename = f'family_tree_{member_id}.gv'
         dot.render(filename, format='png', view=True)
-        return filename  # Return the filename so it can be used later        
-    
+        return filename  # Return the filename so it can be used later
+        
     def create_tables(self):
         cursor = self.conn.cursor()
         
