@@ -4,7 +4,6 @@ import sqlite3
 import asyncio
 from sqlite3 import Error
 from graphviz import Digraph
-import os
 
 class Family(commands.Cog):
     def __init__(self, bot):
@@ -28,30 +27,44 @@ class Family(commands.Cog):
     
         # Create a cursor and select all accepted adoption requests involving the member
         cursor = self.conn.cursor()
+    
+        # Fetch and label adoption requests
         cursor.execute("""
             SELECT sender_id, receiver_id 
             FROM AdoptionRequests 
             WHERE accepted = 1 AND (sender_id = ? OR receiver_id = ?)
         """, (member_id, member_id))
-    
         # Get all the rows
-        relationships = cursor.fetchall()
+        adoptions = cursor.fetchall()
     
-        # Add edges for each relationship
-        for relationship in relationships:
-            # Get user objects using the IDs
-            sender_user = self.bot.get_user(relationship[0])
-            receiver_user = self.bot.get_user(relationship[1])
-    
-            # If the users exist, add them to the graph using their usernames
+        # Add edges for each adoption
+        for adoption in adoptions:
+            sender_user = self.bot.get_user(adoption[0])
+            receiver_user = self.bot.get_user(adoption[1])
             if sender_user and receiver_user:
-                dot.edge(str(sender_user), str(receiver_user))
+                dot.edge(str(sender_user), str(receiver_user), label='Adopted')
+    
+        # Fetch and label marriage requests
+        cursor.execute("""
+            SELECT sender_id, receiver_id 
+            FROM MarriageRequests 
+            WHERE accepted = 1 AND (sender_id = ? OR receiver_id = ?)
+        """, (member_id, member_id))
+        # Get all the rows
+        marriages = cursor.fetchall()
+    
+        # Add edges for each marriage
+        for marriage in marriages:
+            sender_user = self.bot.get_user(marriage[0])
+            receiver_user = self.bot.get_user(marriage[1])
+            if sender_user and receiver_user:
+                dot.edge(str(sender_user), str(receiver_user), label='Married')
     
         # Save the graph to a file with the member_id as the name
         filename = f'family_tree_{member_id}.gv'
         dot.render(filename, format='png', view=True)
-        return filename  # Return the filename so it can be used later
-    
+        return filename
+        
     def create_tables(self):
         cursor = self.conn.cursor()
         
@@ -184,11 +197,8 @@ class Family(commands.Cog):
     @commands.command()
     async def family(self, ctx):
         """Shows the family tree of the author."""
-        filename = self.generate_family_tree(ctx.author.id)
-        await ctx.send(file=discord.File(f'{filename}.png'))
-        
-        # Remove the file after sending it
-        os.remove(f'{filename}.png')
-                
+        self.generate_family_tree(ctx.author.id)
+        await ctx.send(file=discord.File('family_tree.gv.png'))
+            
 async def setup(bot):
     await bot.add_cog(Family(bot))
