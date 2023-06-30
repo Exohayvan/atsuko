@@ -25,45 +25,31 @@ class Family(commands.Cog):
     def generate_family_tree(self, member_id):
         dot = Digraph(comment='Family Tree')
     
-        # Create a cursor
+        # Create a cursor and select all accepted adoption requests involving the member
         cursor = self.conn.cursor()
-    
-        # Select all accepted adoption requests involving the member
         cursor.execute("""
             SELECT sender_id, receiver_id 
             FROM AdoptionRequests 
             WHERE accepted = 1 AND (sender_id = ? OR receiver_id = ?)
         """, (member_id, member_id))
+    
         # Get all the rows
-        adoptions = cursor.fetchall()
+        relationships = cursor.fetchall()
     
-        # Add edges for each adoption
-        for adoption in adoptions:
-            sender_user = self.bot.get_user(adoption[0])
-            receiver_user = self.bot.get_user(adoption[1])
+        # Add edges for each relationship
+        for relationship in relationships:
+            # Get user objects using the IDs
+            sender_user = self.bot.get_user(relationship[0])
+            receiver_user = self.bot.get_user(relationship[1])
+    
+            # If the users exist, add them to the graph using their usernames
             if sender_user and receiver_user:
-                dot.edge(str(sender_user), str(receiver_user), xlabel='Adopted', color='red')
-    
-        # Select all accepted marriage requests involving the member
-        cursor.execute("""
-            SELECT sender_id, receiver_id 
-            FROM MarriageRequests 
-            WHERE accepted = 1 AND (sender_id = ? OR receiver_id = ?)
-        """, (member_id, member_id))
-        # Get all the rows
-        marriages = cursor.fetchall()
-    
-        # Add edges for each marriage
-        for marriage in marriages:
-            sender_user = self.bot.get_user(marriage[0])
-            receiver_user = self.bot.get_user(marriage[1])
-            if sender_user and receiver_user:
-                dot.edge(str(sender_user), str(receiver_user), xlabel='Married', color='blue')
+                dot.edge(str(sender_user), str(receiver_user))
     
         # Save the graph to a file with the member_id as the name
         filename = f'family_tree_{member_id}.gv'
         dot.render(filename, format='png', view=True)
-        return filename
+        return filename  # Return the filename so it can be used later
         
     def create_tables(self):
         cursor = self.conn.cursor()
