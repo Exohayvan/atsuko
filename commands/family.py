@@ -42,7 +42,7 @@ class Family(commands.Cog):
             sender_user = await self.bot.fetch_user(adoption[0])
             receiver_user = await self.bot.fetch_user(adoption[1])
             if sender_user and receiver_user:
-                dot.edge(str(sender_user), str(receiver_user), label='Adopted')
+                dot.edge(sender_user.name, receiver_user.name, xlabel='Adopted')
     
         # Fetch and label marriage requests
         cursor.execute("""
@@ -58,7 +58,7 @@ class Family(commands.Cog):
             sender_user = await self.bot.fetch_user(marriage[0])
             receiver_user = await self.bot.fetch_user(marriage[1])
             if sender_user and receiver_user:
-                dot.edge(str(sender_user), str(receiver_user), label='Married')
+                dot.edge(sender_user.name, receiver_user.name, xlabel='Married')
     
         # Save the graph to a file with the member_id as the name
         filename = f'family_tree_{member_id}.gv'
