@@ -23,6 +23,8 @@ class Family(commands.Cog):
 
     def create_tables(self):
         cursor = self.conn.cursor()
+        
+        # Create AdoptionRequests table
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS AdoptionRequests (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,7 +35,19 @@ class Family(commands.Cog):
                 FOREIGN KEY (receiver_id) REFERENCES Users (id)
             )
         """)
-        
+    
+        # Create MarriageRequests table
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS MarriageRequests (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                sender_id INTEGER,
+                receiver_id INTEGER,
+                accepted INTEGER DEFAULT 0,
+                FOREIGN KEY (sender_id) REFERENCES Users (id),
+                FOREIGN KEY (receiver_id) REFERENCES Users (id)
+            )
+        """)
+    
         self.conn.commit()
 
     @commands.command()
