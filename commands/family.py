@@ -177,5 +177,6 @@ class Family(commands.Cog):
         """Shows the family tree of the author."""
         self.generate_family_tree(ctx.author.id)
         await ctx.send(file=discord.File('family_tree.gv.png'))
-    async def setup(bot):
-        await bot.add_cog(Family(bot))
+        
+async def setup(bot):
+    await bot.add_cog(Family(bot))
