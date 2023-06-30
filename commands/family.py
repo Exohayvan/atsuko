@@ -23,7 +23,7 @@ class Family(commands.Cog):
         return conn
 
     async def generate_family_tree(self, member_id):
-        dot = Digraph(comment='Family Tree')
+        dot = Digraph(comment='Family Tree', node_attr={'color': 'lightblue2', 'style': 'filled'})
     
         # Create a cursor and select all accepted adoption requests involving the member
         cursor = self.conn.cursor()
@@ -42,7 +42,9 @@ class Family(commands.Cog):
             sender_user = await self.bot.fetch_user(adoption[0])
             receiver_user = await self.bot.fetch_user(adoption[1])
             if sender_user and receiver_user:
-                dot.edge(sender_user.name, receiver_user.name, xlabel='Adopted')
+                dot.node(name=str(sender_user.id), label=sender_user.name)
+                dot.node(name=str(receiver_user.id), label=receiver_user.name)
+                dot.edge(str(sender_user.id), str(receiver_user.id), xlabel='Adopted')
     
         # Fetch and label marriage requests
         cursor.execute("""
@@ -58,7 +60,9 @@ class Family(commands.Cog):
             sender_user = await self.bot.fetch_user(marriage[0])
             receiver_user = await self.bot.fetch_user(marriage[1])
             if sender_user and receiver_user:
-                dot.edge(sender_user.name, receiver_user.name, xlabel='Married')
+                dot.node(name=str(sender_user.id), label=sender_user.name)
+                dot.node(name=str(receiver_user.id), label=receiver_user.name)
+                dot.edge(str(sender_user.id), str(receiver_user.id), xlabel='Married')
     
         # Save the graph to a file with the member_id as the name
         filename = f'family_tree_{member_id}.gv'
