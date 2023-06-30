@@ -3,6 +3,7 @@ from discord.ext import commands
 import sqlite3
 import asyncio
 from sqlite3 import Error
+from graphviz import Digraph
 
 class Family(commands.Cog):
     def __init__(self, bot):
@@ -21,6 +22,27 @@ class Family(commands.Cog):
             print(e)
         return conn
 
+    def generate_family_tree(self, member_id):
+        dot = Digraph(comment='Family Tree')
+    
+        # Create a cursor and select all accepted adoption requests involving the member
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT sender_id, receiver_id 
+            FROM AdoptionRequests 
+            WHERE accepted = 1 AND (sender_id = ? OR receiver_id = ?)
+        """, (member_id, member_id))
+    
+        # Get all the rows
+        relationships = cursor.fetchall()
+    
+        # Add edges for each relationship
+        for relationship in relationships:
+            dot.edge(str(relationship[0]), str(relationship[1]))
+    
+        # Save the graph to a file
+        dot.render('family_tree.gv', view=True)
+    
     def create_tables(self):
         cursor = self.conn.cursor()
         
@@ -153,7 +175,7 @@ class Family(commands.Cog):
     @commands.command()
     async def show_family(self, ctx):
         """Shows the family tree of the author."""
-        await ctx.send(f"Showing family tree for {ctx.author.mention}.")
-
-async def setup(bot):
-    await bot.add_cog(Family(bot))
+        self.generate_family_tree(ctx.author.id)
+        await ctx.send(file=discord.File('family_tree.gv.png'))
+    async def setup(bot):
+        await bot.add_cog(Family(bot))
