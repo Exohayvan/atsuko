@@ -41,7 +41,7 @@ class Family(commands.Cog):
             dot.edge(str(relationship[0]), str(relationship[1]))
     
         # Save the graph to a file
-        dot.render('family_tree.gv', view=True)
+        dot.render('family_tree.gv', format='png', view=True)
     
     def create_tables(self):
         cursor = self.conn.cursor()
@@ -173,10 +173,10 @@ class Family(commands.Cog):
             await ctx.send(f"The marriage request sent to {member.mention} timed out.")
 
     @commands.command()
-    async def family(self, ctx):
+    async def show_family(self, ctx):
         """Shows the family tree of the author."""
         self.generate_family_tree(ctx.author.id)
-        await ctx.send(file=discord.File('family_tree.gv.png'))
-        
+        await ctx.send(file=discord.File('family_tree.png'))
+            
 async def setup(bot):
     await bot.add_cog(Family(bot))
