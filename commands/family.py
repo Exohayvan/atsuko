@@ -22,13 +22,13 @@ class Family(commands.Cog):
             print(e)
         return conn
 
-    async def generate_family_tree(self, member_id):
-        dot = Digraph(comment='Family Tree', node_attr={'color': 'lightblue2', 'style': 'filled'})
+    def generate_family_tree(self, member_id):
+        dot = Digraph(comment='Family Tree')
     
-        # Create a cursor and select all accepted adoption requests involving the member
+        # Create a cursor
         cursor = self.conn.cursor()
     
-        # Fetch and label adoption requests
+        # Select all accepted adoption requests involving the member
         cursor.execute("""
             SELECT sender_id, receiver_id 
             FROM AdoptionRequests 
@@ -39,16 +39,12 @@ class Family(commands.Cog):
     
         # Add edges for each adoption
         for adoption in adoptions:
-            sender_user = await self.bot.fetch_user(adoption[0])
-            receiver_user = await self.bot.fetch_user(adoption[1])
+            sender_user = self.bot.get_user(adoption[0])
+            receiver_user = self.bot.get_user(adoption[1])
             if sender_user and receiver_user:
-                sender_name = f'{sender_user.name}#{sender_user.discriminator}'
-                receiver_name = f'{receiver_user.name}#{receiver_user.discriminator}'
-                dot.node(name=str(sender_user.id), label=sender_name)
-                dot.node(name=str(receiver_user.id), label=receiver_name)
-                dot.edge(str(sender_user.id), str(receiver_user.id), xlabel='Adopted')
+                dot.edge(str(sender_user), str(receiver_user), xlabel='Adopted', color='red')
     
-        # Fetch and label marriage requests
+        # Select all accepted marriage requests involving the member
         cursor.execute("""
             SELECT sender_id, receiver_id 
             FROM MarriageRequests 
@@ -59,14 +55,10 @@ class Family(commands.Cog):
     
         # Add edges for each marriage
         for marriage in marriages:
-            sender_user = await self.bot.fetch_user(marriage[0])
-            receiver_user = await self.bot.fetch_user(marriage[1])
+            sender_user = self.bot.get_user(marriage[0])
+            receiver_user = self.bot.get_user(marriage[1])
             if sender_user and receiver_user:
-                sender_name = f'{sender_user.name}#{sender_user.discriminator}'
-                receiver_name = f'{receiver_user.name}#{receiver_user.discriminator}'
-                dot.node(name=str(sender_user.id), label=sender_name)
-                dot.node(name=str(receiver_user.id), label=receiver_name)
-                dot.edge(str(sender_user.id), str(receiver_user.id), xlabel='Married')
+                dot.edge(str(sender_user), str(receiver_user), xlabel='Married', color='blue')
     
         # Save the graph to a file with the member_id as the name
         filename = f'family_tree_{member_id}.gv'
