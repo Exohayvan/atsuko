@@ -22,7 +22,7 @@ class Family(commands.Cog):
             print(e)
         return conn
 
-    def generate_family_tree(self, member_id):
+    async def generate_family_tree(self, member_id):
         dot = Digraph(comment='Family Tree')
     
         # Create a cursor and select all accepted adoption requests involving the member
@@ -44,13 +44,13 @@ class Family(commands.Cog):
     
             # If the users exist, add them to the graph using their usernames
             if sender_user and receiver_user:
-                dot.edge(str(sender_user), str(receiver_user))
+                dot.edge(sender_user.name, receiver_user.name)  # Use User.name instead of str(User)
     
         # Save the graph to a file with the member_id as the name
         filename = f'family_tree_{member_id}.gv'
         dot.render(filename, format='png', view=True)
-        return filename  # Return the filename so it can be used later
-        
+        return filename  # Return the filename so it can be used later        
+    
     def create_tables(self):
         cursor = self.conn.cursor()
         
