@@ -4,6 +4,7 @@ import sqlite3
 import asyncio
 from sqlite3 import Error
 from graphviz import Digraph
+import os
 
 class Family(commands.Cog):
     def __init__(self, bot):
@@ -38,10 +39,18 @@ class Family(commands.Cog):
     
         # Add edges for each relationship
         for relationship in relationships:
-            dot.edge(str(relationship[0]), str(relationship[1]))
+            # Get user objects using the IDs
+            sender_user = self.bot.get_user(relationship[0])
+            receiver_user = self.bot.get_user(relationship[1])
     
-        # Save the graph to a file
-        dot.render('family_tree.gv', format='png', view=True)
+            # If the users exist, add them to the graph using their usernames
+            if sender_user and receiver_user:
+                dot.edge(str(sender_user), str(receiver_user))
+    
+        # Save the graph to a file with the member_id as the name
+        filename = f'family_tree_{member_id}.gv'
+        dot.render(filename, format='png', view=True)
+        return filename  # Return the filename so it can be used later
     
     def create_tables(self):
         cursor = self.conn.cursor()
@@ -175,8 +184,11 @@ class Family(commands.Cog):
     @commands.command()
     async def family(self, ctx):
         """Shows the family tree of the author."""
-        self.generate_family_tree(ctx.author.id)
-        await ctx.send(file=discord.File('family_tree.gv.png'))
-            
+        filename = self.generate_family_tree(ctx.author.id)
+        await ctx.send(file=discord.File(f'{filename}.png'))
+        
+        # Remove the file after sending it
+        os.remove(f'{filename}.png')
+                
 async def setup(bot):
     await bot.add_cog(Family(bot))
