@@ -173,7 +173,7 @@ class Family(commands.Cog):
             await ctx.send(f"The marriage request sent to {member.mention} timed out.")
 
     @commands.command()
-    async def show_family(self, ctx):
+    async def family(self, ctx):
         """Shows the family tree of the author."""
         self.generate_family_tree(ctx.author.id)
         await ctx.send(file=discord.File('family_tree.gv.png'))
