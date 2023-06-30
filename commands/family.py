@@ -87,20 +87,54 @@ class Family(commands.Cog):
             await ctx.send(f"The adoption request sent to {member.mention} timed out.")
 
     @commands.command()
-    async def accept_marriage(self, ctx):
-        """Accepts a marriage proposal."""
+    async def marry(self, ctx, *, member: discord.Member):
+        """Sends a marriage request to another member."""
+        if ctx.author == member:
+            await ctx.send(f"{ctx.author.mention}, you cannot send a marriage request to yourself.")
+            return
+    
         cursor = self.conn.cursor()
         try:
-            cursor.execute("SELECT * FROM MarriageRequests WHERE receiver_id = ?", (ctx.author.id,))
-            if cursor.fetchone() is None:
-                await ctx.send(f"No marriage proposals for {ctx.author.mention}.")
-                return
-            cursor.execute("UPDATE MarriageRequests SET accepted = 1 WHERE receiver_id = ?", (ctx.author.id,))
-            cursor.execute("DELETE FROM MarriageRequests WHERE accepted = 1 AND receiver_id = ?", (ctx.author.id,))
+            cursor.execute("INSERT INTO MarriageRequests(sender_id, receiver_id) VALUES (?, ?)", (ctx.author.id, member.id))
             self.conn.commit()
-            await ctx.send(f"{ctx.author.mention} has accepted the marriage proposal.")
         except Error as e:
             print(e)
+    
+        # Send the marriage request message with reaction options
+        message = await ctx.send(f"{member.mention}, do you want to marry {ctx.author.mention}? React with ✅ to accept or 🚫 to reject.")
+    
+        # Add reaction options to the message
+        await message.add_reaction("✅")  # Accept reaction
+        await message.add_reaction("🚫")  # Reject reaction
+    
+        def check(reaction, user):
+            return (
+                user == member
+                and reaction.message.id == message.id
+                and str(reaction.emoji) in ["✅", "🚫"]
+            )
+    
+        try:
+            reaction, user = await self.bot.wait_for("reaction_add", timeout=60.0, check=check)
+    
+            if str(reaction.emoji) == "✅":
+                # Accept the marriage request
+                cursor.execute(
+                    "UPDATE MarriageRequests SET accepted = 1 WHERE sender_id = ? AND receiver_id = ?",
+                    (ctx.author.id, member.id),
+                )
+                self.conn.commit()
+                await ctx.send(f"{member.mention} has accepted the marriage request from {ctx.author.mention}.")
+            else:
+                # Reject the marriage request
+                cursor.execute(
+                    "DELETE FROM MarriageRequests WHERE sender_id = ? AND receiver_id = ?",
+                    (ctx.author.id, member.id),
+                )
+                self.conn.commit()
+                await ctx.send(f"{member.mention} has rejected the marriage request from {ctx.author.mention}.")
+        except asyncio.TimeoutError:
+            await ctx.send(f"The marriage request sent to {member.mention} timed out.")
 
     @commands.command()
     async def show_family(self, ctx):
