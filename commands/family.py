@@ -22,7 +22,7 @@ class Family(commands.Cog):
             print(e)
         return conn
 
-    def generate_family_tree(self, member_id):
+    async def generate_family_tree(self, member_id):
         dot = Digraph(comment='Family Tree')
     
         # Create a cursor and select all accepted adoption requests involving the member
@@ -39,8 +39,8 @@ class Family(commands.Cog):
     
         # Add edges for each adoption
         for adoption in adoptions:
-            sender_user = self.bot.get_user(adoption[0])
-            receiver_user = self.bot.get_user(adoption[1])
+            sender_user = await self.bot.fetch_user(adoption[0])
+            receiver_user = await self.bot.fetch_user(adoption[1])
             if sender_user and receiver_user:
                 dot.edge(str(sender_user), str(receiver_user), label='Adopted')
     
@@ -55,8 +55,8 @@ class Family(commands.Cog):
     
         # Add edges for each marriage
         for marriage in marriages:
-            sender_user = self.bot.get_user(marriage[0])
-            receiver_user = self.bot.get_user(marriage[1])
+            sender_user = await self.bot.fetch_user(marriage[0])
+            receiver_user = await self.bot.fetch_user(marriage[1])
             if sender_user and receiver_user:
                 dot.edge(str(sender_user), str(receiver_user), label='Married')
     
