@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 # Define these at the top of your script
 MAX_AMT = 250
 MIN_AMT = 50
-ZERO_AMT_CHANCE = 20  # Chance of receiving zero gold
+ZERO_AMT_CHANCE = 10  # Chance of receiving zero gold
 INVEST_RETURN = 0.05  # 5% return on investment
 CURRENCY_NAME = "gold"
 
