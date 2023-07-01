@@ -1,4 +1,5 @@
 import requests
+import discord
 from discord.ext import commands
 
 class AniList(commands.Cog):
@@ -15,6 +16,7 @@ class AniList(commands.Cog):
                     entries {
                         media {
                             title {
+                                english
                                 romaji
                             }
                         }
@@ -30,8 +32,15 @@ class AniList(commands.Cog):
         if response.status_code == 200:
             data = response.json()
             watching_list = data['data']['MediaListCollection']['lists'][0]['entries']
-            anime_titles = [entry['media']['title']['romaji'] for entry in watching_list]
-            await ctx.send(f"Currently watching: {', '.join(anime_titles)}")
+            
+            embed = discord.Embed(title=f"{username}'s Watching List", color=discord.Color.blue())
+            
+            for entry in watching_list:
+                media = entry['media']
+                title = media['title']['english'] or media['title']['romaji']
+                embed.add_field(name='Title', value=title, inline=False)
+
+            await ctx.send(embed=embed)
         else:
             await ctx.send("Failed to fetch watching list.")
 
