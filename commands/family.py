@@ -22,7 +22,7 @@ class Family(commands.Cog):
             print(e)
         return conn
 
-     async def generate_family_tree(self, member_id):
+    async def generate_family_tree(self, member_id):
         dot = Digraph(comment='Family Tree')
     
         # Create a cursor and select all accepted adoption requests involving the member
