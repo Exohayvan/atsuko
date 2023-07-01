@@ -8,12 +8,29 @@ class AniList(commands.Cog):
     @commands.command()
     async def watching(self, ctx, username):
         """Fetches the user's watching list from AniList."""
-        # Make a request to the AniList API
-        response = requests.get(f"https://api.anilist.co/user/{username}/animelist")
-        
+        query = '''
+        query ($username: String) {
+            MediaListCollection(userName: $username, type: ANIME, status: CURRENT) {
+                lists {
+                    entries {
+                        media {
+                            title {
+                                romaji
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        '''
+        variables = {'username': username}
+
+        response = requests.post('https://graphql.anilist.co', json={'query': query, 'variables': variables})
+
         if response.status_code == 200:
-            watching_list = response.json()["lists"]["watching"]
-            anime_titles = [anime["anime"]["title"] for anime in watching_list]
+            data = response.json()
+            watching_list = data['data']['MediaListCollection']['lists'][0]['entries']
+            anime_titles = [entry['media']['title']['romaji'] for entry in watching_list]
             await ctx.send(f"Currently watching: {', '.join(anime_titles)}")
         else:
             await ctx.send("Failed to fetch watching list.")
