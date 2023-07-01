@@ -118,51 +118,52 @@ class Random(commands.Cog):
 
         await ctx.send(embed=embed)
         
-    @random.command()
-    async def anime(self, ctx):
-        """Returns a random anime."""
-        # Use the self.total_anime value to get a random anime id
-        if self.total_anime == 0:
-            await ctx.send("Sorry, I couldn't fetch the total number of anime.")
-            return
+@random.command()
+async def anime(self, ctx):
+    """Returns a random anime."""
+    # Use the self.total_anime value to get a random anime id
+    if self.total_anime == 0:
+        await ctx.send("Sorry, I couldn't fetch the total number of anime.")
+        return
 
-        id = random.randint(1, self.total_anime)
+    id = random.randint(1, self.total_anime)
 
-        query = '''
-        query ($id: Int) {
-            Media (id: $id, type: ANIME) {
-                id
-                title {
-                    romaji
-                    english
-                }
-                description (asHtml: false)
-                coverImage {
-                    extraLarge
-                }
+    query = '''
+    query ($id: Int) {
+        Media (id: $id, type: ANIME) {
+            id
+            title {
+                romaji
+                english
+            }
+            description (asHtml: false)
+            coverImage {
+                extraLarge
             }
         }
-        '''
+    }
+    '''
 
-        variables = {
-            'id': id
-        }
-        url = 'https://graphql.anilist.co'
+    variables = {
+        'id': id
+    }
+    url = 'https://graphql.anilist.co'
 
-        response = await self.session.post(url, json={'query': query, 'variables': variables})
-        data = await response.json()
+    response = await self.session.post(url, json={'query': query, 'variables': variables})
+    data = await response.json()
 
-        if response.status == 200:
-            if "data" in data and "Media" in data["data"]:
-                anime = data["data"]["Media"]
-                embed = discord.Embed(title="Random Anime", description=anime["description"])
-                embed.set_footer(text="This is a randomly generated anime. Please watch at your own risk.")
-                embed.set_thumbnail(url=anime["coverImage"]["extraLarge"])
-                await ctx.send(embed=embed)
-            else:
-                await ctx.send("Sorry, the Anilist API did not return a valid anime.")
+    if response.status == 200:
+        if "data" in data and "Media" in data["data"]:
+            anime = data["data"]["Media"]
+            title = f"{anime['title']['english']} ({anime['title']['romaji']})"
+            embed = discord.Embed(title=title, description=anime["description"])
+            embed.set_footer(text="This is a randomly generated anime. Please watch at your own risk.")
+            embed.set_thumbnail(url=anime["coverImage"]["extraLarge"])
+            await ctx.send(embed=embed)
         else:
-            await ctx.send("Sorry, I couldn't fetch an anime right now.")
-            
+            await ctx.send("Sorry, the Anilist API did not return a valid anime.")
+    else:
+        await ctx.send("Sorry, I couldn't fetch an anime right now.")
+                    
 async def setup(bot):
     await bot.add_cog(Random(bot))
