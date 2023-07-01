@@ -157,10 +157,10 @@ class Random(commands.Cog):
                 anime = data["data"]["Media"]
                 
                 # Check if English or Romaji titles are None and set a default value
-                english_title = anime['title']['english'] if anime['title']['english'] else "No English name found"
-                romaji_title = anime['title']['romaji'] if anime['title']['romaji'] else "No Romaji name found"
+                english_title = anime['title']['english'] if anime['title']['english'] else "Not Found"
+                romaji_title = anime['title']['romaji'] if anime['title']['romaji'] else "Not Found"
             
-                title = f"{english_title} | {romaji_title}"
+                title = f"English: {english_title} | Romaji: {romaji_title}"
                 embed = discord.Embed(title=title, description=anime["description"])
                 embed.set_footer(text="This is a randomly generated anime. Please watch at your own risk.")
                 embed.set_thumbnail(url=anime["coverImage"]["extraLarge"])
