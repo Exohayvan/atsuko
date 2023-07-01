@@ -49,8 +49,8 @@ class Family(commands.Cog):
         # Save the graph to a file with the member_id as the name
         filename = f'family_tree_{member_id}.gv'
         dot.render(filename, format='png', view=True)
-        return filename  # Return the filename so it can be used later
-        
+        return filename  # Return the filename so it can be used l
+          
     def create_tables(self):
         cursor = self.conn.cursor()
         
