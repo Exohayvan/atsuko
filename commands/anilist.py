@@ -6,16 +6,21 @@ import requests
 class AniList(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.conn = sqlite3.connect('.data/db/anilist.db')
-        self.c = self.conn.cursor()
-        self.c.execute('''CREATE TABLE IF NOT EXISTS usernames
-                          (id INTEGER PRIMARY KEY, username TEXT)''')
-        self.conn.commit()
+        self.db_path = '.data/db/anilist.db'
+        self.create_database()
+
+    def create_database(self):
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()
+        c.execute('''CREATE TABLE IF NOT EXISTS usernames
+                      (id INTEGER PRIMARY KEY, username TEXT)''')
+        conn.commit()
+        conn.close()
 
     def cog_unload(self):
         """Closes the database connection when the cog is unloaded."""
-        self.conn.close()
-
+        pass
+        
     @commands.group()
     async def anilist(self, ctx):
         """AniList commands."""
