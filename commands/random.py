@@ -155,7 +155,7 @@ class Random(commands.Cog):
         if response.status == 200:
             if "data" in data and "Media" in data["data"]:
                 anime = data["data"]["Media"]
-                title = f"{anime['title']['english']} ({anime['title']['romaji']})"
+                title = f"{anime['title']['english']} | {anime['title']['romaji']}"
                 embed = discord.Embed(title=title, description=anime["description"])
                 embed.set_footer(text="This is a randomly generated anime. Please watch at your own risk.")
                 embed.set_thumbnail(url=anime["coverImage"]["extraLarge"])
