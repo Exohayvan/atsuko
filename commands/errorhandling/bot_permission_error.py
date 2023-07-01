@@ -13,8 +13,8 @@ class BotPermissionError(commands.Cog):
                 # Ignore bot read/send message permissions errors
                 return
 
-        # Handle other bot permission errors here
-        await ctx.send("I'm sorry, I don't have the necessary permissions to execute that command.")
+            # Handle other missing permissions errors here
+            await ctx.send("I'm sorry, I don't have the necessary permissions to execute that command.")
 
 async def setup(bot):
     await bot.add_cog(BotPermissionError(bot))
