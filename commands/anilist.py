@@ -38,7 +38,7 @@ class AniList(commands.Cog):
             for entry in watching_list:
                 media = entry['media']
                 title = media['title']['english'] or media['title']['romaji']
-                embed.add_field(name="\u200B", value=title, inline=False)
+                embed.add_field(name="\u200B", value=f"• {title}", inline=False)
 
             await ctx.send(embed=embed)
         else:
