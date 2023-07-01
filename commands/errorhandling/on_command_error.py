@@ -17,7 +17,7 @@ config = get_config()
 github_token = config.get('GITHUB_TOKEN')
 
 # Use the retrieved token in your code
-class ErrorHandling(commands.Cog):
+class CommandError(commands.Cog):
     def __init__(self, bot, github_token):
         self.bot = bot
         self.github_token = github_token
@@ -52,4 +52,4 @@ class ErrorHandling(commands.Cog):
                                     
 async def setup(bot):
     github_token = config.get('GITHUB_TOKEN')
-    await bot.add_cog(ErrorHandling(bot, github_token))
+    await bot.add_cog(CommandError(bot, github_token))
