@@ -14,11 +14,6 @@ def get_config():
 # Retrieve the private key path from the config file
 config = get_config()
 private_key_path = config.get('PRIVATE_KEY_PATH')
-if os.path.exists(private_key_path):
-    print("Private key file found!")
-    # Continue with your code that uses the private key file
-else:
-    print("Private key file not found. Please check the file path.")
 
 class CommandError(commands.Cog):
     def __init__(self, bot, private_key_path):
@@ -28,6 +23,12 @@ class CommandError(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
+        if os.path.exists(private_key_path):
+            print("Private key file found!")
+            # Continue with your code that uses the private key file
+        else:
+            print("Private key file not found. Please check the file path.")
+
         if isinstance(error, commands.CommandNotFound):
             return
         if isinstance(error, commands.CommandError):
