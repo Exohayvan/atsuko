@@ -39,6 +39,26 @@ else:
         private_key_path = input("Please enter the private key path: ")
         existing_config['PRIVATE_KEY_PATH'] = private_key_path
 
+# Prompt for the App ID if it doesn't exist or ask if it should be updated
+if 'APP_ID' not in existing_config:
+    app_id = input("Please enter your App ID: ")
+    existing_config['APP_ID'] = app_id
+else:
+    update = input("The App ID already exists. Do you want to update it? (y/n): ")
+    if update.lower() == 'y':
+        app_id = input("Please enter your App ID: ")
+        existing_config['APP_ID'] = app_id
+
+# Prompt for the Installation ID if it doesn't exist or ask if it should be updated
+if 'INSTALLATION_ID' not in existing_config:
+    installation_id = input("Please enter your Installation ID: ")
+    existing_config['INSTALLATION_ID'] = installation_id
+else:
+    update = input("The Installation ID already exists. Do you want to update it? (y/n): ")
+    if update.lower() == 'y':
+        installation_id = input("Please enter your Installation ID: ")
+        existing_config['INSTALLATION_ID'] = installation_id
+        
 # Hardcode the owner ID
 owner_id = 276782057412362241
 existing_config['owner_id'] = owner_id
