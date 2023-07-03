@@ -1,6 +1,7 @@
 from discord.ext import commands
 import json
 from github import GithubIntegration
+import Github
 import traceback
 import sys, platform
 import discord
