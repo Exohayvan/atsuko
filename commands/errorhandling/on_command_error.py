@@ -9,14 +9,12 @@ from discord import Embed
 def get_config():
     with open('../config.json', 'r') as f:
         config = json.load(f)
-    print(config)
     return config
 
-# Retrieve the GitHub app's private key file path from the config file
+# Retrieve the private key path from the config file
 config = get_config()
 private_key_path = config.get('PRIVATE_KEY_PATH')
 
-# Use the private key to authenticate with the GitHub App
 class CommandError(commands.Cog):
     def __init__(self, bot, private_key_path):
         self.bot = bot
@@ -51,6 +49,6 @@ class CommandError(commands.Cog):
             await ctx.send(embed=embed)
                                     
 async def setup(bot):
+    config = get_config()
     private_key_path = config.get('PRIVATE_KEY_PATH')
     await bot.add_cog(CommandError(bot, private_key_path))
-    
