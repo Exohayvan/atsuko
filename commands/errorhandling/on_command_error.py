@@ -5,6 +5,7 @@ import traceback
 import sys, platform
 import discord
 from discord import Embed
+import os
 
 def get_config():
     with open('../config.json', 'r') as f:
