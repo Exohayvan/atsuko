@@ -7,6 +7,10 @@ import sys, platform
 import discord
 from discord import Embed
 import os
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 def get_config():
     with open('../config.json', 'r') as f:
@@ -55,10 +59,13 @@ class CommandError(commands.Cog):
             integration = GithubIntegration(self.app_id, private_key)
             token = integration.get_access_token(self.installation_id)
 
-            g = Github(token.token)
-            repo = g.get_repo(self.github_repo)
-            issue = repo.create_issue(title=issue_title, body=issue_body)
-    
+            try:
+                g = Github(token.token)
+                repo = g.get_repo(self.github_repo)
+                issue = repo.create_issue(title=issue_title, body=issue_body)
+            except Exception as e:
+                logger.exception("Failed to create GitHub issue")    
+                
             embed = Embed(title='An error occurred', color=0xff0000)
             embed.add_field(name='Issue created on GitHub', value=f'[Link to issue]({issue.html_url})', inline=False)
             await ctx.send(embed=embed)
