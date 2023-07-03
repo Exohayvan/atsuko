@@ -160,7 +160,8 @@ class Info(commands.Cog):
         total_voice_channels = total_channels - total_text_channels
         total_roles = sum(len(guild.roles) for guild in self.bot.guilds)
         api_latency = round(self.bot.latency * 1000, 2)  # in milliseconds
-
+        database_size = os.path.getsize('./data/db')
+        
         # Presence information
         total_online = total_idle = total_dnd = total_offline = 0
         for guild in self.bot.guilds:
@@ -191,7 +192,8 @@ class Info(commands.Cog):
         embed.add_field(name=":heart: DND Users", value=str(total_dnd), inline=True)
         embed.add_field(name=":black_heart: Offline Users", value=str(total_offline), inline=True)
         embed.add_field(name=":smiley: Emojis", value=str(total_emojis), inline=True)
-
+        embed.add_field(name=":file_cabinet: Database Size", value=f"{database_size} bytes", inline=True)
+        
         # Most used commands
         number_of_commands = 3
         conn = sqlite3.connect('./data/command_usage.db')
