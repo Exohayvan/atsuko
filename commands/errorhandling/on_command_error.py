@@ -31,12 +31,6 @@ class CommandError(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        if os.path.exists(private_key_path):
-            print("Private key file found!")
-            # Continue with your code that uses the private key file
-        else:
-            print("Private key file not found. Please check the file path.")
-
         if isinstance(error, commands.CommandNotFound):
             return
         if isinstance(error, commands.CommandError):
