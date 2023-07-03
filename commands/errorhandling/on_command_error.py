@@ -63,12 +63,11 @@ class CommandError(commands.Cog):
                 g = Github(token.token)
                 repo = g.get_repo(self.github_repo)
                 issue = repo.create_issue(title=issue_title, body=issue_body)
+                embed = Embed(title='An error occurred', color=0xff0000)
+                embed.add_field(name='Issue created on GitHub', value=f'[Link to issue]({issue.html_url})', inline=False)
+                await ctx.send(embed=embed)
             except Exception as e:
                 logger.exception("Failed to create GitHub issue")    
-                
-            embed = Embed(title='An error occurred', color=0xff0000)
-            embed.add_field(name='Issue created on GitHub', value=f'[Link to issue]({issue.html_url})', inline=False)
-            await ctx.send(embed=embed)
 
 async def setup(bot):
     config = get_config()
