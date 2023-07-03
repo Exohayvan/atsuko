@@ -9,27 +9,35 @@ if os.path.exists('../config.json'):
 else:
     existing_config = {}
 
-# Prompt for the bot token and check if it should be updated
-bot_token = input("Please enter your bot token: ")
-if 'bot_token' in existing_config:
+# Prompt for the bot token if it doesn't exist or ask if it should be updated
+if 'bot_token' not in existing_config:
+    bot_token = input("Please enter your bot token: ")
+    existing_config['bot_token'] = bot_token
+else:
     update = input("The bot token already exists. Do you want to update it? (y/n): ")
     if update.lower() == 'y':
+        bot_token = input("Please enter your bot token: ")
         existing_config['bot_token'] = bot_token
-else:
-    existing_config['bot_token'] = bot_token
 
-# Prompt for the GitHub token and check if it should be updated
-github_token = input("Please enter your GitHub token: ")
-if 'GITHUB_TOKEN' in existing_config:
+# Prompt for the GitHub token if it doesn't exist or ask if it should be updated
+if 'GITHUB_TOKEN' not in existing_config:
+    github_token = input("Please enter your GitHub token: ")
+    existing_config['GITHUB_TOKEN'] = github_token
+else:
     update = input("The GitHub token already exists. Do you want to update it? (y/n): ")
     if update.lower() == 'y':
+        github_token = input("Please enter your GitHub token: ")
         existing_config['GITHUB_TOKEN'] = github_token
-else:
-    existing_config['GITHUB_TOKEN'] = github_token
 
-# Prompt for the private key path
-private_key_path = input("Please enter the private key path: ")
-existing_config['PRIVATE_KEY_PATH'] = private_key_path
+# Prompt for the private key path if it doesn't exist or ask if it should be updated
+if 'PRIVATE_KEY_PATH' not in existing_config:
+    private_key_path = input("Please enter the private key path: ")
+    existing_config['PRIVATE_KEY_PATH'] = private_key_path
+else:
+    update = input("The private key path already exists. Do you want to update it? (y/n): ")
+    if update.lower() == 'y':
+        private_key_path = input("Please enter the private key path: ")
+        existing_config['PRIVATE_KEY_PATH'] = private_key_path
 
 # Hardcode the owner ID
 owner_id = 276782057412362241
