@@ -12,15 +12,15 @@ def get_config():
     print(config)
     return config
 
-# Retrieve the GitHub token from the config file
+# Retrieve the GitHub app's private key file path from the config file
 config = get_config()
-github_token = config.get('GITHUB_TOKEN')
+private_key_path = config.get('PRIVATE_KEY_PATH')
 
-# Use the retrieved token in your code
+# Use the private key to authenticate with the GitHub App
 class CommandError(commands.Cog):
-    def __init__(self, bot, github_token):
+    def __init__(self, bot, private_key_path):
         self.bot = bot
-        self.github_token = github_token
+        self.private_key_path = private_key_path
         self.github_repo = "Exohayvan/atsuko"
 
     @commands.Cog.listener()
@@ -42,7 +42,7 @@ class CommandError(commands.Cog):
                   f"**discord.py Version:** `{discord.__version__}`\n"  # use inline code format for single line code
                   f"**OS:** `{platform.system()} {platform.release()}`")  # use inline code format for single line code
                 
-            g = Github(self.github_token)
+            g = Github(self.private_key_path)
             repo = g.get_repo(self.github_repo)
             issue = repo.create_issue(title=issue_title, body=issue_body)
     
@@ -51,5 +51,6 @@ class CommandError(commands.Cog):
             await ctx.send(embed=embed)
                                     
 async def setup(bot):
-    github_token = config.get('GITHUB_TOKEN')
-    await bot.add_cog(CommandError(bot, github_token))
+    private_key_path = config.get('PRIVATE_KEY_PATH')
+    await bot.add_cog(CommandError(bot, private_key_path))
+    
