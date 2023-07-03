@@ -1,6 +1,6 @@
 from discord.ext import commands
 import json
-from github import Github
+from github import GithubIntegration
 import traceback
 import sys, platform
 import discord
@@ -21,6 +21,8 @@ class CommandError(commands.Cog):
         self.bot = bot
         self.private_key_path = private_key_path
         self.github_repo = "Exohayvan/atsuko"
+        self.app_id = config.get('APP_ID')  # You should store your app id in the config file
+        self.installation_id = config.get('INSTALLATION_ID')  # You should store your installation id in the config file
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
@@ -46,16 +48,22 @@ class CommandError(commands.Cog):
                   f"**Python Version:** `{sys.version}`\n"  # use inline code format for single line code
                   f"**discord.py Version:** `{discord.__version__}`\n"  # use inline code format for single line code
                   f"**OS:** `{platform.system()} {platform.release()}`")  # use inline code format for single line code
-                
-            g = Github(self.private_key_path)
+
+            # Use GithubIntegration for app authentication
+            private_key = open(self.private_key_path, 'r').read()
+            integration = GithubIntegration(self.app_id, private_key)
+            token = integration.get_access_token(self.installation_id)
+
+            g = Github(token.token)
             repo = g.get_repo(self.github_repo)
             issue = repo.create_issue(title=issue_title, body=issue_body)
     
             embed = Embed(title='An error occurred', color=0xff0000)
             embed.add_field(name='Issue created on GitHub', value=f'[Link to issue]({issue.html_url})', inline=False)
             await ctx.send(embed=embed)
-                                    
+
 async def setup(bot):
     config = get_config()
     private_key_path = config.get('PRIVATE_KEY_PATH')
     await bot.add_cog(CommandError(bot, private_key_path))
+    
