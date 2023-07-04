@@ -1,5 +1,5 @@
 from discord.ext import commands
-import pip._internal.index as pip_index
+import pip._internal.query as pip_query
 
 class Python(commands.Cog):
     def __init__(self, bot):
@@ -9,11 +9,10 @@ class Python(commands.Cog):
     async def package_info(self, ctx, package_name: str):
         """Provides information about a pip package."""
         try:
-            package_finder = pip_index.PackageFinder()
-            search_results = package_finder.find_requirement(package_name)
+            search_results = list(pip_query.search_packages_info([package_name]))
             if search_results:
                 package = search_results[0]
-                await ctx.send(f"Package: {package.name}\nSummary: {package.summary}")
+                await ctx.send(f"Package: {package['name']}\nSummary: {package['summary']}")
             else:
                 await ctx.send("Package not found.")
         except Exception as e:
