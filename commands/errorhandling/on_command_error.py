@@ -62,7 +62,7 @@ class CommandError(commands.Cog):
             token = integration.get_access_token(self.installation_id)
 
             try:
-                g = Github(token.token)
+                g = github.Github(token.token)
                 repo = g.get_repo(self.github_repo)
                 issue = repo.create_issue(title=issue_title, body=issue_body)
 
