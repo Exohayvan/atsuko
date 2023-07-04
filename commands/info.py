@@ -160,7 +160,7 @@ class Info(commands.Cog):
         total_voice_channels = total_channels - total_text_channels
         total_roles = sum(len(guild.roles) for guild in self.bot.guilds)
         api_latency = round(self.bot.latency * 1000, 2)  # in milliseconds
-        database_size = os.stat('./data/db').st_size
+        database_size = os.stat('./data').st_size
         
         # Presence information
         total_online = total_idle = total_dnd = total_offline = 0
