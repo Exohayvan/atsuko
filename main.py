@@ -63,6 +63,8 @@ def initialize_database():
 
 async def load_cogs(bot, root_dir):
     tasks = []
+    num_cogs = 0  # Initialize the counter
+    
     for dirpath, dirnames, filenames in os.walk(root_dir):
         for filename in filenames:
             if filename.endswith('.py'):
@@ -72,6 +74,7 @@ async def load_cogs(bot, root_dir):
                 try:
                     task = asyncio.create_task(bot.load_extension(module))
                     tasks.append(task)
+                    num_cogs += 1  # Increment the counter
                     print(f"Loaded Cog: {module}")
                 except Exception as e:
                     print(f"Failed to load Cog: {module}\n{e}")
@@ -83,6 +86,7 @@ async def load_cogs(bot, root_dir):
                     pass
 
     await asyncio.gather(*tasks)
+    return num_cogs  # Return the number of loaded cogs
 
 @bot.event
 async def on_ready():
