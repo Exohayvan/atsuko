@@ -5,6 +5,7 @@ import asyncio
 import discord
 import sqlite3
 import os
+import shutil
 
 def get_directory_size(path='.'):
     total = 0
@@ -15,6 +16,19 @@ def get_directory_size(path='.'):
             elif entry.is_dir():
                 total += get_directory_size(entry.path)
     return total
+
+def convert_size(size_bytes):
+    if size_bytes == 0:
+        return "0B"
+    size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+    i = int(math.floor(math.log(size_bytes, 1024)))
+    p = math.pow(1024, i)
+    s = round(size_bytes / p, 2)
+    return f"{s} {size_name[i]}"
+
+def get_available_space(path='.'):
+    total, used, free = shutil.disk_usage(path)
+    return convert_size(free)
 
 class Info(commands.Cog):
     def __init__(self, bot):
@@ -171,6 +185,8 @@ class Info(commands.Cog):
         total_roles = sum(len(guild.roles) for guild in self.bot.guilds)
         api_latency = round(self.bot.latency * 1000, 2)  # in milliseconds
         database_size = get_directory_size('./data')
+        database_size_readable = convert_size(database_size)
+        available_space = get_available_space('./data')
         
         # Presence information
         total_online = total_idle = total_dnd = total_offline = 0
@@ -202,7 +218,7 @@ class Info(commands.Cog):
         embed.add_field(name=":heart: DND Users", value=str(total_dnd), inline=True)
         embed.add_field(name=":black_heart: Offline Users", value=str(total_offline), inline=True)
         embed.add_field(name=":smiley: Emojis", value=str(total_emojis), inline=True)
-        embed.add_field(name=":file_cabinet: Database Size", value=f"{database_size} bytes", inline=True)
+        embed.add_field(name=":file_cabinet: Database Size", value=f"{database_size_readable} (Available: {available_space})", inline=True)
         
         # Most used commands
         number_of_commands = 3
