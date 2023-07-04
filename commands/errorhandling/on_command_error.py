@@ -35,7 +35,6 @@ class CommandError(commands.Cog):
         if isinstance(error, commands.CommandNotFound):
             return
         if isinstance(error, commands.CommandError):
-            await ctx.send("CommandError caught")
             tb = traceback.format_exception(type(error), error, error.__traceback__)
             traceback_str = "".join(tb).strip()  # remove leading/trailing white spaces
 
@@ -64,7 +63,7 @@ class CommandError(commands.Cog):
                 embed.add_field(name='Issue created on GitHub', value=f'[Link to issue]({issue.html_url})', inline=False)
                 await ctx.send(embed=embed)
             except Exception as e:
-                await ctx.sent(f"I am unable to open an issue on GitHub")
+                await ctx.sent(f"I am unable to open an issue on GitHub.")
                 await ctx.send(f"An unexpected error occurred: {e}")
                     
 async def setup(bot):
