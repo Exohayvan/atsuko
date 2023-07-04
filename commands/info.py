@@ -6,6 +6,7 @@ import discord
 import sqlite3
 import os
 import shutil
+import math
 
 def get_directory_size(path='.'):
     total = 0
