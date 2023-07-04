@@ -6,6 +6,16 @@ import discord
 import sqlite3
 import os
 
+def get_directory_size(path='.'):
+    total = 0
+    with os.scandir(path) as it:
+        for entry in it:
+            if entry.is_file():
+                total += entry.stat().st_size
+            elif entry.is_dir():
+                total += get_directory_size(entry.path)
+    return total
+
 class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -22,16 +32,6 @@ class Info(commands.Cog):
         rv = sqlite3.connect('./data/uptime.db')
         rv.row_factory = sqlite3.Row
         return rv
-    
-    def get_directory_size(path='.'):
-        total = 0
-        with os.scandir(path) as it:
-            for entry in it:
-                if entry.is_file():
-                    total += entry.stat().st_size
-                elif entry.is_dir():
-                    total += get_directory_size(entry.path)
-        return total
         
     def init_daily_uptime_db(self):
         """Initializes the daily uptime database."""
@@ -170,7 +170,7 @@ class Info(commands.Cog):
         total_voice_channels = total_channels - total_text_channels
         total_roles = sum(len(guild.roles) for guild in self.bot.guilds)
         api_latency = round(self.bot.latency * 1000, 2)  # in milliseconds
-        database_size = self.get_directory_size('./data')
+        database_size = get_directory_size('./data')
         
         # Presence information
         total_online = total_idle = total_dnd = total_offline = 0
