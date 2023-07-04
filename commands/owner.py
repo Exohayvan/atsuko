@@ -167,7 +167,7 @@ class OwnerCommands(commands.Cog):
             with open('restart_id.temp', 'w') as f:
                 json.dump({'channel_id': ctx.channel.id}, f)
             await ctx.send(f'Update successful: {output}')
-            await ctx.send('Bot restarting.')
+            await ctx.send('I am restarting.')
             sys.exit(RESTART_EXIT_CODE)
 
     @commands.command()
@@ -179,7 +179,7 @@ class OwnerCommands(commands.Cog):
         # Save channel ID before restarting
         with open('restart_id.temp', 'w') as f:
             json.dump({'channel_id': ctx.channel.id}, f)
-        await ctx.send('Bot restarting.')
+        await ctx.send('I am restarting.')
         sys.exit(RESTART_EXIT_CODE)
 
 async def setup(bot):
