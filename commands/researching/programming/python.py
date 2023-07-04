@@ -1,5 +1,5 @@
 from discord.ext import commands
-import pip._internal.query as pip_query
+import aiohttp
 
 class Python(commands.Cog):
     def __init__(self, bot):
@@ -8,15 +8,14 @@ class Python(commands.Cog):
     @commands.command()
     async def package_info(self, ctx, package_name: str):
         """Provides information about a pip package."""
-        try:
-            search_results = list(pip_query.search_packages_info([package_name]))
-            if search_results:
-                package = search_results[0]
-                await ctx.send(f"Package: {package['name']}\nSummary: {package['summary']}")
-            else:
-                await ctx.send("Package not found.")
-        except Exception as e:
-            await ctx.send(f"An error occurred: {e}")
-
+        async with aiohttp.ClientSession() as session:
+            async with session.get(f'https://pypi.org/pypi/{package_name}/json') as r:
+                if r.status == 200:
+                    data = await r.json()
+                    info = data['info']
+                    await ctx.send(f"Package: {info['name']}\nSummary: {info['summary']}")
+                else:
+                    await ctx.send("Package not found.")
+                    
 async def setup(bot):
     await bot.add_cog(Python(bot))
