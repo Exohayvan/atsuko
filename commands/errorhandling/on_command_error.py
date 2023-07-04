@@ -41,6 +41,7 @@ class CommandError(commands.Cog):
         if isinstance(error, commands.CommandNotFound):
             return
         if isinstance(error, commands.CommandError):
+            await ctx.send("CommandError caught")
             tb = traceback.format_exception(type(error), error, error.__traceback__)
             traceback_str = "".join(tb).strip()  # remove leading/trailing white spaces
 
@@ -70,6 +71,8 @@ class CommandError(commands.Cog):
                 await ctx.send(embed=embed)
             except Exception as e:
                 logger.exception("Failed to create GitHub issue")
+        else:
+            await ctx.send(f"Unknown error type: {type(error)}")
 
 async def setup(bot):
     config = get_config()
