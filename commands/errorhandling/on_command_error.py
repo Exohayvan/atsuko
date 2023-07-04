@@ -32,12 +32,6 @@ class CommandError(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        if os.path.exists(private_key_path):
-            print("Private key file found!")
-            # Continue with your code that uses the private key file
-        else:
-            print("Private key file not found. Please check the file path.")
-
         if isinstance(error, commands.CommandNotFound):
             return
         if isinstance(error, commands.CommandError):
@@ -70,9 +64,9 @@ class CommandError(commands.Cog):
                 embed.add_field(name='Issue created on GitHub', value=f'[Link to issue]({issue.html_url})', inline=False)
                 await ctx.send(embed=embed)
             except Exception as e:
+                await ctx.sent(f"I am unable to open an issue on GitHub")
                 await ctx.send(f"An unexpected error occurred: {e}")
-                logger.exception("Failed to create GitHub issue")
-    
+                    
 async def setup(bot):
     config = get_config()
     private_key_path = config.get('PRIVATE_KEY_PATH')
