@@ -14,11 +14,11 @@ class Presence(commands.Cog):
     async def change_presence(self):
         """Automatically changes the bot's presence every 30 seconds."""
         statuses = [
-            "playing with the !help command 📚",  
-            f"playing with {len(self.bot.users)} users 👥",
-            f"playing on {len(self.bot.guilds)} servers 🌐",
-            f"playing around {sum(len(guild.channels) for guild in self.bot.guilds)} channels 💬",
-            "playing with my creator, ExoHayvan 🛠️"
+            "with the !help command 📚",  
+            f"with {len(self.bot.users)} users 👥",
+            f"on {len(self.bot.guilds)} servers 🌐",
+            f"around {sum(len(guild.channels) for guild in self.bot.guilds)} channels 💬",
+            "with my creator, ExoHayvan 🩵"
         ]
         self.statuses = itertools.cycle(statuses)
         next_status = next(self.statuses)
