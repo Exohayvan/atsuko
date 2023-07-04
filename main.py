@@ -89,7 +89,6 @@ async def on_ready():
     print(f"We have logged in as {bot.user}")
     user_count = sum(guild.member_count for guild in bot.guilds)
     await bot.change_presence(activity=discord.Game(name=f"!help with {user_count} users"))
-    await load_cogs(bot, 'commands')
 
     # Retrieve the saved channel ID from the file
     with open('restart_id.temp', 'r') as f:
@@ -103,21 +102,18 @@ async def on_ready():
             await channel.send("I am starting back up!")
             await channel.send("Loading command cogs.")
 
-    # Load cogs and count them
-    num_cogs = await load_cogs(bot, 'commands')
-    if channel_id and channel:
-        await channel.send(f"Cogs loaded ({num_cogs} cogs)")
+            # Load cogs and count them
+            num_cogs = await load_cogs(bot, 'commands')
+            await channel.send(f"Cogs loaded ({num_cogs} cogs)")
 
-    # Set presence
-    if channel_id and channel:
-        await channel.send("Setting presence.")
-    user_count = sum(guild.member_count for guild in bot.guilds)
-    await bot.change_presence(activity=discord.Game(name=f"!help with {user_count} users"))
-
-    # Send presence set message
-    if channel_id and channel:
-        await channel.send("Presence has been set.")
-        await channel.send("I have restarted!")
+            # Set presence
+            await channel.send("Setting presence.")
+            user_count = sum(guild.member_count for guild in bot.guilds)
+            await bot.change_presence(activity=discord.Game(name=f"!help with {user_count} users"))
+            
+            # Send presence set message and restart message
+            await channel.send("Presence has been set.")
+            await channel.send("I have restarted!")
 
     # Remove the restart_id.temp file to avoid using it again on subsequent restarts
     os.remove('restart_id.temp')
