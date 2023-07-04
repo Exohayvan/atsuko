@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord import Embed
 import aiohttp
 
 class Python(commands.Cog):
@@ -13,9 +14,14 @@ class Python(commands.Cog):
                 if r.status == 200:
                     data = await r.json()
                     info = data['info']
-                    await ctx.send(f"Package: {info['name']}\nSummary: {info['summary']}")
+                    embed = Embed(title=info['name'], description=info['summary'], color=0x3498db)
+                    embed.add_field(name='Author', value=info['author'])
+                    embed.add_field(name='Version', value=info['version'])
+                    embed.add_field(name='License', value=info['license'])
+                    embed.add_field(name='Package Home Page', value=info['package_url'])
+                    await ctx.send(embed=embed)
                 else:
                     await ctx.send("Package not found.")
-                    
+
 async def setup(bot):
     await bot.add_cog(Python(bot))
