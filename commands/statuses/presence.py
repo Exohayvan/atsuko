@@ -5,6 +5,13 @@ import itertools
 class Presence(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.statuses = itertools.cycle([
+            "with the !help command 📚",  
+            f"with {len(self.bot.users)} users 👥",
+            f"on {len(self.bot.guilds)} servers 🌐",
+            f"around {sum(len(guild.channels) for guild in self.bot.guilds)} channels 💬",
+            "with my creator, ExoHayvan 🩵"
+        ])
         self.change_presence.start()  # Start the task
 
     def cog_unload(self):
@@ -13,14 +20,6 @@ class Presence(commands.Cog):
     @tasks.loop(seconds=30)
     async def change_presence(self):
         """Automatically changes the bot's presence every 30 seconds."""
-        statuses = [
-            "with the !help command 📚",  
-            f"with {len(self.bot.users)} users 👥",
-            f"on {len(self.bot.guilds)} servers 🌐",
-            f"around {sum(len(guild.channels) for guild in self.bot.guilds)} channels 💬",
-            "with my creator, ExoHayvan 🩵"
-        ]
-        self.statuses = itertools.cycle(statuses)
         next_status = next(self.statuses)
         await self.bot.change_presence(activity=Game(name=next_status))
         print(f'Presence changed to: {next_status}')
