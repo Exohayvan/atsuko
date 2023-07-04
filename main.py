@@ -91,9 +91,7 @@ async def load_cogs(bot, root_dir):
 @bot.event
 async def on_ready():
     print(f"We have logged in as {bot.user}")
-    user_count = sum(guild.member_count for guild in bot.guilds)
-    await bot.change_presence(activity=discord.Game(name=f"!help with {user_count} users"))
-
+    
     # Retrieve the saved channel ID from the file
     with open('restart_id.temp', 'r') as f:
         data = json.load(f)
@@ -110,13 +108,6 @@ async def on_ready():
             num_cogs = await load_cogs(bot, 'commands')
             await channel.send(f"Cogs loaded ({num_cogs} cogs)")
 
-            # Set presence
-            await channel.send("Setting presence.")
-            user_count = sum(guild.member_count for guild in bot.guilds)
-            await bot.change_presence(activity=discord.Game(name=f"!help with {user_count} users"))
-            
-            # Send presence set message and restart message
-            await channel.send("Presence has been set.")
             await channel.send("I have restarted!")
 
     # Remove the restart_id.temp file to avoid using it again on subsequent restarts
