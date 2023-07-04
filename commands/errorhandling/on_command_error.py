@@ -70,10 +70,9 @@ class CommandError(commands.Cog):
                 embed.add_field(name='Issue created on GitHub', value=f'[Link to issue]({issue.html_url})', inline=False)
                 await ctx.send(embed=embed)
             except Exception as e:
+                await ctx.send(f"An unexpected error occurred: {e}")
                 logger.exception("Failed to create GitHub issue")
-        else:
-            await ctx.send(f"Unknown error type: {type(error)}")
-
+    
 async def setup(bot):
     config = get_config()
     private_key_path = config.get('PRIVATE_KEY_PATH')
