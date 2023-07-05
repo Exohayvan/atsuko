@@ -17,7 +17,7 @@ class Presence(commands.Cog):
     def cog_unload(self):
         self.change_presence.cancel()  # Cancel the task when the cog gets unloaded
 
-    @tasks.loop(seconds=30)
+    @tasks.loop(seconds=15)
     async def change_presence(self):
         """Automatically changes the bot's presence every 30 seconds."""
         next_status, activity_type = next(self.statuses)
