@@ -7,10 +7,10 @@ class Presence(commands.Cog):
         self.bot = bot
         self.statuses = itertools.cycle([
             ("with the !help command 📚", ActivityType.playing),  
-            (f"{len(self.bot.users)} users 👥", ActivityType.listening),
+            (f"{len(self.bot.users)} users 👥", ActivityType.watching),
             (f"{len(self.bot.guilds)} servers 🌐", ActivityType.watching),
-            (f"to {sum(len(guild.channels) for guild in self.bot.guilds)} channels 💬", ActivityType.watching),
-            ("with my creator, ExoHayvan 🩵", ActivityType.streaming)
+            (f"{sum(len(guild.channels) for guild in self.bot.guilds)} channels 💬", ActivityType.watching),
+            ("to my creator, ExoHayvan 🩵", ActivityType.listening)
         ])
         self.change_presence.start()  # Start the task
 
