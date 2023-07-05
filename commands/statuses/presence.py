@@ -10,7 +10,7 @@ class Presence(commands.Cog):
             (f"{len(self.bot.users)} users 👥", ActivityType.watching),
             (f"{len(self.bot.guilds)} servers 🌐", ActivityType.watching),
             (f"{sum(len(guild.channels) for guild in self.bot.guilds)} channels 💬", ActivityType.watching),
-            ("to my creator, ExoHayvan 🩵", ActivityType.listening)
+            ("my creator, ExoHayvan 🩵", ActivityType.listening)
         ])
         self.change_presence.start()  # Start the task
 
