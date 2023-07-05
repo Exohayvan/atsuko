@@ -1,16 +1,16 @@
 from discord.ext import commands, tasks
-from discord import Game, ActivityType
+from discord import Game, Watching, ActivityType
 import itertools
 
 class Presence(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.statuses = itertools.cycle([
-            "with the !help command 📚",  
-            f"with {len(self.bot.users)} users 👥",
-            f"on {len(self.bot.guilds)} servers 🌐",
-            f"around {sum(len(guild.channels) for guild in self.bot.guilds)} channels 💬",
-            "with my creator, ExoHayvan 🩵"
+            ("with the !help command 📚", ActivityType.playing),  
+            (f"with {len(self.bot.users)} users 👥", ActivityType.watching),
+            (f"on {len(self.bot.guilds)} servers 🌐", ActivityType.playing),
+            (f"around {sum(len(guild.channels) for guild in self.bot.guilds)} channels 💬", ActivityType.watching),
+            ("with my creator, ExoHayvan 🩵", ActivityType.playing)
         ])
         self.change_presence.start()  # Start the task
 
@@ -20,8 +20,11 @@ class Presence(commands.Cog):
     @tasks.loop(seconds=30)
     async def change_presence(self):
         """Automatically changes the bot's presence every 30 seconds."""
-        next_status = next(self.statuses)
-        await self.bot.change_presence(activity=Game(name=next_status))
+        next_status, activity_type = next(self.statuses)
+        if activity_type == ActivityType.playing:
+            await self.bot.change_presence(activity=Game(name=next_status))
+        elif activity_type == ActivityType.watching:
+            await self.bot.change_presence(activity=Watching(name=next_status))
         print(f'Presence changed to: {next_status}')
 
     @change_presence.before_loop
