@@ -1,5 +1,5 @@
 from discord.ext import commands, tasks
-from discord import Game, Watching, ActivityType
+from discord import Game, Activity, ActivityType
 import itertools
 
 class Presence(commands.Cog):
@@ -21,10 +21,8 @@ class Presence(commands.Cog):
     async def change_presence(self):
         """Automatically changes the bot's presence every 30 seconds."""
         next_status, activity_type = next(self.statuses)
-        if activity_type == ActivityType.playing:
-            await self.bot.change_presence(activity=Game(name=next_status))
-        elif activity_type == ActivityType.watching:
-            await self.bot.change_presence(activity=Watching(name=next_status))
+        activity = Activity(name=next_status, type=activity_type)
+        await self.bot.change_presence(activity=activity)
         print(f'Presence changed to: {next_status}')
 
     @change_presence.before_loop
