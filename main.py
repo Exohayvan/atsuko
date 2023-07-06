@@ -4,7 +4,6 @@ from discord.ext import commands
 import json
 import logging
 import asyncio
-import random
 import sqlite3
 
 logging.basicConfig(level=logging.INFO)
@@ -46,7 +45,22 @@ class CustomHelpCommand(commands.HelpCommand):
         await self.context.send(embed=embed)
 
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix=None, intents=intents)  # Set initial prefix to None
+
+async def determine_prefix(bot, message):
+    conn = sqlite3.connect('./data/prefix.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT prefix FROM prefixes WHERE guild_id = ?", (message.guild.id,))
+    result = cursor.fetchone()
+    conn.close()
+
+    if result and result[0]:
+        prefix = result[0]
+    else:
+        prefix = '!'
+
+    return commands.when_mentioned_or(prefix)(bot, message)
+
+bot = commands.Bot(command_prefix=determine_prefix, intents=intents)
 bot.help_command = CustomHelpCommand()
 
 def get_config():
@@ -59,22 +73,22 @@ def initialize_database():
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS prefixes (guild_id INTEGER PRIMARY KEY, prefix TEXT)")
     conn.commit()
-    return conn
+    conn.close()
 
 async def load_cogs(bot, root_dir):
     tasks = []
-    num_cogs = 0  # Initialize the counter
-    
+    num_cogs = 0
+
     for dirpath, dirnames, filenames in os.walk(root_dir):
         for filename in filenames:
             if filename.endswith('.py'):
                 path = os.path.join(dirpath, filename)
-                module = path.replace(os.sep, ".")[:-3]  # replace path separators with '.' and remove '.py'
+                module = path.replace(os.sep, ".")[:-3]
                 cog = module.replace(".", "_")
                 try:
                     task = asyncio.create_task(bot.load_extension(module))
                     tasks.append(task)
-                    num_cogs += 1  # Increment the counter
+                    num_cogs += 1
                     print(f"Loaded Cog: {module}")
                 except Exception as e:
                     print(f"Failed to load Cog: {module}\n{e}")
@@ -86,41 +100,33 @@ async def load_cogs(bot, root_dir):
                     pass
 
     await asyncio.gather(*tasks)
-    return num_cogs  # Return the number of loaded cogs
+    return num_cogs
 
 @bot.event
 async def on_ready():
     print(f"We have logged in as {bot.user}")
     
-    # Retrieve the saved channel ID from the file
     with open('restart_id.temp', 'r') as f:
         data = json.load(f)
         channel_id = data.get('channel_id')
 
     if channel_id:
-        # Send a message to the saved channel
         channel = bot.get_channel(channel_id)
         if channel:
             await channel.send("I am starting back up!")
             await channel.send("Loading command cogs.")
 
-            # Load cogs and count them
             num_cogs = await load_cogs(bot, 'commands')
             await channel.send(f"Cogs loaded ({num_cogs} cogs)")
 
             await channel.send("I have restarted!")
 
-    # Remove the restart_id.temp file to avoid using it again on subsequent restarts
     os.remove('restart_id.temp')
 
 @bot.event
 async def on_message(message):
     if message.author.bot:
         return
-
-    # Get the command prefix using the CustomHelpCommand's get_prefix method
-    prefix = await bot.help_command.get_prefix(bot, message)
-    bot.command_prefix = prefix  # Set the command prefix for the bot
 
     await bot.process_commands(message)
 
