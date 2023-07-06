@@ -117,32 +117,6 @@ async def on_ready():
 async def on_message(message):
     if message.author.bot:
         return
-        
-    if message.content.lower() == 'ratio':
-        roast_messages = [
-            "Your ratio is like dividing by zero. It doesn't make any sense.",
-            "Who needs a calculator when we have your ratio? It's always wrong.",
-            "Your ratio is so bad, it's a wonder you even try.",
-            "Congratulations, your ratio is the square root of negative one. Imaginary and useless.",
-            "Your ratio is the reason why mathematicians get headaches.",
-            "Step aside, everyone! We've got a ratio expert here. Just kidding, you're terrible at it.",
-            "Your ratio is like a broken pencil. Pointless.",
-            "I thought I've seen bad ratios, but yours takes the cake. And throws it away.",
-            "Your ratio is so bad, it's beyond redemption. Just like your taste in jokes.",
-            "Ratio? More like a sad attempt to feel important.",
-            "Your ratio is like a black hole. Everything gets sucked into its emptiness.",
-            "Did you know your ratio has its own fan club? Just kidding, no one likes it.",
-            "I've seen better ratios on a preschooler's finger paintings.",
-            "Your ratio is like dividing by potato. It makes no sense.",
-            "Your ratio is the mathematical equivalent of a horror movie.",
-            "Don't worry, your ratio is safe with me. No one else would want it anyway.",
-            "Your ratio is so bad, it's a wonder you're even allowed near numbers.",
-            "Is your ratio trying to break a record for being the worst? Because it's doing a great job.",
-            "Your ratio is like a glitch in the matrix. It defies all logic.",
-            "I've heard legends of bad ratios, but yours surpasses them all.",
-        ]
-        response = random.choice(roast_messages)
-        await message.channel.send(response)
 
     # Get the command prefix using the CustomHelpCommand's get_prefix method
     prefix = await bot.help_command.get_prefix(bot, message)
