@@ -25,6 +25,8 @@ class CustomHelpCommand(commands.HelpCommand):
         embed = discord.Embed(title="Bot Commands", color=discord.Color.blue())
         embed.set_footer(text=f"Prefix: {prefix}")
     
+        categories = {}
+    
         for cog, commands in mapping.items():
             if not commands:
                 continue
@@ -40,10 +42,16 @@ class CustomHelpCommand(commands.HelpCommand):
                     # Use "Other" as category title if the command is in the root directory
                     cog_name = "Other"
     
-            commands_list = ', '.join([command.name for command in commands if not command.hidden])
+            if cog_name not in categories:
+                categories[cog_name] = []
+    
+            categories[cog_name].extend([command.name for command in commands if not command.hidden])
+    
+        for category, commands in categories.items():
+            commands_list = ', '.join(commands)
     
             if commands_list:
-                embed.add_field(name=cog_name, value=commands_list, inline=False)
+                embed.add_field(name=category, value=commands_list, inline=False)
     
         await self.context.send(embed=embed)
 
