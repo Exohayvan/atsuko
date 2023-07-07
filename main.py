@@ -29,13 +29,16 @@ class CustomHelpCommand(commands.HelpCommand):
             if not commands:
                 continue
     
-            cog_path = cog.__module__.split('.')
-            if len(cog_path) > 2:
-                # Use directory name as category title if the command is in a subdirectory
-                cog_name = cog_path[-2].capitalize()
-            else:
-                # Use "Other" as category title if the command is in the root directory
+            if cog is None:
                 cog_name = "Other"
+            else:
+                cog_path = cog.__module__.split('.')
+                if len(cog_path) > 2:
+                    # Use directory name as category title if the command is in a subdirectory
+                    cog_name = cog_path[-2].capitalize()
+                else:
+                    # Use "Other" as category title if the command is in the root directory
+                    cog_name = "Other"
     
             commands_list = ', '.join([command.name for command in commands if not command.hidden])
     
