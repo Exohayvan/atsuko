@@ -34,7 +34,11 @@ class Feedback(commands.Cog):
             g = github.Github(token.token)
             repo = g.get_repo(self.github_repo)
             issue = repo.create_issue(title=issue_title, body=issue_body)
-
+        
+            # Add 'feedback' label after the issue is created
+            label = repo.get_label("feedback")
+            issue.add_to_labels(label)
+        
             embed = discord.Embed(title='Feedback received', color=0x00ff00)
             embed.add_field(name='Issue created on GitHub', value=f'[Link to issue]({issue.html_url})', inline=False)
             await ctx.send(embed=embed)
