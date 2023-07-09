@@ -58,14 +58,16 @@ class CommandError(commands.Cog):
                 g = github.Github(token.token)
                 repo = g.get_repo(self.github_repo)
                 issue = repo.create_issue(title=issue_title, body=issue_body)
-
+                bug_label = repo.get_label("bug")  # get the label from the repo
+                issue.add_to_labels(bug_label)  # add the label to the issue
+            
                 embed = Embed(title='An error occurred', color=0xff0000)
                 embed.add_field(name='Issue created on GitHub', value=f'[Link to issue]({issue.html_url})', inline=False)
                 await ctx.send(embed=embed)
             except Exception as e:
                 await ctx.sent(f"I am unable to open an issue on GitHub.")
                 await ctx.send(f"An unexpected error occurred: {e}")
-                    
+                        
 async def setup(bot):
     config = get_config()
     private_key_path = config.get('PRIVATE_KEY_PATH')
