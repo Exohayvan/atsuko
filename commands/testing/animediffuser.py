@@ -64,9 +64,32 @@ class ImageGenerator(commands.Cog):
         self.negative_prompt = 'simple background, duplicate, retro style, low quality, lowest quality, 1980s, 1990s, 2000s, 2005 2006 2007 2008 2009 2010 2011 2012 2013, bad anatomy, bad proportions, extra digits, lowres, username, artist name, error, duplicate, watermark, signature, text, extra digit, fewer digits, worst quality, jpeg artifacts, blurry'
         self.is_generating = False
 
-    async def generate_image(self, task):
-        def generate_and_save_image():
-            full_prompt = "anime, masterpiece, high quality, high resolution " + task[3]
+        # Create database connection and table
+        conn = create_connection()
+        create_table(conn)
+        close_connection(conn)
+
+    @commands.command()
+    async def animediff(self, ctx, prompt: str):
+        """Generates an image based on the provided prompt and sends the MD5 hash of the image data."""
+
+        conn = create_connection()
+
+        # Check if the bot is currently generating an image
+        if self.is_generating:
+            add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), prompt))
+            await ctx.send(f"Your request is queued. Estimated time: {len(get_all_tasks(conn)) * 15} minutes.")
+        else:
+            self.is_generating = True
+            await self.generate_and_send_image(ctx, prompt)
+        
+        close_connection(conn)
+
+    async def generate_and_send_image(self, ctx, prompt):
+        """Helper function to generate an image and send it to the user."""
+
+        def generate_and_save_image(prompt):
+            full_prompt = "anime, masterpiece, high quality, high resolution " + prompt
             image = self.pipe(full_prompt, negative_prompt=self.negative_prompt).images[0]
 
             # Generate the MD5 hash of the image data
@@ -78,35 +101,36 @@ class ImageGenerator(commands.Cog):
 
             return filename
 
-        filename = await asyncio.to_thread(generate_and_save_image)
+        # Inform the user about the possible waiting time
+        await ctx.send("Image generation is starting. It may take 10-20 minutes. If it takes longer, please try again.")
 
-        # Delete the task from the database
-        conn = create_connection()
-        delete_task(conn, task[0])
-        close_connection(conn)
+        # Generate the image
+        filename = await asyncio.to_thread(generate_and_save_image, prompt)
 
-        # Send the hash to the user
-        channel = self.bot.get_channel(int(task[2]))
-        await channel.send(f"The MD5 hash of your image is: {filename[:-4]}", file=File("./" + filename))
+        # Send the hash and the image to the user
+        await ctx.send(f"The MD5 hash of your image is: {filename[:-4]}", file=File("./" + filename))
 
+        # Set is_generating to false and process the next task in the queue
         self.is_generating = False
+        self.process_queue()
 
-    @commands.command()
-    async def animediff(self, ctx, prompt: str):
-        """Generates an image based on the provided prompt and sends the MD5 hash of the image data."""
+    def process_queue(self):
+        """Helper function to process the next task in the queue."""
 
         conn = create_connection()
-        if not self.is_generating:
-            self.is_generating = True
-            close_connection(conn)
-            await self.generate_image((None, str(ctx.message.author.id), str(ctx.channel.id), prompt))
-        else:
-            add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), prompt))
-            close_connection(conn)
-            task_count = len(conn.execute('SELECT * FROM tasks').fetchall())
-            estimated_wait = task_count * 15
-            await ctx.send(f"Your image generation request has been queued. The estimated wait time is {estimated_wait} minutes. Sorry but I don't have the money to process everyone's images at once")
+        tasks = get_all_tasks(conn)
 
+        # If there are tasks in the queue, process the first one
+        if tasks:
+            user_id, channel_id, prompt = tasks[0]
+            channel = self.bot.get_channel(int(channel_id))
+            delete_task(conn, (user_id, channel_id, prompt))
+
+            # Generate and send the image for the next task in the queue
+            asyncio.create_task(self.generate_and_send_image(channel, prompt))
+        
+        close_connection(conn)
+        
     @commands.Cog.listener()
     async def on_ready(self):
         conn = create_connection()
