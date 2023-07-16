@@ -96,7 +96,7 @@ class ImageGenerator(commands.Cog):
         """Helper function to generate an image and send it to the user."""
 
         def generate_and_save_image(prompt):
-            full_prompt = "anime, masterpiece, high quality, high resolution " + prompt
+            full_prompt = "masterpiece, high quality, high resolution " + prompt
             image = self.pipe(full_prompt, negative_prompt=self.negative_prompt).images[0]
 
             # Generate the MD5 hash of the image data
