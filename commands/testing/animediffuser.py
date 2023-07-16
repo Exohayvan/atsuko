@@ -10,25 +10,6 @@ import os
 
 DB_PATH = "./data/db/animediff.db"
 
-def get_task_position(conn, user_id):
-    """Helper function to get the position of the user's task in the queue."""
-    sql = ''' SELECT id FROM tasks WHERE user_id = ? ORDER BY id ASC '''
-    cur = conn.cursor()
-    cur.execute(sql, (user_id,))
-    task_ids = cur.fetchall()
-    
-    # If there's no task from the user, return None
-    if not task_ids:
-        return None
-    
-    # Get the position of the user's first task in the queue
-    first_task_id = task_ids[0][0]
-    sql = ''' SELECT COUNT(*) FROM tasks WHERE id < ? '''
-    cur.execute(sql, (first_task_id,))
-    position = cur.fetchone()[0]
-    
-    return position + 1  # 1-indexed
-
 def create_connection():
     conn = None;
     try:
@@ -60,15 +41,14 @@ def add_task(conn, task):
     cur = conn.cursor()
     cur.execute(sql, task)
     conn.commit()
-    return cur.lastrowid
+
+    task_id = cur.lastrowid
+    sql = ''' SELECT COUNT(*) FROM tasks WHERE id < ? '''
+    cur.execute(sql, (task_id,))
+    position = cur.fetchone()[0]
     
-def get_all_tasks(conn):
-    sql = ''' SELECT * FROM tasks ORDER BY id ASC '''
-    cur = conn.cursor()
-    cur.execute(sql)
-    tasks = cur.fetchall()
-    return tasks
-    
+    return task_id, position + 1  # 1-indexed
+
 def get_next_task(conn):
     sql = ''' SELECT * FROM tasks ORDER BY id ASC LIMIT 1 '''
     cur = conn.cursor()
@@ -101,8 +81,7 @@ class ImageGenerator(commands.Cog):
         """Generates an anime-style image based on the provided prompt and sends the MD5 hash of the image data."""
         
         conn = create_connection()
-        task_id = add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "anime, " + prompt))
-        position = get_task_position(conn, str(ctx.message.author.id))
+        task_id, position = add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "anime, " + prompt))
         close_connection(conn)
 
         if not self.is_generating:
@@ -115,8 +94,7 @@ class ImageGenerator(commands.Cog):
         """Generates a realistic image based on the provided prompt and sends the MD5 hash of the image data."""
         
         conn = create_connection()
-        task_id = add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "image, realistic, " + prompt))
-        position = get_task_position(conn, str(ctx.message.author.id))
+        task_id, position = add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "image, realistic, " + prompt))
         close_connection(conn)
 
         if not self.is_generating:
@@ -124,7 +102,7 @@ class ImageGenerator(commands.Cog):
         else:
             await ctx.send(f"Your request is queued. Position in queue: {position}. Estimated time: {position * 15} minutes.")
 
-    async def generate_and_send_image(self, ctx, prompt, task_id):
+    async def generate_and_send_image(self, ctx, prompt):
         """Helper function to generate an image and send it to the user."""
 
         async with self.lock:
@@ -150,11 +128,6 @@ class ImageGenerator(commands.Cog):
             # Send the hash and the image to the user
             await ctx.send(f"The MD5 hash of your image is: {filename[:-4]}", file=File("./" + filename))
 
-            # Delete the task after it's finished
-            conn = create_connection()
-            delete_task(conn, task_id)
-            close_connection(conn)
-
             # Set is_generating to false and process the next task in the queue
             self.is_generating = False
             self.process_queue()
@@ -170,9 +143,10 @@ class ImageGenerator(commands.Cog):
             self.is_generating = True
             task_id, user_id, channel_id, prompt = task
             channel = self.bot.get_channel(int(channel_id))
+            delete_task(conn, task_id)
 
             # Generate and send the image for the next task in the queue
-            asyncio.create_task(self.generate_and_send_image(channel, prompt, task_id))
+            asyncio.create_task(self.generate_and_send_image(channel, prompt))
     
         close_connection(conn)
         
@@ -186,7 +160,7 @@ class ImageGenerator(commands.Cog):
             self.is_generating = True
             task_id, user_id, channel_id, prompt = task
             channel = self.bot.get_channel(int(channel_id))
-            asyncio.create_task(self.generate_and_send_image(channel, prompt, task_id))
+            asyncio.create_task(self.generate_and_send_image(channel, prompt))
 
 async def setup(bot):
     await bot.add_cog(ImageGenerator(bot))
