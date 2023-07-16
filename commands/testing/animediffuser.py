@@ -11,7 +11,7 @@ import os
 DB_PATH = "./data/db/animediff.db"
 
 def create_connection():
-    conn = None;
+    conn = None
     try:
         conn = sqlite3.connect(DB_PATH)
     except sqlite3.Error as e:
@@ -118,17 +118,17 @@ class ImageGenerator(commands.Cog):
         """Helper function to process the next task in the queue."""
 
         conn = create_connection()
-        tasks = get_all_tasks(conn)
+        task = get_next_task(conn)
 
         # If there are tasks in the queue, process the first one
-        if tasks:
-            user_id, channel_id, prompt = tasks[0]
+        if task:
+            task_id, user_id, channel_id, prompt = task
             channel = self.bot.get_channel(int(channel_id))
-            delete_task(conn, (user_id, channel_id, prompt))
+            delete_task(conn, task_id)
 
             # Generate and send the image for the next task in the queue
             asyncio.create_task(self.generate_and_send_image(channel, prompt))
-        
+    
         close_connection(conn)
         
     @commands.Cog.listener()
@@ -139,7 +139,9 @@ class ImageGenerator(commands.Cog):
         close_connection(conn)
         if task:
             self.is_generating = True
-            await self.generate_image(task)
+            task_id, user_id, channel_id, prompt = task
+            channel = self.bot.get_channel(int(channel_id))
+            asyncio.create_task(self.generate_and_send_image(channel, prompt))
 
 async def setup(bot):
     await bot.add_cog(ImageGenerator(bot))
