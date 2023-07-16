@@ -77,9 +77,9 @@ class ImageGenerator(commands.Cog):
         close_connection(conn)
 
     @commands.command()
-    async def animediff(self, ctx, prompt: str):
+    async def animediff(self, ctx, *, prompt: commands.clean_content):
         """Generates an image based on the provided prompt and sends the MD5 hash of the image data."""
-
+        
         conn = create_connection()
 
         # Check if the bot is currently generating an image
