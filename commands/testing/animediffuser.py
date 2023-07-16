@@ -90,6 +90,19 @@ class ImageGenerator(commands.Cog):
             await ctx.send(f"Your request is queued. Position in queue: {position}. Estimated time: {position * 15} minutes.")
 
     @commands.command()
+    async def dnddiff(self, ctx, *, prompt: commands.clean_content):
+        """Generates an dnd-style image based on the provided prompt and sends the MD5 hash of the image data."""
+        
+        conn = create_connection()
+        task_id, position = add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "dungeons and dragons character, " + prompt))
+        close_connection(conn)
+
+        if not self.is_generating:
+            self.process_queue()
+        else:
+            await ctx.send(f"Your request is queued. Position in queue: {position}. Estimated time: {position * 15} minutes.")
+
+    @commands.command()
     async def imagediff(self, ctx, *, prompt: commands.clean_content):
         """Generates a realistic image based on the provided prompt and sends the MD5 hash of the image data."""
         
