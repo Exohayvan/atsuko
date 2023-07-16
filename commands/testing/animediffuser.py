@@ -11,7 +11,7 @@ import os
 DB_PATH = "./data/db/animediff.db"
 
 def create_connection():
-    conn = None
+    conn = None;
     try:
         conn = sqlite3.connect(DB_PATH)
     except sqlite3.Error as e:
@@ -82,32 +82,22 @@ class ImageGenerator(commands.Cog):
         """Generates an anime-style image based on the provided prompt and sends the MD5 hash of the image data."""
         
         conn = create_connection()
-
-        # Check if the bot is currently generating an image
-        if self.is_generating:
-            add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "anime, " + prompt))
-            await ctx.send(f"Your request is queued. Estimated time: {len(get_all_tasks(conn)) * 15} minutes.")
-        else:
-            self.is_generating = True
-            await self.generate_and_send_image(ctx, "anime, " + prompt)
-        
+        add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "anime, " + prompt))
         close_connection(conn)
+
+        if not self.is_generating:
+            self.process_queue()
 
     @commands.command()
     async def imagediff(self, ctx, *, prompt: commands.clean_content):
         """Generates a realistic image based on the provided prompt and sends the MD5 hash of the image data."""
         
         conn = create_connection()
-
-        # Check if the bot is currently generating an image
-        if self.is_generating:
-            add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "image, realistic, " + prompt))
-            await ctx.send(f"Your request is queued. Estimated time: {len(get_all_tasks(conn)) * 15} minutes.")
-        else:
-            self.is_generating = True
-            await self.generate_and_send_image(ctx, "image, realistic, " + prompt)
-        
+        add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "image, realistic, " + prompt))
         close_connection(conn)
+
+        if not self.is_generating:
+            self.process_queue()
 
     async def generate_and_send_image(self, ctx, prompt):
         """Helper function to generate an image and send it to the user."""
@@ -147,6 +137,7 @@ class ImageGenerator(commands.Cog):
 
         # If there are tasks in the queue, process the first one
         if task:
+            self.is_generating = True
             task_id, user_id, channel_id, prompt = task
             channel = self.bot.get_channel(int(channel_id))
             delete_task(conn, task_id)
