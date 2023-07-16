@@ -13,7 +13,7 @@ class DocGenerator(commands.Cog):
 
     def generate_readme(self):
         """Generates or updates the readme.md file in the current directory."""
-        with open("readme.md", "w") as f:
+        with open("./commands/README.md", "w") as f:
             for cog in self.bot.cogs.values():
                 for cmd in cog.get_commands():
                     f.write(f"## {cmd.name}\n\n")
