@@ -105,7 +105,7 @@ class ImageGenerator(commands.Cog):
             close_connection(conn)
             task_count = len(conn.execute('SELECT * FROM tasks').fetchall())
             estimated_wait = task_count * 15
-            await ctx.send(f"Your image generation request has been queued. The estimated wait time is {estimated_wait} minutes.")
+            await ctx.send(f"Your image generation request has been queued. The estimated wait time is {estimated_wait} minutes. Sorry but I don't have the money to process everyone's images at once")
 
     @commands.Cog.listener()
     async def on_ready(self):
