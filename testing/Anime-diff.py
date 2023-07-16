@@ -1,7 +1,7 @@
 from diffusers import StableDiffusionPipeline
 import hashlib
 
-model_id = "yangheng/Super-Resolution-Anime-Diffusion"
+model_id = "Linaqruf/anything-v3.0"
 pipe = StableDiffusionPipeline.from_pretrained(model_id)
 
 # Take user input for the prompt
