@@ -14,15 +14,15 @@ class ImageGenerator(commands.Cog):
         self.negative_prompt = 'simple background, duplicate, retro style, low quality, lowest quality, 1980s, 1990s, 2000s, 2005 2006 2007 2008 2009 2010 2011 2012 2013, bad anatomy, bad proportions, extra digits, lowres, username, artist name, error, duplicate, watermark, signature, text, extra digit, fewer digits, worst quality, jpeg artifacts, blurry'
 
     @commands.command()
-    async def generate_image(self, ctx, prompt: str):
+    async def animediff(self, ctx, prompt: str):
         """Generates an image based on the provided prompt and sends the MD5 hash of the image data."""
 
         # Inform the user about the possible waiting time
         await ctx.send("Image generation is starting. It may take 10-20 minutes. If it takes longer, please try again.")
 
         def generate_and_save_image():
-            prompt = "anime, masterpiece, high quality, high resolution " + prompt
-            image = self.pipe(prompt, negative_prompt=self.negative_prompt).images[0]
+            full_prompt = "anime, masterpiece, high quality, high resolution " + prompt
+            image = self.pipe(full_prompt, negative_prompt=self.negative_prompt).images[0]
 
             # Generate the MD5 hash of the image data
             hash_object = hashlib.md5(image.tobytes())
