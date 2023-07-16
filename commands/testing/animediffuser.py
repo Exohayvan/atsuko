@@ -70,6 +70,7 @@ class ImageGenerator(commands.Cog):
         self.pipe = StableDiffusionPipeline.from_pretrained(self.model_id, torch_dtype=torch.float32)
         self.negative_prompt = 'simple background, duplicate, retro style, low quality, lowest quality, 1980s, 1990s, 2000s, 2005 2006 2007 2008 2009 2010 2011 2012 2013, bad anatomy, bad proportions, extra digits, lowres, username, artist name, error, duplicate, watermark, signature, text, extra digit, fewer digits, worst quality, jpeg artifacts, blurry'
         self.is_generating = False
+        self.lock = asyncio.Lock()
 
         # Create database connection and table
         conn = create_connection()
@@ -78,48 +79,65 @@ class ImageGenerator(commands.Cog):
 
     @commands.command()
     async def animediff(self, ctx, *, prompt: commands.clean_content):
-        """Generates an image based on the provided prompt and sends the MD5 hash of the image data."""
+        """Generates an anime-style image based on the provided prompt and sends the MD5 hash of the image data."""
         
         conn = create_connection()
 
         # Check if the bot is currently generating an image
         if self.is_generating:
-            add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), prompt))
+            add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "anime, " + prompt))
             await ctx.send(f"Your request is queued. Estimated time: {len(get_all_tasks(conn)) * 15} minutes.")
         else:
             self.is_generating = True
-            await self.generate_and_send_image(ctx, prompt)
+            await self.generate_and_send_image(ctx, "anime, " + prompt)
+        
+        close_connection(conn)
+
+    @commands.command()
+    async def imagediff(self, ctx, *, prompt: commands.clean_content):
+        """Generates a realistic image based on the provided prompt and sends the MD5 hash of the image data."""
+        
+        conn = create_connection()
+
+        # Check if the bot is currently generating an image
+        if self.is_generating:
+            add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "image, realistic, " + prompt))
+            await ctx.send(f"Your request is queued. Estimated time: {len(get_all_tasks(conn)) * 15} minutes.")
+        else:
+            self.is_generating = True
+            await self.generate_and_send_image(ctx, "image, realistic, " + prompt)
         
         close_connection(conn)
 
     async def generate_and_send_image(self, ctx, prompt):
         """Helper function to generate an image and send it to the user."""
 
-        def generate_and_save_image(prompt):
-            full_prompt = "masterpiece, high quality, high resolution " + prompt
-            image = self.pipe(full_prompt, negative_prompt=self.negative_prompt).images[0]
+        async with self.lock:
+            def generate_and_save_image(prompt):
+                full_prompt = "masterpiece, high quality, high resolution " + prompt
+                image = self.pipe(full_prompt, negative_prompt=self.negative_prompt).images[0]
 
-            # Generate the MD5 hash of the image data
-            hash_object = hashlib.md5(image.tobytes())
-            filename = hash_object.hexdigest() + ".png"
+                # Generate the MD5 hash of the image data
+                hash_object = hashlib.md5(image.tobytes())
+                filename = hash_object.hexdigest() + ".png"
 
-            # Save the image with the hashed filename
-            image.save("./" + filename)
+                # Save the image with the hashed filename
+                image.save("./" + filename)
 
-            return filename
+                return filename
 
-        # Inform the user about the possible waiting time
-        await ctx.send("Image generation is starting. It may take 10-20 minutes. If it takes longer, please try again.")
+            # Inform the user about the possible waiting time
+            await ctx.send("Image generation is starting. It may take 10-20 minutes. If it takes longer, please try again.")
 
-        # Generate the image
-        filename = await asyncio.to_thread(generate_and_save_image, prompt)
+            # Generate the image
+            filename = await asyncio.to_thread(generate_and_save_image, prompt)
 
-        # Send the hash and the image to the user
-        await ctx.send(f"The MD5 hash of your image is: {filename[:-4]}", file=File("./" + filename))
+            # Send the hash and the image to the user
+            await ctx.send(f"The MD5 hash of your image is: {filename[:-4]}", file=File("./" + filename))
 
-        # Set is_generating to false and process the next task in the queue
-        self.is_generating = False
-        self.process_queue()
+            # Set is_generating to false and process the next task in the queue
+            self.is_generating = False
+            self.process_queue()
 
     def process_queue(self):
         """Helper function to process the next task in the queue."""
