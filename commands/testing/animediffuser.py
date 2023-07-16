@@ -42,7 +42,14 @@ def add_task(conn, task):
     cur.execute(sql, task)
     conn.commit()
     return cur.lastrowid
-
+    
+def get_all_tasks(conn):
+    sql = ''' SELECT * FROM tasks ORDER BY id ASC '''
+    cur = conn.cursor()
+    cur.execute(sql)
+    tasks = cur.fetchall()
+    return tasks
+    
 def get_next_task(conn):
     sql = ''' SELECT * FROM tasks ORDER BY id ASC LIMIT 1 '''
     cur = conn.cursor()
