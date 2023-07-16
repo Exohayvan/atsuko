@@ -10,6 +10,25 @@ import os
 
 DB_PATH = "./data/db/animediff.db"
 
+def get_task_position(conn, user_id):
+    """Helper function to get the position of the user's task in the queue."""
+    sql = ''' SELECT id FROM tasks WHERE user_id = ? ORDER BY id ASC '''
+    cur = conn.cursor()
+    cur.execute(sql, (user_id,))
+    task_ids = cur.fetchall()
+    
+    # If there's no task from the user, return None
+    if not task_ids:
+        return None
+    
+    # Get the position of the user's first task in the queue
+    first_task_id = task_ids[0][0]
+    sql = ''' SELECT COUNT(*) FROM tasks WHERE id < ? '''
+    cur.execute(sql, (first_task_id,))
+    position = cur.fetchone()[0]
+    
+    return position + 1  # 1-indexed
+
 def create_connection():
     conn = None;
     try:
@@ -82,22 +101,28 @@ class ImageGenerator(commands.Cog):
         """Generates an anime-style image based on the provided prompt and sends the MD5 hash of the image data."""
         
         conn = create_connection()
-        add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "anime, " + prompt))
+        task_id = add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "anime, " + prompt))
+        position = get_task_position(conn, str(ctx.message.author.id))
         close_connection(conn)
 
         if not self.is_generating:
             self.process_queue()
+        else:
+            await ctx.send(f"Your request is queued. Position in queue: {position}. Estimated time: {position * 15} minutes.")
 
     @commands.command()
     async def imagediff(self, ctx, *, prompt: commands.clean_content):
         """Generates a realistic image based on the provided prompt and sends the MD5 hash of the image data."""
         
         conn = create_connection()
-        add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "image, realistic, " + prompt))
+        task_id = add_task(conn, (str(ctx.message.author.id), str(ctx.channel.id), "image, realistic, " + prompt))
+        position = get_task_position(conn, str(ctx.message.author.id))
         close_connection(conn)
 
         if not self.is_generating:
             self.process_queue()
+        else:
+            await ctx.send(f"Your request is queued. Position in queue: {position}. Estimated time: {position * 15} minutes.")
 
     async def generate_and_send_image(self, ctx, prompt):
         """Helper function to generate an image and send it to the user."""
