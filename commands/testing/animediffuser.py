@@ -38,7 +38,7 @@ class AnimeDiff(commands.Cog):
         await generating_msg.delete()
 
     async def generate_image(self, prompt, negative_prompt):
-        return await self.bot.loop.run_in_executor(None, self.pipe, [prompt], [negative_prompt])
+        return await self.bot.loop.run_in_executor(None, self.pipe, prompt, negative_prompt)
 
 async def setup(bot):
     await bot.add_cog(AnimeDiff(bot))
