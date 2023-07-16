@@ -1,5 +1,6 @@
 from diffusers import StableDiffusionPipeline
 import hashlib
+import torch
 
 model_id = "dreamlike-art/dreamlike-anime-1.0"
 pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
