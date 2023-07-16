@@ -124,7 +124,7 @@ class ImageGenerator(commands.Cog):
         else:
             await ctx.send(f"Your request is queued. Position in queue: {position}. Estimated time: {position * 15} minutes.")
 
-    async def generate_and_send_image(self, ctx, prompt):
+    async def generate_and_send_image(self, ctx, prompt, task_id):
         """Helper function to generate an image and send it to the user."""
 
         async with self.lock:
@@ -150,6 +150,11 @@ class ImageGenerator(commands.Cog):
             # Send the hash and the image to the user
             await ctx.send(f"The MD5 hash of your image is: {filename[:-4]}", file=File("./" + filename))
 
+            # Delete the task after it's finished
+            conn = create_connection()
+            delete_task(conn, task_id)
+            close_connection(conn)
+
             # Set is_generating to false and process the next task in the queue
             self.is_generating = False
             self.process_queue()
@@ -165,10 +170,9 @@ class ImageGenerator(commands.Cog):
             self.is_generating = True
             task_id, user_id, channel_id, prompt = task
             channel = self.bot.get_channel(int(channel_id))
-            delete_task(conn, task_id)
 
             # Generate and send the image for the next task in the queue
-            asyncio.create_task(self.generate_and_send_image(channel, prompt))
+            asyncio.create_task(self.generate_and_send_image(channel, prompt, task_id))
     
         close_connection(conn)
         
@@ -182,7 +186,7 @@ class ImageGenerator(commands.Cog):
             self.is_generating = True
             task_id, user_id, channel_id, prompt = task
             channel = self.bot.get_channel(int(channel_id))
-            asyncio.create_task(self.generate_and_send_image(channel, prompt))
+            asyncio.create_task(self.generate_and_send_image(channel, prompt, task_id))
 
 async def setup(bot):
     await bot.add_cog(ImageGenerator(bot))
