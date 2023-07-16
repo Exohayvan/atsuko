@@ -1,9 +1,9 @@
 from discord.ext import commands
+from discord import File
 import discord
 from diffusers import StableDiffusionPipeline
 import torch
 import hashlib
-import random
 import asyncio
 
 class ImageGenerator(commands.Cog):
@@ -16,6 +16,9 @@ class ImageGenerator(commands.Cog):
     @commands.command()
     async def generate_image(self, ctx, prompt: str):
         """Generates an image based on the provided prompt and sends the MD5 hash of the image data."""
+
+        # Inform the user about the possible waiting time
+        await ctx.send("Image generation is starting. It may take 10-20 minutes. If it takes longer, please try again.")
 
         def generate_and_save_image():
             prompt = "anime, masterpiece, high quality, high resolution " + prompt
@@ -33,7 +36,7 @@ class ImageGenerator(commands.Cog):
         filename = await asyncio.to_thread(generate_and_save_image)
 
         # Send the hash to the user
-        await ctx.send(f"The MD5 hash of your image is: {filename[:-4]}")
+        await ctx.send(f"The MD5 hash of your image is: {filename[:-4]}", file=File("./" + filename))
 
 async def setup(bot):
     await bot.add_cog(ImageGenerator(bot))
