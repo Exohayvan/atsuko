@@ -34,18 +34,45 @@ class DND(commands.Cog):
     async def dnd(self, ctx):
         await ctx.send('D&D command group. Use !dnd create to create a character or !dnd show to show your character.')
 
-    @dnd.command()
-    async def create(self, ctx, name, race, character_class, level, gender, outfit_type, hair_color, eye_color, weapon_type):
-        user_id = str(ctx.message.author.id)
-        if user_id in self.characters:
-            await ctx.send(f"You already have a character '{self.characters[user_id].name}'. Use `{self.bot.command_prefix}dnd update` to update your character.")
-        else:
-            prompt = f"{race} {gender} with {outfit_type}, {hair_color} hair, {eye_color} eyes, wielding {weapon_type}"
-            filename = await self.generate_and_send_image(ctx, f"dungeons and dragons character, {prompt}")
-            character = Character(name, race, character_class, level, gender, outfit_type, hair_color, eye_color, weapon_type, image_file=filename)
-            self.characters[user_id] = character
-            await ctx.send(f"Character '{name}' has been created successfully!")
+@dnd.command()
+async def create(self, ctx):
+    user_id = str(ctx.message.author.id)
+    if user_id in self.characters:
+        await ctx.send(f"You already have a character '{self.characters[user_id].name}'. Use `{self.bot.command_prefix}dnd update` to update your character.")
+    else:
+        await ctx.send("What's your character's name?")
+        name = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+        
+        await ctx.send("What's your character's race?")
+        race = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
 
+        await ctx.send("What's your character's class?")
+        character_class = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+
+        await ctx.send("What's your character's level?")
+        level = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+
+        await ctx.send("What's your character's gender?")
+        gender = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+
+        await ctx.send("What type of outfit does your character wear?")
+        outfit_type = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+
+        await ctx.send("What color is your character's hair?")
+        hair_color = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+
+        await ctx.send("What color are your character's eyes?")
+        eye_color = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+
+        await ctx.send("What type of weapon does your character wield?")
+        weapon_type = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+
+        prompt = f"{race.content} {gender.content} with {outfit_type.content}, {hair_color.content} hair, {eye_color.content} eyes, wielding {weapon_type.content}"
+        filename = await self.generate_and_send_image(ctx, f"dungeons and dragons character, {prompt}")
+        character = Character(name.content, race.content, character_class.content, level.content, gender.content, outfit_type.content, hair_color.content, eye_color.content, weapon_type.content, image_file=filename)
+        self.characters[user_id] = character
+        await ctx.send(f"Character '{name.content}' has been created successfully!")
+        
     @dnd.command()
     async def show(self, ctx):
         user_id = str(ctx.message.author.id)
