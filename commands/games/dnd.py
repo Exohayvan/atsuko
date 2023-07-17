@@ -73,9 +73,17 @@ class DND(commands.Cog):
         level = 1
 
         character = Character(name, race, character_class, gender, outfit_type, hair_color, eye_color, weapon_type, level)
-        self.characters[user_id] = character
-        await ctx.send(f"Character '{name}' created for user {ctx.author.mention}!")
+        await ctx.send(f"This is your character's details:\n{character}\nType 'confirm' to create this character.")
 
+        confirm_msg = await self.bot.wait_for('message', check=check)
+        if confirm_msg.content.lower() == 'confirm':
+            self.characters[user_id] = character
+            await ctx.send(f"Character '{name}' created for user {ctx.author.mention}!")
+            dnddiff_command = f"!dnddiff {race} race, {character_class} class, {gender}, {outfit_type}, {hair_color} hair, {eye_color} eyes, {weapon_type}"
+            await ctx.send(dnddiff_command)
+        else:
+            await ctx.send("Character creation cancelled.")
+            
     @dnd.command()
     async def show(self, ctx):
         """Displays the character of the user."""
