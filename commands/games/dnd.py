@@ -79,8 +79,10 @@ class DND(commands.Cog):
         if confirm_msg.content.lower() == 'confirm':
             self.characters[user_id] = character
             await ctx.send(f"Character '{name}' created for user {ctx.author.mention}!")
-            dnddiff_command = f"!dnddiff {race} race, {character_class} class, {gender}, {outfit_type}, {hair_color} hair, {eye_color} eyes, {weapon_type}"
-            await ctx.send(dnddiff_command)
+            image_generator_cog = self.bot.get_cog("ImageGenerator")
+            if image_generator_cog:
+                prompt = f"{race} race, {character_class} class, {gender}, {outfit_type}, {hair_color} hair, {eye_color} eyes, {weapon_type}"
+                await image_generator_cog.dnddiff.invoke(ctx, prompt=prompt)
         else:
             await ctx.send("Character creation cancelled.")
             
