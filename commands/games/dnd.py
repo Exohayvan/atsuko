@@ -48,8 +48,8 @@ class DND(commands.Cog):
     
             await ctx.send("What's your character's class?")
             character_class = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
-
-            level = 1
+    
+            level = 1  # Hard coded to 1
     
             await ctx.send("What's your character's gender?")
             gender = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
@@ -68,10 +68,10 @@ class DND(commands.Cog):
     
             prompt = f"{race.content} {gender.content} with {outfit_type.content}, {hair_color.content} hair, {eye_color.content} eyes, wielding {weapon_type.content}"
             filename = await self.generate_and_send_image(ctx, f"dungeons and dragons character, {prompt}")
-            character = Character(name.content, race.content, character_class.content, level.content, gender.content, outfit_type.content, hair_color.content, eye_color.content, weapon_type.content, image_file=filename)
+            character = Character(name.content, race.content, character_class.content, level, gender.content, outfit_type.content, hair_color.content, eye_color.content, weapon_type.content, image_file=filename)
             self.characters[user_id] = character
             await ctx.send(f"Character '{name.content}' has been created successfully!")
-        
+                    
     @dnd.command()
     async def show(self, ctx):
         user_id = str(ctx.message.author.id)
