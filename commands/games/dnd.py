@@ -1,100 +1,82 @@
+import sqlite3
+from discord import File
 from discord.ext import commands
+import discord
+from diffusers import StableDiffusionPipeline
+import torch
+import hashlib
+import asyncio
+import os
 
 class Character:
-    def __init__(self, name, race, character_class, gender, outfit_type, hair_color, eye_color, weapon_type, level):
+    def __init__(self, name, race, character_class, level, gender, outfit_type, hair_color, eye_color, weapon_type, image_file=None):
         self.name = name
         self.race = race
         self.character_class = character_class
+        self.level = level
         self.gender = gender
         self.outfit_type = outfit_type
         self.hair_color = hair_color
         self.eye_color = eye_color
         self.weapon_type = weapon_type
-        self.level = level
-
-    def __str__(self):
-        return f"Name: {self.name}\nRace: {self.race}\nClass: {self.character_class}\nGender: {self.gender}\nOutfit Type: {self.outfit_type}\nHair Color: {self.hair_color}\nEye Color: {self.eye_color}\nWeapon Type: {self.weapon_type}\nLevel: {self.level}"
+        self.image_file = image_file
 
 class DND(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.characters = {}
+        self.model_id = "dreamlike-art/dreamlike-anime-1.0"
+        self.pipe = StableDiffusionPipeline.from_pretrained(self.model_id, torch_dtype=torch.float32)
+        self.negative_prompt = 'simple background, duplicate, retro style, low quality, lowest quality, 1980s, 1990s, 2000s, 2005 2006 2007 2008 2009 2010 2011 2012 2013, bad anatomy, bad proportions, extra digits, lowres, username, artist name, error, duplicate, watermark, signature, text, extra digit, fewer digits, worst quality, jpeg artifacts, blurry'
+        self.lock = asyncio.Lock()
 
     @commands.group(invoke_without_command=True)
     async def dnd(self, ctx):
         await ctx.send('D&D command group. Use !dnd create to create a character or !dnd show to show your character.')
 
     @dnd.command()
-    async def create(self, ctx):
-        """Creates a D&D character for the user."""
-        user_id = ctx.author.id
+    async def create(self, ctx, name, race, character_class, level, gender, outfit_type, hair_color, eye_color, weapon_type):
+        user_id = str(ctx.message.author.id)
         if user_id in self.characters:
-            await ctx.send("You already have a character!")
-            return
-
-        await ctx.send("Let's create your D&D character! Answer the following questions:")
-
-        def check(m):
-            return m.author == ctx.author and m.channel == ctx.channel
-
-        await ctx.send("What is the name of your character?")
-        name_msg = await self.bot.wait_for('message', check=check)
-        name = name_msg.content
-
-        await ctx.send("What is the race of your character?")
-        race_msg = await self.bot.wait_for('message', check=check)
-        race = race_msg.content
-
-        await ctx.send("What is the class of your character?")
-        class_msg = await self.bot.wait_for('message', check=check)
-        character_class = class_msg.content
-
-        await ctx.send("What is the gender of your character?")
-        gender_msg = await self.bot.wait_for('message', check=check)
-        gender = gender_msg.content
-
-        await ctx.send("What is the outfit type of your character?")
-        outfit_msg = await self.bot.wait_for('message', check=check)
-        outfit_type = outfit_msg.content
-
-        await ctx.send("What is the hair color of your character?")
-        hair_color_msg = await self.bot.wait_for('message', check=check)
-        hair_color = hair_color_msg.content
-
-        await ctx.send("What is the eye color of your character?")
-        eye_color_msg = await self.bot.wait_for('message', check=check)
-        eye_color = eye_color_msg.content
-
-        await ctx.send("What is the weapon type of your character?")
-        weapon_type_msg = await self.bot.wait_for('message', check=check)
-        weapon_type = weapon_type_msg.content
-
-        await ctx.send("Your Character Will start at level 1!")
-        level = 1
-
-        character = Character(name, race, character_class, gender, outfit_type, hair_color, eye_color, weapon_type, level)
-        await ctx.send(f"This is your character's details:\n{character}\nType 'confirm' to create this character.")
-
-        confirm_msg = await self.bot.wait_for('message', check=check)
-        if confirm_msg.content.lower() == 'confirm':
-            self.characters[user_id] = character
-            await ctx.send(f"Character '{name}' created for user {ctx.author.mention}!")
-            image_generator_cog = self.bot.get_cog("ImageGenerator")
-            if image_generator_cog:
-                prompt = f"{race} race, {character_class} class, {gender}, {outfit_type}, {hair_color} hair, {eye_color} eyes, {weapon_type}"
-                await ctx.invoke(image_generator_cog.dnddiff, prompt=prompt)
+            await ctx.send(f"You already have a character '{self.characters[user_id].name}'. Use `{self.bot.command_prefix}dnd update` to update your character.")
         else:
-            await ctx.send("Character creation cancelled.")
-            
+            prompt = f"{race} {gender} with {outfit_type}, {hair_color} hair, {eye_color} eyes, wielding {weapon_type}"
+            filename = await self.generate_and_send_image(ctx, f"dungeons and dragons character, {prompt}")
+            character = Character(name, race, character_class, level, gender, outfit_type, hair_color, eye_color, weapon_type, image_file=filename)
+            self.characters[user_id] = character
+            await ctx.send(f"Character '{name}' has been created successfully!")
+
     @dnd.command()
     async def show(self, ctx):
-        """Displays the character of the user."""
-        user_id = ctx.author.id
-        character = self.characters.get(user_id)
-        if character:
-            await ctx.send(f"User {ctx.author.mention}'s character:\n{character}")
+        user_id = str(ctx.message.author.id)
+        if user_id not in self.characters:
+            await ctx.send(f"You have no character. Use `{self.bot.command_prefix}dnd create` to create one.")
         else:
-            await ctx.send("You haven't created a character yet!")
+            character = self.characters[user_id]
+            embed = discord.Embed(title=character.name, description=f"Level {character.level} {character.race} {character.character_class}")
+            embed.add_field(name="Gender", value=character.gender, inline=True)
+            embed.add_field(name="Outfit", value=character.outfit_type, inline=True)
+            embed.add_field(name="Hair Color", value=character.hair_color, inline=True)
+            embed.add_field(name="Eye Color", value=character.eye_color, inline=True)
+            embed.add_field(name="Weapon", value=character.weapon_type, inline=True)
+            embed.set_image(url="attachment://" + character.image_file)
+            await ctx.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
+
+    async def generate_and_send_image(self, ctx, prompt):
+        async with self.lock:
+            def generate_and_save_image(prompt):
+                full_prompt = "masterpiece, high quality, high resolution " + prompt
+                image = self.pipe(full_prompt, negative_prompt=self.negative_prompt).images[0]
+
+                hash_object = hashlib.md5(image.tobytes())
+                filename = hash_object.hexdigest() + ".png"
+                image.save(filename)
+                return filename
+
+            await ctx.send("Image generation is starting. It may take 10-20 minutes. If it takes longer, please try again.")
+            filename = await asyncio.to_thread(generate_and_save_image, prompt)
+            await ctx.send(f"The MD5 hash of your image is: {filename[:-4]}", file=File(filename))
+            return filename
 
 async def setup(bot):
     await bot.add_cog(DND(bot))
