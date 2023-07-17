@@ -79,15 +79,25 @@ class DND(commands.Cog):
             await ctx.send(f"You have no character. Use `{self.bot.command_prefix}dnd create` to create one.")
         else:
             character = self.characters[user_id]
-            embed = discord.Embed(title=character.name, description=f"Level {character.level} {character.race} {character.character_class}")
-            embed.add_field(name="Gender", value=character.gender, inline=True)
-            embed.add_field(name="Outfit", value=character.outfit_type, inline=True)
-            embed.add_field(name="Hair Color", value=character.hair_color, inline=True)
-            embed.add_field(name="Eye Color", value=character.eye_color, inline=True)
-            embed.add_field(name="Weapon", value=character.weapon_type, inline=True)
-            embed.set_image(url="attachment://" + character.image_file)
+            embed = discord.Embed(title=character.name, color=0x00ff00)
+            embed.set_thumbnail(url="attachment://" + character.image_file)
+    
+            description = (
+                f"Level: {character.level}\n"
+                f"Race: {character.race}\n"
+                f"Class: {character.character_class}\n"
+                f"Gender: {character.gender}\n"
+                f"Outfit Type: {character.outfit_type}\n"
+                f"Hair Color: {character.hair_color}\n"
+                f"Eye Color: {character.eye_color}\n"
+                f"Weapon Type: {character.weapon_type}"
+            )
+    
+            embed.description = description
+    
+            embed.set_footer(text=f"Created by {ctx.author.name}", icon_url=ctx.author.avatar_url)
             await ctx.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
-
+        
     async def generate_and_send_image(self, ctx, prompt):
         async with self.lock:
             def generate_and_save_image(prompt):
