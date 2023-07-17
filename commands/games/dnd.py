@@ -1,14 +1,19 @@
 from discord.ext import commands
 
 class Character:
-    def __init__(self, name, race, character_class, level):
+    def __init__(self, name, race, character_class, gender, outfit_type, hair_color, eye_color, weapon_type, level):
         self.name = name
         self.race = race
         self.character_class = character_class
+        self.gender = gender
+        self.outfit_type = outfit_type
+        self.hair_color = hair_color
+        self.eye_color = eye_color
+        self.weapon_type = weapon_type
         self.level = level
 
     def __str__(self):
-        return f"Name: {self.name}\nRace: {self.race}\nClass: {self.character_class}\nLevel: {self.level}"
+        return f"Name: {self.name}\nRace: {self.race}\nClass: {self.character_class}\nGender: {self.gender}\nOutfit Type: {self.outfit_type}\nHair Color: {self.hair_color}\nEye Color: {self.eye_color}\nWeapon Type: {self.weapon_type}\nLevel: {self.level}"
 
 class DND(commands.Cog):
     def __init__(self, bot):
@@ -44,10 +49,30 @@ class DND(commands.Cog):
         class_msg = await self.bot.wait_for('message', check=check)
         character_class = class_msg.content
 
+        await ctx.send("What is the gender of your character?")
+        gender_msg = await self.bot.wait_for('message', check=check)
+        gender = gender_msg.content
+
+        await ctx.send("What is the outfit type of your character?")
+        outfit_msg = await self.bot.wait_for('message', check=check)
+        outfit_type = outfit_msg.content
+
+        await ctx.send("What is the hair color of your character?")
+        hair_color_msg = await self.bot.wait_for('message', check=check)
+        hair_color = hair_color_msg.content
+
+        await ctx.send("What is the eye color of your character?")
+        eye_color_msg = await self.bot.wait_for('message', check=check)
+        eye_color = eye_color_msg.content
+
+        await ctx.send("What is the weapon type of your character?")
+        weapon_type_msg = await self.bot.wait_for('message', check=check)
+        weapon_type = weapon_type_msg.content
+
         await ctx.send("Your Character Will start at level 1!")
         level = 1
 
-        character = Character(name, race, character_class, level)
+        character = Character(name, race, character_class, gender, outfit_type, hair_color, eye_color, weapon_type, level)
         self.characters[user_id] = character
         await ctx.send(f"Character '{name}' created for user {ctx.author.mention}!")
 
