@@ -82,7 +82,7 @@ class DND(commands.Cog):
             image_generator_cog = self.bot.get_cog("ImageGenerator")
             if image_generator_cog:
                 prompt = f"{race} race, {character_class} class, {gender}, {outfit_type}, {hair_color} hair, {eye_color} eyes, {weapon_type}"
-                await image_generator_cog.dnddiff.invoke(ctx, prompt=prompt)
+                await image_generator_cog.dnddiff(ctx, prompt)
         else:
             await ctx.send("Character creation cancelled.")
             
