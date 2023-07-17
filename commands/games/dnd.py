@@ -95,7 +95,7 @@ class DND(commands.Cog):
     
             embed.description = description
     
-            embed.set_footer(text=f"Created by {ctx.author.name}", icon_url=ctx.author.avatar_url)
+            embed.set_footer(text=f"Created by {ctx.author.name}", icon_url=ctx.author.avatar.url)
             await ctx.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
         
     async def generate_and_send_image(self, ctx, prompt):
