@@ -48,9 +48,8 @@ class DND(commands.Cog):
     
             await ctx.send("What's your character's class?")
             character_class = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
-    
-            await ctx.send("What's your character's level?")
-            level = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+
+            level = 1
     
             await ctx.send("What's your character's gender?")
             gender = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
