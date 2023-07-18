@@ -137,14 +137,14 @@ class ImageGenerator(commands.Cog):
                 await ctx.send("Image generation is starting. It may take 10-20 minutes. If it takes longer, please try again.")
         
                 # Generate the image
-                filename = await asyncio.to_thread(generate_and_save_image, prompt)
+                loop = asyncio.get_running_loop()
+                future = loop.run_in_executor(None, generate_and_save_image, prompt)
+                task = asyncio.ensure_future(future)
+                self.tasks.append(task)  # Keep track of the task
+                filename = await task
         
                 # Send the hash and the image to the user
                 await ctx.send(f"The MD5 hash of your image is: {filename[:-4]}", file=File("./" + filename))
-        
-                # Add the task to the tasks list
-                task = (task_id, user_id, channel_id, prompt)
-                self.tasks.append(task)
         
                 # Set is_generating to false and process the next task in the queue
                 self.is_generating = False
@@ -192,12 +192,8 @@ class ImageGenerator(commands.Cog):
 
     def stop_subprocess(self):
         """Cancels all running tasks."""
-        for task in asyncio.all_tasks():
-            if 'ImageGeneratorTask' in task.get_name():
-                task.cancel()
-
-        # Clear the tasks list
-        self.tasks = []
+        for task in self.tasks:
+            task.cancel()
 
 async def setup(bot):
     await bot.add_cog(ImageGenerator(bot))
