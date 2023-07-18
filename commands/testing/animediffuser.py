@@ -180,11 +180,14 @@ class ImageGenerator(commands.Cog):
             channel = self.bot.get_channel(int(channel_id))
             asyncio.create_task(self.generate_and_send_image(channel, prompt, task_id, user_id, channel_id))
                         
+    def cog_unload(self):
+        self.stop_subprocess()
+
     def stop_subprocess(self):
         """Cancels all running tasks."""
-
-        for task in self.tasks:
-            task.cancel()
+        for task in asyncio.all_tasks():
+            if task.get_name() == 'ImageGeneratorTask':
+                task.cancel()
 
         # Clear the tasks list
         self.tasks = []
