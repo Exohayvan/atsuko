@@ -38,15 +38,15 @@ class DND(commands.Cog):
     async def create(self, ctx):
         user_id = str(ctx.message.author.id)
         if user_id in self.characters:
-            await ctx.send(f"You already have a character '{self.characters[user_id].name}'. Use `{self.bot.command_prefix}dnd update` to update your character.")
+            await ctx.send(f"You already have a character '{self.characters[user_id].name}'. Use `error` to update your character.")
         else:
             await ctx.send("What's your character's name?")
             name = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
             
-            await ctx.send("What's your character's race?")
+            await ctx.send("What's your character's race?\n(Ex. Human, Elf, Dwarf, and so on")
             race = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
     
-            await ctx.send("What's your character's class?")
+            await ctx.send("What's your character's class?\n(Ex. Warrior, Mage, Rogue, and so on")
             character_class = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
     
             level = 1  # Hard coded to 1
@@ -54,23 +54,23 @@ class DND(commands.Cog):
             await ctx.send("What's your character's gender?")
             gender = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
     
-            await ctx.send("What type of outfit does your character wear?")
+            await ctx.send("What type of outfit does your character wear?\n(Please separate with a `,` for each item, Ex. White Dress, Glasses, Blue Viking Helmet)")
             outfit_type = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
     
-            await ctx.send("What color is your character's hair?")
+            await ctx.send("What color is your character's hair?\n(Please stick to base colors, Ex. Blue, White. Avoid special colors like Cyan or Aqua and so on, as these will not be produced properly.)")
             hair_color = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
     
             await ctx.send("What color are your character's eyes?")
             eye_color = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
     
-            await ctx.send("What type of weapon does your character wield?")
+            await ctx.send("What type of weapon does your character wield?\n(Ex. Sword, Staff, and so on)")
             weapon_type = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
     
             prompt = f"{race.content} {gender.content} with {outfit_type.content}, {hair_color.content} hair, {eye_color.content} eyes, wielding {weapon_type.content}"
             filename = await self.generate_and_send_image(ctx, f"dungeons and dragons character, {prompt}")
             character = Character(name.content, race.content, character_class.content, level, gender.content, outfit_type.content, hair_color.content, eye_color.content, weapon_type.content, image_file=filename)
             self.characters[user_id] = character
-            await ctx.send(f"Character '{name.content}' has been created successfully!")
+            await ctx.send(f"Character '{name.content}' has been created successfully! Try using `dnd show`!")
                     
     @dnd.command()
     async def show(self, ctx):
