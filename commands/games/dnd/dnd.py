@@ -7,7 +7,24 @@ import torch
 import hashlib
 import asyncio
 import os
+from discord.ext.commands import BadArgument, Converter
+import discord
 
+class MemberOrUserConverter(Converter):
+    async def convert(self, ctx, argument):
+        member_converter = discord.ext.commands.MemberConverter()
+        user_converter = discord.ext.commands.UserConverter()
+
+        try:
+            # Try to convert to Member. This also checks if the member is in the guild
+            return await member_converter.convert(ctx, argument)
+        except BadArgument:
+            try:
+                # Member not found or not in guild. Try to convert to User
+                return await user_converter.convert(ctx, argument)
+            except BadArgument as error:
+                raise BadArgument('Member or User not found') from error
+                
 class Character:
     def __init__(self, name, race, character_class, level, gender, outfit_type, hair_color, eye_color, weapon_type, image_file=None):
         self.name = name
@@ -159,13 +176,13 @@ class DND(commands.Cog):
         embed.description = description
         await channel.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
         
-    @dnd.command()
-    async def show(self, ctx, member: discord.Member = None):
-        if not member:
-            member = ctx.author
-        user_id = str(member.id)
+    @commands.command()
+    async def show(self, ctx, user: MemberOrUserConverter = None):
+        if user is None:
+            user = ctx.author
+        user_id = str(user.id)
         if user_id not in self.characters:
-            await ctx.send(f"{member.mention} does not have a character. Use `{self.bot.command_prefix}dnd create` to create one.")
+            await ctx.send(f"{user} does not have a character. Use `{self.bot.command_prefix}dnd create` to create one.")
         else:
             character = self.characters[user_id]
             embed = discord.Embed(title=character.name, color=0x00ff00)
@@ -184,9 +201,9 @@ class DND(commands.Cog):
 
             embed.description = description
 
-            embed.set_footer(text=f"Character belongs to {member.name}", icon_url=member.avatar.url)
+            embed.set_footer(text=f"Character belongs to {user}", icon_url=user.avatar_url)
             await ctx.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
-                    
+                                
     async def generate_and_send_image(self, ctx, prompt):
         async with self.lock:
             def generate_and_save_image(prompt):
