@@ -188,7 +188,6 @@ class DND(commands.Cog):
             filename = os.path.basename(character.image_file)
             file = discord.File(character.image_file, filename=filename)
             embed = discord.Embed(title=character.name, color=0x00ff00)
-            embed.set_image(url=f"attachment://{filename}")
     
             description = (
                 f"Level: {character.level}\n"
@@ -202,10 +201,10 @@ class DND(commands.Cog):
             )
     
             embed.description = description
-    
+            embed.set_thumbnail(url=f"attachment://{filename}")
             embed.set_footer(text=f"Character belongs to {member.name}", icon_url=member.avatar.url)
             await ctx.send(file=file, embed=embed)
-        
+                
     @dnd.command()
     async def list(self, ctx):
         if len(self.characters) == 0:
