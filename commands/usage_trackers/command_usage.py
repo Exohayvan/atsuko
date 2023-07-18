@@ -5,7 +5,7 @@ import os
 
 # Import the OwnerCommands cog
 # Adjust the import statement according to your project structure.
-from commands.owner import OwnerCommands
+from commands.owner.owner import OwnerCommands
 
 class CommandUsageTracker(commands.Cog):
     def __init__(self, bot):
