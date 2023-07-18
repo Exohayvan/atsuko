@@ -164,13 +164,9 @@ class DND(commands.Cog):
         embed = discord.Embed(title=character.name, color=0x00ff00)
         embed.set_thumbnail(url="attachment://" + character.image_file)
         description = (
-            f"Level: {character.level}\n"
             f"Race: {character.race}\n"
             f"Class: {character.character_class}\n"
             f"Gender: {character.gender}\n"
-            f"Outfit Type: {character.outfit_type}\n"
-            f"Hair Color: {character.hair_color}\n"
-            f"Eye Color: {character.eye_color}\n"
             f"Weapon Type: {character.weapon_type}"
         )
         embed.description = description
