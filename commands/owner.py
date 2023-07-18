@@ -12,7 +12,7 @@ class OwnerCommands(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def unload_cog(self, ctx, cog_name: str):
+    async def unload_cog(self, ctx, *, cog_path: str):
         # Check if the user has the correct ID
         if ctx.message.author.id != 276782057412362241:
             await ctx.send("You don't have permission to use this command.")
@@ -20,21 +20,21 @@ class OwnerCommands(commands.Cog):
     
         try:
             # Get the cog
-            cog = self.bot.get_cog(cog_name)
+            cog = self.bot.get_cog(cog_path.split('.')[-1])
     
             # Check if the cog has a method to stop the subprocess and call it
             if cog and hasattr(cog, "stop_subprocess"):
                 cog.stop_subprocess()
     
             # Unload the cog
-            await self.bot.unload_extension(f"cogs.{cog_name}")
+            await self.bot.unload_extension(f"commands.{cog_path}")
     
-            await ctx.send(f'Successfully unloaded cog {cog_name}')
+            await ctx.send(f'Successfully unloaded cog {cog_path}')
         except commands.ExtensionNotFound:
-            await ctx.send(f'Cog {cog_name} not found')
+            await ctx.send(f'Cog {cog_path} not found')
         except Exception as e:
-            await ctx.send(f'Error while unloading cog {cog_name}: {str(e)}')
-        
+            await ctx.send(f'Error while unloading cog {cog_path}: {str(e)}')
+                
     @commands.command()
     async def execute(self, ctx, *, command):
         # Check if the user has the correct ID
