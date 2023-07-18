@@ -228,7 +228,21 @@ class DND(commands.Cog):
             await ctx.send(f"{member.mention} does not have a character. Use `{self.bot.command_prefix}dnd create` to create one.")
         else:
             character = self.characters[user_id]
-            await self.send_character_card(character, ctx.channel)
+            filename = os.path.basename(character.image_file)
+            file = discord.File(character.image_file, filename=filename)
+            embed = discord.Embed(title=character.name, color=0x00ff00)
+    
+            description = (
+                f"Race: {character.race}\n"
+                f"Class: {character.character_class}\n"
+                f"Gender: {character.gender}\n"
+                f"Weapon Type: {character.weapon_type}"
+            )
+    
+            embed.description = description
+            embed.set_thumbnail(url=f"attachment://{filename}")
+            embed.set_footer(text=f"Character belongs to {member.name}", icon_url=member.avatar.url)
+            await ctx.send(file=file, embed=embed)
         
     async def generate_and_send_image(self, ctx, prompt):
         async with self.lock:
