@@ -118,37 +118,43 @@ class ImageGenerator(commands.Cog):
 
     async def generate_and_send_image(self, ctx, prompt, task_id, user_id, channel_id):
         """Helper function to generate an image and send it to the user."""
-    
-        async with self.lock:
-            def generate_and_save_image(prompt):
-                full_prompt = "masterpiece, high quality, high resolution " + prompt
-                image = self.pipe(full_prompt, negative_prompt=self.negative_prompt).images[0]
-    
-                # Generate the MD5 hash of the image data
-                hash_object = hashlib.md5(image.tobytes())
-                filename = hash_object.hexdigest() + ".png"
-    
-                # Save the image with the hashed filename
-                image.save("./" + filename)
-    
-                return filename
-    
-            # Inform the user about the possible waiting time
-            await ctx.send("Image generation is starting. It may take 10-20 minutes. If it takes longer, please try again.")
-    
-            # Generate the image
-            filename = await asyncio.to_thread(generate_and_save_image, prompt)
-    
-            # Send the hash and the image to the user
-            await ctx.send(f"The MD5 hash of your image is: {filename[:-4]}", file=File("./" + filename))
-    
-            # Add the task to the tasks list
-            task = (task_id, user_id, channel_id, prompt)
-            self.tasks.append(task)
-    
-            # Set is_generating to false and process the next task in the queue
-            self.is_generating = False
-            self.process_queue()
+        try:
+            async with self.lock:
+                def generate_and_save_image(prompt):
+                    full_prompt = "masterpiece, high quality, high resolution " + prompt
+                    image = self.pipe(full_prompt, negative_prompt=self.negative_prompt).images[0]
+        
+                    # Generate the MD5 hash of the image data
+                    hash_object = hashlib.md5(image.tobytes())
+                    filename = hash_object.hexdigest() + ".png"
+        
+                    # Save the image with the hashed filename
+                    image.save("./" + filename)
+        
+                    return filename
+        
+                # Inform the user about the possible waiting time
+                await ctx.send("Image generation is starting. It may take 10-20 minutes. If it takes longer, please try again.")
+        
+                # Generate the image
+                filename = await asyncio.to_thread(generate_and_save_image, prompt)
+        
+                # Send the hash and the image to the user
+                await ctx.send(f"The MD5 hash of your image is: {filename[:-4]}", file=File("./" + filename))
+        
+                # Add the task to the tasks list
+                task = (task_id, user_id, channel_id, prompt)
+                self.tasks.append(task)
+        
+                # Set is_generating to false and process the next task in the queue
+                self.is_generating = False
+                self.process_queue()
+        except asyncio.CancelledError:
+            # Handle the cancellation here
+            print("Task was cancelled")
+        except Exception as e:
+            # Handle other exceptions here
+            print(f"An error occurred: {e}")
         
     def process_queue(self):
         """Helper function to process the next task in the queue."""
@@ -187,7 +193,7 @@ class ImageGenerator(commands.Cog):
     def stop_subprocess(self):
         """Cancels all running tasks."""
         for task in asyncio.all_tasks():
-            if task.get_name() == 'ImageGeneratorTask':
+            if 'ImageGeneratorTask' in task.get_name():
                 task.cancel()
 
         # Clear the tasks list
