@@ -140,7 +140,7 @@ class DND(commands.Cog):
             self.save_character_to_db(user_id, character)
             await ctx.send(f"Character '{name.content}' has been created successfully! Try using `dnd show`!")
             channel = self.bot.get_channel(1130807109907386490)
-            await self.send_character_card(character, channel)
+            await self.send_character_card(user_id, character, channel)
 
     @dnd.command()
     async def regen(self, ctx):
@@ -158,9 +158,9 @@ class DND(commands.Cog):
 
             await ctx.send(f"Image for character '{character.name}' has been regenerated successfully! Try using `dnd show`!")
             channel = self.bot.get_channel(1130807109907386490)
-            await self.send_character_card(character, channel)
+            await self.send_character_card(user_id, character, channel)
 
-    async def send_character_card(self, character, channel):
+    async def send_character_card(self, user_id, character, channel):
         embed = discord.Embed(title=character.name, color=0x00ff00)
     
         description = (
@@ -174,7 +174,7 @@ class DND(commands.Cog):
         # Prepare the file to be sent
         file = discord.File(character.image_file, filename="image.png")  # rename the file to image.png
         embed.set_thumbnail(url="attachment://image.png")  # Set the url to attachment://image.png
-        member = self.bot.get_user(int(character.user_id))  # get the user who created the character
+        member = self.bot.get_user(int(user_id))  # get the user who created the character
         embed.set_footer(text=f"Character belongs to {member.name}", icon_url=member.avatar.url)
         await channel.send(file=file, embed=embed)
             
