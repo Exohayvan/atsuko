@@ -152,20 +152,21 @@ class ImageGenerator(commands.Cog):
         
     def process_queue(self):
         """Helper function to process the next task in the queue."""
-
+    
         conn = create_connection()
         task = get_next_task(conn)
-
+    
         # If there are tasks in the queue, process the first one
         if task:
             self.is_generating = True
             task_id, user_id, channel_id, prompt = task
             channel = self.bot.get_channel(int(channel_id))
             delete_task(conn, task_id)
-
+    
             # Generate and send the image for the next task in the queue
-            asyncio.create_task(self.generate_and_send_image(channel, prompt, task_id, user_id, channel_id), name='ImageGeneratorTask')
-                            
+            task = asyncio.create_task(self.generate_and_send_image(channel, prompt, task_id, user_id, channel_id))
+            task.set_name('ImageGeneratorTask')  # Name the task for later reference
+                    
         close_connection(conn)
         
     @commands.Cog.listener()
