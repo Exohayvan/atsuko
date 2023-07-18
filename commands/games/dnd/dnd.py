@@ -162,7 +162,7 @@ class DND(commands.Cog):
 
     async def send_character_card(self, character, channel):
         embed = discord.Embed(title=character.name, color=0x00ff00)
-        embed.set_thumbnail(url="attachment://" + character.image_file)
+    
         description = (
             f"Race: {character.race}\n"
             f"Class: {character.character_class}\n"
@@ -170,8 +170,13 @@ class DND(commands.Cog):
             f"Weapon Type: {character.weapon_type}"
         )
         embed.description = description
-        await channel.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
-        
+    
+        # Prepare the file to be sent
+        file = discord.File(character.image_file, filename="image.png")  # rename the file to image.png
+        embed.set_thumbnail(url="attachment://image.png")  # Set the url to attachment://image.png
+    
+        await channel.send(file=file, embed=embed)
+            
     @dnd.command()
     async def show(self, ctx, member: discord.Member = None):
         if not member:
