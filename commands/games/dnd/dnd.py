@@ -176,13 +176,13 @@ class DND(commands.Cog):
         embed.description = description
         await channel.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
         
-    @commands.command()
-    async def show(self, ctx, user: MemberOrUserConverter = None):
-        if user is None:
-            user = ctx.author
-        user_id = str(user.id)
+    @dnd.command()
+    async def show(self, ctx, member: discord.Member = None):
+        if not member:
+            member = ctx.author
+        user_id = str(member.id)
         if user_id not in self.characters:
-            await ctx.send(f"{user} does not have a character. Use `{self.bot.command_prefix}dnd create` to create one.")
+            await ctx.send(f"{member.mention} does not have a character. Use `{self.bot.command_prefix}dnd create` to create one.")
         else:
             character = self.characters[user_id]
             embed = discord.Embed(title=character.name, color=0x00ff00)
@@ -201,9 +201,9 @@ class DND(commands.Cog):
 
             embed.description = description
 
-            embed.set_footer(text=f"Character belongs to {user}", icon_url=user.avatar_url)
+            embed.set_footer(text=f"Character belongs to {member.name}", icon_url=member.avatar.url)
             await ctx.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
-                                
+                                            
     async def generate_and_send_image(self, ctx, prompt):
         async with self.lock:
             def generate_and_save_image(prompt):
