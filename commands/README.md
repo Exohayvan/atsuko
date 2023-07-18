@@ -22,6 +22,10 @@ None
 
 Creates a new counter voice channel with the given name.
 
+## unload_cog
+
+None
+
 ## execute
 
 None
