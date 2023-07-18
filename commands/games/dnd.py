@@ -122,7 +122,23 @@ class DND(commands.Cog):
             # Save the character to the database
             self.save_character_to_db(user_id, character)
             await ctx.send(f"Character '{name.content}' has been created successfully! Try using `dnd show`!")
-                            
+
+    @dnd.command()
+    async def regen(self, ctx):
+        user_id = str(ctx.message.author.id)
+        if user_id not in self.characters:
+            await ctx.send(f"You have no character. Use `{self.bot.command_prefix}dnd create` to create one.")
+        else:
+            character = self.characters[user_id]
+            prompt = f"{character.race} {character.gender} with {character.outfit_type}, {character.hair_color} hair, {character.eye_color} eyes, wielding {character.weapon_type}"
+            filename = await self.generate_and_send_image(ctx, f"dungeons and dragons character, {prompt}")
+            character.image_file = filename
+
+            # Save the updated character to the database
+            self.save_character_to_db(user_id, character)
+
+            await ctx.send(f"Image for character '{character.name}' has been regenerated successfully! Try using `dnd show`!")
+            
     @dnd.command()
     async def show(self, ctx):
         user_id = str(ctx.message.author.id)
