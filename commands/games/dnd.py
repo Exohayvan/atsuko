@@ -29,6 +29,53 @@ class DND(commands.Cog):
         self.pipe = StableDiffusionPipeline.from_pretrained(self.model_id, torch_dtype=torch.float32)
         self.negative_prompt = 'simple background, duplicate, retro style, low quality, lowest quality, 1980s, 1990s, 2000s, 2005 2006 2007 2008 2009 2010 2011 2012 2013, bad anatomy, bad proportions, extra digits, lowres, username, artist name, error, duplicate, watermark, signature, text, extra digit, fewer digits, worst quality, jpeg artifacts, blurry'
         self.lock = asyncio.Lock()
+        
+        # Set up the database
+        self.db_path = "./data/db/dnd/characters.db"
+        self.conn = sqlite3.connect(self.db_path)
+        self.cursor = self.conn.cursor()
+        self.initialize_db()
+
+        # Load characters from the database into memory
+        self.load_characters()
+
+    def initialize_db(self):
+        self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS characters (
+                user_id TEXT PRIMARY KEY,
+                name TEXT,
+                race TEXT,
+                character_class TEXT,
+                level INTEGER,
+                gender TEXT,
+                outfit_type TEXT,
+                hair_color TEXT,
+                eye_color TEXT,
+                weapon_type TEXT,
+                image BLOB
+            )
+        """)
+        self.conn.commit()
+
+    def load_characters(self):
+        self.cursor.execute("SELECT * FROM characters")
+        rows = self.cursor.fetchall()
+        for row in rows:
+            user_id, name, race, character_class, level, gender, outfit_type, hair_color, eye_color, weapon_type, image = row
+            image_file = os.path.join("./data/db/dnd/", f"{user_id}.png")
+            with open(image_file, "wb") as f:
+                f.write(image)
+            self.characters[user_id] = Character(name, race, character_class, level, gender, outfit_type, hair_color, eye_color, weapon_type, image_file)
+
+    def save_character_to_db(self, user_id, character):
+        # Save the image as a BLOB
+        with open(character.image_file, "rb") as f:
+            img = f.read()
+        self.cursor.execute("""
+            INSERT OR REPLACE INTO characters VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (user_id, character.name, character.race, character.character_class, character.level, character.gender, character.outfit_type, character.hair_color, character.eye_color, character.weapon_type, img))
+        self.conn.commit()
+
 
     @commands.group(invoke_without_command=True)
     async def dnd(self, ctx):
@@ -70,8 +117,10 @@ class DND(commands.Cog):
             filename = await self.generate_and_send_image(ctx, f"dungeons and dragons character, {prompt}")
             character = Character(name.content, race.content, character_class.content, level, gender.content, outfit_type.content, hair_color.content, eye_color.content, weapon_type.content, image_file=filename)
             self.characters[user_id] = character
+            # Save the character to the database
+            self.save_character_to_db(user_id, character)
             await ctx.send(f"Character '{name.content}' has been created successfully! Try using `dnd show`!")
-                    
+                            
     @dnd.command()
     async def show(self, ctx):
         user_id = str(ctx.message.author.id)
