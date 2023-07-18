@@ -213,6 +213,17 @@ class DND(commands.Cog):
                     embed.add_field(name=character.name, value=member.mention, inline=False)
             await ctx.send(embed=embed)
             
+    @dnd.command()
+    async def card(self, ctx, member: discord.Member = None):
+        if not member:
+            member = ctx.author
+        user_id = str(member.id)
+        if user_id not in self.characters:
+            await ctx.send(f"{member.mention} does not have a character. Use `{self.bot.command_prefix}dnd create` to create one.")
+        else:
+            character = self.characters[user_id]
+            await self.send_character_card(character, ctx.channel)
+        
     async def generate_and_send_image(self, ctx, prompt):
         async with self.lock:
             def generate_and_save_image(prompt):
