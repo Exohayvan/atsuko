@@ -138,6 +138,25 @@ class DND(commands.Cog):
             self.save_character_to_db(user_id, character)
 
             await ctx.send(f"Image for character '{character.name}' has been regenerated successfully! Try using `dnd show`!")
+            channel = self.bot.get_channel(1130807109907386490)
+            await self.send_character_card(character, channel)
+
+    async def send_character_card(self, character, channel):
+        embed = discord.Embed(title=character.name, color=0x00ff00)
+        embed.set_thumbnail(url="attachment://" + character.image_file)
+        description = (
+            f"Level: {character.level}\n"
+            f"Race: {character.race}\n"
+            f"Class: {character.character_class}\n"
+            f"Gender: {character.gender}\n"
+            f"Outfit Type: {character.outfit_type}\n"
+            f"Hair Color: {character.hair_color}\n"
+            f"Eye Color: {character.eye_color}\n"
+            f"Weapon Type: {character.weapon_type}"
+        )
+        embed.description = description
+        await channel.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
+        
             
     @dnd.command()
     async def show(self, ctx):
