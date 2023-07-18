@@ -203,7 +203,19 @@ class DND(commands.Cog):
 
             embed.set_footer(text=f"Character belongs to {member.name}", icon_url=member.avatar.url)
             await ctx.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
-                                            
+
+    @dnd.command()
+    async def list(self, ctx):
+        if len(self.characters) == 0:
+            await ctx.send("No characters have been created yet.")
+        else:
+            embed = discord.Embed(title="List of Users with Characters", color=0x00ff00)
+            for user_id, character in self.characters.items():
+                member = ctx.guild.get_member(int(user_id))
+                if member:
+                    embed.add_field(name=character.name, value=member.mention, inline=False)
+            await ctx.send(embed=embed)
+            
     async def generate_and_send_image(self, ctx, prompt):
         async with self.lock:
             def generate_and_save_image(prompt):
