@@ -27,7 +27,7 @@ class OwnerCommands(commands.Cog):
                 cog.stop_subprocess()
     
             # Unload the cog
-            self.bot.unload_extension(f"cogs.{cog_name}")
+            await self.bot.unload_extension(f"cogs.{cog_name}")
     
             await ctx.send(f'Successfully unloaded cog {cog_name}')
         except commands.ExtensionNotFound:
