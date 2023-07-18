@@ -122,6 +122,8 @@ class DND(commands.Cog):
             # Save the character to the database
             self.save_character_to_db(user_id, character)
             await ctx.send(f"Character '{name.content}' has been created successfully! Try using `dnd show`!")
+            channel = self.bot.get_channel(1130807109907386490)
+            await self.send_character_card(character, channel)
 
     @dnd.command()
     async def regen(self, ctx):
@@ -157,7 +159,6 @@ class DND(commands.Cog):
         embed.description = description
         await channel.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
         
-            
     @dnd.command()
     async def show(self, ctx):
         user_id = str(ctx.message.author.id)
