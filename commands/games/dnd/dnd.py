@@ -9,8 +9,6 @@ import asyncio
 import os
 from discord.ext.commands import BadArgument, Converter
 import discord
-import aiohttp
-import io
 
 class MemberOrUserConverter(Converter):
     async def convert(self, ctx, argument):
@@ -188,15 +186,7 @@ class DND(commands.Cog):
         else:
             character = self.characters[user_id]
             embed = discord.Embed(title=character.name, color=0x00ff00)
-
-            async with aiohttp.ClientSession() as session:
-                async with session.get(character.image_url) as resp:
-                    if resp.status != 200:
-                        return await ctx.send('Could not download file...')
-                    data = io.BytesIO(await resp.read())
-                    await ctx.send(file=discord.File(data, 'cool_image.png'))
-
-            embed.set_thumbnail(url="attachment://" + 'cool_image.png')
+            embed.set_thumbnail(url="attachment://" + character.image_file)
 
             description = (
                 f"Level: {character.level}\n"
@@ -212,8 +202,8 @@ class DND(commands.Cog):
             embed.description = description
 
             embed.set_footer(text=f"Character belongs to {member.name}", icon_url=member.avatar.url)
-            await ctx.send(embed=embed)
-            
+            await ctx.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
+
     @dnd.command()
     async def list(self, ctx):
         if len(self.characters) == 0:
