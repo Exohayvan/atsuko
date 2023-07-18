@@ -161,10 +161,8 @@ class DND(commands.Cog):
             await self.send_character_card(character, channel)
 
     async def send_character_card(self, character, channel):
-        user_id = character.user_id  # retrieve the user_id stored in character object
-        member = await channel.guild.fetch_member(user_id)  # get the member using the user_id
-    
         embed = discord.Embed(title=character.name, color=0x00ff00)
+        embed.set_thumbnail(url="attachment://" + character.image_file)
         description = (
             f"Race: {character.race}\n"
             f"Class: {character.character_class}\n"
@@ -172,14 +170,8 @@ class DND(commands.Cog):
             f"Weapon Type: {character.weapon_type}"
         )
         embed.description = description
-        file = discord.File(character.image_file, filename="image.png")  # rename the file to image.png
-        embed.set_thumbnail(url="attachment://image.png")  # Set the url to attachment://image.png
-    
-        # Set the footer to display the member's name and their avatar
-        embed.set_footer(text=f"Character belongs to {member.name}", icon_url=member.avatar.url)
-    
-        await channel.send(file=file, embed=embed)
-                
+        await channel.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
+        
     @dnd.command()
     async def show(self, ctx, member: discord.Member = None):
         if not member:
@@ -220,17 +212,7 @@ class DND(commands.Cog):
                 if member:
                     embed.add_field(name=character.name, value=member.mention, inline=False)
             await ctx.send(embed=embed)
-
-    @dnd.command()
-    async def card(self, ctx, user_id: str = None):
-        if not user_id:
-            user_id = str(ctx.author.id)
-        if user_id not in self.characters:
-            await ctx.send(f"User with ID {user_id} does not have a character. Use `{self.bot.command_prefix}dnd create` to create one.")
-        else:
-            character = self.characters[user_id]
-            await self.send_character_card(character, ctx.channel)
-        
+            
     async def generate_and_send_image(self, ctx, prompt):
         async with self.lock:
             def generate_and_save_image(prompt):
