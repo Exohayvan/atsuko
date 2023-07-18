@@ -160,15 +160,17 @@ class DND(commands.Cog):
         await channel.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
         
     @dnd.command()
-    async def show(self, ctx):
-        user_id = str(ctx.message.author.id)
+    async def show(self, ctx, member: discord.Member = None):
+        if not member:
+            member = ctx.author
+        user_id = str(member.id)
         if user_id not in self.characters:
-            await ctx.send(f"You have no character. Use `{self.bot.command_prefix}dnd create` to create one.")
+            await ctx.send(f"{member.mention} does not have a character. Use `{self.bot.command_prefix}dnd create` to create one.")
         else:
             character = self.characters[user_id]
             embed = discord.Embed(title=character.name, color=0x00ff00)
             embed.set_thumbnail(url="attachment://" + character.image_file)
-    
+
             description = (
                 f"Level: {character.level}\n"
                 f"Race: {character.race}\n"
@@ -179,12 +181,12 @@ class DND(commands.Cog):
                 f"Eye Color: {character.eye_color}\n"
                 f"Weapon Type: {character.weapon_type}"
             )
-    
+
             embed.description = description
-    
-            embed.set_footer(text=f"Created by {ctx.author.name}", icon_url=ctx.author.avatar.url)
+
+            embed.set_footer(text=f"Character belongs to {member.name}", icon_url=member.avatar.url)
             await ctx.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
-        
+                    
     async def generate_and_send_image(self, ctx, prompt):
         async with self.lock:
             def generate_and_save_image(prompt):
