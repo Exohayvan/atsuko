@@ -12,6 +12,30 @@ class OwnerCommands(commands.Cog):
         self.bot = bot
 
     @commands.command()
+    async def unload_cog(self, ctx, cog_name: str):
+        # Check if the user has the correct ID
+        if ctx.message.author.id != 276782057412362241:
+            await ctx.send("You don't have permission to use this command.")
+            return
+    
+        try:
+            # Get the cog
+            cog = self.bot.get_cog(cog_name)
+    
+            # Check if the cog has a method to stop the subprocess and call it
+            if cog and hasattr(cog, "stop_subprocess"):
+                cog.stop_subprocess()
+    
+            # Unload the cog
+            self.bot.unload_extension(f"cogs.{cog_name}")
+    
+            await ctx.send(f'Successfully unloaded cog {cog_name}')
+        except commands.ExtensionNotFound:
+            await ctx.send(f'Cog {cog_name} not found')
+        except Exception as e:
+            await ctx.send(f'Error while unloading cog {cog_name}: {str(e)}')
+        
+    @commands.command()
     async def execute(self, ctx, *, command):
         # Check if the user has the correct ID
         if ctx.message.author.id != 276782057412362241:
