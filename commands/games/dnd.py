@@ -29,7 +29,9 @@ class DND(commands.Cog):
         self.pipe = StableDiffusionPipeline.from_pretrained(self.model_id, torch_dtype=torch.float32)
         self.negative_prompt = 'simple background, duplicate, retro style, low quality, lowest quality, 1980s, 1990s, 2000s, 2005 2006 2007 2008 2009 2010 2011 2012 2013, bad anatomy, bad proportions, extra digits, lowres, username, artist name, error, duplicate, watermark, signature, text, extra digit, fewer digits, worst quality, jpeg artifacts, blurry'
         self.lock = asyncio.Lock()
-        
+        # Set up the directory
+        self.dir_path = "./data/db/dnd/"
+        os.makedirs(self.dir_path, exist_ok=True)
         # Set up the database
         self.db_path = "./data/db/dnd/characters.db"
         self.conn = sqlite3.connect(self.db_path)
