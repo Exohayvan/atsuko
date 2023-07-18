@@ -70,6 +70,7 @@ class ImageGenerator(commands.Cog):
         self.negative_prompt = 'simple background, duplicate, retro style, low quality, lowest quality, 1980s, 1990s, 2000s, 2005 2006 2007 2008 2009 2010 2011 2012 2013, bad anatomy, bad proportions, extra digits, lowres, username, artist name, error, duplicate, watermark, signature, text, extra digit, fewer digits, worst quality, jpeg artifacts, blurry'
         self.is_generating = False
         self.lock = asyncio.Lock()
+        self.tasks = []  # Keep track of the tasks
 
         # Create database connection and table
         conn = create_connection()
@@ -122,7 +123,7 @@ class ImageGenerator(commands.Cog):
             def generate_and_save_image(prompt):
                 full_prompt = "masterpiece, high quality, high resolution " + prompt
                 image = self.pipe(full_prompt, negative_prompt=self.negative_prompt).images[0]
-
+                self.tasks.append(task)  # Add the task to the tasks list
                 # Generate the MD5 hash of the image data
                 hash_object = hashlib.md5(image.tobytes())
                 filename = hash_object.hexdigest() + ".png"
@@ -174,6 +175,15 @@ class ImageGenerator(commands.Cog):
             task_id, user_id, channel_id, prompt = task
             channel = self.bot.get_channel(int(channel_id))
             asyncio.create_task(self.generate_and_send_image(channel, prompt))
+            
+    def stop_subprocess(self):
+        """Cancels all running tasks."""
+
+        for task in self.tasks:
+            task.cancel()
+
+        # Clear the tasks list
+        self.tasks = []
 
 async def setup(bot):
     await bot.add_cog(ImageGenerator(bot))
