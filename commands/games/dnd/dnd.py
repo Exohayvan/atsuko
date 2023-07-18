@@ -161,8 +161,10 @@ class DND(commands.Cog):
             await self.send_character_card(character, channel)
 
     async def send_character_card(self, character, channel):
-        embed = discord.Embed(title=character.name, color=0x00ff00)
+        user_id = character.user_id  # retrieve the user_id stored in character object
+        member = await channel.guild.fetch_member(user_id)  # get the member using the user_id
     
+        embed = discord.Embed(title=character.name, color=0x00ff00)
         description = (
             f"Race: {character.race}\n"
             f"Class: {character.character_class}\n"
@@ -170,13 +172,14 @@ class DND(commands.Cog):
             f"Weapon Type: {character.weapon_type}"
         )
         embed.description = description
-    
-        # Prepare the file to be sent
         file = discord.File(character.image_file, filename="image.png")  # rename the file to image.png
         embed.set_thumbnail(url="attachment://image.png")  # Set the url to attachment://image.png
     
+        # Set the footer to display the member's name and their avatar
+        embed.set_footer(text=f"Character belongs to {member.name}", icon_url=member.avatar.url)
+    
         await channel.send(file=file, embed=embed)
-            
+                
     @dnd.command()
     async def show(self, ctx, member: discord.Member = None):
         if not member:
