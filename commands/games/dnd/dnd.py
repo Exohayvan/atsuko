@@ -175,8 +175,7 @@ class DND(commands.Cog):
         file = discord.File(character.image_file, filename="image.png")  # rename the file to image.png
         embed.set_thumbnail(url="attachment://image.png")  # Set the url to attachment://image.png
         member = self.bot.get_user(int(character.user_id))  # get the user who created the character
-        if member:
-            embed.set_footer(text=f"Character created by {member.name}", icon_url=member.avatar_url)  # Added footer here
+        embed.set_footer(text=f"Character belongs to {member.name}", icon_url=member.avatar.url)
         await channel.send(file=file, embed=embed)
             
     @dnd.command()
