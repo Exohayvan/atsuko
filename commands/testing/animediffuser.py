@@ -164,8 +164,8 @@ class ImageGenerator(commands.Cog):
             delete_task(conn, task_id)
 
             # Generate and send the image for the next task in the queue
-            asyncio.create_task(self.generate_and_send_image(channel, prompt))
-    
+            asyncio.create_task(self.generate_and_send_image(channel, prompt, task_id, user_id, channel_id))
+                
         close_connection(conn)
         
     @commands.Cog.listener()
@@ -178,8 +178,8 @@ class ImageGenerator(commands.Cog):
             self.is_generating = True
             task_id, user_id, channel_id, prompt = task
             channel = self.bot.get_channel(int(channel_id))
-            asyncio.create_task(self.generate_and_send_image(channel, prompt))
-            
+            asyncio.create_task(self.generate_and_send_image(channel, prompt, task_id, user_id, channel_id))
+                        
     def stop_subprocess(self):
         """Cancels all running tasks."""
 
