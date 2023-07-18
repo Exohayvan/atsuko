@@ -185,9 +185,11 @@ class DND(commands.Cog):
             await ctx.send(f"{member.mention} does not have a character. Use `{self.bot.command_prefix}dnd create` to create one.")
         else:
             character = self.characters[user_id]
+            filename = os.path.basename(character.image_file)
+            file = discord.File(character.image_file, filename=filename)
             embed = discord.Embed(title=character.name, color=0x00ff00)
-            embed.set_thumbnail(url="attachment://" + character.image_file)
-
+            embed.set_image(url=f"attachment://{filename}")
+    
             description = (
                 f"Level: {character.level}\n"
                 f"Race: {character.race}\n"
@@ -198,12 +200,12 @@ class DND(commands.Cog):
                 f"Eye Color: {character.eye_color}\n"
                 f"Weapon Type: {character.weapon_type}"
             )
-
+    
             embed.description = description
-
+    
             embed.set_footer(text=f"Character belongs to {member.name}", icon_url=member.avatar.url)
-            await ctx.send(file=discord.File(character.image_file, filename=character.image_file), embed=embed)
-
+            await ctx.send(file=file, embed=embed)
+        
     @dnd.command()
     async def list(self, ctx):
         if len(self.characters) == 0:
