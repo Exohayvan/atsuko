@@ -22,6 +22,10 @@ None
 
 Creates a new counter voice channel with the given name.
 
+## placeholder
+
+This is a placeholder command.
+
 ## unload_cog
 
 None
@@ -45,26 +49,6 @@ None
 ## restart
 
 None
-
-## ping
-
-Shows the bot's latency and API ping.
-
-## info
-
-Provides detailed information about the bot.
-
-## invite
-
-Generates an invite link for the bot.
-
-## stats
-
-Shows the bot's current stats, including the number of guilds, users, and more.
-
-## uptime
-
-Shows the current uptime of the bot since last restart.
 
 ## skip
 
@@ -106,6 +90,26 @@ None
 
 None
 
+## ping
+
+Shows the bot's latency and API ping.
+
+## info
+
+Provides detailed information about the bot.
+
+## invite
+
+Generates an invite link for the bot.
+
+## stats
+
+Shows the bot's current stats, including the number of guilds, users, and more.
+
+## uptime
+
+Shows the current uptime of the bot since last restart.
+
 ## scrabble
 
 Start or play a game of Scrabble! Use '!scrabble start' to start a new game and other commands to interact with the game.
@@ -130,10 +134,6 @@ Start or play a game of Sorry! Use '!sorry start' to start a new game and other 
 
 Start or play a game of Uno! Use '!uno start' to start a new game and other commands to interact with the game.
 
-## dnd
-
-None
-
 ## tictactoe
 
 Start or play a game of Tic-Tac-Toe! Use '!tictactoe start' to start a new game and '!tictactoe move <position>' to make a move.
@@ -141,4 +141,8 @@ Start or play a game of Tic-Tac-Toe! Use '!tictactoe start' to start a new game 
 ## hangman
 
 Start or play a game of Hangman! Use '!hangman start' to start a new game and '!hangman guess <letter>' to make a guess.
+
+## dnd
+
+None
 
