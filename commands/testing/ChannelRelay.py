@@ -66,19 +66,31 @@ class ChannelRelay(commands.Cog):
         with sqlite3.connect(DATABASE_PATH) as conn:
             conn.execute('INSERT OR REPLACE INTO last_messages (channel_id, last_message_time) VALUES (?, ?)', (channel_id, timestamp.isoformat()))
 
-    @tasks.loop(minutes=5)  # Adjust the time as per your needs
-    async def check_for_slowmode(self):
+    @tasks.loop(seconds=10)  # Adjust time as needed
+    async def check_for_dynamic_slowmode(self):
         for guild_id, channel_id in self.connected_channels:
             channel = self.bot.get_channel(channel_id)
-            if channel and channel.slowmode_delay != 3:
-                try:
-                    await channel.edit(slowmode_delay=3)
-                    # Inform the server admin or the channel about the change.
-                    await channel.send("⚠️ This channel's chat cooldown has been set to 3 seconds for safety reasons.")
-                except discord.Forbidden:
-                    await channel.send("⚠️ I don't have the permissions to change the chat cooldown speed. This permission is required for the relay connection. Disconnecting the channel from the relay.")
-                    fake_ctx = await self.bot.get_context(channel.last_message)  # creating a fake context
-                    await self.disconnect_channel.invoke(fake_ctx, channel=channel)
+            if channel:
+                messages_sent = self.message_counters[channel_id]
+                if messages_sent == 0:
+                    cooldown = 0
+                elif messages_sent < 1000:
+                    cooldown = int(3 * (messages_sent / 1000))  # linear scale up to 3 seconds
+                else:
+                    cooldown = 3  # Max cooldown
+                
+                if channel.slowmode_delay != cooldown:
+                    try:
+                        await channel.edit(slowmode_delay=cooldown)
+                        await channel.send(f"⚠️ This channel's chat cooldown has been set to {cooldown} seconds due to recent message activity.")
+                    except discord.Forbidden:
+                        await channel.send("⚠️ I don't have the permissions to change the chat cooldown speed. This permission is required for the relay connection. Disconnecting the channel from the relay.")
+                        fake_ctx = await self.bot.get_context(channel.last_message)  # creating a fake context
+                        await self.disconnect_channel.invoke(fake_ctx, channel=channel)
+                        
+    @tasks.loop(minutes=1)
+    async def reset_message_counters(self):
+        self.message_counters.clear()
                             
     @tasks.loop(minutes=1)
     async def check_for_reminder(self):
@@ -100,6 +112,7 @@ class ChannelRelay(commands.Cog):
         if message.author.bot:
             return
         if (message.guild.id, message.channel.id) in self.connected_channels:
+            self.message_counters[message.channel.id] += 1
             self.last_message_times[message.channel.id] = datetime.datetime.now()
             self.update_last_message_time_in_db(message.channel.id, datetime.datetime.now())
             for guild_id, channel_id in self.connected_channels:
