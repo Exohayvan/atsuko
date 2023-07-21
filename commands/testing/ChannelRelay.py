@@ -88,7 +88,7 @@ class ChannelRelay(commands.Cog):
     @tasks.loop(seconds=10)  # Adjust time as needed
     async def check_for_dynamic_slowmode(self):
         MAX_SLOWMODE = 21600  # Discord's maximum slowmode is 6 hours or 21600 seconds
-        POWER = 3  # Adjust this value to control the growth rate. 2 is quadratic, 3 is cubic, etc.
+        POWER = 2  # Adjust this value to control the growth rate. 2 is quadratic, 3 is cubic, etc.
     
         for guild_id, channel_id in self.connected_channels:
             channel = self.bot.get_channel(channel_id)
