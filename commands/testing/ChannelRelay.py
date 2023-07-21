@@ -87,17 +87,21 @@ class ChannelRelay(commands.Cog):
     @tasks.loop(seconds=10)  # Adjust time as needed
     async def check_for_dynamic_slowmode(self):
         MAX_SLOWMODE = 21600  # Discord's maximum slowmode is 6 hours or 21600 seconds
+        POWER = 3  # Adjust this value to control the growth rate. 2 is quadratic, 3 is cubic, etc.
+    
         for guild_id, channel_id in self.connected_channels:
             channel = self.bot.get_channel(channel_id)
             if channel:
                 messages_sent = self.message_counters[channel_id]
                 if messages_sent == 0:
                     cooldown = 0
-                elif messages_sent < 1000:
-                    cooldown = int(MAX_SLOWMODE * (messages_sent / 1000))  # linear scale up to MAX_SLOWMODE
                 else:
-                    cooldown = MAX_SLOWMODE  # Max cooldown
-                
+                    fraction = messages_sent / 1000
+                    cooldown = int(MAX_SLOWMODE * fraction**POWER)
+    
+                    # Ensure cooldown does not exceed the maximum limit
+                    cooldown = min(cooldown, MAX_SLOWMODE)
+                                
                 if channel.slowmode_delay != cooldown:
                     try:
                         await channel.edit(slowmode_delay=cooldown)
