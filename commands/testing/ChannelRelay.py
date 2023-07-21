@@ -77,7 +77,7 @@ class ChannelRelay(commands.Cog):
                     if target_guild:
                         target_channel = target_guild.get_channel(channel_id)
                         if target_channel:
-                            await target_channel.send(f"{message.author.display_name}: {message.content}")
+                            await target_channel.send(f"**{message.author.display_name}:** {message.content}")
 
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -86,7 +86,7 @@ class ChannelRelay(commands.Cog):
             channel = ctx.channel
         self.connected_channels.add((ctx.guild.id, channel.id))
         self.add_channel_to_db(ctx.guild.id, channel.id)
-        await ctx.send(f"Connected {channel.mention} for relaying messages.")
+        await ctx.send(f"Connected {channel.mention} for relaying messages. This channel is now connected to external channels! To disconnect channel, use `disconnect_channel`")
 
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -96,10 +96,6 @@ class ChannelRelay(commands.Cog):
         self.connected_channels.discard((ctx.guild.id, channel.id))
         self.remove_channel_from_db(ctx.guild.id, channel.id)
         await ctx.send(f"Disconnected {channel.mention} from relaying messages.")
-    
-    @commands.command()
-    async def testcommand(self, ctx):
-        await ctx.send("This is a test!")
 
 async def setup(bot):
     await bot.add_cog(ChannelRelay(bot))
