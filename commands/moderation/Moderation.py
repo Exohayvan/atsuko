@@ -181,6 +181,8 @@ class Moderation(commands.Cog):
         self.conn.commit()
         await ctx.send(f'Role {role.name} has been removed from mod roles.')
 
+from discord.ext.commands import CheckFailure
+
     async def cog_check(self, ctx):
         try:
             # Check if the command invoker has mod role or is the owner
@@ -192,10 +194,12 @@ class Moderation(commands.Cog):
             mod_roles = [role[0] for role in mod_roles]
             member_roles = [role.id for role in ctx.author.roles]
             return bool(set(mod_roles).intersection(set(member_roles)))
+        except CheckFailure:
+            return False  # This will disallow the command if a CheckFailure occurs
         except Exception as e:
-            print(f"Error in cog_check: {e}")  # Logs the error for debugging
+            print(f"Error in cog_check: {e}")  # Logs other errors for debugging
             return False  # Default to not allowing the command if there's an error
-            
+                        
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CheckFailure):
