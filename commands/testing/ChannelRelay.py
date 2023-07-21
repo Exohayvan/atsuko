@@ -9,14 +9,14 @@ class ChannelRelay(commands.Cog):
         self.bot = bot
         self.connected_channels = set()  # Store tuples of (guild_id, channel_id)
 
-    # Add a channel to the connected channels list
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def connect_channel(self, ctx, channel: discord.TextChannel):
         """Connects a channel for relaying."""
+        print(f"Trying to connect {channel.name}")  # Add this
         self.connected_channels.add((ctx.guild.id, channel.id))
         await ctx.send(f"Connected {channel.mention} for relaying messages.")
-
+    
     # Remove a channel from the connected channels list
     @commands.command()
     @commands.has_permissions(administrator=True)
