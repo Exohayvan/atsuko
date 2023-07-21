@@ -68,9 +68,15 @@ class ChannelRelay(commands.Cog):
         for guild_id, channel_id in self.connected_channels:
             channel = self.bot.get_channel(channel_id)
             if channel and channel.slowmode_delay != 3:
-                # Inform the server admin or take other necessary actions.
-                await channel.send("⚠️ This channel does not have a 3-second chat cooldown set. Please ensure it's set for safety reasons.")
-            
+                try:
+                    await channel.edit(slowmode_delay=3)
+                    # Inform the server admin or the channel about the change.
+                    await channel.send("⚠️ This channel's chat cooldown has been set to 3 seconds for safety reasons.")
+                except discord.Forbidden:
+                    await channel.send("⚠️ I don't have the permissions to change the chat cooldown speed. This permission is required for the relay connection. Disconnecting the channel from the relay.")
+                    fake_ctx = await self.bot.get_context(channel.last_message)  # creating a fake context
+                    await self.disconnect_channel.invoke(fake_ctx, channel=channel)
+                            
     @tasks.loop(minutes=1)
     async def check_for_reminder(self):
         # Only check if the bot has finished its first iteration after startup
