@@ -84,10 +84,34 @@ class ChannelRelay(commands.Cog):
     async def connect_channel(self, ctx, channel: discord.TextChannel=None):
         if not channel:
             channel = ctx.channel
-        self.connected_channels.add((ctx.guild.id, channel.id))
-        self.add_channel_to_db(ctx.guild.id, channel.id)
-        await ctx.send(f"Connected {channel.mention} for relaying messages. This channel is now connected to external channels! To disconnect channel, use `disconnect_channel`")
-
+    
+        # 1. Send a confirmation message
+        confirm_message = await ctx.send(f"Are you sure you want to connect {channel.mention}?\n"
+                                         "Any messages sent will be sent to other channels as well "
+                                         "as other messages sent from other Servers connected.")
+        
+        # 2. Add green and red emoji reactions to the message
+        green_check = "✅"
+        red_cross = "❌"
+        await confirm_message.add_reaction(green_check)
+        await confirm_message.add_reaction(red_cross)
+    
+        # 3. Use `wait_for` to listen for the author's reaction
+        def check_reaction(reaction, user):
+            return user == ctx.author and str(reaction.emoji) in [green_check, red_cross] and reaction.message.id == confirm_message.id
+    
+        try:
+            reaction, user = await self.bot.wait_for("reaction_add", timeout=60.0, check=check_reaction)  # wait for 60 seconds
+            if str(reaction.emoji) == green_check:
+                # 4. If author reacts with the green emoji, proceed with channel connection
+                self.connected_channels.add((ctx.guild.id, channel.id))
+                self.add_channel_to_db(ctx.guild.id, channel.id)
+                await ctx.send(f"Connected {channel.mention} for relaying messages. This channel is now connected to external channels! To disconnect channel, use `disconnect_channel`")
+            else:
+                await ctx.send("Channel connection cancelled.")
+        except asyncio.TimeoutError:
+            await ctx.send("Channel connection request timed out.")
+        
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def disconnect_channel(self, ctx, channel: discord.TextChannel=None):
