@@ -10,6 +10,7 @@ class ChannelRelay(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.setup_database()
+        self.check_for_slowmode.start()
         self.connected_channels = self.load_channels_from_db()
         self.last_message_times = self.load_last_message_times_from_db()
         self.unique_guilds_connected = len(set(guild_id for guild_id, _ in self.connected_channels))
@@ -30,6 +31,9 @@ class ChannelRelay(commands.Cog):
         self.is_bot_started = False
         self.check_for_reminder.start()
 
+    def cog_unload(self):
+        self.check_for_slowmode.cancel()
+    
     def setup_database(self):
         with sqlite3.connect(DATABASE_PATH) as conn:
             conn.execute('''
@@ -59,6 +63,14 @@ class ChannelRelay(commands.Cog):
         with sqlite3.connect(DATABASE_PATH) as conn:
             conn.execute('INSERT OR REPLACE INTO last_messages (channel_id, last_message_time) VALUES (?, ?)', (channel_id, timestamp.isoformat()))
 
+    @tasks.loop(minutes=5)  # Adjust the time as per your needs
+    async def check_for_slowmode(self):
+        for guild_id, channel_id in self.connected_channels:
+            channel = self.bot.get_channel(channel_id)
+            if channel and channel.slowmode_delay != 3:
+                # Inform the server admin or take other necessary actions.
+                await channel.send("⚠️ This channel does not have a 3-second chat cooldown set. Please ensure it's set for safety reasons.")
+            
     @tasks.loop(minutes=1)
     async def check_for_reminder(self):
         # Only check if the bot has finished its first iteration after startup
