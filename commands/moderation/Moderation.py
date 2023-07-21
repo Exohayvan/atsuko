@@ -182,16 +182,20 @@ class Moderation(commands.Cog):
         await ctx.send(f'Role {role.name} has been removed from mod roles.')
 
     async def cog_check(self, ctx):
-        # Check if the command invoker has mod role or is the owner
-        if ctx.guild is not None and ctx.guild.owner_id == ctx.author.id:
-            return True
-
-        self.c.execute(f"SELECT role_id FROM {MOD_ROLE_TABLE} WHERE guild_id = ?", (ctx.guild.id,))
-        mod_roles = self.c.fetchall()
-        mod_roles = [role[0] for role in mod_roles]
-        member_roles = [role.id for role in ctx.author.roles]
-        return set(mod_roles).intersection(set(member_roles))
-
+        try:
+            # Check if the command invoker has mod role or is the owner
+            if ctx.guild is not None and ctx.guild.owner_id == ctx.author.id:
+                return True
+    
+            self.c.execute(f"SELECT role_id FROM {MOD_ROLE_TABLE} WHERE guild_id = ?", (ctx.guild.id,))
+            mod_roles = self.c.fetchall()
+            mod_roles = [role[0] for role in mod_roles]
+            member_roles = [role.id for role in ctx.author.roles]
+            return bool(set(mod_roles).intersection(set(member_roles)))
+        except Exception as e:
+            print(f"Error in cog_check: {e}")  # Logs the error for debugging
+            return False  # Default to not allowing the command if there's an error
+            
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CheckFailure):
