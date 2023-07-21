@@ -26,7 +26,7 @@ class Python(commands.Cog):
     @package_info.error
     async def package_info_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(f"Missing argument! Usage: `{ctx.prefix}package_info <package_name>`")
+            await ctx.send(f"Missing argument! Usage: `{ctx.prefix}package_info <package_name>`. This command is currently to get info about python packages!")
                 
 async def setup(bot):
     await bot.add_cog(Python(bot))
