@@ -12,6 +12,7 @@ class ChannelRelay(commands.Cog):
         self.setup_database()
         self.connected_channels = self.load_channels_from_db()
         self.last_message_times = self.load_last_message_times_from_db()
+        self.unique_guilds_connected = len(set(guild_id for guild_id, _ in self.connected_channels))
         self.safety_message = (
             "🔒 **Online Safety Reminder** 🔒\n\n"
             "- Always be cautious when sharing personal information. Avoid sharing your real name, address, phone number, or other identifiable details.\n"
@@ -23,7 +24,7 @@ class ChannelRelay(commands.Cog):
             "- It's okay to take breaks from online interactions. Your mental health and well-being are important.\n\n"
             "❔**What is this channel** ❔\n"
             f"This channel is a relay or message portal to talk to other servers that have set this up.\n"
-            f"Currently {unique_guilds_connected} servers have set this up.\n"
+            f"Currently {self.unique_guilds_connected} servers have set this up.\n"
             "Anyone can set this up by using `connect_channel` so be cautious and please read the online safety."
         )
         self.is_bot_started = False
