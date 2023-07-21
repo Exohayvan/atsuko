@@ -1,3 +1,15 @@
+## vote
+
+None
+
+## endvote
+
+None
+
+## create_counter
+
+Creates a new counter voice channel with the given name.
+
 ## adopt
 
 Sends an adoption request to another member.
@@ -10,17 +22,9 @@ Sends a marriage request to another member.
 
 Shows the family tree of the author.
 
-## vote
+## ticket
 
-None
-
-## endvote
-
-None
-
-## create_counter
-
-Creates a new counter voice channel with the given name.
+Create a new ticket channel.
 
 ## placeholder
 
