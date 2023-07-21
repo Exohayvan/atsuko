@@ -85,24 +85,22 @@ class ChannelRelay(commands.Cog):
         else:
             return "❓"  # default case, should not normally happen
         
-    @tasks.loop(seconds=10)  # Adjust time as needed
+    @tasks.loop(seconds=1)  # Adjust time as needed
     async def check_for_dynamic_slowmode(self):
         MAX_SLOWMODE = 21600  # Discord's maximum slowmode is 6 hours or 21600 seconds
-        POWER = 3  # Adjust this value to control the growth rate. 2 is quadratic, 3 is cubic, etc.
     
         for guild_id, channel_id in self.connected_channels:
             channel = self.bot.get_channel(channel_id)
             if channel:
-                messages_sent = self.message_counters[channel_id]
-                if messages_sent == 0:
-                    cooldown = 0
-                else:
-                    fraction = messages_sent / 1000
-                    cooldown = int(MAX_SLOWMODE * fraction**POWER)
+                # Calculate messages per minute
+                messages_last_15_minutes = len(self.message_timestamps[channel_id])
+                messages_per_minute = messages_last_15_minutes / 15
     
-                    # Ensure cooldown does not exceed the maximum limit
-                    cooldown = min(cooldown, MAX_SLOWMODE)
-                                
+                # Determine cooldown using messages per minute
+                # (You can modify this formula as needed)
+                cooldown = int(messages_per_minute * 60)  # e.g. 1 message/minute leads to 60 seconds cooldown
+                cooldown = min(cooldown, MAX_SLOWMODE)  # Ensure cooldown doesn't exceed max limit
+    
                 if channel.slowmode_delay != cooldown:
                     try:
                         await channel.edit(slowmode_delay=cooldown)
@@ -112,7 +110,7 @@ class ChannelRelay(commands.Cog):
                         await channel.send("⚠️ I don't have the permissions to change the chat cooldown speed. This permission is required for the relay connection. Disconnecting the channel from the relay.")
                         fake_ctx = await self.bot.get_context(channel.last_message)  # creating a fake context
                         await self.disconnect_channel.invoke(fake_ctx, channel=channel)
-                                            
+                                                                
     @tasks.loop(minutes=1)
     async def reset_message_counters(self):
         self.message_counters.clear()
