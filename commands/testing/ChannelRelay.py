@@ -23,6 +23,7 @@ class ChannelRelay(commands.Cog):
             "- It's okay to take breaks from online interactions. Your mental health and well-being are important.\n\n"
             "Stay safe and always prioritize your safety first!"
         )
+        self.is_bot_started = False
         self.check_for_reminder.start()
 
     def setup_database(self):
@@ -56,15 +57,19 @@ class ChannelRelay(commands.Cog):
 
     @tasks.loop(minutes=1)
     async def check_for_reminder(self):
-        for guild_id, channel_id in self.connected_channels:
-            if channel_id in self.last_message_times:
-                elapsed_time = datetime.datetime.now() - self.last_message_times[channel_id]
-                if elapsed_time > datetime.timedelta(minutes=15):
-                    channel = self.bot.get_channel(channel_id)
-                    if channel:
-                        await channel.send(self.safety_message)
-                        del self.last_message_times[channel_id]
-
+        # Only check if the bot has finished its first iteration after startup
+        if self.is_bot_started:
+            for guild_id, channel_id in self.connected_channels:
+                if channel_id in self.last_message_times:
+                    elapsed_time = datetime.datetime.now() - self.last_message_times[channel_id]
+                    if elapsed_time > datetime.timedelta(minutes=15):
+                        channel = self.bot.get_channel(channel_id)
+                        if channel:
+                            await channel.send(self.safety_message)
+                            del self.last_message_times[channel_id]
+        
+        self.is_bot_started = True
+    
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.bot:
