@@ -65,6 +65,24 @@ class ChannelRelay(commands.Cog):
         with sqlite3.connect(DATABASE_PATH) as conn:
             conn.execute('INSERT OR REPLACE INTO last_messages (channel_id, last_message_time) VALUES (?, ?)', (channel_id, timestamp.isoformat()))
 
+    def get_cooldown_emoji(cooldown):
+        if cooldown == 0:
+            return "✅"  # Green check for no slowmode
+        elif 1 <= cooldown <= 20:
+            return "⚠️"  # Warning triangle for short cooldowns
+        elif 21 <= cooldown <= 60:
+            return "❗"  # Exclamation mark for slightly longer cooldowns
+        elif 61 <= cooldown <= 300:  # 1 to 5 minutes
+            return "🟡"  # Yellow circle indicating caution as we get into minutes
+        elif 301 <= cooldown <= 900:  # 5 to 15 minutes
+            return "🟠"  # Orange circle for medium cooldowns
+        elif 901 <= cooldown <= 3600:  # 15 minutes to 1 hour
+            return "🔴"  # Red circle for high cooldowns
+        elif 3601 <= cooldown <= 21600:  # 1 hour to 6 hours (MAX_SLOWMODE)
+            return "⛔"  # No entry sign for very long cooldowns
+        else:
+            return "❓"  # default case, should not normally happen
+        
     @tasks.loop(seconds=10)  # Adjust time as needed
     async def check_for_dynamic_slowmode(self):
         MAX_SLOWMODE = 21600  # Discord's maximum slowmode is 6 hours or 21600 seconds
@@ -82,7 +100,8 @@ class ChannelRelay(commands.Cog):
                 if channel.slowmode_delay != cooldown:
                     try:
                         await channel.edit(slowmode_delay=cooldown)
-                        await channel.send(f"⚠️ This channel's chat cooldown has been set to {cooldown} seconds due to recent message activity.")
+                        emoji = get_cooldown_emoji(cooldown)
+                        await channel.send(f"{emoji} This channel's chat cooldown has been set to {cooldown} seconds due to recent message activity.")
                     except discord.Forbidden:
                         await channel.send("⚠️ I don't have the permissions to change the chat cooldown speed. This permission is required for the relay connection. Disconnecting the channel from the relay.")
                         fake_ctx = await self.bot.get_context(channel.last_message)  # creating a fake context
