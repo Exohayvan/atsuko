@@ -84,13 +84,13 @@ class ChannelRelay(commands.Cog):
             for guild_id, channel_id in self.connected_channels:
                 if channel_id in self.last_message_times:
                     elapsed_time = datetime.datetime.now() - self.last_message_times[channel_id]
-                    if elapsed_time > datetime.timedelta(minutes=15):
+                    if datetime.timedelta(minutes=17) < elapsed_time < datetime.timedelta(minutes=20):
                         channel = self.bot.get_channel(channel_id)
                         if channel:
                             await channel.send(self.safety_message)
                             del self.last_message_times[channel_id]
         
-        self.is_bot_started = True
+        self.is_bot_started = True        
     
     @commands.Cog.listener()
     async def on_message(self, message):
