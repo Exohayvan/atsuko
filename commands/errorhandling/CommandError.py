@@ -35,7 +35,7 @@ class CommandError(commands.Cog):
         if isinstance(error, commands.CommandNotFound):
             return
         if isinstance(error, CheckFailure):
-            await ctx.send("You don't have the necessary permissions for this command!")
+            print("CheckFailure caught.")
             return
         if isinstance(error, commands.CommandError):
             tb = traceback.format_exception(type(error), error, error.__traceback__)
