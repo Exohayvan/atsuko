@@ -1,5 +1,8 @@
 import discord
 from discord.ext import commands
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 class ChannelRelay(commands.Cog):
     def __init__(self, bot):
