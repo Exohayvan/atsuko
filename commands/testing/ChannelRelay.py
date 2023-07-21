@@ -126,7 +126,7 @@ class ChannelRelay(commands.Cog):
             for guild_id, channel_id in self.connected_channels:
                 if channel_id in self.last_message_times:
                     elapsed_time = datetime.datetime.now() - self.last_message_times[channel_id]
-                    if datetime.timedelta(minutes=17) < elapsed_time < datetime.timedelta(minutes=20):
+                    if datetime.timedelta(minutes=57) < elapsed_time < datetime.timedelta(minutes=60):
                         channel = self.bot.get_channel(channel_id)
                         if channel:
                             await channel.send(self.safety_message)
