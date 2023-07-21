@@ -34,6 +34,9 @@ class CommandError(commands.Cog):
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
             return
+        if isinstance(error, CheckFailure):
+            await ctx.send("You don't have the necessary permissions for this command!")
+            return
         if isinstance(error, commands.CommandError):
             tb = traceback.format_exception(type(error), error, error.__traceback__)
             traceback_str = "".join(tb).strip()  # remove leading/trailing white spaces
