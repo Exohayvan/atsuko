@@ -3,6 +3,7 @@ from discord.ext import commands, tasks
 import datetime
 import sqlite3
 import asyncio
+from collections import defaultdict
 
 DATABASE_PATH = './data/db/channelrelays.db'
 
