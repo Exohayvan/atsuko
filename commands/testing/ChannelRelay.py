@@ -85,7 +85,7 @@ class ChannelRelay(commands.Cog):
         else:
             return "❓"  # default case, should not normally happen
         
-    @tasks.loop(seconds=10)  # Adjust time as needed
+    @tasks.loop(seconds=1)  # Adjust time as needed
     async def check_for_dynamic_slowmode(self):
         MAX_SLOWMODE = 21600  # Discord's maximum slowmode is 6 hours or 21600 seconds
         POWER = 2  # Adjust this value to control the growth rate. 2 is quadratic, 3 is cubic, etc.
@@ -105,6 +105,7 @@ class ChannelRelay(commands.Cog):
                     cooldown = int(MAX_SLOWMODE * fraction**POWER)
                     cooldown = min(cooldown, MAX_SLOWMODE)  # Ensure cooldown doesn't exceed max limit
     
+                # Check and update the cooldown even if it's the same, to ensure dynamic updating
                 if channel.slowmode_delay != cooldown:
                     try:
                         await channel.edit(slowmode_delay=cooldown)
@@ -114,7 +115,7 @@ class ChannelRelay(commands.Cog):
                         await channel.send("⚠️ I don't have the permissions to change the chat cooldown speed. This permission is required for the relay connection. Disconnecting the channel from the relay.")
                         fake_ctx = await self.bot.get_context(channel.last_message)  # creating a fake context
                         await self.disconnect_channel.invoke(fake_ctx, channel=channel)
-                                                                                    
+                                                                                                        
     @tasks.loop(minutes=1)
     async def reset_message_counters(self):
         self.message_counters.clear()
