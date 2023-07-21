@@ -21,7 +21,10 @@ class ChannelRelay(commands.Cog):
             "- If something or someone makes you uncomfortable, trust your instincts, and seek guidance from a trusted individual or report the behavior.\n"
             "- Remember to use strong and unique passwords for your online accounts. Avoid using easily guessable passwords like 'password123'.\n"
             "- It's okay to take breaks from online interactions. Your mental health and well-being are important.\n\n"
-            "Stay safe and always prioritize your safety first!"
+            "❔**What is this channel** ❔\n"
+            f"This channel is a relay or message portal to talk to other servers that have set this up.\n"
+            f"Currently {unique_guilds_connected} servers have set this up.\n"
+            "Anyone can set this up by using `connect_channel` so be cautious and please read the online safety."
         )
         self.is_bot_started = False
         self.check_for_reminder.start()
