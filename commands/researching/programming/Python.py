@@ -24,9 +24,9 @@ class Python(commands.Cog):
                     await ctx.send("Package not found.")
 
     @package_info.error
-    async def package_info_error(ctx, error):
+    async def package_info_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(f"Missing argument! Usage: `{ctx.prefix}package_info <package_name>`")
-        
+                
 async def setup(bot):
     await bot.add_cog(Python(bot))
