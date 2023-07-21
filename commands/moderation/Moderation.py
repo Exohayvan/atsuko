@@ -192,5 +192,10 @@ class Moderation(commands.Cog):
         member_roles = [role.id for role in ctx.author.roles]
         return set(mod_roles).intersection(set(member_roles))
 
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        if isinstance(error, commands.CheckFailure):
+            await ctx.send("You don't have the required permissions to use this command! If you believe you should have permission to use this command, ask server owner to use `!addmod <mod role>` to add permissions to role.")
+
 async def setup(bot):
     await bot.add_cog(Moderation(bot))
