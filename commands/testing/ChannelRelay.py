@@ -136,10 +136,23 @@ class ChannelRelay(commands.Cog):
     async def on_message(self, message):
         if message.author.bot:
             return
+    
         if (message.guild.id, message.channel.id) in self.connected_channels:
+            # Increment message counter for dynamic slowmode
             self.message_counters[message.channel.id] += 1
+            
+            # Record the timestamp of the message for messages per minute calculation
+            self.message_timestamps[message.channel.id].append(datetime.datetime.now())
+    
+            # Remove messages older than 15 minutes for efficient memory usage
+            fifteen_mins_ago = datetime.datetime.now() - datetime.timedelta(minutes=15)
+            self.message_timestamps[message.channel.id] = [timestamp for timestamp in self.message_timestamps[message.channel.id] if timestamp > fifteen_mins_ago]
+    
+            # Update last message time for safety reminders
             self.last_message_times[message.channel.id] = datetime.datetime.now()
             self.update_last_message_time_in_db(message.channel.id, datetime.datetime.now())
+    
+            # Relay message to other connected channels
             for guild_id, channel_id in self.connected_channels:
                 if guild_id != message.guild.id or channel_id != message.channel.id:
                     target_guild = self.bot.get_guild(guild_id)
@@ -147,7 +160,7 @@ class ChannelRelay(commands.Cog):
                         target_channel = target_guild.get_channel(channel_id)
                         if target_channel:
                             await target_channel.send(f"**{message.author.display_name}:** {message.content}")
-
+                        
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def connect_channel(self, ctx, channel: discord.TextChannel=None):
