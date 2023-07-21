@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 
 class ChannelRelay(commands.Cog):
@@ -8,7 +9,7 @@ class ChannelRelay(commands.Cog):
     # Add a channel to the connected channels list
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def connect_channel(self, ctx, channel: commands.TextChannelConverter):
+    async def connect_channel(self, ctx, channel: discord.TextChannel):
         """Connects a channel for relaying."""
         self.connected_channels.add((ctx.guild.id, channel.id))
         await ctx.send(f"Connected {channel.mention} for relaying messages.")
