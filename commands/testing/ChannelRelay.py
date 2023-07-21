@@ -11,6 +11,7 @@ class ChannelRelay(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.setup_database()
+        self.message_timestamps = defaultdict(list)
         self.message_counters = defaultdict(int)
         self.check_for_dynamic_slowmode.start()
         self.connected_channels = self.load_channels_from_db()
