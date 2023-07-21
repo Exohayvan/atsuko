@@ -12,6 +12,8 @@ class ChannelRelay(commands.Cog):
         self.bot = bot
         self.setup_database()
         self.check_for_slowmode.start()
+        self.message_counters = defaultdict(int)
+        self.check_for_dynamic_slowmode.start()
         self.connected_channels = self.load_channels_from_db()
         self.last_message_times = self.load_last_message_times_from_db()
         self.unique_guilds_connected = len(set(guild_id for guild_id, _ in self.connected_channels))
