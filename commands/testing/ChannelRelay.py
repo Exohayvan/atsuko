@@ -68,6 +68,7 @@ class ChannelRelay(commands.Cog):
 
     @tasks.loop(seconds=10)  # Adjust time as needed
     async def check_for_dynamic_slowmode(self):
+        MAX_SLOWMODE = 21600  # Discord's maximum slowmode is 6 hours or 21600 seconds
         for guild_id, channel_id in self.connected_channels:
             channel = self.bot.get_channel(channel_id)
             if channel:
@@ -75,9 +76,9 @@ class ChannelRelay(commands.Cog):
                 if messages_sent == 0:
                     cooldown = 0
                 elif messages_sent < 1000:
-                    cooldown = int(3 * (messages_sent / 1000))  # linear scale up to 3 seconds
+                    cooldown = int(MAX_SLOWMODE * (messages_sent / 1000))  # linear scale up to MAX_SLOWMODE
                 else:
-                    cooldown = 3  # Max cooldown
+                    cooldown = MAX_SLOWMODE  # Max cooldown
                 
                 if channel.slowmode_delay != cooldown:
                     try:
@@ -87,7 +88,7 @@ class ChannelRelay(commands.Cog):
                         await channel.send("⚠️ I don't have the permissions to change the chat cooldown speed. This permission is required for the relay connection. Disconnecting the channel from the relay.")
                         fake_ctx = await self.bot.get_context(channel.last_message)  # creating a fake context
                         await self.disconnect_channel.invoke(fake_ctx, channel=channel)
-                        
+                                            
     @tasks.loop(minutes=1)
     async def reset_message_counters(self):
         self.message_counters.clear()
