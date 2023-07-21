@@ -87,6 +87,10 @@ class ChannelRelay(commands.Cog):
         
     @tasks.loop(seconds=10)  # Adjust time as needed
     async def check_for_dynamic_slowmode(self):
+        # Prune messages older than 15 minutes from all channels first
+        fifteen_mins_ago = datetime.datetime.now() - datetime.timedelta(minutes=15)
+        for channel_id in self.message_timestamps:
+            self.message_timestamps[channel_id] = [timestamp for timestamp in self.message_timestamps[channel_id] if timestamp > fifteen_mins_ago]
         MAX_SLOWMODE = 21600  # Discord's maximum slowmode is 6 hours or 21600 seconds
         POWER = 2  # Adjust this value to control the growth rate. 2 is quadratic, 3 is cubic, etc.
     
