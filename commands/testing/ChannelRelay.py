@@ -85,7 +85,7 @@ class ChannelRelay(commands.Cog):
         else:
             return "❓"  # default case, should not normally happen
         
-    @tasks.loop(seconds=1)  # Adjust time as needed
+    @tasks.loop(seconds=10)  # Adjust time as needed
     async def check_for_dynamic_slowmode(self):
         MAX_SLOWMODE = 21600  # Discord's maximum slowmode is 6 hours or 21600 seconds
         POWER = 2  # Adjust this value to control the growth rate. 2 is quadratic, 3 is cubic, etc.
