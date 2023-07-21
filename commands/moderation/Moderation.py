@@ -3,6 +3,7 @@ import json
 from discord.ext import commands
 from discord import Embed, Color, PermissionOverwrite
 import discord
+from discord.ext.commands import CheckFailure
 
 DATABASE_PATH = './data/allowed_mods.db'
 MOD_ROLE_TABLE = 'mod_roles'
@@ -180,8 +181,6 @@ class Moderation(commands.Cog):
         self.c.execute(f"DELETE FROM {MOD_ROLE_TABLE} WHERE guild_id = ? AND role_id = ?", (ctx.guild.id, role.id))
         self.conn.commit()
         await ctx.send(f'Role {role.name} has been removed from mod roles.')
-
-from discord.ext.commands import CheckFailure
 
     async def cog_check(self, ctx):
         try:
