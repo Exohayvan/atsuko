@@ -92,7 +92,7 @@ class ChannelRelay(commands.Cog):
         for channel_id in self.message_timestamps:
             self.message_timestamps[channel_id] = [timestamp for timestamp in self.message_timestamps[channel_id] if timestamp > fifteen_mins_ago]
         MAX_SLOWMODE = 21600  # Discord's maximum slowmode is 6 hours or 21600 seconds
-        POWER = 1.6  # Adjust this value to control the growth rate. 2 is quadratic, 3 is cubic, etc.
+        POWER = 4.24  # Adjust this value to control the growth rate. 2 is quadratic, 3 is cubic, etc.
     
         for guild_id, channel_id in self.connected_channels:
             channel = self.bot.get_channel(channel_id)
