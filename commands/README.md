@@ -1,6 +1,10 @@
 ## vote
 
-None
+Start a vote!
+
+**Usage:**
+
+`!vote <minutes> "Title" "Option 1" "Option 2" "Options up to 10"`
 
 ## endvote
 
