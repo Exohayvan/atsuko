@@ -5,7 +5,7 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(usage="NdN")
     async def roll(self, ctx, dice: str):
         """Rolls a dice with the specified format (e.g., 2d6)."""
         try:
