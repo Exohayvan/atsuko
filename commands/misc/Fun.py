@@ -5,7 +5,7 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(usage="NdN")
+    @commands.command(usage="!roll NdN")
     async def roll(self, ctx, dice: str):
         """Rolls a dice with the specified format (e.g., 2d6)."""
         try:
@@ -17,7 +17,7 @@ class Fun(commands.Cog):
         result = ', '.join(str(random.randint(1, limit)) for _ in range(rolls))
         await ctx.send(f'You rolled: {result}')
 
-    @commands.command()
+    @commands.command(usage="!coinflip")
     async def coinflip(self, ctx):
         """Flips a coin and shows the result."""
         result = random.choice(['Heads', 'Tails'])
