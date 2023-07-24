@@ -1,5 +1,6 @@
 from discord.ext import commands
 import os
+import asyncio
 
 class DocGenerator(commands.Cog):
     def __init__(self, bot):
@@ -9,6 +10,7 @@ class DocGenerator(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """Listener for when the bot has connected to Discord."""
+        await asyncio.sleep(30)
         self.generate_readme()
 
     def generate_readme(self):
