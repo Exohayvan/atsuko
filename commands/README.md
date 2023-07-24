@@ -34,6 +34,10 @@ Create a new ticket channel.
 
 This is a placeholder command.
 
+## cleanup
+
+None
+
 ## unload_cog
 
 None
