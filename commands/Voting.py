@@ -184,7 +184,7 @@ class Voting(commands.Cog):
         """, (json.dumps(vote_data['votes']), json.dumps(vote_data['user_votes']), title))
         self.conn.commit()
 
-    @commands.command(usage="!vote <minutes> \"Title" \"Option 1" \"Option 2" \"Options up to 10"")
+    @commands.command(usage="!vote <minutes> \"Title\" \"Option 1\" \"Option 2\" \"Options up to 10\"")
     async def vote(self, ctx, time_limit, title, *options):
         """Start a vote!"""
         if title in self.active_votes:
