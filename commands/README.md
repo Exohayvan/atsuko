@@ -158,3 +158,155 @@ Start or play a game of Hangman! Use '!hangman start' to start a new game and '!
 
 None
 
+## roll
+
+Rolls a dice with the specified format (e.g., 2d6).
+
+**Usage:**
+
+`!roll NdN`
+
+## coinflip
+
+Flips a coin and shows the result.
+
+**Usage:**
+
+`!coinflip`
+
+## random
+
+Shows a help message for the random group command.
+
+## animediff
+
+Generates an anime-style image based on the provided prompt and sends the MD5 hash of the image data.
+
+## dnddiff
+
+Generates an dnd-style image based on the provided prompt and sends the MD5 hash of the image data.
+
+## imagediff
+
+Generates a realistic image based on the provided prompt and sends the MD5 hash of the image data.
+
+## package_info
+
+Provides information about a pip package.
+
+## connect_channel
+
+None
+
+## disconnect_channel
+
+None
+
+## feedback
+
+None
+
+## balance
+
+Check your balance or someone else's by mentioning them.
+
+## daily
+
+Receive your daily gold.
+
+## invest
+
+Invest your gold to earn more.
+
+## uninvest
+
+Uninvest your gold, with a 10% penalty.
+
+## give
+
+Give gold to someone.
+
+## gamble
+
+Gamble your gold for a chance to win the pot.
+
+## jackpot
+
+Check the current jackpot amount.
+
+## xp
+
+None
+
+## removexp
+
+None
+
+## leaderboard
+
+None
+
+## rexp
+
+None
+
+## lock
+
+Locks a channel.
+
+## unlock
+
+Unlocks a channel.
+
+## kick
+
+Kicks a user out of the server.
+
+## setprefix
+
+None
+
+## ban
+
+Bans a user from the server.
+
+## unban
+
+Unbans a user.
+
+## purge
+
+Clears a specified amount of messages in the channel.
+
+## mute
+
+Mutes a user.
+
+## unmute
+
+Unmutes a user.
+
+## user
+
+Pulls info from a user.
+
+## addmod
+
+Adds a role to allow moderation.
+
+## removemod
+
+Removes a role to allow moderation.
+
+## set_join_role
+
+Sets the role to give to users when they first join.
+
+## set_verify_role
+
+Sets the role to give to users when they are verified.
+
+## verify
+
+Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs.
+
