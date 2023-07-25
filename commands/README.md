@@ -5,10 +5,6 @@ Start a vote!
 Usage:
 `!vote <minutes> "Title" "Option 1" "Option 2" "Options up to 10"`
 
-## endvote
-
-None
-
 ## create_counter
 
 Creates a new counter voice channel with the given name.
@@ -32,74 +28,6 @@ Create a new ticket channel.
 ## placeholder
 
 This is a placeholder command.
-
-## cleanup
-
-None
-
-## unload_cog
-
-None
-
-## execute
-
-None
-
-## tree
-
-None
-
-## backup
-
-None
-
-## update
-
-None
-
-## restart
-
-None
-
-## skip
-
-None
-
-## queue
-
-None
-
-## volume
-
-None
-
-## clear
-
-None
-
-## join
-
-None
-
-## leave
-
-None
-
-## play
-
-None
-
-## pause
-
-None
-
-## resume
-
-None
-
-## stop
-
-None
 
 ## ping
 
@@ -153,10 +81,6 @@ Start or play a game of Tic-Tac-Toe! Use '!tictactoe start' to start a new game 
 
 Start or play a game of Hangman! Use '!hangman start' to start a new game and '!hangman guess <letter>' to make a guess.
 
-## dnd
-
-None
-
 ## roll
 
 Rolls a dice with the specified format (e.g., 2d6).
@@ -200,18 +124,6 @@ Usage:
 
 Provides information about a pip package.
 
-## connect_channel
-
-None
-
-## disconnect_channel
-
-None
-
-## feedback
-
-None
-
 ## balance
 
 Check your balance or someone else's by mentioning them.
@@ -240,30 +152,14 @@ Gamble your gold for a chance to win the pot.
 
 Check the current jackpot amount.
 
-## xp
-
-None
-
 Usage:
 `!xp` or `!xp @member`
-
-## removexp
-
-None
 
 Usage:
 `Bot Owner Command`
 
-## leaderboard
-
-None
-
 Usage:
 `!leaderboard`
-
-## rexp
-
-None
 
 Usage:
 `Bot Owner Command`
@@ -279,10 +175,6 @@ Unlocks a channel.
 ## kick
 
 Kicks a user out of the server.
-
-## setprefix
-
-None
 
 ## ban
 
