@@ -87,7 +87,7 @@ class Leveling(commands.Cog):
             amount /= 1000.0
         return '%.1f%s' % (amount, ['', 'K', 'M', 'B', 'T', 'P'][magnitude])
 
-    @commands.command(usage="!leaderboard"
+    @commands.command(usage="!leaderboard")
     async def leaderboard(self, ctx):
         self.cursor.execute("SELECT * FROM users ORDER BY total_xp DESC LIMIT 10")
         leaderboard = self.cursor.fetchall()
