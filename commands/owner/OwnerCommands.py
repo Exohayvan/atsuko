@@ -140,33 +140,6 @@ class OwnerCommands(commands.Cog):
                 tree_structure += subdirectory_structure
     
         return tree_structure
-
-    @commands.command()
-    async def backup(self, ctx):
-        # Check if the user has the correct ID
-        if ctx.message.author.id != 276782057412362241:
-            await ctx.send("You don't have permission to use this command.")
-            return
-
-        # Add changes to git
-        result = subprocess.run(["git", "add", "."], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        if result.returncode != 0:
-            await ctx.send(f'Failed to add changes: {result.stderr.decode("utf-8")}')
-            return
-
-        # Commit changes
-        result = subprocess.run(["git", "commit", "-m", "Backup commit"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        if result.returncode != 0:
-            await ctx.send(f'Failed to commit changes: {result.stderr.decode("utf-8")}')
-            return
-
-        # Push changes
-        result = subprocess.run(["git", "push"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        if result.returncode != 0:
-            await ctx.send(f'Failed to push changes: {result.stderr.decode("utf-8")}')
-            return
-
-        await ctx.send('Backup successful.')
     
     @commands.command()
     async def update(self, ctx):
