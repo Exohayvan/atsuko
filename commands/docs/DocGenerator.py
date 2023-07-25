@@ -18,17 +18,18 @@ class DocGenerator(commands.Cog):
         lines = []
         for cog_name, cog in self.bot.cogs.items():
             print(f"Processing cog: {cog_name}")  # Debugging print
-            if hasattr(cog, "get_commands"):
-                for cmd in cog.get_commands():
-                    lines.append(f"## {cmd.name}\n\n")
-                    lines.append(f"{cmd.help}\n\n")
-                    if cmd.usage:
-                        lines.append(f"**Usage:**\n\n`{cmd.usage}`\n\n")
+            
+            # Accessing commands attribute directly
+            for cmd in cog.commands:
+                lines.append(f"## {cmd.name}\n\n")
+                lines.append(f"{cmd.help}\n\n")
+                if cmd.usage:
+                    lines.append(f"**Usage:**\n\n`{cmd.usage}`\n\n")
     
         with open("./commands/README.md", "w") as f:
             f.write(''.join(lines))
     
         print("README.md has been generated/updated.")
-            
+                
 async def setup(bot):
     await bot.add_cog(DocGenerator(bot))
