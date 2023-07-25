@@ -3,6 +3,8 @@ Command 'adopt' in cog Family is missing usage details.
 Command 'marry' in cog Family is missing usage details.
 Command 'family' in cog Family is missing usage details.
 Command 'ticket' in cog TicketSystem is missing usage details.
+Command 'disabled' in cog Disabled is missing help details.
+Command 'disabled' in cog Disabled is missing usage details.
 Command 'cleanup' in cog Cleanup is missing help details.
 Command 'cleanup' in cog Cleanup is missing usage details.
 Command 'unload_cog' in cog OwnerCommands is missing help details.
