@@ -23,6 +23,19 @@ class GitAutoBackup(commands.Cog):
         self.installation_id = config.get('INSTALLATION_ID')
         self.git_dir = os.getcwd()  # Assuming you want the current directory
     
+    def cog_unload(self):
+        self.backup_loop.cancel()  # Ensure the task is cancelled if the cog is unloaded
+
+    @tasks.loop(minutes=10)
+    async def backup_loop(self):
+        """Background task to pull and push every 10 minutes."""
+        self.pull_and_push()
+
+    @backup_loop.before_loop
+    async def before_backup_loop(self):
+        """Wait until the bot is ready before starting the loop."""
+        await self.bot.wait_until_ready()
+        
     def get_github_token(self):
         private_key = open(self.private_key_path, 'r').read()
         integration = GithubIntegration(self.app_id, private_key)
@@ -44,7 +57,6 @@ class GitAutoBackup(commands.Cog):
             print("Error while executing Git commands.")
 
     # You can invoke this via a command or event as you wish.
-    @commands.command(name='backupgit')
     async def backup_command(self, ctx):
         self.pull_and_push()
         await ctx.send("Backup completed.")
