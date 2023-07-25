@@ -16,7 +16,8 @@ class DocGenerator(commands.Cog):
     def generate_readme(self):
         """Generates or updates the readme.md file in the current directory."""
         lines = []
-        for cog in self.bot.cogs.values():
+        for cog_name, cog in self.bot.cogs.items():
+            print(f"Processing cog: {cog_name}")  # Debugging print
             if hasattr(cog, "get_commands"):
                 for cmd in cog.get_commands():
                     lines.append(f"## {cmd.name}\n\n")
@@ -28,6 +29,6 @@ class DocGenerator(commands.Cog):
             f.write(''.join(lines))
     
         print("README.md has been generated/updated.")
-        
+            
 async def setup(bot):
     await bot.add_cog(DocGenerator(bot))
