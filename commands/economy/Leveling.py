@@ -23,6 +23,7 @@ class Leveling(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        EXCLUDED_SERVER_ID = 110373943822540800
         if message.author.bot:
             return
         xp = len(message.content) * CHAR_XP
@@ -40,7 +41,8 @@ class Leveling(commands.Cog):
                     remaining_xp -= level_xp
                     level += 1
                     level_xp = level_xp * XP_RATE
-                    if remaining_xp < level_xp:
+                    # Check if the message's guild ID is not the excluded one before sending the level-up message
+                    if remaining_xp < level_xp and message.guild.id != EXCLUDED_SERVER_ID:
                         await message.channel.send(f'{message.author.mention} has leveled up to level {level}!')
                 self.cursor.execute("UPDATE users SET xp = ?, total_xp = ?, level = ?, level_xp = ? WHERE id = ?", (remaining_xp, total_xp, level, level_xp, message.author.id))
             self.db.commit()
