@@ -5,7 +5,7 @@ class Template(commands.Cog):
         self.bot = bot
 
     # Placeholder command
-    @commands.command()
+    @commands.command(usage="!placeholder <usage>")
     async def placeholder(self, ctx):
         """This is a placeholder command."""
         await ctx.send("This is a placeholder command. Replace it with your own implementation!")
