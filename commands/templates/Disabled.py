@@ -6,8 +6,9 @@ class Disabled(commands.Cog):
 
     @commands.command(name="disabled")
     async def _disabled(self, ctx):
-        await ctx.send("This command is currently disabled.")
-        return
+        if 0 != 1:
+            await ctx.send("This command is currently disabled.")
+            return
 
 async def setup(bot):
     await bot.add_cog(Disabled(bot))
