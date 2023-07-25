@@ -45,7 +45,7 @@ class Leveling(commands.Cog):
                 self.cursor.execute("UPDATE users SET xp = ?, total_xp = ?, level = ?, level_xp = ? WHERE id = ?", (remaining_xp, total_xp, level, level_xp, message.author.id))
             self.db.commit()
 
-    @commands.command(usage="!xp` or `!xp @member")
+    @commands.command(usage="!xp @member")
     async def xp(self, ctx, user: discord.Member = None):
         if user is None:
             user = ctx.author
