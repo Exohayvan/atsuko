@@ -97,28 +97,41 @@ async def load_cogs(bot, root_dir):
     tasks = []
     num_cogs = 0
 
+    # Load all cogs except those in commands/docs
     for dirpath, dirnames, filenames in os.walk(root_dir):
+        if "commands/docs" in dirpath:  # skip this directory for now
+            continue
         for filename in filenames:
             if filename.endswith('.py'):
-                path = os.path.join(dirpath, filename)
-                module = path.replace(os.sep, ".")[:-3]
-                cog = module.replace(".", "_")
-                try:
-                    task = asyncio.create_task(bot.load_extension(module))
-                    tasks.append(task)
-                    num_cogs += 1
-                    print(f"Loaded Cog: {module}")
-                except Exception as e:
-                    print(f"Failed to load Cog: {module}\n{e}")
-                try:
-                    setup = getattr(bot.get_cog(cog), "setup")
-                    if setup:
-                        tasks.append(asyncio.create_task(setup(bot)))
-                except AttributeError:
-                    pass
+                await handle_loading(dirpath, filename, bot, tasks)
+                num_cogs += 1
+
+    # Now, load cogs in commands/docs directory
+    for dirpath, dirnames, filenames in os.walk(os.path.join(root_dir, 'docs')):
+        for filename in filenames:
+            if filename.endswith('.py'):
+                await handle_loading(dirpath, filename, bot, tasks)
+                num_cogs += 1
 
     await asyncio.gather(*tasks)
     return num_cogs
+
+async def handle_loading(dirpath, filename, bot, tasks):
+    path = os.path.join(dirpath, filename)
+    module = path.replace(os.sep, ".")[:-3]
+    cog = module.replace(".", "_")
+    try:
+        task = asyncio.create_task(bot.load_extension(module))
+        tasks.append(task)
+        print(f"Loaded Cog: {module}")
+    except Exception as e:
+        print(f"Failed to load Cog: {module}\n{e}")
+    try:
+        setup = getattr(bot.get_cog(cog), "setup")
+        if setup:
+            tasks.append(asyncio.create_task(setup(bot)))
+    except AttributeError:
+        pass
 
 @bot.event
 async def on_ready():
