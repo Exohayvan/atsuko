@@ -35,6 +35,8 @@ class GitAutoBackup(commands.Cog):
         
         try:
             subprocess.run(["git", "pull", remote_url], cwd=self.git_dir, check=True)
+            subprocess.run(["git", "add", "."], cwd=self.git_dir, check=True)
+            subprocess.run(["git", "commit", "-m", "Auto commit by bot"], cwd=self.git_dir, check=True)
             subprocess.run(["git", "push", remote_url], cwd=self.git_dir, check=True)
         except subprocess.CalledProcessError:
             print("Error while executing Git commands.")
