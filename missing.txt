@@ -1,5 +1,3 @@
-Command 'endvote' in cog Voting is missing help details.
-Command 'endvote' in cog Voting is missing usage details.
 Command 'create_counter' in cog Counter is missing usage details.
 Command 'adopt' in cog Family is missing usage details.
 Command 'marry' in cog Family is missing usage details.

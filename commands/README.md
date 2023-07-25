@@ -1,9 +1,16 @@
 ## vote
 
-Start a vote!
+Start an anonymous vote with 2-10 options to choose from! (Besure to include quotes on title and options)
 
 Usage:
 `!vote <minutes> "Title" "Option 1" "Option 2" "Options up to 10"`
+
+## endvote
+
+Ends a currently active vote using the title of the vote. (Besure to enclose the title with quotes)
+
+Usage:
+`!endvote "title of vote"`
 
 ## create_counter
 
