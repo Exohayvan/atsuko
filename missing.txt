@@ -54,8 +54,6 @@ Command 'dnd' in cog DND is missing help details.
 Command 'dnd' in cog DND is missing usage details.
 Command 'random' in cog Random is missing usage details.
 Command 'package_info' in cog Python is missing usage details.
-Command 'backupgit' in cog GitAutoBackup is missing help details.
-Command 'backupgit' in cog GitAutoBackup is missing usage details.
 Command 'connect_channel' in cog ChannelRelay is missing help details.
 Command 'connect_channel' in cog ChannelRelay is missing usage details.
 Command 'disconnect_channel' in cog ChannelRelay is missing help details.
