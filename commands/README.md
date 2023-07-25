@@ -29,6 +29,9 @@ Create a new ticket channel.
 
 This is a placeholder command.
 
+Usage:
+`!placeholder <usage>`
+
 ## ping
 
 Shows the bot's latency and API ping.
