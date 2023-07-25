@@ -10,7 +10,7 @@ class DocGenerator(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """Listener for when the bot has connected to Discord."""
-        await asyncio.sleep(30)
+        await asyncio.sleep(60)
         self.generate_readme()
 
     def generate_readme(self):
