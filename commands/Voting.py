@@ -186,7 +186,7 @@ class Voting(commands.Cog):
 
     @commands.command(usage="!vote <minutes> \"Title\" \"Option 1\" \"Option 2\" \"Options up to 10\"")
     async def vote(self, ctx, time_limit, title, *options):
-        """Start a vote!"""
+        """Start an anonymous vote with 2-10 options to choose from! (Besure to include quotes on title and options)"""
         if title in self.active_votes:
             await ctx.send("A vote with that title already exists.")
             return
@@ -235,8 +235,9 @@ class Voting(commands.Cog):
 
         self.running_votes[title] = self.bot.loop.create_task(self.resume_vote(title))
 
-    @commands.command()
+    @commands.command(usage="!endvote \"title of vote\"")
     async def endvote(self, ctx, title):
+        """Ends a currently active vote using the title of the vote. (Besure to enclose the title with quotes)"""
         if title not in self.active_votes:
             await ctx.send("There is no active vote with that title.")
             return
