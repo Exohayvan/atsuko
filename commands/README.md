@@ -2,8 +2,7 @@
 
 Start a vote!
 
-**Usage:**
-
+Usage:
 `!vote <minutes> "Title" "Option 1" "Option 2" "Options up to 10"`
 
 ## endvote
@@ -162,16 +161,14 @@ None
 
 Rolls a dice with the specified format (e.g., 2d6).
 
-**Usage:**
-
+Usage:
 `!roll NdN`
 
 ## coinflip
 
 Flips a coin and shows the result.
 
-**Usage:**
-
+Usage:
 `!coinflip`
 
 ## random
