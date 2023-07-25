@@ -23,7 +23,6 @@ class Presence(commands.Cog):
         next_status, activity_type = next(self.statuses)
         activity = Activity(name=next_status, type=activity_type)
         await self.bot.change_presence(activity=activity)
-        print(f'Presence changed to: {next_status}')
 
     @change_presence.before_loop
     async def before_change_presence(self):
