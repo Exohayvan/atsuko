@@ -7,6 +7,7 @@ from watchdog.events import FileSystemEventHandler
 import subprocess
 from discord.ext import tasks
 from github import GithubIntegration, Github
+import datetime
 
 # Retrieving configuration from config.json
 def get_config():
@@ -23,6 +24,7 @@ class GitAutoBackup(commands.Cog):
         self.app_id = config.get('APP_ID')
         self.installation_id = config.get('INSTALLATION_ID')
         self.git_dir = os.getcwd()  # Assuming you want the current directory
+        self.backup_loop.start()
     
     def cog_unload(self):
         self.backup_loop.cancel()  # Ensure the task is cancelled if the cog is unloaded
