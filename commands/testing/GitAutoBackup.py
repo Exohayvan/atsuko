@@ -24,10 +24,16 @@ class GitAutoPushHandler(FileSystemEventHandler):
 
         env = os.environ.copy()
         env["GIT_ASKPASS"] = "echo"
-        env["GIT_USERNAME"] = "x-access-token"
+        env["GIT_USERNAME"] = "x-access-token"  # GitHub's convention for using tokens as usernames
         env["GIT_PASSWORD"] = installation_token
 
-        # rest of the git operations as before
+        try:
+            subprocess.run(["git", "pull", "origin", "main"], cwd=self.git_dir, env=env, check=True)
+            subprocess.run(["git", "add", "."], cwd=self.git_dir, env=env, check=True)
+            subprocess.run(["git", "commit", "-m", f"Auto-commit: {time.strftime('%Y-%m-%d %H:%M:%S')}"], cwd=self.git_dir, env=env)
+            subprocess.run(["git", "push", "origin", "main"], cwd=self.git_dir, env=env)
+        except subprocess.CalledProcessError:
+            print("Error while executing Git commands.")
 
 class GitAutoBackup(commands.Cog):
     def __init__(self, bot):
@@ -52,7 +58,6 @@ class GitAutoBackup(commands.Cog):
         self.observer.join()
 
     def generate_jwt(self):
-        # Generate a JWT
         with open(self.config['PRIVATE_KEY_PATH'], 'r') as f:
             private_key = f.read()
 
