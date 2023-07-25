@@ -13,57 +13,38 @@ def get_config():
         config = json.load(f)
     return config
 
-class GitAutoPushHandler(FileSystemEventHandler):
-    def __init__(self, git_dir, config):
-        self.git_dir = git_dir
-        self.config = config
-
-    def on_modified(self, event):
-        if not event.is_directory:
-            self.pull_commit_and_push()
+class GitAutoBackup(commands.Cog):
+    def __init__(self, bot, private_key_path):
+        self.bot = bot
+        self.private_key_path = private_key_path
+        self.github_repo = "Exohayvan/atsuko"
+        self.app_id = config.get('APP_ID')
+        self.installation_id = config.get('INSTALLATION_ID')
+        self.git_dir = os.getcwd()  # Assuming you want the current directory
 
     def get_github_token(self):
-        private_key = open(self.config['PRIVATE_KEY_PATH'], 'r').read()
-        integration = GithubIntegration(self.config['APP_ID'], private_key)
-        token = integration.get_access_token(self.config['INSTALLATION_ID'])
+        private_key = open(self.private_key_path, 'r').read()
+        integration = GithubIntegration(self.app_id, private_key)
+        token = integration.get_access_token(self.installation_id)
         return token.token
 
-    def pull_commit_and_push(self):
+    def pull_and_push(self):
         token = self.get_github_token()
-
-        env = os.environ.copy()
-        env["GIT_ASKPASS"] = "echo"
-        env["GIT_USERNAME"] = "x-access-token"
-        env["GIT_PASSWORD"] = token
-
+        remote_url = f"https://x-access-token:{token}@github.com/{self.github_repo}.git"
+        
         try:
-            subprocess.run(["git", "pull", "origin", "main"], cwd=self.git_dir, env=env, check=True)
-            subprocess.run(["git", "add", "."], cwd=self.git_dir, env=env, check=True)
-            subprocess.run(["git", "commit", "-m", f"Auto-commit: {time.strftime('%Y-%m-%d %H:%M:%S')}"], cwd=self.git_dir, env=env)
-            subprocess.run(["git", "push", "origin", "main"], cwd=self.git_dir, env=env)
+            subprocess.run(["git", "pull", remote_url], cwd=self.git_dir, check=True)
+            subprocess.run(["git", "push", remote_url], cwd=self.git_dir, check=True)
         except subprocess.CalledProcessError:
             print("Error while executing Git commands.")
 
-class GitAutoBackup(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-        self.path = os.getcwd()
-
-        # Load the config.json
-        self.config = get_config()
-
-        self.event_handler = GitAutoPushHandler(git_dir=self.path, config=self.config)
-        self.observer = Observer()
-        self.observer.schedule(self.event_handler, self.path, recursive=True)
-        self.observer.start()
-
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print(f'{self.bot.user.name} has loaded GitAutoBackup')
-
-    def cog_unload(self):
-        self.observer.stop()
-        self.observer.join()
-
+    # You can invoke this via a command or event as you wish.
+    @commands.command(name='backup')
+    async def backup_command(self, ctx):
+        self.pull_and_push()
+        await ctx.send("Backup completed.")
+    
 async def setup(bot):
-    await bot.add_cog(GitAutoBackup(bot))
+    config = get_config()
+    private_key_path = config.get('PRIVATE_KEY_PATH')
+    await bot.add_cog(GitAutoBackup(bot, private_key_path))
