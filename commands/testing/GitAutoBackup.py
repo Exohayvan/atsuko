@@ -12,25 +12,17 @@ def get_config():
     with open('../config.json', 'r') as f:
         config = json.load(f)
     return config
-    
-def __init__(self, bot, private_key_path):
-    self.bot = bot
-    self.private_key_path = private_key_path
-    config = get_config()
-    self.github_repo = "Exohayvan/atsuko"
-    self.app_id = config.get('APP_ID')
-    self.installation_id = config.get('INSTALLATION_ID')
-    self.git_dir = os.getcwd()  # Assuming you want the current directory
-    
+        
 class GitAutoBackup(commands.Cog):
     def __init__(self, bot, private_key_path):
         self.bot = bot
         self.private_key_path = private_key_path
+        config = get_config()
         self.github_repo = "Exohayvan/atsuko"
         self.app_id = config.get('APP_ID')
         self.installation_id = config.get('INSTALLATION_ID')
         self.git_dir = os.getcwd()  # Assuming you want the current directory
-
+    
     def get_github_token(self):
         private_key = open(self.private_key_path, 'r').read()
         integration = GithubIntegration(self.app_id, private_key)
