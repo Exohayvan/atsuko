@@ -179,13 +179,22 @@ Shows a help message for the random group command.
 
 Generates an anime-style image based on the provided prompt and sends the MD5 hash of the image data.
 
+Usage:
+`!animediff <prompt>, <another prompt>, so on`
+
 ## dnddiff
 
 Generates an dnd-style image based on the provided prompt and sends the MD5 hash of the image data.
 
+Usage:
+`!dnddiff <prompt>, <another prompt>, so on`
+
 ## imagediff
 
 Generates a realistic image based on the provided prompt and sends the MD5 hash of the image data.
+
+Usage:
+`!imagediff <prompt>, <another prompt>, so on`
 
 ## package_info
 
@@ -235,17 +244,29 @@ Check the current jackpot amount.
 
 None
 
+Usage:
+`!xp` or `!xp @member`
+
 ## removexp
 
 None
+
+Usage:
+`Bot Owner Command`
 
 ## leaderboard
 
 None
 
+Usage:
+`!leaderboard`
+
 ## rexp
 
 None
+
+Usage:
+`Bot Owner Command`
 
 ## lock
 
