@@ -2,9 +2,8 @@
 
 Astuko is a Discord bot designed with a focus on extensibility and reliability. It's built using Python and relies on a dynamic cog system for modularity. This allows you to easily add new features by simply creating new Python files in the `commands` directory.
 
-The bot's features include a custom help interface, user activity display, and some humor injected into the mix, such as roasting users when the "ratio" command is used.
-
-Astuko utilizes a `config.json` file located in the parent directory for its configuration, which must contain a Discord bot token under the key `bot_token`.
+The bot's features include a custom help interface, and a bunch of commands.
+Find those commands [Here](https://github.com/Exohayvan/atsuko/blob/main/commands/README.md)
 
 The reliability aspect comes from the `Watcher.py` script, which continuously monitors the bot process. If the process exits with a specific exit code (42), it restarts the bot. This ensures that the bot is always up and running, even in the face of unexpected issues.
 
