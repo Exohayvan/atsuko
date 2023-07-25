@@ -29,7 +29,7 @@ class DocGenerator(commands.Cog):
                 lines.append(f"## {cmd.name}\n\n")
                 lines.append(f"{cmd.help}\n\n")
                 if cmd.usage:
-                    lines.append(f"**Usage:**\n\n`{cmd.usage}`\n\n")
+                    lines.append(f"Usage:\n`{cmd.usage}`\n\n")
     
         with open("./commands/README.md", "w") as f:
             f.write(''.join(lines))
