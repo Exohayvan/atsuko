@@ -77,7 +77,7 @@ class ImageGenerator(commands.Cog):
         create_table(conn)
         close_connection(conn)
 
-    @commands.command()
+    @commands.command(usage="!animediff <prompt>, <another prompt>, so on")
     async def animediff(self, ctx, *, prompt: commands.clean_content):
         """Generates an anime-style image based on the provided prompt and sends the MD5 hash of the image data."""
         
@@ -90,7 +90,7 @@ class ImageGenerator(commands.Cog):
         else:
             await ctx.send(f"Your request is queued. Position in queue: {position}. Estimated time: {position * 15} minutes.")
 
-    @commands.command()
+    @commands.command(usage="!dnddiff <prompt>, <another prompt>, so on")
     async def dnddiff(self, ctx, *, prompt: commands.clean_content):
         """Generates an dnd-style image based on the provided prompt and sends the MD5 hash of the image data."""
         
@@ -103,7 +103,7 @@ class ImageGenerator(commands.Cog):
         else:
             await ctx.send(f"Your request is queued. Position in queue: {position}. Estimated time: {position * 15} minutes.")
 
-    @commands.command()
+    @commands.command(usage="!imagediff <prompt>, <another prompt>, so on")
     async def imagediff(self, ctx, *, prompt: commands.clean_content):
         """Generates a realistic image based on the provided prompt and sends the MD5 hash of the image data."""
         
