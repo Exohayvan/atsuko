@@ -50,6 +50,11 @@ class DocGenerator(commands.Cog):
             with open("missing.txt", "w") as f:
                 f.write('\n'.join(missing_details))
             print("missing.txt has been generated/updated.")
+        else:
+            # If there are no missing details and the file exists, delete it
+            if os.path.exists("missing.txt"):
+                os.remove("missing.txt")
+                print("missing.txt has been deleted as there are no missing details.")
                             
 async def setup(bot):
     await bot.add_cog(DocGenerator(bot))
