@@ -45,7 +45,7 @@ class Leveling(commands.Cog):
                 self.cursor.execute("UPDATE users SET xp = ?, total_xp = ?, level = ?, level_xp = ? WHERE id = ?", (remaining_xp, total_xp, level, level_xp, message.author.id))
             self.db.commit()
 
-    @commands.command(usage="!xp @member")
+    @commands.command(usage="!xp` or `!xp @member")
     async def xp(self, ctx, user: discord.Member = None):
         if user is None:
             user = ctx.author
@@ -72,7 +72,7 @@ class Leveling(commands.Cog):
             self.cursor.execute("UPDATE users SET xp = ?, level = ?, level_xp = ? WHERE id = ?", (total_xp, level, next_level_xp, user[0]))
         self.db.commit()
 
-    @commands.command(usage="Bot Owner Command"
+    @commands.command(usage="Bot Owner Command")
     async def removexp(self, ctx, user: discord.Member):
         if ctx.author.id == 276782057412362241:
             self.cursor.execute("DELETE FROM users WHERE id = ?", (user.id,))
