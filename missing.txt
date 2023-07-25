@@ -11,8 +11,6 @@ Command 'execute' in cog OwnerCommands is missing help details.
 Command 'execute' in cog OwnerCommands is missing usage details.
 Command 'tree' in cog OwnerCommands is missing help details.
 Command 'tree' in cog OwnerCommands is missing usage details.
-Command 'backup' in cog OwnerCommands is missing help details.
-Command 'backup' in cog OwnerCommands is missing usage details.
 Command 'update' in cog OwnerCommands is missing help details.
 Command 'update' in cog OwnerCommands is missing usage details.
 Command 'restart' in cog OwnerCommands is missing help details.
