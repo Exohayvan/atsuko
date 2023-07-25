@@ -8,7 +8,7 @@ import hashlib
 import asyncio
 import os
 
-DB_PATH = "./data/db/animediff.db"
+DB_PATH = "./data/db/ImageGenerator.db"
 
 def create_connection():
     conn = None;
