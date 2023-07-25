@@ -1,26 +1,14 @@
-import jwt
-import time
-import requests
-import json
-import os
-from discord.ext import commands
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
-import subprocess
-
-GITHUB_BASE_URL = "https://api.github.com"
-
 class GitAutoPushHandler(FileSystemEventHandler):
-    def __init__(self, git_dir, get_token_callback):
+    def __init__(self, git_dir, config):
         self.git_dir = git_dir
-        self.get_token_callback = get_token_callback
+        self.config = config
 
     def on_modified(self, event):
         if not event.is_directory:
             self.pull_commit_and_push()
 
     def pull_commit_and_push(self):
-        installation_token = self.get_token_callback()
+        installation_token = self.get_installation_token()
 
         env = os.environ.copy()
         env["GIT_ASKPASS"] = "echo"
@@ -34,28 +22,6 @@ class GitAutoPushHandler(FileSystemEventHandler):
             subprocess.run(["git", "push", "origin", "main"], cwd=self.git_dir, env=env)
         except subprocess.CalledProcessError:
             print("Error while executing Git commands.")
-
-class GitAutoBackup(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-        self.path = os.getcwd()
-
-        # Load the config.json
-        with open('../config.json', 'r') as f:
-            self.config = json.load(f)
-
-        self.event_handler = GitAutoPushHandler(git_dir=self.path, get_token_callback=self.get_installation_token)
-        self.observer = Observer()
-        self.observer.schedule(self.event_handler, self.path, recursive=True)
-        self.observer.start()
-
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print(f'{self.bot.user.name} has loaded GitAutoBackup')
-
-    def cog_unload(self):
-        self.observer.stop()
-        self.observer.join()
 
     def generate_jwt(self):
         with open(self.config['PRIVATE_KEY_PATH'], 'r') as f:
@@ -81,6 +47,28 @@ class GitAutoBackup(commands.Cog):
             return token_data['token']
         else:
             return None
+
+class GitAutoBackup(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self.path = os.getcwd()
+
+        # Load the config.json
+        with open('../config.json', 'r') as f:
+            self.config = json.load(f)
+
+        self.event_handler = GitAutoPushHandler(git_dir=self.path, config=self.config)
+        self.observer = Observer()
+        self.observer.schedule(self.event_handler, self.path, recursive=True)
+        self.observer.start()
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print(f'{self.bot.user.name} has loaded GitAutoBackup')
+
+    def cog_unload(self):
+        self.observer.stop()
+        self.observer.join()
 
 async def setup(bot):
     await bot.add_cog(GitAutoBackup(bot))
