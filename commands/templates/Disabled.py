@@ -10,5 +10,9 @@ class Disabled(commands.Cog):
             await ctx.send("This command is currently disabled.")
             return
 
+    async def send_disabled_msg(self, ctx):
+        await ctx.send("This command is currently disabled.")
+        return
+        
 async def setup(bot):
     await bot.add_cog(Disabled(bot))
