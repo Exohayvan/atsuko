@@ -19,8 +19,13 @@ class DocGenerator(commands.Cog):
         for cog_name, cog in self.bot.cogs.items():
             print(f"Processing cog: {cog_name}")  # Debugging print
             
-            # Accessing commands attribute directly
-            for cmd in cog.commands:
+            # Using the get_commands() method
+            commands_list = cog.get_commands()
+            if not commands_list:
+                print(f"No commands found for cog: {cog_name}")
+                continue
+                
+            for cmd in commands_list:
                 lines.append(f"## {cmd.name}\n\n")
                 lines.append(f"{cmd.help}\n\n")
                 if cmd.usage:
@@ -30,6 +35,6 @@ class DocGenerator(commands.Cog):
             f.write(''.join(lines))
     
         print("README.md has been generated/updated.")
-                
+                    
 async def setup(bot):
     await bot.add_cog(DocGenerator(bot))
