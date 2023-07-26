@@ -1,5 +1,4 @@
 Command 'create_counter' in cog Counter is missing usage details.
-Command 'adopt' in cog Family is missing usage details.
 Command 'marry' in cog Family is missing usage details.
 Command 'family' in cog Family is missing usage details.
 Command 'disabled' in cog Disabled is missing help details.

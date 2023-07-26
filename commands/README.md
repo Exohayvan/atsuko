@@ -20,6 +20,9 @@ Creates a new counter voice channel with the given name.
 
 Sends an adoption request to another member.
 
+Usage:
+`!adopt <@member>`
+
 ## marry
 
 Sends a marriage request to another member.
@@ -206,6 +209,13 @@ Usage:
 ## package_info
 
 Provides information about a pip package.
+
+## donate
+
+Returns the donation address for the specified method.
+
+Usage:
+`!donate <method>`
 
 ## balance
 
