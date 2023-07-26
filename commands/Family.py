@@ -81,7 +81,7 @@ class Family(commands.Cog):
     
         self.conn.commit()
 
-    @commands.command()
+    @commands.command(usage="!adopt <@member>")
     async def adopt(self, ctx, *, member: discord.Member):
         """Sends an adoption request to another member."""
         if ctx.author == member:
