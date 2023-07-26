@@ -21,7 +21,7 @@ class TicketSystem(commands.Cog):
         self.mod_conn = sqlite3.connect(MOD_ROLE_DATABASE_PATH)
         self.mod_cursor = self.mod_conn.cursor()
 
-    @commands.command()
+    @commands.command(usage="!ticket")
     async def ticket(self, ctx: commands.Context):
         """Create a new ticket channel."""
         
