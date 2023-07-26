@@ -18,17 +18,20 @@ class Donation(commands.Cog):
         if method is None:
             await ctx.send("Please specify a donation method. Example: `!donate btc`")
             return
-
+    
         # Convert method to lowercase to ensure consistency
         method = method.lower()
-
+        addresses_found = []
+    
         # Search for the method in the list of dictionaries
         for donation_method in self.donation_methods:
             if donation_method['name'].lower() == method or donation_method['short'] == method:
-                await ctx.send(f"To donate using {donation_method['name']}, send to this address: {donation_method['address']}")
-                return
-
-        await ctx.send(f"We don't support {method} currently. Please check available methods or contact an admin.")
-
+                addresses_found.append(donation_method['address'])
+    
+        if addresses_found:
+            await ctx.send(f"To donate using {method}, send to one of these addresses: {', '.join(addresses_found)}")
+        else:
+            await ctx.send(f"We don't support {method} currently. Please check available methods or contact an admin.")
+        
 async def setup(bot):
     await bot.add_cog(Donation(bot))
