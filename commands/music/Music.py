@@ -28,8 +28,9 @@ class Music(commands.Cog):
         for guild_id, volume in self.db_curs.fetchall():
             self.volume[guild_id] = volume
 
-    @commands.command()
+    @commands.command(usage="!skip")
     async def skip(self, ctx):
+        """Skips the currently playing song"""
         guild_id = str(ctx.guild.id)
 
         # Stop the current song
@@ -42,8 +43,9 @@ class Music(commands.Cog):
 
         await ctx.send("Skipped to the next song in the queue.")
 
-    @commands.command()
+    @commands.command(usage="!queue <song url>")
     async def queue(self, ctx, url: str):
+        """Queues a song to be played next"""
         guild_id = str(ctx.guild.id)
 
         # Add the song to the queue for this server
@@ -58,8 +60,9 @@ class Music(commands.Cog):
 
         await ctx.send("Added the song to the queue.")
         
-    @commands.command()
+    @commands.command(usage="!volume <value 0-100>")
     async def volume(self, ctx, volume: int):
+        """Sets the bots volume within a voice channel"""
         # Check the volume is within a reasonable range
         if volume < 0 or volume > 100:
             await ctx.send("Volume must be between 0 and 100.")
@@ -78,8 +81,9 @@ class Music(commands.Cog):
 
         await ctx.send(f"Set volume to {volume}%.")
 
-    @commands.command()
+    @commands.command(usage="!clear")
     async def clear(self, ctx):
+        """Clears the song queue"""
         guild_id = str(ctx.guild.id)
 
         # Clear the queue for this server
@@ -92,23 +96,26 @@ class Music(commands.Cog):
 
         await ctx.send("Cleared the song queue.")
         
-    @commands.command()
+    @commands.command(usage="!join")
     async def join(self, ctx):
+        """Requests bot to join voice channel that requested user is in"""
         if not ctx.message.author.voice:
             await ctx.send("You are not connected to a voice channel!")
             return
         channel = ctx.message.author.voice.channel
         await channel.connect()
 
-    @commands.command()
+    @commands.command(usage="!leave")
     async def leave(self, ctx):
+        """Requests bot to leave voice channel it is in"""
         if not ctx.voice_client:
             await ctx.send("I am not connected to a voice channel!")
             return
         await ctx.voice_client.disconnect()
 
-    @commands.command()
+    @commands.command(usage="!play <song url>")
     async def play(self, ctx, url: str = None):
+        """Plays requested song in voice channel"""
         guild_id = str(ctx.guild.id)
         if not ctx.voice_client:
             await ctx.send("I am not connected to a voice channel!")
@@ -148,24 +155,27 @@ class Music(commands.Cog):
     async def play_next(self, ctx):
         await self.play(ctx)
 
-    @commands.command()
+    @commands.command(usage="!pause")
     async def pause(self, ctx):
+        """Pauses currently playing music, resume with resume command"""
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         if voice.is_playing():
             voice.pause()
         else:
             await ctx.send("Currently no audio is playing.")
 
-    @commands.command()
+    @commands.command(usage="!resume")
     async def resume(self, ctx):
+        """Resumes paused music"""
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         if voice.is_paused():
             voice.resume()
         else:
             await ctx.send("The audio is not paused.")
 
-    @commands.command()
+    @commands.command(usage="!stop")
     async def stop(self, ctx):
+        """Stops the music, sometimes clears queue"""
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         voice.stop()
 
