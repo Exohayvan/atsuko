@@ -32,12 +32,85 @@ Shows the family tree of the author.
 
 Create a new ticket channel.
 
+Usage:
+`!ticket`
+
 ## placeholder
 
 This is a placeholder command.
 
 Usage:
 `!placeholder <usage>`
+
+## skip
+
+Skips the currently playing song
+
+Usage:
+`!skip`
+
+## queue
+
+Queues a song to be played next
+
+Usage:
+`!queue <song url>`
+
+## volume
+
+Sets the bots volume within a voice channel
+
+Usage:
+`!volume <value 0-100>`
+
+## clear
+
+Clears the song queue
+
+Usage:
+`!clear`
+
+## join
+
+Requests bot to join voice channel that requested user is in
+
+Usage:
+`!join`
+
+## leave
+
+Requests bot to leave voice channel it is in
+
+Usage:
+`!leave`
+
+## play
+
+Plays requested song in voice channel
+
+Usage:
+`!play <song url>`
+
+## pause
+
+Pauses currently playing music, resume with resume command
+
+Usage:
+`!pause`
+
+## resume
+
+Resumes paused music
+
+Usage:
+`!resume`
+
+## stop
+
+Stops the music, sometimes clears queue
+
+Usage:
+`!stop`
 
 ## ping
 
