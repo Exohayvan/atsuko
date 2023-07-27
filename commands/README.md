@@ -210,13 +210,6 @@ Usage:
 
 Provides information about a pip package.
 
-## donate
-
-Returns the donation address for the specified method.
-
-Usage:
-`!donate <method>`
-
 ## balance
 
 Check your balance or someone else's by mentioning them.
