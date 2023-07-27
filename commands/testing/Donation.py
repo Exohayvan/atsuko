@@ -40,7 +40,7 @@ class Donation(commands.Cog):
                 addresses_found.append(donation_method['address'])
     
         if addresses_found:
-            await ctx.send(f"To donate using {method}, send to one of these addresses: {', '.join(addresses_found)}")
+            await ctx.send(f"To donate using {method}, send to one of these addresses: {''.join(addresses_found)}")
         else:
             await ctx.send(f"We don't support {method} currently. Please check available methods or contact an admin.")
                 
