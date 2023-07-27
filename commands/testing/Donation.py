@@ -11,7 +11,7 @@ class Donation(commands.Cog):
             {'name': 'Binance Smart', 'short': 'bsc', 'address': '```0x7c2AD5056E9191A837A8e0Be3998b37e82bF65d8```'},
             {'name': 'Doge', 'short': 'doge', 'address': '```D9i93M1juvHBieZfbVXvxLyXGQ4yhjdfyu```'},
             {'name': 'Dash', 'short': 'dash', 'address': '```XiUV5XMKNMicSHrRduMb83131TNkgQTfsa```'},
-            {'name': 'Tether', 'short': 'usdt ', 'address': '```0x7c2AD5056E9191A837A8e0Be3998b37e82bF65d8 (ECR20)```'},
+            {'name': 'Tether', 'short': 'usdt', 'address': '```0x7c2AD5056E9191A837A8e0Be3998b37e82bF65d8 (ECR20)```'},
             {'name': 'Tether', 'short': 'usdt', 'address': '```TYpf1tVuz9XAseufTz72zfk7UTV1YpnPXv (TRX20)```'},
             {'name': 'Tether', 'short': 'usdt', 'address': '```0x7c2AD5056E9191A837A8e0Be3998b37e82bF65d8 (BEP20)```'},
             {'name': 'Tether', 'short': 'usdt', 'address': '```0x7c2AD5056E9191A837A8e0Be3998b37e82bF65d8 (Polygon)```'},
