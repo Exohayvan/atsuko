@@ -23,7 +23,7 @@ class Donation(commands.Cog):
             methods_available = [donation['short'] for donation in self.donation_methods]
             # Remove duplicates by converting to set and then back to list
             methods_available = list(set(methods_available))
-            await ctx.send(f"Available donation methods:\n `{'\n'.join(methods_available)}.`\n Use `!donate <method>` to get the address for a specific method.")
+            await ctx.send(f"Available donation methods:\n `{', '.join(methods_available)}.`\n Use `!donate <method>` to get the address for a specific method.")
             return
     
         # Convert method to lowercase to ensure consistency
