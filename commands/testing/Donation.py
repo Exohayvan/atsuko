@@ -7,7 +7,11 @@ class Donation(commands.Cog):
         self.donation_methods = [
             {'name': 'Bitcoin', 'short': 'btc', 'address': '```bc1qh08qv8j0whkc8shmnr7edpvyuluza78tjtlg4j```'},
             {'name': 'Ethereum', 'short': 'eth', 'address': '```0x7c2AD5056E9191A837A8e0Be3998b37e82bF65d8```'},
-            
+            {'name': 'Binance', 'short': 'bnb ', 'address': '```bnb1q4uludcq8ry55ryc9vmz6cfq4n0yvuvv725ydd```'},
+            {'name': 'Binance Smart', 'short': 'bsc', 'address': '```0x7c2AD5056E9191A837A8e0Be3998b37e82bF65d8```'},
+            {'name': 'Doge', 'short': 'doge', 'address': '```D9i93M1juvHBieZfbVXvxLyXGQ4yhjdfyu```'},
+            {'name': 'Dash', 'short': 'dash', 'address': '```XiUV5XMKNMicSHrRduMb83131TNkgQTfsa```'},
+
         ]
 
     @commands.command(usage="!donate <method>")
