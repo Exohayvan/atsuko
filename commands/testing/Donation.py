@@ -7,7 +7,7 @@ class Donation(commands.Cog):
         self.donation_methods = [
             {'name': 'Bitcoin', 'short': 'btc', 'address': '```bc1qh08qv8j0whkc8shmnr7edpvyuluza78tjtlg4j```'},
             {'name': 'Ethereum', 'short': 'eth', 'address': '```0x7c2AD5056E9191A837A8e0Be3998b37e82bF65d8```'},
-            {'name': 'Binance', 'short': 'bnb ', 'address': '```bnb1q4uludcq8ry55ryc9vmz6cfq4n0yvuvv725ydd```'},
+            {'name': 'Binance', 'short': 'bnb', 'address': '```bnb1q4uludcq8ry55ryc9vmz6cfq4n0yvuvv725ydd```'},
             {'name': 'Binance Smart', 'short': 'bsc', 'address': '```0x7c2AD5056E9191A837A8e0Be3998b37e82bF65d8```'},
             {'name': 'Doge', 'short': 'doge', 'address': '```D9i93M1juvHBieZfbVXvxLyXGQ4yhjdfyu```'},
             {'name': 'Dash', 'short': 'dash', 'address': '```XiUV5XMKNMicSHrRduMb83131TNkgQTfsa```'},
@@ -23,7 +23,7 @@ class Donation(commands.Cog):
             methods_available = [donation['short'] for donation in self.donation_methods]
             # Remove duplicates by converting to set and then back to list
             methods_available = list(set(methods_available))
-            await ctx.send(f"Available donation methods:\n ```{', '.join(methods_available)}.``` Use `!donate <method>` to get the address for a specific method.")
+            await ctx.send(f"Available donation methods:\n `{'\n'.join(methods_available)}.`\n Use `!donate <method>` to get the address for a specific method.")
             return
     
         # Convert method to lowercase to ensure consistency
