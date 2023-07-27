@@ -6,8 +6,8 @@ class Donation(commands.Cog):
         # List of dictionaries to store donation information
         self.donation_methods = [
             {'name': 'Bitcoin', 'short': 'btc', 'address': '```bc1qh08qv8j0whkc8shmnr7edpvyuluza78tjtlg4j```'},
-            {'name': 'Ethereum', 'short': 'eth', 'address': 'Your Ethereum address here'},
-            # Add more methods and addresses by appending more dictionaries
+            {'name': 'Ethereum', 'short': 'eth', 'address': '```0x7c2AD5056E9191A837A8e0Be3998b37e82bF65d8```'},
+            
         ]
 
     @commands.command(usage="!donate <method>")
