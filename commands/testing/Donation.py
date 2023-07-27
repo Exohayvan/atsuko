@@ -20,7 +20,10 @@ class Donation(commands.Cog):
         Returns the donation address for the specified method.
         """
         if method is None:
-            await ctx.send("Please specify a donation method. Example: `!donate btc`")
+            methods_available = [donation['short'] for donation in self.donation_methods]
+            # Remove duplicates by converting to set and then back to list
+            methods_available = list(set(methods_available))
+            await ctx.send(f"Available donation methods: {', '.join(methods_available)}. Use `!donate <method>` to get the address for a specific method.")
             return
     
         # Convert method to lowercase to ensure consistency
@@ -36,6 +39,6 @@ class Donation(commands.Cog):
             await ctx.send(f"To donate using {method}, send to one of these addresses: {', '.join(addresses_found)}")
         else:
             await ctx.send(f"We don't support {method} currently. Please check available methods or contact an admin.")
-        
+                
 async def setup(bot):
     await bot.add_cog(Donation(bot))
