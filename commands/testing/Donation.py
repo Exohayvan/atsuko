@@ -5,7 +5,7 @@ class Donation(commands.Cog):
         self.bot = bot
         # List of dictionaries to store donation information
         self.donation_methods = [
-            {'name': 'Bitcoin', 'short': 'btc', 'address': 'Your BTC address here'},
+            {'name': 'Bitcoin', 'short': 'btc', 'address': '```Your BTC address here```'},
             {'name': 'Ethereum', 'short': 'eth', 'address': 'Your Ethereum address here'},
             # Add more methods and addresses by appending more dictionaries
         ]
