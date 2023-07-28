@@ -95,6 +95,15 @@ def initialize_database():
     conn.commit()
     conn.close()
 
+def is_command_disabled(command_name: str) -> bool:
+    """Check if a command is disabled."""
+    with sqlite3.connect(DATABASE_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT command_name FROM disabled_commands WHERE command_name=?", (command_name,))
+        result = cursor.fetchone()
+
+    return bool(result)
+
 async def load_cogs(bot, root_dir):
     tasks = []
     num_cogs = 0
@@ -160,8 +169,14 @@ async def on_ready():
 async def on_message(message):
     if message.author.bot:
         return
+    # Get the command name from the message content
+    command_name = message.content.split()[0].lstrip(await determine_prefix(bot, message))
 
-    await bot.process_commands(message)
+    # Check if the command is disabled
+    if not is_command_disabled(command_name):
+        await bot.process_commands(message)
+    else:
+        await message.channel.send(f"The `{command_name}` command is disabled!")
 
 initialize_database()
 
