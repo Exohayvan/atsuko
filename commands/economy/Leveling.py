@@ -75,9 +75,8 @@ class Leveling(commands.Cog):
             self.cursor.execute("UPDATE users SET xp = ?, level = ?, level_xp = ? WHERE id = ?", (total_xp, level, next_level_xp, user[0]))
         self.db.commit()
 
-    @commands.command(usage="Bot Owner Command", hidden=True)
+    @commands.command(hidden=True)
     async def removexp(self, ctx, user: discord.Member):
-        """Remove a user from the xp database"""
         if ctx.author.id == 276782057412362241:
             self.cursor.execute("DELETE FROM users WHERE id = ?", (user.id,))
             self.db.commit()
@@ -131,9 +130,8 @@ class Leveling(commands.Cog):
         
         await ctx.send(embed=embed)
 
-    @commands.command(usage="Bot Owner Command", hidden=True)
+    @commands.command(hidden=True)
     async def rexp(self, ctx, *, user: str = None):
-        """Recalculate the xp of everyone!"""
         if ctx.message.author.id != 276782057412362241:
             await ctx.send("You don't have permission to use this command.")
             return
