@@ -55,10 +55,18 @@ class Verification(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def set_verify_role(self, ctx, role: commands.RoleConverter):
         """Sets the role to give to users when they are verified."""
-        self.c.execute("INSERT OR REPLACE INTO roles VALUES (?, (SELECT join_role FROM roles WHERE guild_id=?), ?)", (ctx.guild.id, ctx.guild.id, role.id))
+        
+        # Fetch the current join_role from the database
+        self.c.execute("SELECT join_role FROM roles WHERE guild_id=?", (ctx.guild.id,))
+        join_role_id = self.c.fetchone()
+        if join_role_id is None:  # If no record exists for the guild
+            self.c.execute("INSERT INTO roles (guild_id, verify_role) VALUES (?, ?)", (ctx.guild.id, role.id))
+        else:
+            self.c.execute("UPDATE roles SET verify_role=? WHERE guild_id=?", (role.id, ctx.guild.id))
+        
         self.conn.commit()
         await ctx.send(f"Verify role has been set to {role.name}.")
-
+    
     @commands.command()
     async def verify(self, ctx):
         """Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs."""
