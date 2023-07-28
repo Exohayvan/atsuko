@@ -14,6 +14,31 @@ class Verification(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator=True)
+    async def show_roles(self, ctx):
+        """Shows the set join and verify roles for the guild."""
+        
+        # Query the database for the roles
+        self.c.execute("SELECT join_role, verify_role FROM roles WHERE guild_id=?", (ctx.guild.id,))
+        roles = self.c.fetchone()
+        
+        # If the roles aren't set or there's an error fetching them, inform the user
+        if roles is None or roles[0] is None or roles[1] is None:
+            await ctx.send("The roles have not been set or there was an error fetching them.")
+            return
+    
+        join_role, verify_role = roles
+        join_role_obj = ctx.guild.get_role(join_role)
+        verify_role_obj = ctx.guild.get_role(verify_role)
+        
+        # If the roles don't exist anymore in the server, inform the user
+        if join_role_obj is None or verify_role_obj is None:
+            await ctx.send("One or both of the roles don't exist anymore in this server.")
+            return
+    
+        await ctx.send(f"Join Role: {join_role_obj.name}\nVerify Role: {verify_role_obj.name}")
+    
+    @commands.command()
+    @commands.has_permissions(administrator=True)
     async def set_join_role(self, ctx, role: commands.RoleConverter):
         """Sets the role to give to users when they first join."""
         self.c.execute("INSERT OR REPLACE INTO roles VALUES (?, ?, (SELECT verify_role FROM roles WHERE guild_id=?))", (ctx.guild.id, role.id, ctx.guild.id))
