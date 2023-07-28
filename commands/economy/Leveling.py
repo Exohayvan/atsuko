@@ -134,7 +134,7 @@ class Leveling(commands.Cog):
     @commands.command(usage="Bot Owner Command")
     async def rexp(self, ctx, *, user: str = None):
         """Recalculate the xp of everyone!"""
-        if ctx.author.id !== 276782057412362241:
+        if ctx.author.id != 276782057412362241:
             await ctx.send("Sorry but you aren't the bot owner!")
         if user is None:
             await ctx.send("Please provide a valid user or 'all'.")
