@@ -93,9 +93,17 @@ class Leveling(commands.Cog):
     async def leaderboard(self, ctx):
         self.cursor.execute("SELECT * FROM users ORDER BY total_xp DESC LIMIT 10")
         leaderboard = self.cursor.fetchall()
+        
+        # Send fetched leaderboard data
+        await ctx.send(f"(DEBUG) Fetched leaderboard data: {leaderboard}")
+    
         embed = discord.Embed(title="XP Leaderboard", color=0x00FFFF)
         for i, user in enumerate(leaderboard, start=1):
             member = ctx.guild.get_member(user[0])
+            
+            # Send user ID and the member object
+            await ctx.send(f"User ID: {user[0]}, Member: {member}")
+    
             if member is not None and not member.bot:
                 formatted_xp = self.format_xp(user[2])  # use the function to format XP
                 embed.add_field(name=f"{i}) {member.mention} | Level {user[3]} | Total XP {formatted_xp}", value='\u200b', inline=False)
