@@ -303,6 +303,10 @@ Adds a role to allow moderation.
 
 Removes a role to allow moderation.
 
+## show_roles
+
+Shows the set join and verify roles for the guild.
+
 ## set_join_role
 
 Sets the role to give to users when they first join.

@@ -46,6 +46,7 @@ Command 'unmute' in cog Moderation is missing usage details.
 Command 'user' in cog Moderation is missing usage details.
 Command 'addmod' in cog Moderation is missing usage details.
 Command 'removemod' in cog Moderation is missing usage details.
+Command 'show_roles' in cog Verification is missing usage details.
 Command 'set_join_role' in cog Verification is missing usage details.
 Command 'set_verify_role' in cog Verification is missing usage details.
 Command 'verify' in cog Verification is missing usage details.
