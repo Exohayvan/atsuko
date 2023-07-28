@@ -231,6 +231,20 @@ Remove the set welcome message.
 Usage:
 `!welcomeremove`
 
+## disable
+
+Disable a specific command.
+
+Usage:
+`!disable <command_name>`
+
+## enable
+
+Enable a previously disabled command.
+
+Usage:
+`!enable <command_name>`
+
 ## balance
 
 Check your balance or someone else's by mentioning them.
