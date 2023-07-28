@@ -340,62 +340,6 @@ class Info(commands.Cog):
         embed.add_field(name="Uptime", value=uptime_string, inline=False)
 
         await ctx.send(embed=embed)
-
-    #@commands.command()
-    #@commands.is_owner()  # This command can only be used by the bot owner
-    #async def remove_uptime(self, ctx, date: str):
-        #"""Removes the uptime record for the specified date."""
-        #try:
-            # Convert the date string to a datetime object
-            #date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
-
-            #db = self.connect_db()
-            #cursor = db.cursor()
-
-            # Check if a record for the date exists
-            #cursor.execute("SELECT * FROM daily_uptime WHERE date = ?", (date,))
-            #record = cursor.fetchone()
-
-            #if record:
-                # If a record exists, remove it
-                #cursor.execute("DELETE FROM daily_uptime WHERE date = ?", (date,))
-                #db.commit()
-                #await ctx.send(f"Removed uptime record for {date}.")
-            #else:
-                #await ctx.send("No uptime record found for the specified date.")
-        #except Exception as e:
-            #await ctx.send(f"An error occurred: {e}")
-
-    #@commands.command()
-    #@commands.is_owner()  # this command can only be used by the bot owner
-    #async def add_uptime(self, ctx, date: str, uptime: str):
-        #"""Adds a specified uptime to a specific date."""
-        #try:
-            # Convert the date and uptime strings to datetime objects
-            #date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
-            #hours, minutes, seconds = map(int, uptime.split(":"))
-            #added_uptime = datetime.timedelta(hours=hours, minutes=minutes, seconds=seconds)
-    
-            #db = self.connect_db()
-            #cursor = db.cursor()
-    
-            # Check if a record for the date already exists
-            #cursor.execute("SELECT * FROM daily_uptime WHERE date = ?", (date,))
-            #record = cursor.fetchone()
-    
-            #if record:
-                # If a record exists, add the uptime to it
-                #new_uptime_seconds = record['uptime'] + int(added_uptime.total_seconds())
-                #cursor.execute("UPDATE daily_uptime SET uptime = ? WHERE date = ?", (new_uptime_seconds, date))
-            #else:
-                # If a record does not exist, create a new one
-                #cursor.execute("INSERT INTO daily_uptime (date, uptime) VALUES (?, ?)", (date, int(added_uptime.total_seconds())))
-    
-            #db.commit()
-    
-            #await ctx.send(f"Added {uptime} uptime to {date}.")
-        #except Exception as e:
-            #await ctx.send(f"An error occurred: {e}")
         
 async def setup(bot):
     await bot.add_cog(Info(bot))
