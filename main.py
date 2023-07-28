@@ -98,7 +98,11 @@ def initialize_database():
 async def load_cogs(bot, root_dir):
     tasks = []
     num_cogs = 0
-
+    
+    #load disable/enable cog
+    bot.load_extension('commands.testing.CommandToggle')
+    num_cogs += 1
+    
     # Load all cogs except those in commands/docs
     for dirpath, dirnames, filenames in os.walk(root_dir):
         if "commands/docs" in dirpath:  # skip this directory for now
