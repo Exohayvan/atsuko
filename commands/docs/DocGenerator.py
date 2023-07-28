@@ -28,6 +28,9 @@ class DocGenerator(commands.Cog):
                 continue
                 
             for cmd in commands_list:
+                # Skip hidden commands
+                if cmd.hidden:
+                    continue
                 # Check if help or usage is missing
                 if not cmd.help:
                     missing_details.append(f"Command '{cmd.name}' in cog {cog_name} is missing help details.")
