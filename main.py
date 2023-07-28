@@ -62,7 +62,6 @@ class CustomHelpCommand(commands.HelpCommand):
 
         await self.context.send(embed=embed)
 
-DATABASE_PATH = "./data/db/disabledcommands.db"
 intents = discord.Intents.all()
 
 async def determine_prefix(bot, message):
@@ -98,7 +97,7 @@ def initialize_database():
 
 def is_command_disabled(command_name: str) -> bool:
     """Check if a command is disabled."""
-    with sqlite3.connect(DATABASE_PATH) as conn:
+    with sqlite3.connect(./data/db/disabledcommands.db) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT command_name FROM disabled_commands WHERE command_name=?", (command_name,))
         result = cursor.fetchone()
