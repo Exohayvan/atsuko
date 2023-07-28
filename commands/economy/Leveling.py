@@ -49,6 +49,7 @@ class Leveling(commands.Cog):
 
     @commands.command(usage="!xp` or `!xp @member")
     async def xp(self, ctx, user: discord.Member = None):
+        """Used to check your own or someone elses xp and level!"""
         if user is None:
             user = ctx.author
         self.cursor.execute("SELECT * FROM users WHERE id = ?", (user.id,))
@@ -76,6 +77,7 @@ class Leveling(commands.Cog):
 
     @commands.command(usage="Bot Owner Command")
     async def removexp(self, ctx, user: discord.Member):
+        """Remove a user from the xp database"""
         if ctx.author.id == 276782057412362241:
             self.cursor.execute("DELETE FROM users WHERE id = ?", (user.id,))
             self.db.commit()
@@ -91,6 +93,7 @@ class Leveling(commands.Cog):
 
     @commands.command(usage="!leaderboard")
     async def leaderboard(self, ctx):
+        """Check a servers leaderboard, can take a while sometimes."""
         embed = discord.Embed(title="XP Leaderboard", color=0x00FFFF)
         
         valid_count = 0
@@ -130,6 +133,9 @@ class Leveling(commands.Cog):
 
     @commands.command(usage="Bot Owner Command")
     async def rexp(self, ctx, *, user: str = None):
+        """Recalculate the xp of everyone!"""
+        if ctx.author.id !== 276782057412362241:
+            await ctx.send("Sorry but you aren't the bot owner!")
         if user is None:
             await ctx.send("Please provide a valid user or 'all'.")
         elif user.lower() == "all":
