@@ -217,6 +217,20 @@ Returns the donation address for the specified method.
 Usage:
 `!donate <method>`
 
+## welcomemsg
+
+Set a custom welcome message.
+
+Usage:
+`!welcomemsg <message>`
+
+## welcomeremove
+
+Remove the set welcome message.
+
+Usage:
+`!welcomeremove`
+
 ## balance
 
 Check your balance or someone else's by mentioning them.
