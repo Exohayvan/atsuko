@@ -1,6 +1,7 @@
 from discord.ext import commands
 import json
 from github import GithubIntegration
+from discord.ext.commands import CheckFailure
 import github
 import traceback
 import sys, platform
