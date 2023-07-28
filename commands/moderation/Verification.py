@@ -51,11 +51,16 @@ class Verification(commands.Cog):
     async def on_message(self, message):
         """Checks the user's response to the verification CAPTCHA."""
         verification_data = self.verification_dict.get(message.author.id)
+    
         if not message.guild and verification_data and int(message.content) == verification_data[0]:
             await message.author.send("Verification successful!")
             
+            # Log the guild ID we're fetching
+            print(f"Fetching guild with ID: {verification_data[1]}")
+            
             # Get the correct guild using the stored guild ID
             guild = self.bot.get_guild(verification_data[1])
+            
             if guild:
                 member = guild.get_member(message.author.id)
                 
@@ -65,7 +70,12 @@ class Verification(commands.Cog):
                 if verify_role_id:
                     verify_role = guild.get_role(verify_role_id[0])
                     if verify_role:
+                        print(f"Adding verify role {verify_role.name} to {member.name}")
                         await member.add_roles(verify_role)
+                    else:
+                        print(f"Verify role with ID {verify_role_id[0]} not found in guild {guild.name}")
+                else:
+                    print(f"No verify role ID found for guild {guild.name}")
     
                 # Remove the join role
                 self.c.execute("SELECT join_role FROM roles WHERE guild_id=?", (guild.id,))
@@ -73,12 +83,17 @@ class Verification(commands.Cog):
                 if join_role_id:
                     join_role = guild.get_role(join_role_id[0])
                     if join_role:
+                        print(f"Removing join role {join_role.name} from {member.name}")
                         await member.remove_roles(join_role)
+                    else:
+                        print(f"Join role with ID {join_role_id[0]} not found in guild {guild.name}")
+                else:
+                    print(f"No join role ID found for guild {guild.name}")
     
                 self.verification_dict.pop(message.author.id, None)  # remove used captcha
     
         elif not message.guild and message.author.id in self.verification_dict:
             await message.author.send("Verification failed.")
-        
+                
 async def setup(bot):
     await bot.add_cog(Verification(bot))
