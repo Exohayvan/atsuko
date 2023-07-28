@@ -62,6 +62,7 @@ class CustomHelpCommand(commands.HelpCommand):
 
         await self.context.send(embed=embed)
 
+DATABASE_PATH = "./data/db/disabledcommands.db"
 intents = discord.Intents.all()
 
 async def determine_prefix(bot, message):
