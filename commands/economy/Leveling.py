@@ -91,31 +91,34 @@ class Leveling(commands.Cog):
 
     @commands.command(usage="!leaderboard")
     async def leaderboard(self, ctx):
-        page_size = 10  # Number of records to fetch at once
-        offset = 0  # Where to start fetching from
-        leaderboard_members = []  # List to store leaderboard members
+        embed = discord.Embed(title="XP Leaderboard", color=0x00FFFF)
     
-        while len(leaderboard_members) < 10:
-            self.cursor.execute("SELECT * FROM users ORDER BY total_xp DESC LIMIT ? OFFSET ?", (page_size, offset))
+        valid_count = 0
+        page = 0
+        page_size = 10  # initial fetch size
+    
+        while valid_count < 10:
+            offset = page * page_size
+            self.cursor.execute("SELECT * FROM users ORDER BY total_xp DESC LIMIT %s OFFSET %s", (page_size, offset))
             users = self.cursor.fetchall()
-            
-            # Break the loop if no more users are fetched
+    
+            # If there are no more users to fetch, break out of the loop
             if not users:
                 break
     
             for user in users:
-                member = await ctx.guild.fetch_member(user[0])
-                if member and not member.bot:
-                    leaderboard_members.append((member, user))
-                    if len(leaderboard_members) == 10:
-                        break
+                try:
+                    member = await ctx.guild.fetch_member(user[0])
+                    if member is not None and not member.bot:
+                        formatted_xp = self.format_xp(user[2])
+                        embed.add_field(name=f"{valid_count + 1}) {member.mention} | Level {user[3]} | Total XP {formatted_xp}", value='\u200b', inline=False)
+                        valid_count += 1
+                        if valid_count >= 10:
+                            break
+                except discord.NotFound:
+                    continue
     
-            offset += page_size  # Move the offset for the next fetch
-    
-        embed = discord.Embed(title="XP Leaderboard", color=0x00FFFF)
-        for i, (member, user) in enumerate(leaderboard_members, start=1):
-            formatted_xp = self.format_xp(user[2])
-            embed.add_field(name=f"{i}) {member.mention} | Level {user[3]} | Total XP {formatted_xp}", value='\u200b', inline=False)
+            page += 1  # go to the next page of users
     
         await ctx.send(embed=embed)
 
