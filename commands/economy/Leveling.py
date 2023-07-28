@@ -108,10 +108,13 @@ class Leveling(commands.Cog):
     
             # Fetch a batch of member IDs
             user_ids = [user[0] for user in users]
-            members = await ctx.guild.fetch_members(limit=100).filter(lambda m: m.id in user_ids).flatten()
-    
-            member_dict = {member.id: member for member in members}
-    
+            members = []
+            async for member in ctx.guild.fetch_members(limit=100):
+                if member.id in user_ids:
+                    members.append(member)
+            
+            member_dict = {member.id: member for member in members}    
+            
             for user in users:
                 member = member_dict.get(user[0])
                 if member and not member.bot:
