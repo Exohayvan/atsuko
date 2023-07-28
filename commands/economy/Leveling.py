@@ -91,22 +91,32 @@ class Leveling(commands.Cog):
 
     @commands.command(usage="!leaderboard")
     async def leaderboard(self, ctx):
-        self.cursor.execute("SELECT * FROM users ORDER BY total_xp DESC LIMIT 10")
-        leaderboard = self.cursor.fetchall()
-        
-        # Send fetched leaderboard data
-        await ctx.send(f"(DEBUG) Fetched leaderboard data: {leaderboard}")
+        page_size = 10  # Number of records to fetch at once
+        offset = 0  # Where to start fetching from
+        leaderboard_members = []  # List to store leaderboard members
+    
+        while len(leaderboard_members) < 10:
+            self.cursor.execute("SELECT * FROM users ORDER BY total_xp DESC LIMIT ? OFFSET ?", (page_size, offset))
+            users = self.cursor.fetchall()
+            
+            # Break the loop if no more users are fetched
+            if not users:
+                break
+    
+            for user in users:
+                member = await ctx.guild.fetch_member(user[0])
+                if member and not member.bot:
+                    leaderboard_members.append((member, user))
+                    if len(leaderboard_members) == 10:
+                        break
+    
+            offset += page_size  # Move the offset for the next fetch
     
         embed = discord.Embed(title="XP Leaderboard", color=0x00FFFF)
-        for i, user in enumerate(leaderboard, start=1):
-            member = ctx.guild.get_member(user[0])
-            
-            # Send user ID and the member object
-            await ctx.send(f"User ID: {user[0]}, Member: {member}")
+        for i, (member, user) in enumerate(leaderboard_members, start=1):
+            formatted_xp = self.format_xp(user[2])
+            embed.add_field(name=f"{i}) {member.mention} | Level {user[3]} | Total XP {formatted_xp}", value='\u200b', inline=False)
     
-            if member is not None and not member.bot:
-                formatted_xp = self.format_xp(user[2])  # use the function to format XP
-                embed.add_field(name=f"{i}) {member.mention} | Level {user[3]} | Total XP {formatted_xp}", value='\u200b', inline=False)
         await ctx.send(embed=embed)
 
     @commands.command(usage="Bot Owner Command")
