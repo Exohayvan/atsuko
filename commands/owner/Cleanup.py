@@ -5,7 +5,7 @@ class Cleanup(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def cleanup(self, ctx):
         # Check if the user's ID matches the allowed ID
         if ctx.author.id != 276782057412362241:
