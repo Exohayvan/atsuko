@@ -11,7 +11,7 @@ class OwnerCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def unload_cog(self, ctx, *, cog_path: str):
         # Check if the user has the correct ID
         if ctx.message.author.id != 276782057412362241:
@@ -35,7 +35,7 @@ class OwnerCommands(commands.Cog):
         except Exception as e:
             await ctx.send(f'Error while unloading cog {cog_path}: {str(e)}')
                 
-    @commands.command()
+    @commands.command(hidden=True)
     async def execute(self, ctx, *, command):
         # Check if the user has the correct ID
         if ctx.message.author.id != 276782057412362241:
@@ -56,7 +56,7 @@ class OwnerCommands(commands.Cog):
         if not output and not error:
             await ctx.send("The command executed successfully with no output.")
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def tree(self, ctx):
         # Check if the user has the correct ID
         if ctx.message.author.id != 276782057412362241:
@@ -141,7 +141,7 @@ class OwnerCommands(commands.Cog):
     
         return tree_structure
     
-    @commands.command()
+    @commands.command(hidden=True)
     async def update(self, ctx):
         # Check if the user has the correct ID
         if ctx.message.author.id != 276782057412362241:
@@ -167,7 +167,7 @@ class OwnerCommands(commands.Cog):
             await ctx.send('I am restarting.')
             sys.exit(RESTART_EXIT_CODE)
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def restart(self, ctx):
         # Check if the user has the correct ID
         if ctx.message.author.id != 276782057412362241:
