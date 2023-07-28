@@ -99,7 +99,7 @@ class Leveling(commands.Cog):
     
         while valid_count < 10:
             offset = page * page_size
-            self.cursor.execute("SELECT * FROM users ORDER BY total_xp DESC LIMIT %s OFFSET %s", (page_size, offset))
+            self.cursor.execute("SELECT * FROM users ORDER BY total_xp DESC LIMIT ? OFFSET ?", (page_size, offset))
             users = self.cursor.fetchall()
     
             # If there are no more users to fetch, break out of the loop
