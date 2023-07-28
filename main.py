@@ -78,7 +78,7 @@ async def determine_prefix(bot, message):
     else:
         prefix = '!'
 
-    return commands.when_mentioned_or(prefix)(bot, message)
+    return prefix  # Ensure we're returning just the prefix string
 
 bot = commands.Bot(command_prefix=determine_prefix, intents=intents)
 bot.help_command = CustomHelpCommand()
@@ -169,15 +169,20 @@ async def on_ready():
 async def on_message(message):
     if message.author.bot:
         return
-    # Get the command name from the message content
-    command_name = message.content.split()[0].lstrip(await determine_prefix(bot, message))
 
-    # Check if the command is disabled
-    if not is_command_disabled(command_name):
-        await bot.process_commands(message)
-    else:
-        await message.channel.send(f"The `{command_name}` command is disabled!")
+    # Get the prefix for the message
+    prefix = await determine_prefix(bot, message)
 
+    # Check if the message starts with the prefix to extract the command
+    if message.content.startswith(prefix):
+        command_name = message.content.split()[0][len(prefix):]
+
+        # Check if the command is disabled
+        if not is_command_disabled(command_name):
+            await bot.process_commands(message)
+        else:
+            await message.channel.send(f"The `{command_name}` command is disabled!")
+            
 initialize_database()
 
 config = get_config()
