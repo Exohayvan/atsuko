@@ -96,7 +96,7 @@ def initialize_database():
     conn.close()
 
 def is_command_disabled(command_name: str) -> bool:
-    conn = sqlite3.connect(./data/db/disabledcommands.db)
+    conn = sqlite3.connect('./data/db/disabledcommands.db')
     cursor = conn.cursor()
     cursor.execute("SELECT command_name FROM disabled_commands WHERE command_name=?", (command_name,))
     result = cursor.fetchone()
