@@ -65,6 +65,8 @@ class CustomHelpCommand(commands.HelpCommand):
 intents = discord.Intents.all()
 
 async def determine_prefix(bot, message):
+    if message.guild is None:  # Check if the message is from a DM
+        return '!' 
     conn = sqlite3.connect('./data/prefix.db')
     cursor = conn.cursor()
     cursor.execute("SELECT prefix FROM prefixes WHERE guild_id = ?", (message.guild.id,))
