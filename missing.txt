@@ -45,10 +45,6 @@ Command 'uninvest' in cog Money is missing usage details.
 Command 'give' in cog Money is missing usage details.
 Command 'gamble' in cog Money is missing usage details.
 Command 'jackpot' in cog Money is missing usage details.
-Command 'xp' in cog Leveling is missing help details.
-Command 'removexp' in cog Leveling is missing help details.
-Command 'leaderboard' in cog Leveling is missing help details.
-Command 'rexp' in cog Leveling is missing help details.
 Command 'lock' in cog Moderation is missing usage details.
 Command 'unlock' in cog Moderation is missing usage details.
 Command 'kick' in cog Moderation is missing usage details.

@@ -245,18 +245,6 @@ Gamble your gold for a chance to win the pot.
 
 Check the current jackpot amount.
 
-Usage:
-`!xp` or `!xp @member`
-
-Usage:
-`Bot Owner Command`
-
-Usage:
-`!leaderboard`
-
-Usage:
-`Bot Owner Command`
-
 ## lock
 
 Locks a channel.
