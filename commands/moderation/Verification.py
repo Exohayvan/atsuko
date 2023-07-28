@@ -21,22 +21,28 @@ class Verification(commands.Cog):
         self.c.execute("SELECT join_role, verify_role FROM roles WHERE guild_id=?", (ctx.guild.id,))
         roles = self.c.fetchone()
         
-        # If the roles aren't set or there's an error fetching them, inform the user
-        if roles is None or roles[0] is None or roles[1] is None:
-            await ctx.send("The roles have not been set or there was an error fetching them.")
+        # If we couldn't fetch the roles from the database
+        if roles is None:
+            await ctx.send("No entry found for this guild in the database.")
             return
     
         join_role, verify_role = roles
+    
+        # If either role ID is None, inform the user
+        if join_role is None or verify_role is None:
+            await ctx.send(f"Fetched roles from database:\nJoin Role ID: {join_role}\nVerify Role ID: {verify_role}")
+            return
+    
         join_role_obj = ctx.guild.get_role(join_role)
         verify_role_obj = ctx.guild.get_role(verify_role)
         
-        # If the roles don't exist anymore in the server, inform the user
+        # If we can't fetch the Role objects from the guild
         if join_role_obj is None or verify_role_obj is None:
-            await ctx.send("One or both of the roles don't exist anymore in this server.")
+            await ctx.send(f"One or both of the roles don't exist anymore in this server.\nJoin Role ID: {join_role}\nVerify Role ID: {verify_role}")
             return
     
         await ctx.send(f"Join Role: {join_role_obj.name}\nVerify Role: {verify_role_obj.name}")
-    
+        
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def set_join_role(self, ctx, role: commands.RoleConverter):
