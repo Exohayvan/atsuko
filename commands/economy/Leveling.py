@@ -95,7 +95,7 @@ class Leveling(commands.Cog):
         
         valid_count = 0
         page = 0
-        page_size = 20  # fetch more users initially as not all might be valid
+        page_size = 100  # fetch more users initially as not all might be valid
     
         while valid_count < 10:
             offset = page * page_size
