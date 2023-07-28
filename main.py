@@ -78,7 +78,7 @@ async def determine_prefix(bot, message):
     else:
         prefix = '!'
 
-    return prefix  # Ensure we're returning just the prefix string
+    return commands.when_mentioned_or(prefix)(bot, message)
 
 bot = commands.Bot(command_prefix=determine_prefix, intents=intents)
 bot.help_command = CustomHelpCommand()
@@ -94,14 +94,6 @@ def initialize_database():
     cursor.execute("CREATE TABLE IF NOT EXISTS prefixes (guild_id INTEGER PRIMARY KEY, prefix TEXT)")
     conn.commit()
     conn.close()
-
-def is_command_disabled(command_name: str) -> bool:
-    conn = sqlite3.connect('./data/db/disabledcommands.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT command_name FROM disabled_commands WHERE command_name=?", (command_name,))
-    result = cursor.fetchone()
-
-    return bool(result)
 
 async def load_cogs(bot, root_dir):
     tasks = []
@@ -169,19 +161,8 @@ async def on_message(message):
     if message.author.bot:
         return
 
-    # Get the prefix for the message
-    prefix = await determine_prefix(bot, message)
+    await bot.process_commands(message)
 
-    # Check if the message starts with the prefix to extract the command
-    if message.content.startswith(prefix):
-        command_name = message.content.split()[0][len(prefix):]
-
-        # Check if the command is disabled
-        if not is_command_disabled(command_name):
-            await bot.process_commands(message)
-        else:
-            await message.channel.send(f"The `{command_name}` command is disabled!")
-            
 initialize_database()
 
 config = get_config()
