@@ -92,10 +92,10 @@ class Leveling(commands.Cog):
     @commands.command(usage="!leaderboard")
     async def leaderboard(self, ctx):
         embed = discord.Embed(title="XP Leaderboard", color=0x00FFFF)
-    
+        
         valid_count = 0
         page = 0
-        page_size = 10  # initial fetch size
+        page_size = 20  # fetch more users initially as not all might be valid
     
         while valid_count < 10:
             offset = page * page_size
@@ -106,20 +106,23 @@ class Leveling(commands.Cog):
             if not users:
                 break
     
+            # Fetch a batch of member IDs
+            user_ids = [user[0] for user in users]
+            members = await ctx.guild.fetch_members(limit=100).filter(lambda m: m.id in user_ids).flatten()
+    
+            member_dict = {member.id: member for member in members}
+    
             for user in users:
-                try:
-                    member = await ctx.guild.fetch_member(user[0])
-                    if member is not None and not member.bot:
-                        formatted_xp = self.format_xp(user[2])
-                        embed.add_field(name=f"{valid_count + 1}) {member.mention} | Level {user[3]} | Total XP {formatted_xp}", value='\u200b', inline=False)
-                        valid_count += 1
-                        if valid_count >= 10:
-                            break
-                except discord.NotFound:
-                    continue
+                member = member_dict.get(user[0])
+                if member and not member.bot:
+                    formatted_xp = self.format_xp(user[2])
+                    embed.add_field(name=f"{valid_count + 1}) {member.mention} | Level {user[3]} | Total XP {formatted_xp}", value='\u200b', inline=False)
+                    valid_count += 1
+                    if valid_count >= 10:
+                        break
     
             page += 1  # go to the next page of users
-    
+        
         await ctx.send(embed=embed)
 
     @commands.command(usage="Bot Owner Command")
