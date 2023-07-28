@@ -54,5 +54,5 @@ class Welcome(commands.Cog):
                 customized_message = welcome_message.replace("<user>", member.mention)
                 await member.guild.system_channel.send(customized_message)
 
-def setup(bot):
-    bot.add_cog(Welcome(bot))
+async def setup(bot):
+    await bot.add_cog(Welcome(bot))
