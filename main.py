@@ -138,23 +138,28 @@ async def handle_loading(dirpath, filename, bot, tasks):
 @bot.event
 async def on_ready():
     print(f"We have logged in as {bot.user}")
+
+    channel = None
+    # Check if restart_id.temp exists
+    if os.path.exists('restart_id.temp'):
+        with open('restart_id.temp', 'r') as f:
+            data = json.load(f)
+            channel_id = data.get('channel_id')
+        
+        if channel_id:
+            channel = bot.get_channel(channel_id)
+            if channel:
+                await channel.send("I am starting back up!")
+        
+        # Remove the file after reading it
+        os.remove('restart_id.temp')
+
+    # Always load command cogs, regardless of whether restart_id.temp exists or not
+    num_cogs = await load_cogs(bot, 'commands')
     
-    with open('restart_id.temp', 'r') as f:
-        data = json.load(f)
-        channel_id = data.get('channel_id')
-
-    if channel_id:
-        channel = bot.get_channel(channel_id)
-        if channel:
-            await channel.send("I am starting back up!")
-            await channel.send("Loading command cogs.")
-
-            num_cogs = await load_cogs(bot, 'commands')
-            await channel.send(f"Cogs loaded ({num_cogs} cogs)")
-
-            await channel.send("I have restarted!")
-
-    os.remove('restart_id.temp')
+    if channel:
+        await channel.send(f"Cogs loaded ({num_cogs} cogs)")
+        await channel.send("I have restarted!")
 
 @bot.event
 async def on_message(message):
