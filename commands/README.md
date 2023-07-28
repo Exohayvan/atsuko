@@ -245,6 +245,34 @@ Gamble your gold for a chance to win the pot.
 
 Check the current jackpot amount.
 
+## xp
+
+Used to check your own or someone elses xp and level!
+
+Usage:
+`!xp` or `!xp @member`
+
+## removexp
+
+Remove a user from the xp database
+
+Usage:
+`Bot Owner Command`
+
+## leaderboard
+
+Check a servers leaderboard, can take a while sometimes.
+
+Usage:
+`!leaderboard`
+
+## rexp
+
+Recalculate the xp of everyone!
+
+Usage:
+`Bot Owner Command`
+
 ## lock
 
 Locks a channel.
