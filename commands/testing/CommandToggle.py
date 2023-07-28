@@ -30,11 +30,11 @@ class CommandToggle(commands.Cog):
         else:
             await ctx.send("You do not have permission to use this command!")
 
-    @commands.Cog.listener()
-    async def on_command(self, ctx):
-        if ctx.command.name in DISABLED_COMMANDS and not ctx.author.id == 276782057412362241:
-            await ctx.send(f"`{ctx.command.name}` is currently disabled!")
-            ctx.command = None  # This will prevent the command from being processed further
-
+@commands.Cog.listener()
+async def on_command(self, ctx):
+    if ctx.command.name in DISABLED_COMMANDS:
+        await ctx.send(f"`{ctx.command.name}` is currently disabled!")
+        return False  # This stops the command from being executed
+        
 async def setup(bot):
     await bot.add_cog(CommandToggle(bot))
