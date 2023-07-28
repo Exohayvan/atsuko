@@ -143,7 +143,9 @@ class ChannelRelay(commands.Cog):
     async def on_message(self, message):
         if message.author.bot:
             return
-    
+        # Check if message is from a DM and if so, return immediately
+        if message.guild is None:
+            return
         if (message.guild.id, message.channel.id) in self.connected_channels:
             # Increment message counter for dynamic slowmode
             self.message_counters[message.channel.id] += 1
