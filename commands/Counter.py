@@ -42,9 +42,9 @@ class Counter(commands.Cog):
 
         await channel.edit(name=f'{name}: {count}')
 
-    @commands.command()
+    @commands.command(usage="!create_counter \"Counter Type\" (Must be inclosed in \"\")")
     async def create_counter(self, ctx, name):
-        """Creates a new counter voice channel with the given name."""
+        """Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots."""
         if name not in ["Total members", "Online members", "Bots"]:
             await ctx.send("Invalid counter name. Must be one of 'Total members', 'Online members', 'Bots'.")
             return

@@ -96,8 +96,9 @@ class DND(commands.Cog):
         self.conn.commit()
 
 
-    @commands.group(invoke_without_command=True)
+    @commands.group(invoke_without_command=True, usage="!dnd")
     async def dnd(self, ctx):
+        """This base of the dnd commands, few options to use: create, show, & card. More to come soon!"""
         await ctx.send('D&D command group. Use !dnd create to create a character or !dnd show to show your character.')
 
     @dnd.command()
