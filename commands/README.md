@@ -170,6 +170,13 @@ Start or play a game of Tic-Tac-Toe! Use '!tictactoe start' to start a new game 
 
 Start or play a game of Hangman! Use '!hangman start' to start a new game and '!hangman guess <letter>' to make a guess.
 
+## dnd
+
+This base of the dnd commands, few options to use: create, show, & card. More to come soon!
+
+Usage:
+`!dnd`
+
 ## roll
 
 Rolls a dice with the specified format (e.g., 2d6).
@@ -187,6 +194,27 @@ Usage:
 ## random
 
 Shows a help message for the random group command.
+
+## animediff
+
+Generates an anime-style image based on the provided prompt and sends the MD5 hash of the image data.
+
+Usage:
+`!animediff <prompt>, <another prompt>, so on`
+
+## dnddiff
+
+Generates an dnd-style image based on the provided prompt and sends the MD5 hash of the image data.
+
+Usage:
+`!dnddiff <prompt>, <another prompt>, so on`
+
+## imagediff
+
+Generates a realistic image based on the provided prompt and sends the MD5 hash of the image data.
+
+Usage:
+`!imagediff <prompt>, <another prompt>, so on`
 
 ## package_info
 
