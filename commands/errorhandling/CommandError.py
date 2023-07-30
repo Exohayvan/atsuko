@@ -38,6 +38,10 @@ class CommandError(commands.Cog):
         if isinstance(error, CheckFailure):
             print("CheckFailure caught.")
             return
+            if isinstance(error, commands.CommandInvokeError):
+        if isinstance(error.original, Forbidden):
+            print(f"Forbidden - {ctx.guild.name}")
+            return
         if isinstance(error, commands.CommandError):
             tb = traceback.format_exception(type(error), error, error.__traceback__)
             traceback_str = "".join(tb).strip()  # remove leading/trailing white spaces
@@ -76,4 +80,3 @@ async def setup(bot):
     config = get_config()
     private_key_path = config.get('PRIVATE_KEY_PATH')
     await bot.add_cog(CommandError(bot, private_key_path))
-    
