@@ -14,7 +14,10 @@ Usage:
 
 ## create_counter
 
-Creates a new counter voice channel with the given name.
+Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots.
+
+Usage:
+`!create_counter "Counter Type" (Must be inclosed in "")`
 
 ## adopt
 
@@ -184,27 +187,6 @@ Usage:
 ## random
 
 Shows a help message for the random group command.
-
-## animediff
-
-Generates an anime-style image based on the provided prompt and sends the MD5 hash of the image data.
-
-Usage:
-`!animediff <prompt>, <another prompt>, so on`
-
-## dnddiff
-
-Generates an dnd-style image based on the provided prompt and sends the MD5 hash of the image data.
-
-Usage:
-`!dnddiff <prompt>, <another prompt>, so on`
-
-## imagediff
-
-Generates a realistic image based on the provided prompt and sends the MD5 hash of the image data.
-
-Usage:
-`!imagediff <prompt>, <another prompt>, so on`
 
 ## package_info
 

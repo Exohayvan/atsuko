@@ -1,4 +1,3 @@
-Command 'create_counter' in cog Counter is missing usage details.
 Command 'marry' in cog Family is missing usage details.
 Command 'family' in cog Family is missing usage details.
 Command 'disabled' in cog Disabled is missing help details.
@@ -16,8 +15,6 @@ Command 'sorry' in cog Sorry is missing usage details.
 Command 'uno' in cog Uno is missing usage details.
 Command 'tictactoe' in cog TicTacToe is missing usage details.
 Command 'hangman' in cog Hangman is missing usage details.
-Command 'dnd' in cog DND is missing help details.
-Command 'dnd' in cog DND is missing usage details.
 Command 'random' in cog Random is missing usage details.
 Command 'package_info' in cog Python is missing usage details.
 Command 'connect_channel' in cog ChannelRelay is missing help details.
