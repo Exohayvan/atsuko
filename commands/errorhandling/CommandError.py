@@ -38,7 +38,8 @@ class CommandError(commands.Cog):
         if isinstance(error, CheckFailure):
             print("CheckFailure caught.")
             return
-            if isinstance(error, commands.CommandInvokeError):
+        if isinstance(error, commands.CommandInvokeError):
+            return
         if isinstance(error.original, Forbidden):
             print(f"Forbidden - {ctx.guild.name}")
             return
