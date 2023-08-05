@@ -29,9 +29,9 @@ class GitAutoBackup(commands.Cog):
     def cog_unload(self):
         self.backup_loop.cancel()  # Ensure the task is cancelled if the cog is unloaded
 
-    @tasks.loop(minutes=10)
+    @tasks.loop(minutes=60)
     async def backup_loop(self):
-        """Background task to pull and push every 10 minutes."""
+        """Background task to pull and push every x minutes."""
         self.pull_and_push()
 
     @backup_loop.before_loop
