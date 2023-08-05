@@ -255,6 +255,13 @@ Enable a previously disabled command.
 Usage:
 `!enable <command_name>`
 
+## hyper
+
+This is the hyper command.
+
+Usage:
+`!hyper <usage>`
+
 ## balance
 
 Check your balance or someone else's by mentioning them.
