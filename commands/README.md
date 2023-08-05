@@ -262,6 +262,13 @@ This is the hyper command.
 Usage:
 `!hyper <usage>`
 
+## embed
+
+This is the embed command.
+
+Usage:
+`!embed <message>`
+
 ## balance
 
 Check your balance or someone else's by mentioning them.
