@@ -36,5 +36,15 @@ class HyperBot(commands.Cog):
         embed.description = links
         await ctx.send(embed=embed)
 
+    @commands.command(usage="!embed <message>")
+    async def embed(self, ctx):
+        """This is the embed command."""
+        # remove the "!embed " part from the message
+        content = ctx.message.content.replace("!embed ", "")
+        
+        # create an embed with the remaining content
+        embed = discord.Embed(description=content)
+        await ctx.send(embed=embed)
+        
 async def setup(bot):
     await bot.add_cog(HyperBot(bot))
