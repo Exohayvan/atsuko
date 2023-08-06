@@ -1,30 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Atsuko Discord Bot</title>
-    <link rel="icon" type="image/png" href="https://cdn.discordapp.com/avatars/407929486206566400/YourBotAvatar.png">
-    <link rel="stylesheet" type="text/css" href="css/cyan.css">
+  <style>
+	body {
+	  background-color: #000;
+	}
+	canvas {
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	}
+  </style>
 </head>
 <body>
-    <div id="dot-wrapper"></div>
-    <div class="container">
-        <div class="bar">
-            <a href="https://discord.com/oauth2/authorize?client_id=407929486206566400&permissions=2199023255551&scope=bot">Invite Me!</a>
-        </div>
-        <h1>Welcome to Atsuko Discord Bot</h1>
-        <p>Atsuko is a powerful Discord bot that provides a range of features to help manage and engage your server members.</p>
-        <h2>Features</h2>
-        <ul>
-            <li>Feature 1</li>
-            <li>Feature 2</li>
-            <li>Feature 3</li>
-            <!-- Add more as needed -->
-        </ul>
-        <h2>Installation</h2>
-        <p>Instructions on how to add Atsuko to your Discord server.</p>
-        <h2><a href="commands.html">Commands</a></h2>
-    </div>
+  <canvas id="canvas"></canvas>
+  <script>
+	let canvas = document.getElementById('canvas');
+	let ctx = canvas.getContext('2d');
 
-    <script src="dots.js"></script>
+	
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+
+	let numberOfCircles = 100;
+	let circles = [];
+
+	
+	for (let i = 0; i < numberOfCircles; i++) {
+	  circles.push({
+		radius: i * 10,
+		speed: (i % 2 == 0 ? 1 : -1) * 0.004 * (i + 1),  
+		angle: 0
+	  });
+	}
+
+	function animate() {
+	  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+	  ctx.translate(canvas.width / 2, canvas.height / 2);  
+
+	  for (let i = 0; i < numberOfCircles; i++) {
+		let circle = circles[i];
+
+		
+		let x = circle.radius * Math.cos(circle.angle);
+		let y = circle.radius * Math.sin(circle.angle);
+		let dynamicRadius = Math.abs(10 * Math.sin(circle.angle));
+
+		ctx.beginPath();
+		ctx.arc(x, y, dynamicRadius, 0, Math.PI * 2);
+
+		
+		let colorIntensity = i / numberOfCircles * 255;
+		let gradient = ctx.createRadialGradient(x, y, 0, x, y, dynamicRadius);
+		gradient.addColorStop(0, `rgba(${colorIntensity},${255 - colorIntensity},${colorIntensity},1)`);
+		gradient.addColorStop(0.5, `rgba(${colorIntensity},${255 - colorIntensity},${colorIntensity},0.5)`);
+		gradient.addColorStop(1, 'rgba(0,0,0,0)');
+		
+		ctx.fillStyle = gradient;
+		ctx.fill();
+
+		
+		ctx.strokeStyle = `rgba(${255 - colorIntensity},${colorIntensity},${255 - colorIntensity},0.8)`;
+		ctx.lineWidth = 2;
+		ctx.stroke();
+
+		circle.angle += circle.speed;
+	  }
+
+	  ctx.translate(-canvas.width / 2, -canvas.height / 2);  
+
+	  requestAnimationFrame(animate);  
+	}
+
+	animate();
+  </script>
 </body>
 </html>
