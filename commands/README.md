@@ -227,10 +227,6 @@ Returns the donation address for the specified method.
 Usage:
 `!donate <method>`
 
-## dbsize
-
-Retrieves the size of all .db files in the ./data directory.
-
 ## welcomemsg
 
 Set a custom welcome message.
