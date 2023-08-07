@@ -29,16 +29,20 @@ class DBSize(commands.Cog):
     async def dbsize(self, ctx):
         """Retrieves the size of all .db files in the ./data directory."""
         embed = discord.Embed(title="Database Sizes", color=discord.Color.blue())
-        
+    
         for root, dirs, files in os.walk('./data'):
             for file in files:
                 if file.endswith('.db'):
                     full_file_path = os.path.join(root, file)
-                    file_size = get_directory_size(full_file_path)
+                    print(f"Checking file: {full_file_path}")  # Debug print
+                    file_size = os.path.getsize(full_file_path)
                     file_size_readable = convert_size(file_size)
                     embed.add_field(name=full_file_path, value=file_size_readable, inline=False)
-
-        await ctx.send(embed=embed)
+        if len(embed.fields) == 0:
+            print("No .db files found in './data' directory.")  # Debug print
+            await ctx.send("No database files found.")
+        else:
+            await ctx.send(embed=embed)
 
 async def setup(bot):
     await bot.add_cog(DBSize(bot))
