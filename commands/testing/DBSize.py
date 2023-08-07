@@ -2,6 +2,7 @@ import os
 from discord.ext import commands
 import discord
 from traceback import format_exc
+import math
 
 def get_directory_size(path='.'):
     total = 0
