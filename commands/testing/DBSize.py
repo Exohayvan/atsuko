@@ -1,6 +1,7 @@
 import os
 from discord.ext import commands
 import discord
+from traceback import format_exc
 
 def get_directory_size(path='.'):
     total = 0
@@ -24,8 +25,6 @@ def convert_size(size_bytes):
 class DBSize(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-from traceback import format_exc
 
     @commands.command()
     async def dbsize(self, ctx):
