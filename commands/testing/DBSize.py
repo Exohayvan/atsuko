@@ -25,24 +25,30 @@ class DBSize(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+from traceback import format_exc
+
     @commands.command()
     async def dbsize(self, ctx):
         """Retrieves the size of all .db files in the ./data directory."""
-        embed = discord.Embed(title="Database Sizes", color=discord.Color.blue())
+        try:
+            embed = discord.Embed(title="Database Sizes", color=discord.Color.blue())
     
-        for root, dirs, files in os.walk('./data'):
-            for file in files:
-                if file.endswith('.db'):
-                    full_file_path = os.path.join(root, file)
-                    print(f"Checking file: {full_file_path}")  # Debug print
-                    file_size = os.path.getsize(full_file_path)
-                    file_size_readable = convert_size(file_size)
-                    embed.add_field(name=full_file_path, value=file_size_readable, inline=False)
-        if len(embed.fields) == 0:
-            print("No .db files found in './data' directory.")  # Debug print
-            await ctx.send("No database files found.")
-        else:
-            await ctx.send(embed=embed)
+            for root, dirs, files in os.walk('./data'):
+                for file in files:
+                    if file.endswith('.db'):
+                        full_file_path = os.path.join(root, file)
+                        print(f"Checking file: {full_file_path}")  # Debug print
+                        file_size = os.path.getsize(full_file_path)
+                        file_size_readable = convert_size(file_size)
+                        embed.add_field(name=full_file_path, value=file_size_readable, inline=False)
+            if len(embed.fields) == 0:
+                print("No .db files found in './data' directory.")  # Debug print
+                await ctx.send("No database files found.")
+            else:
+                await ctx.send(embed=embed)
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            print(format_exc())  # Print the full traceback
 
 async def setup(bot):
     await bot.add_cog(DBSize(bot))
