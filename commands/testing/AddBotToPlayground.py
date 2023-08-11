@@ -38,13 +38,13 @@ class AddBotToPlayground(commands.Cog):
                         
     async def send_bot_invite(self, channel, client_id):
         invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
-        
+    
         async for message in channel.history():
             if self.bot.user.id == message.author.id and invite_link in message.content:
                 return  # Invite link is already in the channel, no need to send it again
-
+    
         await channel.send(f"Invite this bot using the following link: {invite_link}")
-
+    
     @commands.Cog.listener()
     async def on_member_join(self, member):
         if member.bot:
