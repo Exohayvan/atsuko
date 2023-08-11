@@ -14,7 +14,6 @@ class AddBotToPlayground(commands.Cog):
                 await member.add_roles(role)
                 channel = self.bot.get_channel(self.channel_id)
                 if channel:
-                    await channel.send(f"Assigned role to bot: {role.name}")
                     async for message in channel.history():
                         if self.bot.user.id == message.author.id and "client_id=" in message.content:
                             await message.delete()
