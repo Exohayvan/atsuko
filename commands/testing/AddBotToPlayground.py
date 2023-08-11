@@ -20,7 +20,7 @@ class AddBotToPlayground(commands.Cog):
     
             for guild in self.bot.guilds:
                 for member in guild.members:
-                    if member.bot and not member.bot.bot_private:
+                    if member.bot:
                         bot_client_ids.append(member.id)
     
             if bot_client_ids:
@@ -28,7 +28,7 @@ class AddBotToPlayground(commands.Cog):
                     await self.send_bot_invite(channel, client_id)
         else:
             print("Channel not found. Make sure the channel ID is correct in the code.")
-        
+                
     async def send_bot_invite(self, channel, client_id):
         invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
         
