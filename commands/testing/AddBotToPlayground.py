@@ -31,4 +31,4 @@ class AddBotToPlayground(commands.Cog):
             await ctx.send("Channel not found. Make sure the channel ID is correct in the code.")
 
 async def setup(bot):
-    bot.add_cog(AddBotToPlayground(bot))
+    await bot.add_cog(AddBotToPlayground(bot))
