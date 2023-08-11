@@ -78,14 +78,16 @@ class Verification(commands.Cog):
     
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        """Assigns the join role to new members."""
+        if member.bot:
+            return  # Skip the process for bots
+        
         self.c.execute("SELECT join_role FROM roles WHERE guild_id=?", (member.guild.id,))
         join_role_id = self.c.fetchone()
         if join_role_id is not None:
             join_role = member.guild.get_role(join_role_id[0])
             if join_role is not None:
                 await member.add_roles(join_role)
-
+            
     @commands.Cog.listener()
     async def on_message(self, message):
         """Checks the user's response to the verification CAPTCHA."""
