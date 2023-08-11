@@ -12,6 +12,7 @@ class AddBotToPlayground(commands.Cog):
     def cog_unload(self):
         self.check_bots.cancel()  # Cancel the task when the cog unloads
 
+    @tasks.loop(minutes=60)
     async def check_bots(self):
         channel = self.bot.get_channel(self.channel_id)
         if channel:
