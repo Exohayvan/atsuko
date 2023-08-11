@@ -24,9 +24,6 @@ class AddBotToPlayground(commands.Cog):
                         bot_client_ids.append(member.id)
 
             if bot_client_ids:
-                client_ids_text = "\n".join(str(client_id) for client_id in bot_client_ids)
-                await channel.send(f"List of bot client IDs in servers:\n{client_ids_text}")
-                
                 for client_id in bot_client_ids:
                     await self.send_bot_invite(channel, client_id)
         else:
