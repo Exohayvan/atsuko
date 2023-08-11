@@ -41,6 +41,7 @@ class AddBotToPlayground(commands.Cog):
     
         async for message in channel.history():
             if self.bot.user.id == message.author.id and invite_link in message.content:
+                print("DEBUG: Skipping bot invite link due to already existing in channel")
                 return  # Invite link is already in the channel, no need to send it again
     
         await channel.send(f"Invite this bot using the following link: {invite_link}")
