@@ -12,23 +12,29 @@ class AddBotToPlayground(commands.Cog):
     def cog_unload(self):
         self.check_bots.cancel()  # Cancel the task when the cog unloads
 
-    @tasks.loop(minutes=60)  # Adjust the interval as needed
     async def check_bots(self):
         channel = self.bot.get_channel(self.channel_id)
         if channel:
             bot_client_ids = []
-    
+            existing_invite_links = set()  # Keep track of existing invite links
+            
+            async for message in channel.history():
+                if self.bot.user.id == message.author.id and "discord.com/api/oauth2/authorize" in message.content:
+                    existing_invite_links.add(message.content)
+            
             for guild in self.bot.guilds:
                 for member in guild.members:
                     if member.bot:
                         bot_client_ids.append(member.id)
-    
+            
             if bot_client_ids:
                 for client_id in bot_client_ids:
-                    await self.send_bot_invite(channel, client_id)
+                    invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
+                    if invite_link not in existing_invite_links:
+                        await self.send_bot_invite(channel, client_id)
         else:
             print("Channel not found. Make sure the channel ID is correct in the code.")
-                
+                        
     async def send_bot_invite(self, channel, client_id):
         invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
         
