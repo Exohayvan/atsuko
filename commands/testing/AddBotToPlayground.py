@@ -3,8 +3,8 @@ from discord.ext import commands
 class AddBotToPlayground(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.channel_id = 1234567890  # Replace with the actual channel ID
-        self.role_id = 1234567890  # Replace with the actual role ID
+        self.channel_id = 1139581391462473858
+        self.role_id = 1139528802482016348
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
