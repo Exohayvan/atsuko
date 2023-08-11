@@ -20,10 +20,27 @@ class AddBotToPlayground(commands.Cog):
             else:
                 print("Role not found. Make sure the role ID is correct in the code.")
 
+    @commands.Cog.listener()
+    async def on_ready(self):
+        channel = self.bot.get_channel(self.channel_id)
+        if channel:
+            async for message in channel.history():
+                if self.bot.user.id == message.author.id and "client_id=" in message.content:
+                    await message.delete()
+        else:
+            print("Channel not found. Make sure the channel ID is correct in the code.")
+
     @commands.command(usage="!addbot <client ID>")
     async def addbot(self, ctx, client_id: int):
         """Adds a bot using its client ID."""
         invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
+        
+        # Check if the bot is already in the server
+        bot_member = ctx.guild.get_member(client_id)
+        if bot_member:
+            await ctx.send("The bot is already in the server.")
+            return
+        
         channel = self.bot.get_channel(self.channel_id)
         if channel:
             await channel.send(f"Invite this bot using the following link: {invite_link}")
