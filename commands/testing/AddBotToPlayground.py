@@ -27,14 +27,19 @@ class AddBotToPlayground(commands.Cog):
                 client_ids_text = "\n".join(str(client_id) for client_id in bot_client_ids)
                 await channel.send(f"List of bot client IDs in servers:\n{client_ids_text}")
                 
-                invite_link = f"https://discord.com/api/oauth2/authorize?client_id={bot_client_ids[0]}&permissions=0&scope=bot"
-                async for message in channel.history():
-                    if self.bot.user.id == message.author.id and invite_link in message.content:
-                        return  # Invite link is already in the channel, no need to send it again
-
-                await channel.send(f"Invite this bot using the following link: {invite_link}")
+                for client_id in bot_client_ids:
+                    await self.send_bot_invite(channel, client_id)
         else:
             print("Channel not found. Make sure the channel ID is correct in the code.")
+
+    async def send_bot_invite(self, channel, client_id):
+        invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
+        
+        async for message in channel.history():
+            if self.bot.user.id == message.author.id and invite_link in message.content:
+                return  # Invite link is already in the channel, no need to send it again
+
+        await channel.send(f"Invite this bot using the following link: {invite_link}")
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -66,7 +71,7 @@ class AddBotToPlayground(commands.Cog):
         
         channel = self.bot.get_channel(self.channel_id)
         if channel:
-            await channel.send(f"Invite this bot using the following link: {invite_link}")
+            await self.send_bot_invite(channel, client_id)
         else:
             await ctx.send("Channel not found. Make sure the channel ID is correct in the code.")
 
