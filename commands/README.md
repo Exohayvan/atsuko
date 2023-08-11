@@ -273,6 +273,13 @@ This is the embed command.
 Usage:
 `!embed <message>`
 
+## addbot
+
+Adds a bot using its client ID.
+
+Usage:
+`!addbot <client ID>`
+
 ## balance
 
 Check your balance or someone else's by mentioning them.
