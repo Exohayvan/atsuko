@@ -32,6 +32,7 @@ class AddBotToPlayground(commands.Cog):
                 for client_id in bot_client_ids:
                     invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
                     if invite_link not in existing_invite_links:
+                        print("DEBUG: Sent invite to channel")
                         await self.send_bot_invite(channel, client_id)
         else:
             print("Channel not found. Make sure the channel ID is correct in the code.")
