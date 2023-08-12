@@ -19,24 +19,31 @@ class AddBotToPlayground(commands.Cog):
             print("DEBUG: Channel not found. Make sure the channel ID is correct in the code.")
             return
 
-        bot_client_ids_in_guild = set()  # Bots in the specific server
+        bot_client_ids_in_all_guilds = set()  # Bots in all guilds the bot is part of
+        bot_client_ids_in_channel_guild = set()  # Bots in the guild where the channel resides
         bot_client_ids_in_channel = set()  # Bots mentioned in the channel
 
-        # 1. Gather every single bot in the specific server's client ID
+        # 1. Gather every single bot in any server's client ID
+        for guild in self.bot.guilds:
+            for member in guild.members:
+                if member.bot:
+                    bot_client_ids_in_all_guilds.add(member.id)
+
+        # 2. Gather bot IDs that are in the guild where the channel resides
         for member in channel.guild.members:
             if member.bot:
-                bot_client_ids_in_guild.add(member.id)
+                bot_client_ids_in_channel_guild.add(member.id)
 
-        # 2. Check if the bot's client ID exists in the channel
+        # 3. Check if the bot's client ID exists in the channel
         async for message in channel.history(limit=None):
             if self.bot.user.id == message.author.id and "client_id=" in message.content:
                 client_id_in_msg = message.content.split("client_id=")[1].split("&")[0]
                 bot_client_ids_in_channel.add(client_id_in_msg)
 
-        # 3. Check conditions: if it's not in the server AND its client ID isn't in the channel, send the invite
-        for client_id in bot_client_ids_in_guild:
+        # 4. Check conditions: if it's not in the channel's guild AND its client ID isn't in the channel, send the invite
+        for client_id in bot_client_ids_in_all_guilds:
             client_id_str = str(client_id)
-            if client_id_str not in bot_client_ids_in_channel:
+            if client_id_str not in bot_client_ids_in_channel and client_id not in bot_client_ids_in_channel_guild:
                 print(f"DEBUG: Sending invite for bot with client ID: {client_id_str}")
                 await self.send_bot_invite(channel, client_id_str)
             else:
