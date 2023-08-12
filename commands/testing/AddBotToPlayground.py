@@ -70,7 +70,7 @@ class AddBotToPlayground(commands.Cog):
                 await member.add_roles(role)
                 channel = self.bot.get_channel(self.channel_id)
                 if channel:
-                    async for message in channel.history():
+                    async for message in channel.history(limit=None):
                         if message.author == self.bot.user and f"client_id={member.id}" in message.content:
                             await message.delete()
                 else:
