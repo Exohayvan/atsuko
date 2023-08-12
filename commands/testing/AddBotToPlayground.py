@@ -59,7 +59,7 @@ class AddBotToPlayground(commands.Cog):
                 channel = self.bot.get_channel(self.channel_id)
                 if channel:
                     async for message in channel.history():
-                        if message.author == self.bot.user and f"client_id={self.bot.user.id}" in message.content:
+                        if message.author == self.bot.user and f"client_id={member.id}" in message.content:
                             await message.delete()
                 else:
                     print("Channel not found. Make sure the channel ID is correct in the code.")
