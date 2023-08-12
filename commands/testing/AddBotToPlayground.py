@@ -16,27 +16,31 @@ class AddBotToPlayground(commands.Cog):
     async def check_bots(self):
         channel = self.bot.get_channel(self.channel_id)
         if channel:
-            bot_client_ids = []
+            bot_client_ids = set()  # Use a set for faster lookup
             existing_invite_links = set()  # Keep track of existing invite links
-            
+    
+            # Gather existing invite links in the channel
             async for message in channel.history():
                 if self.bot.user.id == message.author.id and "discord.com/api/oauth2/authorize" in message.content:
                     existing_invite_links.add(message.content)
-            
+    
+            # Gather bot IDs from all servers the bot is in
             for guild in self.bot.guilds:
                 for member in guild.members:
                     if member.bot:
-                        bot_client_ids.append(member.id)
-            
-            if bot_client_ids:
-                for client_id in bot_client_ids:
-                    invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
-                    if invite_link not in existing_invite_links:
-                        print("DEBUG: Sent invite to channel")
-                        await self.send_bot_invite(channel, client_id)
+                        bot_client_ids.add(member.id)
+    
+            # Check each bot
+            for client_id in bot_client_ids:
+                invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
+                
+                # If the bot is not already in the server and its invite link isn't in the channel
+                if client_id != self.bot.user.id and invite_link not in existing_invite_links:
+                    print("DEBUG: Sent invite to channel")
+                    await self.send_bot_invite(channel, client_id)
         else:
             print("Channel not found. Make sure the channel ID is correct in the code.")
-                        
+                                
     async def send_bot_invite(self, channel, client_id):
         invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
     
