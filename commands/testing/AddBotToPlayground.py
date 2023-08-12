@@ -7,7 +7,7 @@ class AddBotToPlayground(commands.Cog):
         self.channel_id = 1139581391462473858
         self.role_id = 1139528802482016348
 
-        self.check_bots.start()  # Start the task
+        #self.check_bots.start()  # Start the task
 
     def cog_unload(self):
         self.check_bots.cancel()  # Cancel the task when the cog unloads
