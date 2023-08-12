@@ -7,7 +7,7 @@ class AddBotToPlayground(commands.Cog):
         self.channel_id = 1139728971211214928
         self.role_id = 1139528802482016348
 
-        #self.check_bots.start()  # Start the task
+        self.check_bots.start()  # Start the task
 
     def cog_unload(self):
         self.check_bots.cancel()  # Cancel the task when the cog unloads
@@ -22,11 +22,10 @@ class AddBotToPlayground(commands.Cog):
         bot_client_ids_in_guild = set()  # Bots in the specific server
         bot_client_ids_in_channel = set()  # Bots mentioned in the channel
 
-        # 1. Gather every single bot in any server's client ID
-        for guild in self.bot.guilds:
-            for member in guild.members:
-                if member.bot:
-                    bot_client_ids_in_guild.add(member.id)
+        # 1. Gather every single bot in the specific server's client ID
+        for member in channel.guild.members:
+            if member.bot:
+                bot_client_ids_in_guild.add(member.id)
 
         # 2. Check if the bot's client ID exists in the channel
         async for message in channel.history(limit=None):
@@ -37,7 +36,7 @@ class AddBotToPlayground(commands.Cog):
         # 3. Check conditions: if it's not in the server AND its client ID isn't in the channel, send the invite
         for client_id in bot_client_ids_in_guild:
             client_id_str = str(client_id)
-            if client_id_str not in bot_client_ids_in_channel and client_id not in channel.guild.members:
+            if client_id_str not in bot_client_ids_in_channel:
                 print(f"DEBUG: Sending invite for bot with client ID: {client_id_str}")
                 await self.send_bot_invite(channel, client_id_str)
             else:
