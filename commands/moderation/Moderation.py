@@ -24,7 +24,7 @@ class Moderation(commands.Cog):
         self.lock_c.execute('''CREATE TABLE IF NOT EXISTS locks
                                (channel_id TEXT PRIMARY KEY, permissions TEXT)''')
 
-    @commands.command()
+    @commands.command(usage="!lock")
     @commands.has_permissions(manage_channels=True)
     async def lock(self, ctx):
         """Locks a channel."""
@@ -43,7 +43,7 @@ class Moderation(commands.Cog):
 
         await ctx.send("Channel locked.")
                 
-    @commands.command()
+    @commands.command(usage="!unlock")
     @commands.has_permissions(manage_channels=True)
     async def unlock(self, ctx):
         """Unlocks a channel."""
@@ -69,14 +69,14 @@ class Moderation(commands.Cog):
         else:
             await ctx.send("Channel was not previously locked.")
 
-    @commands.command()
+    @commands.command(usage="!kick <@mention>")
     @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         """Kicks a user out of the server."""
         await member.kick(reason=reason)
         await ctx.send(f'User {member} has been kick')
 
-    @commands.command()
+    @commands.command(usage="!setprefix <prefix you want> (This can be literaly anything you like, just please make it a normal one please.)")
     @commands.has_permissions(manage_guild=True)
     async def setprefix(self, ctx, prefix):
         conn = sqlite3.connect('./data/prefix.db')
@@ -86,14 +86,14 @@ class Moderation(commands.Cog):
         conn.close()
         await ctx.send(f"The prefix has been set to '{prefix}'")
         
-    @commands.command()
+    @commands.command(usage="!ban <@mention>")
     @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         """Bans a user from the server."""
         await member.ban(reason=reason)
         await ctx.send(f'User {member} has been banned')
 
-    @commands.command()
+    @commands.command(usage="!unban <userID>")
     @commands.has_permissions(ban_members=True)
     async def unban(self, ctx, *, member):
         """Unbans a user."""
@@ -108,14 +108,14 @@ class Moderation(commands.Cog):
                 await ctx.send(f'User {user} has been unbanned')
                 return
 
-    @commands.command()
+    @commands.command(usage="!purge <number of messages>")
     @commands.has_permissions(manage_messages=True)
     async def purge(self, ctx, amount : int):
         """Clears a specified amount of messages in the channel."""
         await ctx.channel.purge(limit=amount)
 
     # You would need a role named 'Muted' created and its permissions set to disallow sending messages or adding reactions in every channel.
-    @commands.command()
+    @commands.command(usage="!mute <@mention>")
     @commands.has_permissions(manage_roles=True)
     async def mute(self, ctx, member: discord.Member, *, reason=None):
         """Mutes a user."""
@@ -129,7 +129,7 @@ class Moderation(commands.Cog):
         await member.add_roles(muted_role, reason=reason)
         await ctx.send(f"User {member} has been muted")
 
-    @commands.command()
+    @commands.command(usage="!unmute <@mention>")
     @commands.has_permissions(manage_roles=True)
     async def unmute(self, ctx, member: discord.Member):
         """Unmutes a user."""
@@ -142,9 +142,9 @@ class Moderation(commands.Cog):
         await member.remove_roles(muted_role)
         await ctx.send(f"User {member} has been unmuted")
 
-    @commands.command()
+    @commands.command(usage="!user <mention>")
     async def user(self, ctx, member: discord.Member):
-        """Pulls info from a user."""
+        """Shows info about the mentioned user."""
 
         # Create a new embed message
         embed = Embed(title=f"User Info: {member.name}", color=Color.blue())
@@ -166,7 +166,7 @@ class Moderation(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command()
+    @commands.command("!addmod <@mention>")
     @commands.has_permissions(administrator=True)
     async def addmod(self, ctx, role: discord.Role):
         """Adds a role to allow moderation."""
@@ -174,7 +174,7 @@ class Moderation(commands.Cog):
         self.conn.commit()
         await ctx.send(f'Role {role.name} has been added as mod role.')
 
-    @commands.command()
+    @commands.command(usage="!removemod <@mention>")
     @commands.has_permissions(administrator=True)
     async def removemod(self, ctx, role: discord.Role):
         """Removes a role to allow moderation."""

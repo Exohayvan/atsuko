@@ -12,7 +12,7 @@ class Verification(commands.Cog):
                      (guild_id INTEGER, join_role INTEGER, verify_role INTEGER)''')
         self.conn.commit()
 
-    @commands.command()
+    @commands.command(usage="!show_roles")
     @commands.has_permissions(administrator=True)
     async def show_roles(self, ctx):
         """Shows the set join and verify roles for the guild."""
@@ -43,7 +43,7 @@ class Verification(commands.Cog):
     
         await ctx.send(f"Join Role: {join_role_obj.name}\nVerify Role: {verify_role_obj.name}")
         
-    @commands.command()
+    @commands.command(usage="!set_join_role <@role>")
     @commands.has_permissions(administrator=True)
     async def set_join_role(self, ctx, role: commands.RoleConverter):
         """Sets the role to give to users when they first join."""
@@ -51,7 +51,7 @@ class Verification(commands.Cog):
         self.conn.commit()
         await ctx.send(f"Join role has been set to {role.name}.")
 
-    @commands.command()
+    @commands.command(usage="!set_verify_role <@role>")
     @commands.has_permissions(administrator=True)
     async def set_verify_role(self, ctx, role: commands.RoleConverter):
         """Sets the role to give to users when they are verified."""
@@ -67,7 +67,7 @@ class Verification(commands.Cog):
         self.conn.commit()
         await ctx.send(f"Verify role has been set to {role.name}.")
     
-    @commands.command()
+    @commands.command(usage="!verify")
     async def verify(self, ctx):
         """Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs."""
         verification_number = random.randint(100, 999)
