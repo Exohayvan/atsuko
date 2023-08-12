@@ -4,7 +4,7 @@ from discord.ext import commands, tasks
 class AddBotToPlayground(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.channel_id = 1139581391462473858
+        self.channel_id = 1139728971211214928
         self.role_id = 1139528802482016348
 
         #self.check_bots.start()  # Start the task
