@@ -40,15 +40,15 @@ class AddBotToPlayground(commands.Cog):
         else:
             print("Channel not found. Make sure the channel ID is correct in the code.")
                                             
-        async def send_bot_invite(self, channel, client_id):
-            invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
+    async def send_bot_invite(self, channel, client_id):
+        invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
         
-            async for message in channel.history():
-                if self.bot.user.id == message.author.id and invite_link in message.content:
-                    print("DEBUG: Skipping bot invite link due to already existing in channel")
-                    return  # Invite link is already in the channel, no need to send it again
+        async for message in channel.history():
+            if self.bot.user.id == message.author.id and invite_link in message.content:
+                print("DEBUG: Skipping bot invite link due to already existing in channel")
+                return  # Invite link is already in the channel, no need to send it again
         
-            await channel.send(f"[{client_id}]({invite_link})")
+        await channel.send(f"[{client_id}]({invite_link})")
     
     @commands.Cog.listener()
     async def on_member_join(self, member):
