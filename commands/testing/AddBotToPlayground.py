@@ -7,7 +7,7 @@ class AddBotToPlayground(commands.Cog):
         self.channel_id = 1139728971211214928
         self.role_id = 1139528802482016348
 
-        self.check_bots.start()  # Start the task
+        #self.check_bots.start()  # Start the task
 
     def cog_unload(self):
         self.check_bots.cancel()  # Cancel the task when the cog unloads
@@ -18,28 +18,30 @@ class AddBotToPlayground(commands.Cog):
         if channel:
             bot_client_ids_in_guild = set()  # Use a set for faster lookup
             bot_client_ids_in_channel = set()
-    
+
             # Gather bot IDs in messages in the channel
             async for message in channel.history(limit=None):  # Fetch all messages
                 if self.bot.user.id == message.author.id and "client_id=" in message.content:
                     client_id_in_msg = message.content.split("client_id=")[1].split("&")[0]
                     bot_client_ids_in_channel.add(client_id_in_msg)
-    
-            # Gather bot IDs from all servers the bot is in
-            for guild in self.bot.guilds:
-                for member in guild.members:
-                    if member.bot:
-                        bot_client_ids_in_guild.add(member.id)
-    
+
+            # Gather bot IDs from the server where the channel is located
+            for member in channel.guild.members:
+                if member.bot:
+                    bot_client_ids_in_guild.add(member.id)
+
             # Check each bot
             for client_id in bot_client_ids_in_guild:
-                # If the bot is not already in the channel messages
-                if str(client_id) not in bot_client_ids_in_channel:
-                    print("DEBUG: Sent invite to channel")
-                    await self.send_bot_invite(channel, client_id)
+                # If the bot's invite is already in the channel or the bot is already in the server
+                if str(client_id) in bot_client_ids_in_channel or client_id in bot_client_ids_in_guild:
+                    print("DEBUG: Skipping, already in server or invite exists")
+                    continue  # Skip sending the invite
+
+                print("DEBUG: Sent invite to channel")
+                await self.send_bot_invite(channel, client_id)
         else:
             print("Channel not found. Make sure the channel ID is correct in the code.")
-                                                    
+                                    
     async def send_bot_invite(self, channel, client_id):
         invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
         
