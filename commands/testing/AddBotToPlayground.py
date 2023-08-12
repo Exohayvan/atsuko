@@ -20,7 +20,7 @@ class AddBotToPlayground(commands.Cog):
             bot_client_ids_in_channel = set()
     
             # Gather bot IDs in messages in the channel
-            async for message in channel.history():
+            async for message in channel.history(limit=None):  # Fetch all messages
                 if self.bot.user.id == message.author.id and "client_id=" in message.content:
                     client_id_in_msg = message.content.split("client_id=")[1].split("&")[0]
                     bot_client_ids_in_channel.add(client_id_in_msg)
@@ -39,7 +39,7 @@ class AddBotToPlayground(commands.Cog):
                     await self.send_bot_invite(channel, client_id)
         else:
             print("Channel not found. Make sure the channel ID is correct in the code.")
-                                            
+                                                    
     async def send_bot_invite(self, channel, client_id):
         invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
         
