@@ -102,7 +102,7 @@ class Info(commands.Cog):
     async def on_ready(self):
         self.uptime_start = datetime.datetime.utcnow()
         
-    @commands.command()
+    @commands.command(usage="!ping")
     async def ping(self, ctx):
         """Shows the bot's latency and API ping."""
         # Calculate the latency
@@ -141,7 +141,7 @@ class Info(commands.Cog):
 
         await message.edit(content="", embed=embed)
                 
-    @commands.command()
+    @commands.command(usage="!info")
     async def info(self, ctx):
         """Provides detailed information about the bot."""
         creation_time = self.bot.user.created_at
@@ -168,14 +168,14 @@ class Info(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command()
+    @commands.command("!invite")
     async def invite(self, ctx):
         """Generates an invite link for the bot."""
         permissions = Permissions.all()
         invite_link = f"https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&permissions={permissions.value}&scope=bot"
         await ctx.send(f"Invite me to your server using this link: {invite_link}")
 
-    @commands.command()
+    @commands.command("!stats")
     async def stats(self, ctx):
         """Shows the bot's current stats, including the number of guilds, users, and more."""
         total_guilds = len(self.bot.guilds)
@@ -298,7 +298,7 @@ class Info(commands.Cog):
         
         return datetime.timedelta(seconds=result['total_uptime'] if result['total_uptime'] else 0)
     
-    @commands.command()
+    @commands.command("!update")
     async def uptime(self, ctx):
         """Shows the current uptime of the bot since last restart."""
         current_uptime = datetime.datetime.utcnow() - self.bot_start_time
@@ -320,7 +320,7 @@ class Info(commands.Cog):
     
         await ctx.send(embed=embed)
         
-    #@commands.command()
+    @commands.command(usage="!lifetime")
     async def lifetime(self, ctx):
         """Shows the total lifetime uptime of the bot."""
         # Lifetime uptime includes current uptime

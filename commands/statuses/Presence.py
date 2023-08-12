@@ -19,7 +19,7 @@ class Presence(commands.Cog):
 
     @tasks.loop(seconds=15)
     async def change_presence(self):
-        """Automatically changes the bot's presence every 30 seconds."""
+        """Automatically changes the bot's presence every 15 seconds."""
         next_status, activity_type = next(self.statuses)
         activity = Activity(name=next_status, type=activity_type)
         await self.bot.change_presence(activity=activity)

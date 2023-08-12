@@ -170,9 +170,10 @@ class ChannelRelay(commands.Cog):
                         if target_channel:
                             await target_channel.send(f"**{message.author.display_name}:** {message.content}")
                         
-    @commands.command()
+    @commands.command(usage="!connect_channel")
     @commands.has_permissions(administrator=True)
     async def connect_channel(self, ctx, channel: discord.TextChannel=None):
+        """Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)"""
         if not channel:
             channel = ctx.channel
     
@@ -203,9 +204,10 @@ class ChannelRelay(commands.Cog):
         except asyncio.TimeoutError:
             await ctx.send("Channel connection request timed out.")
         
-    @commands.command()
+    @commands.command(usage="!disconnect_channel")
     @commands.has_permissions(administrator=True)
     async def disconnect_channel(self, ctx, channel: discord.TextChannel=None):
+        """Disconnect the channel connected to the relay channels."""
         if not channel:
             channel = ctx.channel
         self.connected_channels.discard((ctx.guild.id, channel.id))

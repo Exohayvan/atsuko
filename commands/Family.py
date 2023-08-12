@@ -131,7 +131,7 @@ class Family(commands.Cog):
         except asyncio.TimeoutError:
             await ctx.send(f"The adoption request sent to {member.mention} timed out.")
 
-    @commands.command()
+    @commands.command(usage="!marry <@member>")
     async def marry(self, ctx, *, member: discord.Member):
         """Sends a marriage request to another member."""
         if ctx.author == member:
@@ -181,7 +181,7 @@ class Family(commands.Cog):
         except asyncio.TimeoutError:
             await ctx.send(f"The marriage request sent to {member.mention} timed out.")
 
-    @commands.command()
+    @commands.command(usage="!family")
     async def family(self, ctx):
         """Shows the family tree of the author."""
         filename = await self.generate_family_tree(ctx.author.id)

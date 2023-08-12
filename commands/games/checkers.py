@@ -7,7 +7,7 @@ class Checkers(commands.Cog):
         self.active_game = False
         self.board = []  # Placeholder for the Checkers board data structure
 
-    @commands.group(invoke_without_command=True)
+    @commands.group(invoke_without_command=True, usage="!checkers <command> (Will add list later).")
     async def checkers(self, ctx):
         """Start or play a game of Checkers! Use '!checkers start' to start a new game and other commands to interact with the game."""
         pass
