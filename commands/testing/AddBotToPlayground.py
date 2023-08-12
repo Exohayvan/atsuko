@@ -6,6 +6,7 @@ class AddBotToPlayground(commands.Cog):
         self.bot = bot
         self.channel_id = 1139728971211214928
         self.role_id = 1139528802482016348
+        self.info_channel_id = 1139881148013625424
 
         self.check_bots.start()  # Start the task
 
@@ -51,7 +52,27 @@ class AddBotToPlayground(commands.Cog):
                     print(f"DEBUG: Skipping bot with client ID: {client_id_str} as it's already mentioned in the channel")
                 else:
                     print(f"DEBUG: Skipping bot with client ID: {client_id_str} as it's already in the server")
-            
+
+        # Send the statistics as an embed to the info channel
+        await self.send_stats_embed(
+            len(bot_client_ids_in_all_guilds),
+            len(bot_client_ids_in_channel_guild),
+            len(bot_client_ids_in_channel)
+        )
+        
+    async def send_stats_embed(self, total_known, total_in_server, total_in_queue):
+        info_channel = self.bot.get_channel(self.info_channel_id)
+        if not info_channel:
+            print("DEBUG: Info Channel not found. Make sure the info channel ID is correct in the code.")
+            return
+
+        embed = discord.Embed(title="Bot Statistics", color=0x3498db)
+        embed.add_field(name="Total bots known", value=str(total_known), inline=True)
+        embed.add_field(name="Total bots in server", value=str(total_in_server), inline=True)
+        embed.add_field(name="Total bots remaining in queue", value=str(total_in_queue), inline=True)
+
+        await info_channel.send(embed=embed)
+        
     async def send_bot_invite(self, channel, client_id):
         invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
         
