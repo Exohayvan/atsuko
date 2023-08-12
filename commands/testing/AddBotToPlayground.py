@@ -30,18 +30,17 @@ class AddBotToPlayground(commands.Cog):
                 if member.bot:
                     bot_client_ids_in_guild.add(member.id)
 
-            # Check each bot
-            for client_id in bot_client_ids_in_guild:
-                # If the bot's invite is already in the channel or the bot is already in the server
-                if str(client_id) in bot_client_ids_in_channel or client_id in bot_client_ids_in_guild:
-                    print("DEBUG: Skipping, already in server or invite exists")
-                    continue  # Skip sending the invite
-
-                print("DEBUG: Sent invite to channel")
-                await self.send_bot_invite(channel, client_id)
+            # Check each bot that's not in the server
+            for client_id in bot_client_ids_in_channel:
+                # Convert client_id to str for consistency in checks
+                client_id_str = str(client_id)
+                # If the bot's invite is not already in the channel AND the bot is not already in the server
+                if client_id_str not in bot_client_ids_in_channel and client_id_str not in bot_client_ids_in_guild:
+                    print("DEBUG: Sent invite to channel")
+                    await self.send_bot_invite(channel, client_id_str)
         else:
             print("Channel not found. Make sure the channel ID is correct in the code.")
-                                    
+            
     async def send_bot_invite(self, channel, client_id):
         invite_link = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&permissions=0&scope=bot"
         
