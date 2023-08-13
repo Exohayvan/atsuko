@@ -17,7 +17,7 @@ Usage:
 Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots.
 
 Usage:
-`!create_counter "Counter Type" (Must be inclosed in "")`
+`!create_counter "Counter Type" (Must be inclosed in "". Also caps are needed. This is a bug will fix later.)`
 
 ## adopt
 
@@ -30,9 +30,15 @@ Usage:
 
 Sends a marriage request to another member.
 
+Usage:
+`!marry <@member>`
+
 ## family
 
 Shows the family tree of the author.
+
+Usage:
+`!family`
 
 ## ticket
 
@@ -47,6 +53,17 @@ This is a placeholder command.
 
 Usage:
 `!placeholder <usage>`
+
+## disabled
+
+This is a template for disabling a command!
+
+Usage:
+`!disabled`
+
+## dbsize
+
+Retrieves the size of all .db files in the ./data directory.
 
 ## skip
 
@@ -122,21 +139,34 @@ Usage:
 
 Shows the bot's latency and API ping.
 
+Usage:
+`!ping`
+
 ## info
 
 Provides detailed information about the bot.
 
-## invite
+Usage:
+`!info`
+
+## !invite
 
 Generates an invite link for the bot.
 
-## stats
+## !stats
 
 Shows the bot's current stats, including the number of guilds, users, and more.
 
-## uptime
+## !update
 
 Shows the current uptime of the bot since last restart.
+
+## lifetime
+
+Shows the total lifetime uptime of the bot.
+
+Usage:
+`!lifetime`
 
 ## scrabble
 
@@ -153,6 +183,9 @@ Main chess command.
 ## checkers
 
 Start or play a game of Checkers! Use '!checkers start' to start a new game and other commands to interact with the game.
+
+Usage:
+`!checkers <command> (Will add list later).`
 
 ## sorry
 
@@ -227,9 +260,19 @@ Returns the donation address for the specified method.
 Usage:
 `!donate <method>`
 
-## dbsize
+## connect_channel
 
-Retrieves the size of all .db files in the ./data directory.
+Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)
+
+Usage:
+`!connect_channel`
+
+## disconnect_channel
+
+Disconnect the channel connected to the relay channels.
+
+Usage:
+`!disconnect_channel`
 
 ## welcomemsg
 
@@ -326,39 +369,69 @@ Usage:
 
 Locks a channel.
 
+Usage:
+`!lock`
+
 ## unlock
 
 Unlocks a channel.
+
+Usage:
+`!unlock`
 
 ## kick
 
 Kicks a user out of the server.
 
+Usage:
+`!kick <@mention>`
+
+Usage:
+`!setprefix <prefix you want> (This can be literaly anything you like, just please make it a normal one please.)`
+
 ## ban
 
 Bans a user from the server.
+
+Usage:
+`!ban <@mention>`
 
 ## unban
 
 Unbans a user.
 
+Usage:
+`!unban <userID>`
+
 ## purge
 
 Clears a specified amount of messages in the channel.
+
+Usage:
+`!purge <number of messages>`
 
 ## mute
 
 Mutes a user.
 
+Usage:
+`!mute <@mention>`
+
 ## unmute
 
 Unmutes a user.
 
+Usage:
+`!unmute <@mention>`
+
 ## user
 
-Pulls info from a user.
+Shows info about the mentioned user.
 
-## addmod
+Usage:
+`!user <mention>`
+
+## !addmod <@mention>
 
 Adds a role to allow moderation.
 
@@ -366,19 +439,34 @@ Adds a role to allow moderation.
 
 Removes a role to allow moderation.
 
+Usage:
+`!removemod <@mention>`
+
 ## show_roles
 
 Shows the set join and verify roles for the guild.
+
+Usage:
+`!show_roles`
 
 ## set_join_role
 
 Sets the role to give to users when they first join.
 
+Usage:
+`!set_join_role <@role>`
+
 ## set_verify_role
 
 Sets the role to give to users when they are verified.
 
+Usage:
+`!set_verify_role <@role>`
+
 ## verify
 
 Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs.
+
+Usage:
+`!verify`
 
