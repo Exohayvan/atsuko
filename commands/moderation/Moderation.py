@@ -166,7 +166,7 @@ class Moderation(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command("!addmod <@mention>")
+    @commands.command(usage="!addmod <@mention>")
     @commands.has_permissions(administrator=True)
     async def addmod(self, ctx, role: discord.Role):
         """Adds a role to allow moderation."""
