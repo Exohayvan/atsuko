@@ -149,17 +149,26 @@ Provides detailed information about the bot.
 Usage:
 `!info`
 
-## !invite
+## invite
 
 Generates an invite link for the bot.
 
-## !stats
+Usage:
+`!invite`
+
+## stats
 
 Shows the bot's current stats, including the number of guilds, users, and more.
 
-## !update
+Usage:
+`!stats`
+
+## uptime
 
 Shows the current uptime of the bot since last restart.
+
+Usage:
+`!uptime`
 
 ## lifetime
 

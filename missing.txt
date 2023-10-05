@@ -1,7 +1,4 @@
 Command 'dbsize' in cog DBSize is missing usage details.
-Command '!invite' in cog Info is missing usage details.
-Command '!stats' in cog Info is missing usage details.
-Command '!update' in cog Info is missing usage details.
 Command 'scrabble' in cog Scrabble is missing usage details.
 Command 'monopoly' in cog Monopoly is missing usage details.
 Command 'chess' in cog Chess is missing usage details.
