@@ -325,13 +325,6 @@ This is the embed command.
 Usage:
 `!embed <message>`
 
-## addbot
-
-Adds a bot using its client ID.
-
-Usage:
-`!addbot <client ID>`
-
 ## balance
 
 Check your balance or someone else's by mentioning them.
@@ -440,9 +433,12 @@ Shows info about the mentioned user.
 Usage:
 `!user <mention>`
 
-## !addmod <@mention>
+## addmod
 
 Adds a role to allow moderation.
+
+Usage:
+`!addmod <@mention>`
 
 ## removemod
 

@@ -18,4 +18,3 @@ Command 'give' in cog Money is missing usage details.
 Command 'gamble' in cog Money is missing usage details.
 Command 'jackpot' in cog Money is missing usage details.
 Command 'setprefix' in cog Moderation is missing help details.
-Command '!addmod <@mention>' in cog Moderation is missing usage details.
