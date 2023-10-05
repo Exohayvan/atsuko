@@ -168,14 +168,14 @@ class Info(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command("!invite")
+    @commands.command(usage="!invite")
     async def invite(self, ctx):
         """Generates an invite link for the bot."""
         permissions = Permissions.all()
         invite_link = f"https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&permissions={permissions.value}&scope=bot"
         await ctx.send(f"Invite me to your server using this link: {invite_link}")
 
-    @commands.command("!stats")
+    @commands.command(usage="!stats")
     async def stats(self, ctx):
         """Shows the bot's current stats, including the number of guilds, users, and more."""
         total_guilds = len(self.bot.guilds)
@@ -298,7 +298,7 @@ class Info(commands.Cog):
         
         return datetime.timedelta(seconds=result['total_uptime'] if result['total_uptime'] else 0)
     
-    @commands.command("!update")
+    @commands.command(usage="!uptime")
     async def uptime(self, ctx):
         """Shows the current uptime of the bot since last restart."""
         current_uptime = datetime.datetime.utcnow() - self.bot_start_time
