@@ -4,6 +4,10 @@ from discord.ext import commands
 import random
 import sqlite3
 import discord
+import datetime
+
+VOICE_XP_RATE = 1  # Set the XP awarded for every minute in a voice channel
+active_voice_users = {}  # Store users and their join times
 
 XP_RATE = 2.2
 CHANCE_RATE = 0.45
@@ -17,6 +21,43 @@ class Leveling(commands.Cog):
         self.cursor = self.db.cursor()
         self.cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, xp REAL, total_xp REAL, level INTEGER, level_xp REAL)")
 
+    @commands.Cog.listener()
+    async def on_voice_state_update(self, member, before, after):
+        # If the member is a bot, ignore
+        if member.bot:
+            return
+    
+        # If the member joined a voice channel
+        if after.channel and not before.channel:
+            active_voice_users[member.id] = datetime.datetime.utcnow()
+    
+        # If the member left a voice channel
+        elif before.channel and not after.channel:
+            join_time = active_voice_users.pop(member.id, None)
+            if join_time:
+                elapsed_minutes = (datetime.datetime.utcnow() - join_time).total_seconds() / 60
+                xp_earned = elapsed_minutes * VOICE_XP_RATE
+                await self.add_voice_xp(member, xp_earned)
+    
+    async def add_voice_xp(self, member, xp_earned):
+        self.cursor.execute("SELECT * FROM users WHERE id = ?", (member.id,))
+        user = self.cursor.fetchone()
+        
+        if user is None:
+            self.cursor.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?)", (member.id, xp_earned, xp_earned, 0, 100))
+        else:
+            total_xp = user[2] + xp_earned
+            remaining_xp = user[1] + xp_earned
+            level = user[3]
+            level_xp = user[4]
+            while remaining_xp >= level_xp:
+                remaining_xp -= level_xp
+                level += 1
+                level_xp = level_xp * XP_RATE
+            self.cursor.execute("UPDATE users SET xp = ?, total_xp = ?, level = ?, level_xp = ? WHERE id = ?", (remaining_xp, total_xp, level, level_xp, member.id))
+    
+        self.db.commit()
+    
     @commands.Cog.listener()
     async def on_ready(self):
         await self.recalculate_levels()
