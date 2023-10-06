@@ -146,6 +146,9 @@ class ImageGenerator(commands.Cog):
                 # Send the hash and the image to the user
                 await ctx.send(f"The MD5 hash of your image is: {filename[:-4]}", file=File("./" + filename))
         
+                #delete file after sending
+                os.remove("./" + filename)
+                
                 # Set is_generating to false and process the next task in the queue
                 self.is_generating = False
                 self.process_queue()
