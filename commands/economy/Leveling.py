@@ -8,6 +8,7 @@ import datetime
 
 VOICE_XP_RATE = 1  # Set the XP awarded for every minute in a voice channel
 active_voice_users = {}  # Store users and their join times
+unnotified_users = {}
 
 XP_RATE = 2.2
 CHANCE_RATE = 0.45
@@ -54,8 +55,8 @@ class Leveling(commands.Cog):
                 remaining_xp -= level_xp
                 level += 1
                 level_xp = level_xp * XP_RATE
+                unnotified_users[member.id] = True  # Add this line
             self.cursor.execute("UPDATE users SET xp = ?, total_xp = ?, level = ?, level_xp = ? WHERE id = ?", (remaining_xp, total_xp, level, level_xp, member.id))
-    
         self.db.commit()
     
     @commands.Cog.listener()
@@ -83,8 +84,9 @@ class Leveling(commands.Cog):
                     level += 1
                     level_xp = level_xp * XP_RATE
                     # Check if the message's guild ID is not the excluded one before sending the level-up message
-                    if remaining_xp < level_xp and message.guild.id != EXCLUDED_SERVER_ID:
+                    if unnotified_users.get(message.author.id) or (remaining_xp < level_xp and message.guild.id != EXCLUDED_SERVER_ID):
                         await message.channel.send(f'{message.author.mention} has leveled up to level {level}!')
+                        unnotified_users.pop(message.author.id, None)  # Remove the user from the dictionary after notifying
                 self.cursor.execute("UPDATE users SET xp = ?, total_xp = ?, level = ?, level_xp = ? WHERE id = ?", (remaining_xp, total_xp, level, level_xp, message.author.id))
             self.db.commit()
 
