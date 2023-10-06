@@ -19,27 +19,6 @@ Creates a new counter voice channel with the given name. Counter types: Total me
 Usage:
 `!create_counter "Counter Type" (Must be inclosed in "". Also caps are needed. This is a bug will fix later.)`
 
-## adopt
-
-Sends an adoption request to another member.
-
-Usage:
-`!adopt <@member>`
-
-## marry
-
-Sends a marriage request to another member.
-
-Usage:
-`!marry <@member>`
-
-## family
-
-Shows the family tree of the author.
-
-Usage:
-`!family`
-
 ## ticket
 
 Create a new ticket channel.
@@ -296,6 +275,27 @@ Remove the set welcome message.
 
 Usage:
 `!welcomeremove`
+
+## adopt
+
+Sends an adoption request to another member.
+
+Usage:
+`!adopt <@member>`
+
+## marry
+
+Sends a marriage request to another member.
+
+Usage:
+`!marry <@member>`
+
+## family
+
+Shows the family tree of the author.
+
+Usage:
+`!family`
 
 ## disable
 
