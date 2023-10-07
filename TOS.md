@@ -1,6 +1,6 @@
 Terms of Service (TOS) for Atsuko Discord Bot
 
-Last updated: [Date]
+Last updated: 10/07/2023
 
 Welcome to Atsuko! Please read these Terms of Service (“TOS”) carefully before using the Atsuko bot on Discord. By accessing or using Atsuko, you agree to be bound by these terms. If you do not agree to these terms, please do not use Atsuko.
 
