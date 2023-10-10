@@ -1,6 +1,6 @@
 **Atsuko Discord Bot - Terms of Service (TOS)**
 
-**Date of Last Update: 10/07/2023**
+**Date of Last Update: 10/10/2023**
 
 Thank you for choosing Atsuko! Kindly take a moment to read through these Terms of Service (“TOS”) prior to using the Atsuko bot on Discord. Accessing or using Atsuko indicates your acceptance of these terms. Should you disagree, please refrain from using Atsuko.
 
@@ -33,3 +33,33 @@ Thank you for choosing Atsuko! Kindly take a moment to read through these Terms 
 5. **Modifications to the TOS**
    
     These TOS are subject to change or revision at our discretion. Any modifications will take effect immediately upon being posted here. Continuing to use Atsuko post these modifications indicates your acceptance of the revised TOS.
+
+6. **User Responsibilities**:
+   - Users are expected to engage with Atsuko in a responsible manner. This includes:
+     * Not abusing the bot.
+     * Refraining from exploiting or manipulating any potential bugs or vulnerabilities.
+     * Reporting any unintended behavior or issues via the feedback command.
+
+7. **Usage Restrictions**:
+   - Users are prohibited from:
+     * Misusing Atsuko, such as overloading it with commands (spamming).
+     * Using Atsuko for illegal activities.
+     * Reverse engineering or attempting to derive the source code of the bot.
+
+8. **Indemnification**:
+   - Users agree to indemnify, defend, and hold harmless the bot's developers and associated entities against any and all claims, liabilities, damages, or expenses that may arise due to their misuse or abuse of Atsuko.
+
+9. **Warranty Disclaimer**:
+   - Atsuko is offered on an "as-is" basis without any warranties, whether express or implied. The developers make no guarantees regarding the bot's continuous and error-free operation.
+
+10. **Feedback and Suggestions**:
+   - Users are encouraged to share their feedback or suggestions regarding Atsuko's functionalities using the feedback command.
+
+11. **Third-Party Links or Services**:
+   - Atsuko may contain links to or interact with third-party services. The developers are not responsible for the content, policies, or actions of these third parties, nor do they endorse them.
+
+12. **Governing Law**:
+   - The TOS and any associated disputes will be governed and interpreted in accordance with the laws of the state of Ohio, USA.
+
+13. **Contact Information**:
+   - For queries, concerns, or clarifications related to Atsuko, users can reach out to `ExoHayvan` on Discord.
