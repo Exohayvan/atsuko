@@ -8,15 +8,19 @@ Welcome to Atsuko! Please read these Terms of Service (“TOS”) carefully befo
 
 By using Atsuko, you signify your agreement to these TOS. If you do not agree to these TOS, you should not use Atsuko. We reserve the right, at our sole discretion, to change, modify, add, or delete portions of these TOS at any time.
 
-2. Data Collection and Use
+2.	Data Collection and Use
 
 2.1 Message Collection
 
 By interacting with Atsuko, you understand and agree that your messages can be collected, stored, and used for the purposes of fine-tuning, improving, or analyzing the bot’s performance.
 
-2.2 Data Privacy
+2.2 User Identification
 
-We prioritize the privacy of our users. While we collect messages to improve Atsuko, we will never share, sell, or distribute user messages to third parties without explicit user consent. Messages used for tuning or improving the bot will be anonymized and stripped of personally identifiable information.
+In order to provide certain functionalities like economy features or game data tracking, Atsuko may collect and store userIDs. These IDs are solely for the purpose of identifying users and maintaining continuity in the bot’s features.
+
+2.3 Data Privacy
+
+We prioritize the privacy of our users. While we collect messages and userIDs to improve and operate Atsuko, we will never share, sell, or distribute these details to third parties without explicit user consent. Messages used for tuning or improving the bot will be anonymized and stripped of personally identifiable information.
 
 3. Limitation of Liability
 
