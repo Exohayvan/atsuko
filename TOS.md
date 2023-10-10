@@ -43,31 +43,31 @@ Welcome to Atsuko. Your use of Atsuko is governed by these terms. Kindly refrain
       - For inquiries, reach out to `ExoHayvan` on Discord.
 
 11. **Service Interruptions**
-   - Periodic updates might lead to brief service downtimes.
+      - Periodic updates might lead to brief service downtimes.
 
 12. **Digital Safety**
-   - While we endeavor to ensure Atsuko's safety, absolute security isn't guaranteed.
+      - While we endeavor to ensure Atsuko's safety, absolute security isn't guaranteed.
 
 13. **Contributions**
-   - Donations bolster Atsuko's operations and are not eligible for refunds.
+      - Donations bolster Atsuko's operations and are not eligible for refunds.
 
 14. **TOS Breach**
-   - Infringements can result in restricted access or outright bans.
+      - Infringements can result in restricted access or outright bans.
 
 15. **Clause Validity**
-   - Ineffectual provisions won’t invalidate the remainder. Lack of enforcement doesn't imply renunciation.
+      - Ineffectual provisions won’t invalidate the remainder. Lack of enforcement doesn't imply renunciation.
 
 16. **Entire Agreement**
-   - This TOS embodies the comprehensive accord between you and our team.
+      - This TOS embodies the comprehensive accord between you and our team.
 
 17. **Ownership and Rights**
-   - All content channeled through Atsuko, including logos and trademarks, remains our property. Unauthorized use is prohibited.
+      - All content channeled through Atsuko, including logos and trademarks, remains our property. Unauthorized use is prohibited.
 
 18. **Official Language**
-   - This TOS and all related interactions are exclusively in English.
+      - This TOS and all related interactions are exclusively in English.
 
 19. **Access and Interference**
-   - Users are strictly prohibited from accessing Atsuko through any automated means.
+      - Users are strictly prohibited from accessing Atsuko through any automated means.
 
 20. **Force Majeure**
-   - The bot's creators are not liable for any failure to perform its obligations due to events beyond its reasonable control.
+      - The bot's creators are not liable for any failure to perform its obligations due to events beyond its reasonable control.
