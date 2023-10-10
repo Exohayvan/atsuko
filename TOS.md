@@ -71,3 +71,27 @@ Welcome to Atsuko. Your use of Atsuko is governed by these terms. Kindly refrain
 
 20. **Force Majeure**
       - The bot's creators are not liable for any failure to perform its obligations due to events beyond its reasonable control.
+
+21. **Intellectual Property** 
+- All content, including but not limited to text, graphics, logos, and other material created or posted through Atsuko remains the sole property of the bot owners. While users retain the right to utilize this content freely, they acknowledge that ownership remains with the bot creators.
+
+22. **Warranties** 
+- Atsuko is provided without any warranties of any kind, either express or implied. The bot owners make no warranties regarding the functionality, reliability, or any other aspect of Atsuko.
+
+23. **Discord Compliance** 
+- All users of Atsuko must comply with Discord's TOS. Any violations of Discord’s TOS while using Atsuko may also be considered a breach of this TOS.
+
+24. **Termination by User** 
+- Any breach of this TOS by the user may result in termination of their use of Atsuko, at the discretion of the bot creators.
+
+25. **Updates and Modifications** 
+- Atsuko may be updated or modified at any time, without prior notice to the users. This policy may be subject to change as Atsuko grows in popularity, and users are encouraged to periodically review the TOS.
+
+25. **Severability** 
+- If any provision of this TOS is deemed invalid or unenforceable, the remaining provisions will remain in full force and effect.
+
+26. **No Waiver** 
+- Failure by the bot creators to enforce any right or provision in this TOS will not constitute a waiver of such right or provision.
+
+27. **Relationship Between Parties** 
+- Nothing in this TOS creates or implies any partnership, joint venture, employer-employee, agency, or franchisor-franchisee relationship between the bot creators and the users.
