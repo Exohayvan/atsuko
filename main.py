@@ -114,7 +114,7 @@ async def has_accepted_tos(ctx):
     if result:
         return True
     else:
-        await ctx.send("You need to accept our Terms of Service before using this command. Please visit https://github.com/Exohayvan/atsuko/blob/main/TOS.md to read it then use `!accept_tos` accept it.")
+        await ctx.send("You need to accept our Terms of Service before using this command. Please visit [here](https://github.com/Exohayvan/atsuko/blob/main/TOS.md) to read it then use `!accept_tos` accept it.")
         return False
 
 bot.add_check(has_accepted_tos)
