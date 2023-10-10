@@ -40,7 +40,7 @@ Welcome to Atsuko. Your use of Atsuko is governed by these terms. Kindly refrain
    - These TOS are subject to the laws of Ohio, USA.
 
 10. **Getting in Touch**
-   - For inquiries, reach out to ExoHayvan on Discord.
+   - For inquiries, reach out to `ExoHayvan` on Discord.
 
 11. **Service Interruptions**
    - Periodic updates might lead to brief service downtimes.
