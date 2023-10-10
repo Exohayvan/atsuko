@@ -223,6 +223,7 @@ async def on_ready():
             if channel:
                 await channel.send("I am starting back up!")
         
+        await channel.send("Loading cogs...")
         # Remove the file after reading it
         os.remove('restart_id.temp')
 
