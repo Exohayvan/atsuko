@@ -63,3 +63,27 @@ Thank you for choosing Atsuko! Kindly take a moment to read through these Terms 
 
 13. **Contact Information**:
    - For queries, concerns, or clarifications related to Atsuko, users can reach out to `ExoHayvan` on Discord.
+
+14. **Updates and Maintenance**:
+   - Atsuko may undergo periodic updates and maintenance. During these times, users might experience downtime or limited functionality. We appreciate your understanding and patience during these periods.
+
+15. **Service Availability**:
+   - While every effort is made to ensure the continuous operation of Atsuko, there may be occasions when the bot is offline due to unforeseen circumstances or other reasons. We shall not be held liable for any disruptions or inconveniences this may cause.
+
+16. **Safety and Security**:
+   - We are committed to ensuring Atsuko's security. However, in today's digital age, no system is impervious to advanced cyber threats. While we strive for the utmost security, we cannot guarantee absolute invulnerability.
+
+17. **Donations**:
+   - Atsuko provides a donation command for users who wish to financially support its development. Donations are voluntary and non-refundable. Your generous support helps maintain and improve Atsuko.
+
+18. **Violations of TOS**:
+   - Users found violating any aspect of these TOS may face repercussions, including but not limited to limited access to Atsuko or being banned from our support servers.
+
+19. **Severability**:
+   - Should any provision of these TOS be deemed illegal or unenforceable, the remaining provisions will remain in full force and effect.
+
+20. **Waiver**:
+   - Any failure on our part to exercise or enforce any right or provision of these TOS should not be construed as a waiver of such right or provision.
+
+21. **Entire Agreement**:
+   - These TOS, in conjunction with any other policies or guidelines referenced herein, represent the entire agreement between you, the user, and us. This agreement supersedes any prior understandings or agreements, whether written or verbal.
