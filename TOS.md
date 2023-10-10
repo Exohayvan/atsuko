@@ -1,35 +1,35 @@
-Terms of Service (TOS) for Atsuko Discord Bot
+**Atsuko Discord Bot - Terms of Service (TOS)**
 
-Last updated: 10/07/2023
+**Date of Last Update: 10/07/2023**
 
-Welcome to Atsuko! Please read these Terms of Service (“TOS”) carefully before using the Atsuko bot on Discord. By accessing or using Atsuko, you agree to be bound by these terms. If you do not agree to these terms, please do not use Atsuko.
+Thank you for choosing Atsuko! Kindly take a moment to read through these Terms of Service (“TOS”) prior to using the Atsuko bot on Discord. Accessing or using Atsuko indicates your acceptance of these terms. Should you disagree, please refrain from using Atsuko.
 
-1. Acceptance of Terms
+1. **Acceptance of Terms**
+   
+    Engaging with Atsuko signifies your consent to these TOS. Refrain from using Atsuko if you do not concur. We may adjust, modify, add, or remove portions of these TOS at our discretion and without prior notification.
 
-By using Atsuko, you signify your agreement to these TOS. If you do not agree to these TOS, you should not use Atsuko. We reserve the right, at our sole discretion, to change, modify, add, or delete portions of these TOS at any time.
+2. **Data Collection and Protection**
 
-2.	Data Collection and Use
+   2.1 **Message Collection** 
+   
+       Interaction with Atsuko implies your acknowledgment and agreement that your messages may be gathered, archived, and utilized to refine and assess the bot’s functionality.
 
-2.1 Message Collection
+   2.2 **User Identification**
+   
+       For specific features like in-game data tracking or economy functionalities, Atsuko might collect and store userIDs. This data is purely for user recognition and ensuring consistency in the bot’s operations.
 
-By interacting with Atsuko, you understand and agree that your messages can be collected, stored, and used for the purposes of fine-tuning, improving, or analyzing the bot’s performance.
+   2.3 **Data Privacy Commitment**
+   
+       User privacy is paramount to us. While we amass messages and userIDs to elevate and maintain Atsuko, this data will never be traded, distributed, or shared with third parties without your explicit approval. Any messages used for enhancements are anonymized and devoid of personal data.
 
-2.2 User Identification
+3. **Limitation of Liability**
 
-In order to provide certain functionalities like economy features or game data tracking, Atsuko may collect and store userIDs. These IDs are solely for the purpose of identifying users and maintaining continuity in the bot’s features.
+    Atsuko is offered in its current state and availability. We neither guarantee nor imply the bot's uninterrupted operation, or the accuracy and reliability of the content it provides.
 
-2.3 Data Privacy
+4. **Termination Rights**
 
-We prioritize the privacy of our users. While we collect messages and userIDs to improve and operate Atsuko, we will never share, sell, or distribute these details to third parties without explicit user consent. Messages used for tuning or improving the bot will be anonymized and stripped of personally identifiable information.
+    At any given moment, we can cease or suspend your access to Atsuko without prior warning if we ascertain that your behavior breaches these TOS, adversely affects other users, us, or any third parties, or for any other pertinent reasons.
 
-3. Limitation of Liability
-
-Atsuko is provided “as is” and on an “as available” basis. We make no representations or warranties of any kind, whether express or implied, as to the bot’s operation or the information, content, or materials included with the bot.
-
-4. Termination
-
-We reserve the right to terminate or suspend access to Atsuko, without notice, for conduct that we believe violates these TOS or is harmful to other users, us, third parties, or for any other reason.
-
-5. Changes to the TOS
-
-We reserve the right to change or update these TOS at any time. Any changes will be effective immediately upon posting to this page. Your continued use of Atsuko after any such changes constitutes your acceptance of the new TOS.
+5. **Modifications to the TOS**
+   
+    These TOS are subject to change or revision at our discretion. Any modifications will take effect immediately upon being posted here. Continuing to use Atsuko post these modifications indicates your acceptance of the revised TOS.
