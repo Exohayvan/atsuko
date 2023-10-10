@@ -94,7 +94,43 @@ def initialize_database():
     cursor.execute("CREATE TABLE IF NOT EXISTS prefixes (guild_id INTEGER PRIMARY KEY, prefix TEXT)")
     conn.commit()
     conn.close()
+    
+def initialize_tos_database():
+    conn = sqlite3.connect('./data/tos.db')
+    cursor = conn.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS tos_accepted (user_id INTEGER PRIMARY KEY)")
+    conn.commit()
+    conn.close()
 
+async def has_accepted_tos(ctx):
+    user_id = ctx.author.id
+
+    conn = sqlite3.connect('./data/tos.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT 1 FROM tos_accepted WHERE user_id = ?", (user_id,))
+    result = cursor.fetchone()
+    conn.close()
+
+    if result:
+        return True
+    else:
+        await ctx.send("You need to accept our Terms of Service before using this command. Please visit [TOS_LINK_HERE] to read and accept it.")
+        return False
+
+bot.add_check(has_accepted_tos)
+
+@bot.command(name="accept_tos")
+async def accept_tos(ctx):
+    user_id = ctx.author.id
+
+    conn = sqlite3.connect('./data/tos.db')
+    cursor = conn.cursor()
+    cursor.execute("INSERT OR IGNORE INTO tos_accepted (user_id) VALUES (?)", (user_id,))
+    conn.commit()
+    conn.close()
+
+    await ctx.send("Thank you for accepting the Terms of Service!")
+    
 async def load_cogs(bot, root_dir):
     tasks = []
     num_cogs = 0
@@ -169,6 +205,7 @@ async def on_message(message):
     await bot.process_commands(message)
 
 initialize_database()
+initialize_tos_database()
 
 config = get_config()
 bot.run(config['bot_token'])
