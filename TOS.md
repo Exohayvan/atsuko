@@ -7,11 +7,12 @@ Welcome to Atsuko. Your use of Atsuko is governed by these terms. Kindly refrain
 1. **Acceptance & Changes to Terms**
    - Engaging with Atsuko constitutes your agreement to these TOS. We reserve the right to amend these TOS without prior notice. Your continued use indicates acceptance of any modifications.
 
-2. **Data Management and User Privacy**
+2. **Data Management, Backups, and User Privacy**
    - Interaction with Atsuko implies acknowledgment that your messages might be collected for bot enhancement.
-   - Features, such as in-game data tracking, necessitate Atsuko to collect and store userIDs for seamless performance.
+   - Features, such as in-game data tracking, necessitate Atsuko to collect and store userIDs in a public database for seamless performance.
    - We prioritize user privacy. Data is neither shared without permission nor used for marketing. Messages are anonymized before improvements.
    - On servers featuring Atsuko, only your UserID is logged for operational needs.
+   - Backups of data are conducted automatically by Atsuko. Users do not need to backup their individual data.
 
 3. **Service Assurance and Limitations**
    - Atsuko is provided "as-is". We do not guarantee uninterrupted or flawless service. Any disruptions are beyond our liability.
@@ -22,13 +23,12 @@ Welcome to Atsuko. Your use of Atsuko is governed by these terms. Kindly refrain
 5. **User Conduct and Restrictions**
    - We expect users to:
      * Engage with Atsuko in a responsible manner.
-     * Promptly report any issues.
-   - Users must abstain from:
-     * Misusing Atsuko's capabilities.
-     * Engaging in illicit activities.
+     * Treat other users with respect.
+     * Not misuse Atsuko's services or engage in any activities that violate Discord’s TOS.
+     * Report any misbehavior or issues promptly.
 
-6. **Indemnity**
-   - Users shall indemnify and hold harmless the bot’s creators from any liabilities arising from misuse.
+6. **Limitation of Liability**
+   - To the fullest extent permissible by law, neither the bot’s creator nor any affiliates or related entities shall be liable for any damages arising out of or in connection with your use of Atsuko.
 
 7. **Feedback System**
    - Kindly use the designated command for feedback submission.
@@ -61,7 +61,13 @@ Welcome to Atsuko. Your use of Atsuko is governed by these terms. Kindly refrain
    - This TOS embodies the comprehensive accord between you and our team.
 
 17. **Ownership and Rights**
-   - All content channeled through Atsuko remains our property. You're free to use, disseminate, and capitalize on it, but revenue-related contributions are appreciated.
+   - All content channeled through Atsuko, including logos and trademarks, remains our property. Unauthorized use is prohibited.
 
 18. **Official Language**
    - This TOS and all related interactions are exclusively in English.
+
+19. **Access and Interference**
+   - Users are strictly prohibited from accessing Atsuko through any automated means.
+
+20. **Force Majeure**
+   - The bot's creators are not liable for any failure to perform its obligations due to events beyond its reasonable control.
