@@ -99,3 +99,6 @@ Thank you for choosing Atsuko! Kindly take a moment to read through these Terms 
 
 25. **Language**:
    - These Terms of Service, as well as all interactions and communications with Atsuko, are provided and intended to be understood in English. Users are responsible for any translations or interpretations they undertake.
+
+26. **General Server Interaction**:
+   - Users should be aware that whenever they send a message in a server where Atsuko is present, their UserID will be recorded. This collection is for operational purposes, ensuring consistent functionality, and enhancing user experience. It's important to note that this does not involve the collection of message content, unless directly interacting with Atsuko's commands.
