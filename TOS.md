@@ -12,15 +12,15 @@ Thank you for choosing Atsuko! Kindly take a moment to read through these Terms 
 
    2.1 **Message Collection** 
    
-       Interaction with Atsuko implies your acknowledgment and agreement that your messages may be gathered, archived, and utilized to refine and assess the bot’s functionality.
+      Interaction with Atsuko implies your acknowledgment and agreement that your messages may be gathered, archived, and utilized to refine and assess the bot’s functionality.
 
    2.2 **User Identification**
    
-       For specific features like in-game data tracking or economy functionalities, Atsuko might collect and store userIDs. This data is purely for user recognition and ensuring consistency in the bot’s operations.
+      For specific features like in-game data tracking or economy functionalities, Atsuko might collect and store userIDs. This data is purely for user recognition and ensuring consistency in the bot’s operations.
 
    2.3 **Data Privacy Commitment**
    
-       User privacy is paramount to us. While we amass messages and userIDs to elevate and maintain Atsuko, this data will never be traded, distributed, or shared with third parties without your explicit approval. Any messages used for enhancements are anonymized and devoid of personal data.
+      User privacy is paramount to us. While we amass messages and userIDs to elevate and maintain Atsuko, this data will never be traded, distributed, or shared with third parties without your explicit approval. Any messages used for enhancements are anonymized and devoid of personal data.
 
 3. **Limitation of Liability**
 
