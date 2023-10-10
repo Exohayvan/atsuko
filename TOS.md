@@ -1,68 +1,67 @@
 **Atsuko Discord Bot - Terms of Service (TOS)**
 
-**Date of Last Update: 10/10/2023**
+**Last Updated: 10/10/2023**
 
-Thank you for choosing Atsuko. Using Atsuko indicates your acceptance of these terms. If you disagree, please refrain from using the bot.
+Welcome to Atsuko. Your use of Atsuko is governed by these terms. Kindly refrain from using the bot if you disagree.
 
-1. **Acceptance and Modifications to Terms**
-   - By engaging with Atsuko, you consent to these TOS. We may modify these TOS without notice. Continued use after changes signifies acceptance.
+1. **Acceptance & Changes to Terms**
+   - Engaging with Atsuko constitutes your agreement to these TOS. We reserve the right to amend these TOS without prior notice. Your continued use indicates acceptance of any modifications.
 
-2. **Data Collection, Protection, and User Interaction**
-   - Interacting with Atsuko means you understand your messages may be gathered for bot assessment.
-   - For features like in-game data tracking, Atsuko collects and stores userIDs for consistency.
-   - User privacy is vital. Data is never shared without consent. Messages used for improvements are anonymized.
-   - Users should be aware that in servers with Atsuko, their UserID will be recorded for operational purposes, not message content, unless interacting with Atsuko's commands.
+2. **Data Management and User Privacy**
+   - Interaction with Atsuko implies acknowledgment that your messages might be collected for bot enhancement.
+   - Features, such as in-game data tracking, necessitate Atsuko to collect and store userIDs for seamless performance.
+   - We prioritize user privacy. Data is neither shared without permission nor used for marketing. Messages are anonymized before improvements.
+   - On servers featuring Atsuko, only your UserID is logged for operational needs.
 
-3. **Limitation of Liability and Service Availability**
-   - Atsuko is "as-is". No guarantee of continuous, error-free operation. Disruptions may occur and we are not liable.
+3. **Service Assurance and Limitations**
+   - Atsuko is provided "as-is". We do not guarantee uninterrupted or flawless service. Any disruptions are beyond our liability.
 
-4. **Termination Rights and Consequences**
-   - We can suspend access if TOS are breached. Consequences, including cooldowns, are at our discretion. Post-termination, user data is retained.
+4. **Rights to Termination**
+   - Breach of these TOS grants us the right to suspend your access. Consequences vary, including temporary cooldowns. We retain user data post-termination.
 
-5. **User Responsibilities and Usage Restrictions**
-   - Users should:
-     * Use Atsuko responsibly.
-     * Report issues via feedback.
-   - Prohibited from:
-     * Overloading Atsuko.
-     * Using for illegal activities.
-     * Reverse engineering.
+5. **User Conduct and Restrictions**
+   - We expect users to:
+     * Engage with Atsuko in a responsible manner.
+     * Promptly report any issues.
+   - Users must abstain from:
+     * Misusing Atsuko's capabilities.
+     * Engaging in illicit activities.
 
-6. **Indemnification**
-   - Users agree to hold bot's developers harmless against claims from misuse.
+6. **Indemnity**
+   - Users shall indemnify and hold harmless the bot’s creators from any liabilities arising from misuse.
 
-7. **Feedback and Suggestions**
-   - Share feedback using the feedback command.
+7. **Feedback System**
+   - Kindly use the designated command for feedback submission.
 
-8. **Third-Party Links or Services**
-   - We aren’t responsible for third-party content or actions.
+8. **External Links & Affiliations**
+   - We disclaim responsibility for any third-party content or consequences.
 
-9. **Governing Law**
-   - Governed by the laws of Ohio, USA.
+9. **Jurisdiction**
+   - These TOS are subject to the laws of Ohio, USA.
 
-10. **Contact Information**
-   - Contact `ExoHayvan` on Discord.
+10. **Getting in Touch**
+   - For inquiries, reach out to `ExoHayvan` on Discord.
 
-11. **Updates and Maintenance**
-   - Users might experience downtime during updates.
+11. **Service Interruptions**
+   - Periodic updates might lead to brief service downtimes.
 
-12. **Security**
-   - We prioritize Atsuko's security but can't guarantee total invulnerability.
+12. **Digital Safety**
+   - While we endeavor to ensure Atsuko's safety, absolute security isn't guaranteed.
 
-13. **Donations**
-   - Donations support Atsuko and are non-refundable.
+13. **Contributions**
+   - Donations bolster Atsuko's operations and are not eligible for refunds.
 
-14. **Violations**
-   - Violations may lead to limited access or bans.
+14. **TOS Breach**
+   - Infringements can result in restricted access or outright bans.
 
-15. **Severability and Waiver**
-   - If a term is unenforceable, others remain. Non-enforcement isn't a waiver.
+15. **Clause Validity**
+   - Ineffectual provisions won’t invalidate the remainder. Lack of enforcement doesn't imply renunciation.
 
-16. **Agreement**
-   - These TOS represent the full agreement between users and us.
+16. **Entire Agreement**
+   - This TOS embodies the comprehensive accord between you and our team.
 
-17. **Rights to Content**
-   - Content through Atsuko belongs to the bot owner. Users can use, share, and monetize it. Donations from revenue are appreciated.
+17. **Ownership and Rights**
+   - All content channeled through Atsuko remains our property. You're free to use, disseminate, and capitalize on it, but revenue-related contributions are appreciated.
 
-18. **Language**
-   - TOS and interactions are in English.
+18. **Official Language**
+   - This TOS and all related interactions are exclusively in English.
