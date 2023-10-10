@@ -152,7 +152,7 @@ async def tos_stats(ctx):
     embed = discord.Embed(title="TOS Acceptance Statistics", color=discord.Color.blue())
     embed.add_field(name="Total Users", value=str(total_count), inline=True)
     embed.add_field(name="Accepted TOS", value=str(accepted_count), inline=True)
-    embed.add_field(name="Percentage Accepted", value=f"{accepted_percentage:.2f}%", inline=True)
+    embed.add_field(name="Percentage Accepted", value=f"{accepted_percentage:.5f}%", inline=True)
     await ctx.send(embed=embed)
     
 @bot.command(name="accept_tos")
