@@ -126,6 +126,35 @@ async def has_accepted_tos(ctx):
         
 bot.add_check(has_accepted_tos)
 
+@bot.command(name="tos_stats")
+async def tos_stats(ctx):
+    # Step 1: Count total number of unique users the bot can see
+    total_users = set()  # Using a set to avoid counting duplicates
+    for guild in bot.guilds:
+        for member in guild.members:
+            total_users.add(member.id)
+    total_count = len(total_users)
+
+    # Step 2: Count users who've accepted the TOS
+    conn = sqlite3.connect('./data/tos.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(user_id) FROM tos_accepted")
+    accepted_count = cursor.fetchone()[0]
+    conn.close()
+
+    # Step 3: Compute the percentage
+    if total_count > 0:
+        accepted_percentage = (accepted_count / total_count) * 100
+    else:
+        accepted_percentage = 0
+
+    # Send the stats
+    embed = discord.Embed(title="TOS Acceptance Statistics", color=discord.Color.blue())
+    embed.add_field(name="Total Users", value=str(total_count), inline=True)
+    embed.add_field(name="Accepted TOS", value=str(accepted_count), inline=True)
+    embed.add_field(name="Percentage Accepted", value=f"{accepted_percentage:.2f}%", inline=True)
+    await ctx.send(embed=embed)
+    
 @bot.command(name="accept_tos")
 async def accept_tos(ctx):
     user_id = ctx.author.id
