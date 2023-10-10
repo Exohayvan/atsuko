@@ -202,7 +202,8 @@ class Moderation(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CheckFailure):
-            await ctx.send("You don't have the required permissions to use this command! If you believe you should have permission to use this command, ask server owner to use `!addmod <mod role>` to add permissions to role.")
-
+            #await ctx.send("You don't have the required permissions to use this command! If you believe you should have permission to use this command, ask server owner to use `!addmod <mod role>` to add permissions to role.")
+            print(".")
+            
 async def setup(bot):
     await bot.add_cog(Moderation(bot))
