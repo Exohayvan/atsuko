@@ -103,6 +103,10 @@ def initialize_tos_database():
     conn.close()
 
 async def has_accepted_tos(ctx):
+    # Bypass the check for the accept_tos command
+    if ctx.command.name == "accept_tos":
+        return True
+
     user_id = ctx.author.id
 
     conn = sqlite3.connect('./data/tos.db')
@@ -114,7 +118,7 @@ async def has_accepted_tos(ctx):
     if result:
         return True
     else:
-        await ctx.send("You need to accept our Terms of Service before using this command. Please visit [here](https://github.com/Exohayvan/atsuko/blob/main/TOS.md) to read it then use `!accept_tos` accept it.")
+        await ctx.send("You need to accept our Terms of Service before using this command. Please visit [TOS_LINK_HERE] to read and accept it.")
         return False
 
 bot.add_check(has_accepted_tos)
