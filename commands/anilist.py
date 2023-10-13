@@ -104,13 +104,9 @@ class AniList(commands.Cog):
         query ($username: String) {
             User(name: $username) {
                 stats {
-                    anime {
-                        statuses {
-                            watching
-                            completed
-                            planning
-                        }
-                    }
+                    watchingCount
+                    completedCount
+                    planningCount
                 }
             }
         }
@@ -127,19 +123,19 @@ class AniList(commands.Cog):
                 await ctx.send(f"No AniList data found for the username {username}.")
                 return
     
-            anime_stats = data['data']['User']['stats']['anime']
+            stats = data['data']['User']['stats']
     
             embed = discord.Embed(title=f"{user}'s AniList Stats", color=discord.Color.blue())
     
             # Anime Statuses
-            embed.add_field(name="Animes Watching", value=anime_stats['statuses']['watching'], inline=True)
-            embed.add_field(name="Animes Watched", value=anime_stats['statuses']['completed'], inline=True)
-            embed.add_field(name="Animes Planned", value=anime_stats['statuses']['planning'], inline=True)
+            embed.add_field(name="Animes Watching", value=stats['watchingCount'], inline=True)
+            embed.add_field(name="Animes Watched", value=stats['completedCount'], inline=True)
+            embed.add_field(name="Animes Planned", value=stats['planningCount'], inline=True)
     
             await ctx.send(embed=embed)
         else:
             # Printing the response content for debugging
             await ctx.send(f"Failed to fetch stats. API Response: {response.content}")
-                            
+                                    
 async def setup(bot):
     await bot.add_cog(AniList(bot))
