@@ -26,6 +26,10 @@ Create a new ticket channel.
 Usage:
 `!ticket`
 
+## anilist
+
+AniList commands.
+
 ## placeholder
 
 This is a placeholder command.
