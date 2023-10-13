@@ -44,75 +44,17 @@ Usage:
 
 Retrieves the size of all .db files in the ./data directory.
 
-## skip
-
-Skips the currently playing song
-
-Usage:
-`!skip`
-
-## queue
-
-Queues a song to be played next
-
-Usage:
-`!queue <song url>`
-
-## volume
-
-Sets the bots volume within a voice channel
-
-Usage:
-`!volume <value 0-100>`
-
-## clear
-
-Clears the song queue
-
-Usage:
-`!clear`
-
 ## join
 
-Requests bot to join voice channel that requested user is in
-
-Usage:
-`!join`
+Joins the user's voice channel.
 
 ## leave
 
-Requests bot to leave voice channel it is in
+Leaves the current voice channel.
 
-Usage:
-`!leave`
+## volume
 
-## play
-
-Plays requested song in voice channel
-
-Usage:
-`!play <song url>`
-
-## pause
-
-Pauses currently playing music, resume with resume command
-
-Usage:
-`!pause`
-
-## resume
-
-Resumes paused music
-
-Usage:
-`!resume`
-
-## stop
-
-Stops the music, sometimes clears queue
-
-Usage:
-`!stop`
+Sets the volume of the bot.
 
 ## ping
 
