@@ -7,7 +7,7 @@ import os
 class AniList(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.db_path = '.data/db/anilist.db'
+        self.db_path = 'data/db/anilist.db'
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
         self.conn = sqlite3.connect(self.db_path)  # Open connection
         self.c = self.conn.cursor()  # Create a cursor
