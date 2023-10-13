@@ -48,8 +48,18 @@ class GitAutoBackup(commands.Cog):
     def pull_and_push(self):
         token = self.get_github_token()
         remote_url = f"https://x-access-token:{token}@github.com/{self.github_repo}.git"
+        print("Cleaning up...")
+
+        deleted_files = 0
+        for file_name in os.listdir('.'):
+            if file_name.endswith('.png'):
+                os.remove(file_name)
+                deleted_files += 1
         
+        print(f"Cleaned up {deleted_files} .png files.")
+
         try:
+            
             subprocess.run(["git", "pull", remote_url], cwd=self.git_dir, check=True)
             subprocess.run(["git", "add", "."], cwd=self.git_dir, check=True)
             current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
