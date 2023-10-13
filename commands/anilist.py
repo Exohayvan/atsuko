@@ -145,6 +145,7 @@ class AniList(commands.Cog):
             statistics {
               anime {
                 minutesWatched
+                episodesWatched
               }
             }
           }
@@ -159,6 +160,8 @@ class AniList(commands.Cog):
     
         watched_data = watched_response.json()
         total_minutes = watched_data['data']['User']['statistics']['anime']['minutesWatched']
+        episodes = watched_data['data']['User']['statistics']['anime']['episodesWatched']
+        
         days = total_minutes // (24 * 60)
         hours = (total_minutes % (24 * 60)) // 60
         minutes = total_minutes % 60
@@ -169,6 +172,7 @@ class AniList(commands.Cog):
         embed.add_field(name="Animes Watched", value=completed_count, inline=True)
         embed.add_field(name="Animes Planned", value=planning_count, inline=True)
         embed.add_field(name="Time Watched", value=time_watched_str, inline=True)
+        embed.add_field(name="Episodes Watched", value=episodes, inline=True)
         
         await ctx.send(embed=embed)
                                                     
