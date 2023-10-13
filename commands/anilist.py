@@ -121,6 +121,12 @@ class AniList(commands.Cog):
     
         if response.status_code == 200:
             data = response.json()
+    
+            # Check if the 'data' key is in the response and if 'User' is None
+            if 'data' in data and data['data']['User'] is None:
+                await ctx.send(f"No AniList data found for the username {username}.")
+                return
+    
             anime_stats = data['data']['User']['stats']['anime']
     
             embed = discord.Embed(title=f"{user}'s AniList Stats", color=discord.Color.blue())
@@ -132,7 +138,8 @@ class AniList(commands.Cog):
     
             await ctx.send(embed=embed)
         else:
-            await ctx.send("Failed to fetch stats.")
-                    
+            # Printing the response content for debugging
+            await ctx.send(f"Failed to fetch stats. API Response: {response.content}")
+                            
 async def setup(bot):
     await bot.add_cog(AniList(bot))
