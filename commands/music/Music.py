@@ -14,6 +14,7 @@ class Music(commands.Cog):
 
         voice_channel = ctx.author.voice.channel
         await voice_channel.connect()
+        await ctx.send(f"I’ve joined {voice_channel.name}")
 
     @commands.command()
     async def leave(self, ctx):
@@ -22,7 +23,9 @@ class Music(commands.Cog):
             await ctx.send("I'm not in a voice channel!")
             return
 
+        channel_name = ctx.voice_client.channel.name
         await ctx.voice_client.disconnect()
+        await ctx.send(f"Okay, goodbye for now, I’ve disconnected from {channel_name}")
 
     @commands.command()
     async def volume(self, ctx, volume: float):
