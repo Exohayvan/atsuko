@@ -136,7 +136,7 @@ class AniList(commands.Cog):
             
             lists = data['data']['MediaListCollection']['lists']
     
-            watching_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'WATCHING')
+            watching_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'CURRENT')
             completed_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'COMPLETED')
             planning_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'PLANNING')
     
