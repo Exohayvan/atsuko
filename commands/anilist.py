@@ -100,42 +100,47 @@ class AniList(commands.Cog):
             await ctx.send(f"{user.mention} has not set their AniList username.")
             return
     
-        STATUSES = ["WATCHING", "COMPLETED", "PLANNING"]
-        stats = {}
-    
-        for status in STATUSES:
-            query = '''
-            query ($username: String, $status: MediaListStatus) {
-                MediaListCollection(userName: $username, type: ANIME, status: $status) {
+        query = '''
+        query ($username: String) {
+            User(name: $username) {
+                mediaListCollection(type: ANIME) {
                     lists {
+                        name
                         entries {
-                            id
+                            status
                         }
                     }
                 }
             }
-            '''
-            variables = {'username': username, 'status': status}
-            response = requests.post('https://graphql.anilist.co', json={'query': query, 'variables': variables})
+        }
+        '''
+        variables = {'username': username}
     
-            if response.status_code == 200:
-                data = response.json()
-                
-                # Assuming 'lists' is an array, and each list has an 'entries' array
-                count = sum(len(list_data['entries']) for list_data in data['data']['MediaListCollection']['lists'])
-                stats[status.lower()] = count
-            else:
-                await ctx.send(f"Failed to fetch stats for {status}. API Response: {response.content}")
+        response = requests.post('https://graphql.anilist.co', json={'query': query, 'variables': variables})
+    
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Check if the 'data' key is in the response and if 'User' is None
+            if 'data' in data and data['data']['User'] is None:
+                await ctx.send(f"No AniList data found for the username {username}.")
                 return
     
-        embed = discord.Embed(title=f"{user}'s AniList Stats", color=discord.Color.blue())
+            lists = data['data']['User']['mediaListCollection']['lists']
+            
+            watching_count = sum(1 for entry in lists if entry['status'] == 'WATCHING')
+            completed_count = sum(1 for entry in lists if entry['status'] == 'COMPLETED')
+            planning_count = sum(1 for entry in lists if entry['status'] == 'PLANNING')
     
-        # Anime Statuses
-        embed.add_field(name="Animes Watching", value=stats['watching'], inline=True)
-        embed.add_field(name="Animes Watched", value=stats['completed'], inline=True)
-        embed.add_field(name="Animes Planned", value=stats['planning'], inline=True)
+            embed = discord.Embed(title=f"{user}'s AniList Stats", color=discord.Color.blue())
+            embed.add_field(name="Animes Watching", value=watching_count, inline=True)
+            embed.add_field(name="Animes Watched", value=completed_count, inline=True)
+            embed.add_field(name="Animes Planned", value=planning_count, inline=True)
     
-        await ctx.send(embed=embed)
+            await ctx.send(embed=embed)
+        else:
+            # Printing the response content for debugging
+            await ctx.send(f"Failed to fetch stats. API Response: {response.content}")
                                         
 async def setup(bot):
     await bot.add_cog(AniList(bot))
