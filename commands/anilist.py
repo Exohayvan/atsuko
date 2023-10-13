@@ -167,13 +167,38 @@ class AniList(commands.Cog):
         minutes = total_minutes % 60
         time_watched_str = f"{days} days, {hours} hours, {minutes} minutes"
     
+        # Fetch top 3 genres
+        genre_query = '''
+        query ($username: String) {
+          User(name: $username) {
+            statistics {
+              anime {
+                genres(limit: 3) {
+                  genre
+                }
+              }
+            }
+          }
+        }
+        '''
+        genre_variables = {'username': username}
+        genre_response = requests.post('https://graphql.anilist.co', json={'query': genre_query, 'variables': genre_variables})
+    
+        if genre_response.status_code != 200:
+            await ctx.send(f"Failed to fetch top genres. API Response: {genre_response.content}")
+            return
+    
+        genre_data = genre_response.json()
+        top_genres = ", ".join([genre['genre'] for genre in genre_data['data']['User']['statistics']['anime']['genres']])
+    
         embed = discord.Embed(title=f"{user}'s AniList Stats", color=discord.Color.blue())
         embed.add_field(name="Animes Watching", value=watching_count, inline=True)
         embed.add_field(name="Animes Watched", value=completed_count, inline=True)
         embed.add_field(name="Animes Planned", value=planning_count, inline=True)
         embed.add_field(name="Time Watched", value=time_watched_str, inline=True)
         embed.add_field(name="Episodes Watched", value=episodes, inline=True)
-        
+        embed.add_field(name="Top 3 Genres", value=top_genres, inline=True)
+    
         await ctx.send(embed=embed)
                                                     
 async def setup(bot):
