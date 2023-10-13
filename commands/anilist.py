@@ -87,7 +87,6 @@ class AniList(commands.Cog):
 
     @anilist.command()
     async def stats(self, ctx, user: discord.Member = None):
-        """Fetches the user's or mentioned user's stats from AniList."""
         if user is None:
             user = ctx.author
     
@@ -109,12 +108,11 @@ class AniList(commands.Cog):
         }
         '''
         user_variables = {'username': username}
-    
         user_response = requests.post('https://graphql.anilist.co', json={'query': user_query, 'variables': user_variables})
         user_data = user_response.json()
         user_id = user_data['data']['User']['id']
     
-        # Next, fetch the entire anime list for the user.
+        # Fetch the entire anime list for the user.
         list_query = '''
         query ($userId: Int) {
             MediaListCollection(userId: $userId, type: ANIME) {
@@ -128,11 +126,9 @@ class AniList(commands.Cog):
         }
         '''
         list_variables = {'userId': user_id}
-    
         list_response = requests.post('https://graphql.anilist.co', json={'query': list_query, 'variables': list_variables})
-        
+    
         if list_response.status_code != 200:
-            # Printing the response content for debugging
             await ctx.send(f"Failed to fetch stats. API Response: {list_response.content}")
             return
     
@@ -149,7 +145,6 @@ class AniList(commands.Cog):
             statistics {
               anime {
                 minutesWatched
-                episodesWatched
               }
             }
           }
@@ -159,21 +154,22 @@ class AniList(commands.Cog):
         watched_response = requests.post('https://graphql.anilist.co', json={'query': watched_query, 'variables': watched_variables})
     
         if watched_response.status_code != 200:
-            # Printing the response content for debugging
             await ctx.send(f"Failed to fetch watched statistics. API Response: {watched_response.content}")
             return
     
         watched_data = watched_response.json()
-        minutes_watched = watched_data['data']['User']['statistics']['anime']['minutesWatched']
-        episodes_watched = watched_data['data']['User']['statistics']['anime']['episodesWatched']
-        days_watched = minutes_watched / (60 * 24)
+        total_minutes = watched_data['data']['User']['statistics']['anime']['minutesWatched']
+        days = total_minutes // (24 * 60)
+        hours = (total_minutes % (24 * 60)) // 60
+        minutes = total_minutes % 60
+        time_watched_str = f"{days} days, {hours} hours, {minutes} minutes"
     
         embed = discord.Embed(title=f"{user}'s AniList Stats", color=discord.Color.blue())
         embed.add_field(name="Animes Watching", value=watching_count, inline=True)
         embed.add_field(name="Animes Watched", value=completed_count, inline=True)
         embed.add_field(name="Animes Planned", value=planning_count, inline=True)
-        embed.add_field(name="Episodes Watched", value=episodes_watched, inline=True)
-        embed.add_field(name="Days Watched", value=f"{days_watched:.2f}", inline=True)  # Display up to two decimal places
+        embed.add_field(name="Time Watched", value=time_watched_str, inline=True)
+        
         await ctx.send(embed=embed)
                                                     
 async def setup(bot):
