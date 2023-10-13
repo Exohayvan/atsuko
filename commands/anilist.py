@@ -131,24 +131,50 @@ class AniList(commands.Cog):
     
         list_response = requests.post('https://graphql.anilist.co', json={'query': list_query, 'variables': list_variables})
         
-        if list_response.status_code == 200:
-            data = list_response.json()
-            
-            lists = data['data']['MediaListCollection']['lists']
-    
-            watching_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'CURRENT')
-            completed_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'COMPLETED')
-            planning_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'PLANNING')
-    
-            embed = discord.Embed(title=f"{user}'s AniList Stats", color=discord.Color.blue())
-            embed.add_field(name="Animes Watching", value=watching_count, inline=True)
-            embed.add_field(name="Animes Watched", value=completed_count, inline=True)
-            embed.add_field(name="Animes Planned", value=planning_count, inline=True)
-    
-            await ctx.send(embed=embed)
-        else:
+        if list_response.status_code != 200:
             # Printing the response content for debugging
             await ctx.send(f"Failed to fetch stats. API Response: {list_response.content}")
-                                                
+            return
+    
+        data = list_response.json()
+        lists = data['data']['MediaListCollection']['lists']
+        watching_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'CURRENT')
+        completed_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'COMPLETED')
+        planning_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'PLANNING')
+    
+        # Fetch watched statistics
+        watched_query = '''
+        query ($username: String) {
+          User(name: $username) {
+            statistics {
+              anime {
+                minutesWatched
+                episodesWatched
+              }
+            }
+          }
+        }
+        '''
+        watched_variables = {'username': username}
+        watched_response = requests.post('https://graphql.anilist.co', json={'query': watched_query, 'variables': watched_variables})
+    
+        if watched_response.status_code != 200:
+            # Printing the response content for debugging
+            await ctx.send(f"Failed to fetch watched statistics. API Response: {watched_response.content}")
+            return
+    
+        watched_data = watched_response.json()
+        minutes_watched = watched_data['data']['User']['statistics']['anime']['minutesWatched']
+        episodes_watched = watched_data['data']['User']['statistics']['anime']['episodesWatched']
+        days_watched = minutes_watched / (60 * 24)
+    
+        embed = discord.Embed(title=f"{user}'s AniList Stats", color=discord.Color.blue())
+        embed.add_field(name="Animes Watching", value=watching_count, inline=True)
+        embed.add_field(name="Animes Watched", value=completed_count, inline=True)
+        embed.add_field(name="Animes Planned", value=planning_count, inline=True)
+        embed.add_field(name="Episodes Watched", value=episodes_watched, inline=True)
+        embed.add_field(name="Days Watched", value=f"{days_watched:.2f}", inline=True)  # Display up to two decimal places
+        await ctx.send(embed=embed)
+                                                    
 async def setup(bot):
     await bot.add_cog(AniList(bot))
