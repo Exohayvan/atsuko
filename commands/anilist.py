@@ -7,20 +7,19 @@ class AniList(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.db_path = '.data/db/anilist.db'
+        self.conn = sqlite3.connect(self.db_path)  # Open connection
+        self.c = self.conn.cursor()  # Create a cursor
         self.create_database()
 
     def create_database(self):
-        conn = sqlite3.connect(self.db_path)
-        c = conn.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS usernames
+        self.c.execute('''CREATE TABLE IF NOT EXISTS usernames
                       (id INTEGER PRIMARY KEY, username TEXT)''')
-        conn.commit()
-        conn.close()
+        self.conn.commit()
 
     def cog_unload(self):
         """Closes the database connection when the cog is unloaded."""
-        pass
-        
+        self.conn.close()  # Close the connection when the cog is unloaded
+
     @commands.group()
     async def anilist(self, ctx):
         """AniList commands."""
