@@ -79,6 +79,11 @@ class AniList(commands.Cog):
             await ctx.send("Failed to fetch watching list.")
 
     @anilist.command()
+    async def help(self, ctx):
+        """Displays Help infor with command"""
+        await ctx.send("Looking for help? First do you have an AniList.co account? Once you have one if you dont already. Use `anilist set <username>` to set your account. Then you can use `anilist stats`")
+
+    @anilist.command()
     async def set(self, ctx, username):
         """Sets the user's AniList username."""
         self.c.execute("INSERT OR REPLACE INTO usernames (id, username) VALUES (?, ?)", (ctx.author.id, username))
