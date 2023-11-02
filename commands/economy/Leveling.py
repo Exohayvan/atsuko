@@ -6,7 +6,7 @@ import sqlite3
 import discord
 import datetime
 
-VOICE_XP_RATE = 1  # Set the XP awarded for every minute in a voice channel
+VOICE_XP_RATE = 12  # Set the XP awarded for every minute in a voice channel
 active_voice_users = {}  # Store users and their join times
 unnotified_users = {}
 
