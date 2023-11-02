@@ -1,4 +1,6 @@
+import discord
 from discord.ext import commands
+import youtube_dl
 
 class Music(commands.Cog):
     def __init__(self, bot):
@@ -35,6 +37,33 @@ class Music(commands.Cog):
             await ctx.send(f"Volume set to {volume}!")
         else:
             await ctx.send("Volume must be between 0 and 2.")
+            
+    @commands.command()
+    async def play(self, ctx, url):
+        """Plays audio from a YouTube URL."""
+        if not ctx.message.author.voice:
+            await ctx.send("You are not connected to a voice channel!")
+            return
+        else:
+            channel = ctx.message.author.voice.channel
 
+        voice_channel = await channel.connect()
+
+        ydl_opts = {
+            'format': 'bestaudio/best',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
+            }]
+        }
+
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url, download=False)
+            url2 = info['formats'][0]['url']
+            voice_channel.play(discord.FFmpegPCMAudio(url2))
+
+        await ctx.send(f'Now playing {info["title"]}')
+        
 async def setup(bot):
     await bot.add_cog(Music(bot))
