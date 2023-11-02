@@ -174,7 +174,7 @@ class Money(commands.Cog):
             self.cursor.execute('UPDATE UserBalance SET balance=balance-1 WHERE user_id=?', (user_id,))
             self.cursor.execute('UPDATE Pot SET balance=balance+1 WHERE pot_id=1')
         self.db.commit()
-        await ctx.send("All Rolls finished. You didn't win the pot, new pot balance is {pot_balance} {CURRENCY_NAME}!")
+        await ctx.send(f"All Rolls finished. You didn't win the pot, new pot balance is {pot_balance} {CURRENCY_NAME}!")
         
     @commands.command(aliases=['pot'])
     async def jackpot(self, ctx):
