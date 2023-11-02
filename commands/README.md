@@ -48,18 +48,6 @@ Usage:
 
 Retrieves the size of all .db files in the ./data directory.
 
-## join
-
-Joins the user's voice channel.
-
-## leave
-
-Leaves the current voice channel.
-
-## volume
-
-Sets the volume of the bot.
-
 ## ping
 
 Shows the bot's latency and API ping.
