@@ -128,6 +128,10 @@ This base of the dnd commands, few options to use: create, show, & card. More to
 Usage:
 `!dnd`
 
+## setanifeed
+
+Sets the channel for AniList feed updates.
+
 ## anilist
 
 AniList commands.

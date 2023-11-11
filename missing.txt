@@ -6,6 +6,7 @@ Command 'sorry' in cog Sorry is missing usage details.
 Command 'uno' in cog Uno is missing usage details.
 Command 'tictactoe' in cog TicTacToe is missing usage details.
 Command 'hangman' in cog Hangman is missing usage details.
+Command 'setanifeed' in cog AnilistFeed is missing usage details.
 Command 'anilist' in cog AniList is missing usage details.
 Command 'random' in cog Random is missing usage details.
 Command 'package_info' in cog Python is missing usage details.
