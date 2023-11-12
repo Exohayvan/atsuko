@@ -35,7 +35,7 @@ class AnilistFeed(commands.Cog):
         self.feed_conn.commit()
         await ctx.send(f"AniList feed updates will be posted in this channel.")
 
-    @tasks.loop(seconds=30)
+    @tasks.loop(seconds=60)
     async def check_anilist_updates(self):
         self.feed_c.execute("SELECT guild_id, channel_id FROM feed_channels")
         channels = self.feed_c.fetchall()
