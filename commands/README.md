@@ -44,6 +44,22 @@ Usage:
 
 Retrieves the size of all .db files in the ./data directory.
 
+## join
+
+Joins the user's voice channel.
+
+## leave
+
+Leaves the current voice channel.
+
+## volume
+
+Sets the volume of the bot.
+
+## play
+
+Plays audio from a YouTube URL.
+
 ## ping
 
 Shows the bot's latency and API ping.
@@ -199,6 +215,20 @@ Disconnect the channel connected to the relay channels.
 
 Usage:
 `!disconnect_channel`
+
+## tiktok
+
+Command to track a TikTok user's live status.
+
+Usage:
+`!tiktok <username>`
+
+## stoptracking
+
+Stop tracking a TikTok user's live status.
+
+Usage:
+`!stoptracking <username>`
 
 ## welcomemsg
 
