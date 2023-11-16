@@ -2,7 +2,7 @@
 
 ![Repo Size](https://img.shields.io/github/repo-size/Exohayvan/atsuko)
 
-# [Invite Me](https://discord.com/oauth2/authorize?client_id=407929486206566400&permissions=2199023255551&scope=bot)
+## [Click Here to Invite Bot to Discord Server](https://discord.com/oauth2/authorize?client_id=407929486206566400&permissions=2199023255551&scope=bot)
 
 Astuko is a Discord bot designed with a focus on extensibility and reliability. It's built using Python and relies on a dynamic cog system for modularity. This allows you to easily add new features by simply creating new Python files in the `commands` directory.
 
