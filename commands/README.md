@@ -293,6 +293,10 @@ This is the embed command.
 Usage:
 `!embed <message>`
 
+## setspawn
+
+Sets the spawn channel for character images.
+
 ## balance
 
 Check your balance or someone else's by mentioning them.
