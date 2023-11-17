@@ -295,7 +295,7 @@ Usage:
 
 ## setspawn
 
-Sets the spawn channel for character images.
+Sets the spawn channel for character images to the channel where the command is invoked.
 
 ## balance
 
