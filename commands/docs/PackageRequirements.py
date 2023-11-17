@@ -11,6 +11,7 @@ class PackageRequirements(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
+        await asyncio.sleep(20)
         self.generate_requirements()
 
     def get_imports(self, path):
