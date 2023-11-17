@@ -18,10 +18,12 @@ class PackageRequirements(commands.Cog):
         """Get a set of names of loaded packages."""
         loop = asyncio.get_running_loop()
         loaded_packages = set()
-        for module_name in sys.modules:
+        module_names = list(sys.modules)  # Create a static list of module names
+
+        for module_name in module_names:
             try:
-                module = sys.modules[module_name]
-                if hasattr(module, '__path__') and not module.__name__.startswith('_'):
+                module = sys.modules.get(module_name)
+                if module and hasattr(module, '__path__') and not module.__name__.startswith('_'):
                     # Run the blocking operation in an executor
                     package = await loop.run_in_executor(None, lambda: pkg_resources.get_distribution(module_name).project_name)
                     loaded_packages.add(package)
