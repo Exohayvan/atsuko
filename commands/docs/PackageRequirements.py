@@ -18,8 +18,9 @@ class PackageRequirements(commands.Cog):
         loaded_packages = set()
         for module_name in sys.modules:
             try:
-                # Check if the module is a package
-                if hasattr(sys.modules[module_name], '__path__'):
+                # Check if the module is a package and not an internal or built-in module
+                module = sys.modules[module_name]
+                if hasattr(module, '__path__') and not module.__name__.startswith('_'):
                     package = pkg_resources.get_distribution(module_name).project_name
                     loaded_packages.add(package)
             except (pkg_resources.DistributionNotFound, AttributeError):
