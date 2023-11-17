@@ -1,5 +1,6 @@
 import sqlite3
 import discord
+import concurrent.futures
 from discord.ext import commands, tasks
 from diffusers import StableDiffusionPipeline
 import torch
