@@ -67,13 +67,19 @@ class CharacterClaim(commands.Cog):
 
         # Generate the prompt for the character
         prompt = self.generate_random_prompt()
-
-        # Run the image generation in a separate thread to avoid blocking the event loop
+    
+        # Run the image generation in a separate thread
         loop = asyncio.get_event_loop()
         with concurrent.futures.ThreadPoolExecutor() as pool:
-            pipe = await loop.run_in_executor(pool, StableDiffusionPipeline.from_pretrained, "dreamlike-art/dreamlike-anime-1.0", torch_dtype=torch.float32)
-            image = await loop.run_in_executor(pool, lambda: pipe(prompt).images[0])
+            # Create a function to initialize the pipeline with the necessary arguments
+            def init_pipe():
+                return StableDiffusionPipeline.from_pretrained("dreamlike-art/dreamlike-anime-1.0", torch_dtype=torch.float32)
 
+        # Use the function to initialize the pipeline in a separate thread
+        pipe = await loop.run_in_executor(pool, init_pipe)
+
+        # Run the image generation in the same thread
+        image = await loop.run_in_executor(pool, lambda: pipe(prompt).images[0])
         # Determine the next file name
         next_file_id = self.get_next_file_id()
         filename = f"{self.characters_path}/{next_file_id}.png"
