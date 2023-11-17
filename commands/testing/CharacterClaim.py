@@ -32,16 +32,16 @@ class CharacterClaim(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def setspawn(self, ctx, channel: commands.TextChannelConverter):
-        """Sets the spawn channel for character images."""
+    async def setspawn(self, ctx):
+        """Sets the spawn channel for character images to the channel where the command is invoked."""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         cursor.execute('REPLACE INTO spawn_channels (server_id, channel_id) VALUES (?, ?)', 
-                       (str(ctx.guild.id), str(channel.id)))
+                       (str(ctx.guild.id), str(ctx.channel.id)))
         conn.commit()
         conn.close()
-        await ctx.send(f"Spawn channel set to {channel.mention}")
-
+        await ctx.send(f"Spawn channel set to {ctx.channel.mention}")
+    
     @tasks.loop(minutes=random.randint(20, 60))
     async def spawn_character_loop(self):
         await self.bot.wait_until_ready()
