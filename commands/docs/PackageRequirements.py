@@ -30,25 +30,26 @@ class PackageRequirements(commands.Cog):
         return imports
 
     def get_package_name(self, module_name):
-        if module_name in stdlib_list.stdlib_list("3.8"):  # Replace "3.8" with your Python version
-            return None  # Skip standard library modules
+        if module_name in stdlib_list.stdlib_list("3.8"):  # Replace with your Python version
+            return None
         spec = importlib.util.find_spec(module_name)
         if spec and spec.origin:
-            top_level = spec.origin.split(os.sep)[0]
-            if top_level in os.listdir('.'):
-                return None  # Skip local packages or modules
-            return spec.name.split('.')[0]  # Get the top-level package name
+            return spec.name.split('.')[0]
         return None
 
     def generate_requirements(self):
         bot_path = os.path.dirname(os.path.abspath(__file__))
         imported_modules = self.get_imports(bot_path)
 
+        print(f"Imported Modules: {imported_modules}")  # Debugging
+
         packages = set()
         for module in imported_modules:
             package = self.get_package_name(module)
             if package:
                 packages.add(package)
+
+        print(f"Detected Packages: {packages}")  # Debugging
 
         requirements = '\n'.join(sorted(packages))
         with open("./requirements.txt", "w") as f:
