@@ -1,5 +1,6 @@
 from discord.ext import commands
 from discord import Embed, Forbidden
+from discord.ext.commands import CheckFailure
 import github
 import json
 import logging
