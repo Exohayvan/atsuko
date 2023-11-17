@@ -67,34 +67,40 @@ class CharacterClaim(commands.Cog):
 
         # Generate the prompt for the character
         prompt = self.generate_random_prompt()
-    
-        # Run the image generation in a separate thread
-        loop = asyncio.get_event_loop()
-        with concurrent.futures.ThreadPoolExecutor() as pool:
-            # Create a function to initialize the pipeline with the necessary arguments
+
+        # Initialize the executor for running heavy computations
+        executor = concurrent.futures.ThreadPoolExecutor()
+        try:
+            loop = asyncio.get_event_loop()
+
+            # Define a function for initializing the pipeline
             def init_pipe():
                 return StableDiffusionPipeline.from_pretrained("dreamlike-art/dreamlike-anime-1.0", torch_dtype=torch.float32)
 
-        # Use the function to initialize the pipeline in a separate thread
-        pipe = await loop.run_in_executor(pool, init_pipe)
+            # Initialize the pipeline in the executor
+            pipe = await loop.run_in_executor(executor, init_pipe)
 
-        # Run the image generation in the same thread
-        image = await loop.run_in_executor(pool, lambda: pipe(prompt).images[0])
-        # Determine the next file name
-        next_file_id = self.get_next_file_id()
-        filename = f"{self.characters_path}/{next_file_id}.png"
+            # Generate the image in the executor
+            image = await loop.run_in_executor(executor, lambda: pipe(prompt).images[0])
 
-        # Save the image
-        image.save(filename)
+            # Determine the next file name
+            next_file_id = self.get_next_file_id()
+            filename = f"{self.characters_path}/{next_file_id}.png"
 
-        # Send the image to the designated channel
-        message = await channel.send(f"Character ID: {next_file_id}", file=discord.File(filename))
+            # Save the image
+            image.save(filename)
 
-        # Update the active character ID
-        self.active_character_id = next_file_id
+            # Send the image to the designated channel
+            message = await channel.send(f"Character ID: {next_file_id}", file=discord.File(filename))
 
-        # Add a reaction to the message for claiming
-        await message.add_reaction('✅')
+            # Update the active character ID
+            self.active_character_id = next_file_id
+
+            # Add a reaction to the message for claiming
+            await message.add_reaction('✅')
+        finally:
+            # Shutdown the executor after use
+            executor.shutdown()
 
     def get_next_file_id(self):
         """Determines the next file ID based on existing files."""
