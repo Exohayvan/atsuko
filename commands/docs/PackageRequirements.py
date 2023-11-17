@@ -3,6 +3,7 @@ import os
 import pkgutil
 import importlib.util
 import stdlib_list
+import asyncio
 
 class PackageRequirements(commands.Cog):
     def __init__(self, bot):
