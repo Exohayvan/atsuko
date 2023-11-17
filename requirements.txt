@@ -4,6 +4,7 @@ TikTokLive
 Twisted
 accelerate
 aiodns
+aiofiles
 aiohttp
 aiosignal
 anyio
