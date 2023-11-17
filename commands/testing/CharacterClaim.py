@@ -50,12 +50,24 @@ class CharacterClaim(commands.Cog):
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM spawn_channels')
         rows = cursor.fetchall()
+        conn.close()
+    
         for row in rows:
             server_id, channel_id = row
             channel = self.bot.get_channel(int(channel_id))
+    
             if channel:
-                await self.spawn_character(channel)
-        conn.close()
+                try:
+                    await self.spawn_character(channel)
+                except Exception as e:
+                    # Log the error here (e.g., print to console or write to a log file)
+                    print(f"Error sending character to channel {channel_id}: {e}")
+                else:
+                    # Optional: Log successful delivery
+                    print(f"Character successfully sent to channel {channel_id}")
+    
+                # Optional: Add a delay between each message to avoid rate limits
+                await asyncio.sleep(0.5)
 
     async def spawn_character(self, channel):
         """Function to generate and post a character."""
