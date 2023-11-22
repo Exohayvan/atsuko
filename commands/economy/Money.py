@@ -80,6 +80,11 @@ class Money(commands.Cog):
     @commands.command()
     async def invest(self, ctx, amount: int):
         """Invest your gold to earn more."""
+        try:
+            # Attempt to cast the amount to an integer
+            amount = int(amount)
+        except ValueError:
+            return
         user_id = str(ctx.author.id)
 
         # Check if the user has enough gold to invest
