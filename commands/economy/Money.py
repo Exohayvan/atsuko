@@ -146,7 +146,10 @@ class Money(commands.Cog):
     async def gamble(self, ctx, amount: int):
         """Gamble your gold for a chance to win the pot."""
         user_id = str(ctx.author.id)
-        pot_balance = 0
+        # Initialize pot_balance with the current balance from the Pot table
+        self.cursor.execute('SELECT balance FROM Pot WHERE pot_id=1')
+        pot_balance = self.cursor.fetchone()[0]
+        
         # Check if the user has enough gold to gamble
         self.cursor.execute('SELECT balance FROM UserBalance WHERE user_id=?', (user_id,))
         user_balance = self.cursor.fetchone()
