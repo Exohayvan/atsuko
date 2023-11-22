@@ -37,6 +37,8 @@ class CommandError(commands.Cog):
         if isinstance(error, CheckFailure):
             print("CheckFailure caught.")
             return
+        if isinstance(error, commands.BadArgument):
+            await ctx.send("It appears that you have used an incorrect argument. Please use `!help <command>` to see correct usage. If you still run into an issue, please use `!feedbaok <describe issue>` to report.")
 
         error_message = str(error.original) if hasattr(error, 'original') else str(error)
         tb = traceback.format_exception(type(error), error, error.__traceback__)
