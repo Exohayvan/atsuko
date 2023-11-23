@@ -144,7 +144,7 @@ class CharacterClaim(commands.Cog):
         eye_colors = ["brown", "blue", "green", "hazel", "grey", "amber"]
         notable_features = ["with glasses", "with a tattoo", "with a scar", "with freckles", "with a piercing", "wearing a hat"]
     
-        return f"{random.choice(hair_colors)} hair, {random.choice(genders)}, {random.choice(eye_colors)} eyes, {random.choice(notable_features)}"
+        return f"masterpiece, high quality, high resolution {random.choice(hair_colors)} hair, {random.choice(genders)}, {random.choice(eye_colors)} eyes, {random.choice(notable_features)}"
     
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
