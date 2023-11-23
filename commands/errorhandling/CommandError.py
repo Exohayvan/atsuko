@@ -39,8 +39,10 @@ class CommandError(commands.Cog):
             return
         if isinstance(error, commands.BadArgument):
             await ctx.send("Error: commands.BadArgument\nIt appears that you have used an incorrect argument. Please use `!help <command>` to see correct usage. If you still run into an issue, please use `!feedback <describe issue>` to report.")
+            return
         if isinstance(error, MissingRequiredArgument):
             await ctx.send("Error: commands.MissingRequiredArgument\nIt appears thats you are missing a required argument. Please use `!help <command>` to see correct usage. If you still run into an issue, please use `!feedback <describe issue>` to report.")
+            return
         error_message = str(error.original) if hasattr(error, 'original') else str(error)
         tb = traceback.format_exception(type(error), error, error.__traceback__)
         traceback_str = "".join(tb).strip()
