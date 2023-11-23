@@ -78,14 +78,17 @@ class Money(commands.Cog):
         await ctx.send(f"You received {gold_gain} {CURRENCY_NAME}.\nYour investments brought in an additional {invest_gain} {CURRENCY_NAME}!")
 
     @commands.command()
-    async def invest(self, ctx, amount: int):
+    async def invest(self, ctx, amount: str):
         """Invest your gold to earn more."""
-        try:
-            # Attempt to cast the amount to an integer
-            amount = int(amount)
-        except ValueError:
-            return
         user_id = str(ctx.author.id)
+    
+        # Check if the input can be converted to an integer
+        if not amount.isdigit():
+            await ctx.send("Please enter a valid integer for the amount.")
+            return
+    
+        # Convert the amount to an integer
+        amount = int(amount)
 
         # Check if the user has enough gold to invest
         self.cursor.execute('SELECT balance FROM UserBalance WHERE user_id=?', (user_id,))
