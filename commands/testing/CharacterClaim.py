@@ -194,6 +194,23 @@ class CharacterClaim(commands.Cog):
         score = sum((numeric_stats[stat] / max_values[stat] for stat in numeric_stats)) / len(numeric_stats) * 100
         return stats, f"Score: {score:.2f}/100.00"
 
+    async def create_image(self, prompt):
+        """Creates an image based on the given prompt."""
+        # Initialize the executor for running heavy computations
+        executor = concurrent.futures.ThreadPoolExecutor()
+        loop = asyncio.get_event_loop()
+    
+        # Define a function for initializing the pipeline
+        def init_pipe():
+            return StableDiffusionPipeline.from_pretrained("dreamlike-art/dreamlike-anime-1.0", torch_dtype=torch.float32)
+    
+        # Initialize the pipeline in the executor
+        pipe = await loop.run_in_executor(executor, init_pipe)
+    
+        # Generate the image in the executor
+        image = await loop.run_in_executor(executor, lambda: pipe(prompt, negative_prompt=self.negative_prompt).images[0])
+        return image
+
     def cog_unload(self):
         self.spawn_character_loop.cancel()
 
