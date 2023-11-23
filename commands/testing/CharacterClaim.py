@@ -43,7 +43,7 @@ class CharacterClaim(commands.Cog):
         conn.commit()
         conn.close()
         await ctx.send(f"Spawn channel set to {ctx.channel.mention}")
-    
+
     @tasks.loop(minutes=random.randint(20, 60))
     async def spawn_character_loop(self):
         await self.bot.wait_until_ready()
@@ -52,81 +52,47 @@ class CharacterClaim(commands.Cog):
         cursor.execute('SELECT * FROM spawn_channels')
         rows = cursor.fetchall()
         conn.close()
-    
+
         for row in rows:
             server_id, channel_id = row
             channel = self.bot.get_channel(int(channel_id))
-    
+
             if channel:
-                success = False
-                retries = 3  # Number of retries
-                while not success and retries > 0:
-                    try:
-                        success = await self.spawn_character(channel)
-                    except Exception as e:
-                        print(f"Error sending character to channel {channel_id}: {e}")
-                    finally:
-                        retries -= 1
-                    if not success:
-                        await asyncio.sleep(5)  # Wait before retrying
-                if success:
-                    print(f"Character successfully sent to channel {channel_id}")
-                else:
-                    print(f"Failed to send character to channel {channel_id} after retries")
-    
-        await asyncio.sleep(0.5)  # Delay between each message
-    
+                character_data = await self.generate_character()
+                await self.send_character(channel, character_data)
+                await asyncio.sleep(0.5)  # Delay between each message
+
     async def spawn_character(self, channel):
-        """Function to generate and post a character."""
-        # If there is an active but unclaimed character, delete its file
-        if self.active_character_id is not None:
-            unclaimed_file_path = f"{self.characters_path}/{self.active_character_id}.png"
-            if os.path.exists(unclaimed_file_path):
-                os.remove(unclaimed_file_path)
+        """Spawns a character in a channel."""
+        character_data = await self.generate_character()
+        await self.send_character(channel, character_data)
+        return True
 
-        # Generate the prompt for the character
+    async def generate_character(self):
+        """Generates a character with image and stats."""
         prompt = self.generate_random_prompt()
+        image = await self.create_image(prompt)
+        stats, score = self.roll_stats()
+        next_file_id = self.get_next_file_id()
+        filename = f"{self.characters_path}/{next_file_id}.png"
+        image.save(filename)
 
-        # Initialize the executor for running heavy computations
-        executor = concurrent.futures.ThreadPoolExecutor()
-        try:
-            loop = asyncio.get_event_loop()
+        return {
+            "file_id": next_file_id,
+            "filename": filename,
+            "stats": stats,
+            "score": score
+        }
 
-            # Define a function for initializing the pipeline
-            def init_pipe():
-                return StableDiffusionPipeline.from_pretrained("dreamlike-art/dreamlike-anime-1.0", torch_dtype=torch.float32)
-
-            # Initialize the pipeline in the executor
-            pipe = await loop.run_in_executor(executor, init_pipe)
-
-            # Generate the image in the executor
-            image = await loop.run_in_executor(executor, lambda: pipe(prompt, negative_prompt=self.negative_prompt).images[0])
-
-            # Determine the next file name
-            next_file_id = self.get_next_file_id()
-            filename = f"{self.characters_path}/{next_file_id}.png"
-
-            # Save the image
-            image.save(filename)
-
-            # Roll the stats for the character
-            stats, score = self.roll_stats()
-        
-            # Prepare the stats message
-            stats_message = "\n".join([f"{stat}: {value}" for stat, value in stats.items()])
-        
-            # Send the image and stats to the designated channel
-            message = await channel.send(f"Character ID: {next_file_id}\n{stats_message}\n \n{score}", file=discord.File(filename))
-    
-            # Update the active character ID
-            self.active_character_id = next_file_id
-            await message.add_reaction('✅')
-    
-            return True  # Indicate success
-        except Exception as e:
-            # Log specific error details
-            print(f"Failed to send character to channel {channel.id}: {e}")
-            return False  # Indicate failure
+    async def send_character(self, channel, character_data):
+        """Sends the generated character to the specified Discord channel."""
+        stats_message = "\n".join([f"{stat}: {value}" for stat, value in character_data["stats"].items()])
+        message = await channel.send(
+            f"Character ID: {character_data['file_id']}\n{stats_message}\n \n{character_data['score']}", 
+            file=discord.File(character_data["filename"])
+        )
+        self.active_character_id = character_data["file_id"]
+        await message.add_reaction('✅')
 
     def get_next_file_id(self):
         """Determines the next file ID based on existing files."""
@@ -136,7 +102,7 @@ class CharacterClaim(commands.Cog):
         file_ids = [int(f.split('.')[0]) for f in files if f.endswith('.png')]
         next_id = max(file_ids, default=0) + 1
         return next_id
-
+        
     def generate_random_prompt(self):
         """Generates a random prompt with physical characteristics for the character."""
         hair_colors = ["black", "brown", "blonde", "blue", "green", "red", "pink", "purple", "white", "grey", "orange"]
