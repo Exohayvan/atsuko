@@ -1,6 +1,7 @@
 from discord.ext import commands
 import sqlite3
 import random
+from discord.ext.commands import MissingRequiredArgument
 
 class Verification(commands.Cog):
     def __init__(self, bot):
@@ -51,6 +52,12 @@ class Verification(commands.Cog):
         self.conn.commit()
         await ctx.send(f"Join role has been set to {role.name}.")
 
+    @set_join_role.error
+    async def set_join_role_error(self, ctx, error):
+        if isinstance(error, MissingRequiredArgument):
+            if error.param.name == 'role':
+                await ctx.send("Please mention a role. Usage: `!set_join_role @RoleName`")
+            
     @commands.command(usage="!set_verify_role <@role>")
     @commands.has_permissions(administrator=True)
     async def set_verify_role(self, ctx, role: commands.RoleConverter):
@@ -67,6 +74,12 @@ class Verification(commands.Cog):
         self.conn.commit()
         await ctx.send(f"Verify role has been set to {role.name}.")
     
+    @set_verify_role.error
+    async def set_verify_role_error(self, ctx, error):
+        if isinstance(error, MissingRequiredArgument):
+            if error.param.name == 'role':
+                await ctx.send("Please mention a role. Usage: `!set_verify_role @RoleName`")
+            
     @commands.command(usage="!verify")
     async def verify(self, ctx):
         """Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs."""
