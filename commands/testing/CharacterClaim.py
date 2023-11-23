@@ -176,7 +176,7 @@ class CharacterClaim(commands.Cog):
         conn.close()
         return True
 
-    def roll_stats():
+    def roll_stats(self):
         max_values = {
             "💖 HP": 1000,
             "⚔️ ATK": 400,
