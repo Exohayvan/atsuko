@@ -57,18 +57,24 @@ class CharacterClaim(commands.Cog):
             channel = self.bot.get_channel(int(channel_id))
     
             if channel:
-                try:
-                    await self.spawn_character(channel)
-                except Exception as e:
-                    # Log the error here (e.g., print to console or write to a log file)
-                    print(f"Error sending character to channel {channel_id}: {e}")
-                else:
-                    # Optional: Log successful delivery
+                success = False
+                retries = 3  # Number of retries
+                while not success and retries > 0:
+                    try:
+                        success = await self.spawn_character(channel)
+                    except Exception as e:
+                        print(f"Error sending character to channel {channel_id}: {e}")
+                    finally:
+                        retries -= 1
+                    if not success:
+                        await asyncio.sleep(5)  # Wait before retrying
+                if success:
                     print(f"Character successfully sent to channel {channel_id}")
+                else:
+                    print(f"Failed to send character to channel {channel_id} after retries")
     
-                # Optional: Add a delay between each message to avoid rate limits
-                await asyncio.sleep(0.5)
-
+        await asyncio.sleep(0.5)  # Delay between each message
+    
     async def spawn_character(self, channel):
         """Function to generate and post a character."""
         # If there is an active but unclaimed character, delete its file
