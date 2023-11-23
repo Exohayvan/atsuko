@@ -80,7 +80,7 @@ async def determine_prefix(bot, message):
 
     return commands.when_mentioned_or(prefix)(bot, message)
 
-bot = commands.Bot(command_prefix=determine_prefix, intents=intents)
+bot = commands.Bot(command_prefix=determine_prefix, intents=intents, case_insensitive=True)
 bot.help_command = CustomHelpCommand()
 
 def get_config():
