@@ -51,13 +51,6 @@ class Verification(commands.Cog):
         self.c.execute("INSERT OR REPLACE INTO roles VALUES (?, ?, (SELECT verify_role FROM roles WHERE guild_id=?))", (ctx.guild.id, role.id, ctx.guild.id))
         self.conn.commit()
         await ctx.send(f"Join role has been set to {role.name}.")
-
-    @set_join_role.error
-    async def set_join_role_error(self, ctx, error):
-        if isinstance(error, MissingRequiredArgument):
-            if error.param.name == 'role':
-                await ctx.send("Please mention a role. Usage: `!set_join_role @RoleName`")
-                return
                 
     @commands.command(usage="!set_verify_role <@role>")
     @commands.has_permissions(administrator=True)
@@ -74,13 +67,6 @@ class Verification(commands.Cog):
         
         self.conn.commit()
         await ctx.send(f"Verify role has been set to {role.name}.")
-    
-    @set_verify_role.error
-    async def set_verify_role_error(self, ctx, error):
-        if isinstance(error, MissingRequiredArgument):
-            if error.param.name == 'role':
-                await ctx.send("Please mention a role. Usage: `!set_verify_role @RoleName`")
-                return
                 
     @commands.command(usage="!verify")
     async def verify(self, ctx):
