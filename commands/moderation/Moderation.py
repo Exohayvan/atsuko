@@ -78,7 +78,7 @@ class Moderation(commands.Cog):
 
     @commands.command(usage="!setprefix <prefix you want> (This can be literaly anything you like, just please make it a normal one please.)")
     @commands.has_permissions(manage_guild=True)
-    async def setprefix(self, ctx, prefix):
+    async def setprefix(self, ctx, prefix=None):
         if prefix is None:
             await ctx.send("Please provide a prefix. *Ex: !setprefix ?*")
             return
