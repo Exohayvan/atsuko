@@ -84,14 +84,25 @@ class CharacterClaim(commands.Cog):
             "stats": stats,
             "score": score
         }
-
+        
     async def send_character(self, channel, character_data):
-        """Sends the generated character to the specified Discord channel."""
-        stats_message = "\n".join([f"{stat}: {value}" for stat, value in character_data["stats"].items()])
-        message = await channel.send(
-            f"Character ID: {character_data['file_id']}\n{stats_message}\n \n{character_data['score']}", 
-            file=discord.File(character_data["filename"])
+        """Sends the generated character to the specified Discord channel as an embed."""
+        embed = discord.Embed(
+            title=f"Character ID: {character_data['file_id']}",
+            description=f"Score: {character_data['score']}\n\n**Stats:**",
+            color=discord.Color.blue()  # You can choose any color
         )
+        
+        # Add stats to the embed
+        for stat, value in character_data["stats"].items():
+            embed.add_field(name=stat, value=value, inline=True)
+    
+        # Attach the image to the embed
+        file = discord.File(character_data["filename"], filename="character.png")
+        embed.set_image(url="attachment://character.png")
+    
+        # Send the embed with the image
+        message = await channel.send(file=file, embed=embed)
         self.active_character_id = character_data["file_id"]
         await message.add_reaction('✅')
 
