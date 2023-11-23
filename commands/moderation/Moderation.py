@@ -79,6 +79,9 @@ class Moderation(commands.Cog):
     @commands.command(usage="!setprefix <prefix you want> (This can be literaly anything you like, just please make it a normal one please.)")
     @commands.has_permissions(manage_guild=True)
     async def setprefix(self, ctx, prefix):
+        if prefix is None:
+            await ctx.send("Please provide a prefix. *Ex: !setprefix ?*")
+            return
         conn = sqlite3.connect('./data/prefix.db')
         cursor = conn.cursor()
         cursor.execute("REPLACE INTO prefixes (guild_id, prefix) VALUES (?, ?)", (ctx.guild.id, prefix))
