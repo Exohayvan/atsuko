@@ -100,7 +100,7 @@ class CharacterClaim(commands.Cog):
             pipe = await loop.run_in_executor(executor, init_pipe)
 
             # Generate the image in the executor
-            image = await loop.run_in_executor(executor, lambda: pipe(prompt).images[0])
+            image = await loop.run_in_executor(executor, lambda: pipe(prompt, negative_prompt=self.negative_prompt).images[0])
 
             # Determine the next file name
             next_file_id = self.get_next_file_id()
