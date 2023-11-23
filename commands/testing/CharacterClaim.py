@@ -47,21 +47,22 @@ class CharacterClaim(commands.Cog):
     @tasks.loop(minutes=random.randint(20, 60))
     async def spawn_character_loop(self):
         await self.bot.wait_until_ready()
+        character_data = await self.generate_character()  # Generate character before the server loop
+    
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM spawn_channels')
         rows = cursor.fetchall()
         conn.close()
-
+    
         for row in rows:
             server_id, channel_id = row
             channel = self.bot.get_channel(int(channel_id))
-
+    
             if channel:
-                character_data = await self.generate_character()
-                await self.send_character(channel, character_data)
+                await self.send_character(channel, character_data)  # Send the same character to each channel
                 await asyncio.sleep(0.5)  # Delay between each message
-
+            
     async def spawn_character(self, channel):
         """Spawns a character in a channel."""
         character_data = await self.generate_character()
