@@ -110,13 +110,13 @@ class CharacterClaim(commands.Cog):
             image.save(filename)
 
             # Roll the stats for the character
-            stats = self.roll_stats()
+            stats, score = self.roll_stats()
         
             # Prepare the stats message
             stats_message = "\n".join([f"{stat}: {value}" for stat, value in stats.items()])
         
             # Send the image and stats to the designated channel
-            message = await channel.send(f"Character ID: {next_file_id}\n{stats_message}", file=discord.File(filename))
+            message = await channel.send(f"Character ID: {next_file_id}\n{stats_message}\n \n{score}", file=discord.File(filename))
     
             # Update the active character ID
             self.active_character_id = next_file_id
