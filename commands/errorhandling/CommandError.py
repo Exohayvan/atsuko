@@ -1,6 +1,6 @@
 from discord.ext import commands
 from discord import Embed, Forbidden
-from discord.ext.commands import CheckFailure
+from discord.ext.commands import CheckFailure, MissingRequiredArgument
 import github
 import json
 import logging
