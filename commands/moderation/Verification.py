@@ -57,7 +57,8 @@ class Verification(commands.Cog):
         if isinstance(error, MissingRequiredArgument):
             if error.param.name == 'role':
                 await ctx.send("Please mention a role. Usage: `!set_join_role @RoleName`")
-            
+                return
+                
     @commands.command(usage="!set_verify_role <@role>")
     @commands.has_permissions(administrator=True)
     async def set_verify_role(self, ctx, role: commands.RoleConverter):
@@ -79,7 +80,8 @@ class Verification(commands.Cog):
         if isinstance(error, MissingRequiredArgument):
             if error.param.name == 'role':
                 await ctx.send("Please mention a role. Usage: `!set_verify_role @RoleName`")
-            
+                return
+                
     @commands.command(usage="!verify")
     async def verify(self, ctx):
         """Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs."""
