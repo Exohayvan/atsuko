@@ -10,6 +10,7 @@ import asyncio
 
 class CharacterClaim(commands.Cog):
     def __init__(self, bot):
+        self.negative_prompt = 'simple background, duplicate, retro style, low quality, lowest quality, 1980s, 1990s, 2000s, 2005 2006 2007 2008 2009 2010 2011 2012 2013, bad anatomy, bad proportions, extra digits, lowres, username, artist name, error, duplicate, watermark, signature, text, extra digit, fewer digits, worst quality, jpeg artifacts, blurry'
         self.bot = bot
         self.db_path = "./data/db/characterspawns/channels.db"
         self.characters_path = "./data/db/characterspawns/characters"
