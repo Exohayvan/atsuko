@@ -140,11 +140,12 @@ class CharacterClaim(commands.Cog):
     def generate_random_prompt(self):
         """Generates a random prompt with physical characteristics for the character."""
         hair_colors = ["black", "brown", "blonde", "blue", "green", "red", "pink", "purple", "white", "grey", "orange"]
+        race = ["Human", "Vampire", "Neko", "Elf", "Dwarf", "Orc", "Centaur", "Fairy", "Werewolf", "Troll", "Angel", "Demon", "Gnome", "Leprechaun", "Minotaur", "Harpy"]
         genders = ["male", "female"]
         eye_colors = ["brown", "blue", "green", "hazel", "grey", "amber"]
         notable_features = ["with glasses", "with a tattoo", "with a scar", "with freckles", "with a piercing", "wearing a hat"]
     
-        return f"masterpiece, high quality, high resolution {random.choice(hair_colors)} hair, {random.choice(genders)}, {random.choice(eye_colors)} eyes, {random.choice(notable_features)}"
+        return f"masterpiece, high quality, high resolution, {random.choice(hair_colors)} hair, {random.choice(genders)} {random.choice(race)}, {random.choice(eye_colors)} eyes, {random.choice(notable_features)}"
     
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
