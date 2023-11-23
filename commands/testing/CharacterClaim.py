@@ -176,24 +176,56 @@ class CharacterClaim(commands.Cog):
         conn.close()
         return True
 
-    def roll_stats(self):
-        """Rolls random stats for a character, including a possibility of 0 for certain stats, with emojis."""
-        stats = {
-            "💖 HP": random.randint(1, 1000),
-            "⚔️ ATK": random.randint(1, 400),
-            "🔮 MAG": random.randint(1, 400),
-            "🛡️ PHR": f"{random.randint(0, 100)}%",
-            "🌟 MGR": f"{random.randint(0, 100)}%",
-            "🍀 Luck": f"+{random.randint(0, 10)}",
-            "🎭 Charisma": f"+{random.randint(0, 10)}",
-            "💨 SPD": f"+{random.randint(0, 10)}",
-            "🏋️‍♂️ STA": f"+{random.randint(0, 10)}",
-            "🤹 DEX": f"+{random.randint(0, 10)}",
-            "🧠 INT": f"+{random.randint(0, 10)}",
-            "💪 STR": f"+{random.randint(0, 10)}"
+    def roll_stats():
+        max_values = {
+            "💖 HP": 1000,
+            "⚔️ ATK": 400,
+            "🔮 MAG": 400,
+            "🛡️ PHR": 100,
+            "🌟 MGR": 100,
+            "🍀 Luck": 10,
+            "🎭 Charisma": 10,
+            "💨 SPD": 10,
+            "🏋️‍♂️ STA": 10,
+            "🤹 DEX": 10,
+            "🧠 INT": 10,
+            "💪 STR": 10
         }
-        return stats
     
+        stats = {
+            "💖 HP": random.randint(1, max_values["💖 HP"]),
+            "⚔️ ATK": random.randint(1, max_values["⚔️ ATK"]),
+            "🔮 MAG": random.randint(1, max_values["🔮 MAG"]),
+            "🛡️ PHR": f"{random.randint(0, max_values['🛡️ PHR'])}%",
+            "🌟 MGR": f"{random.randint(0, max_values['🌟 MGR'])}%",
+            "🍀 Luck": f"+{random.randint(0, max_values['🍀 Luck'])}",
+            "🎭 Charisma": f"+{random.randint(0, max_values['🎭 Charisma'])}",
+            "💨 SPD": f"+{random.randint(0, max_values['💨 SPD'])}",
+            "🏋️‍♂️ STA": f"+{random.randint(0, max_values['🏋️‍♂️ STA'])}",
+            "🤹 DEX": f"+{random.randint(0, max_values['🤹 DEX'])}",
+            "🧠 INT": f"+{random.randint(0, max_values['🧠 INT'])}",
+            "💪 STR": f"+{random.randint(0, max_values['💪 STR'])}"
+        }
+    
+        # Calculate the score
+        numeric_stats = {
+            "💖 HP": stats["💖 HP"],
+            "⚔️ ATK": stats["⚔️ ATK"],
+            "🔮 MAG": stats["🔮 MAG"],
+            "🛡️ PHR": int(stats["🛡️ PHR"].strip('%')),
+            "🌟 MGR": int(stats["🌟 MGR"].strip('%')),
+            "🍀 Luck": int(stats["🍀 Luck"].strip('+')),
+            "🎭 Charisma": int(stats["🎭 Charisma"].strip('+')),
+            "💨 SPD": int(stats["💨 SPD"].strip('+')),
+            "🏋️‍♂️ STA": int(stats["🏋️‍♂️ STA"].strip('+')),
+            "🤹 DEX": int(stats["🤹 DEX"].strip('+')),
+            "🧠 INT": int(stats["🧠 INT"].strip('+')),
+            "💪 STR": int(stats["💪 STR"].strip('+'))
+        }
+    
+        score = sum((numeric_stats[stat] / max_values[stat] for stat in numeric_stats)) / len(numeric_stats) * 100
+        return stats, f"Score: {score:.2f}/100.00"
+
     def cog_unload(self):
         self.spawn_character_loop.cancel()
 
