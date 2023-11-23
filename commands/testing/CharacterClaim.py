@@ -166,20 +166,20 @@ class CharacterClaim(commands.Cog):
         return True
 
     def roll_stats(self):
-        """Rolls random stats for a character, including a possibility of 0 for certain stats."""
+        """Rolls random stats for a character, including a possibility of 0 for certain stats, with emojis."""
         stats = {
-            "HP": random.randint(1, 1000),
-            "ATK": random.randint(1, 400),
-            "MAG": random.randint(1, 400),
-            "PHR": f"{random.randint(0, 100)}%",
-            "MGR": f"{random.randint(0, 100)}%",
-            "Luck": f"+{random.randint(0, 10)}",
-            "Charisma": f"+{random.randint(0, 10)}",
-            "SPD": f"+{random.randint(0, 10)}",
-            "STA": f"+{random.randint(0, 10)}",
-            "DEX": f"+{random.randint(0, 10)}",
-            "INT": f"+{random.randint(0, 10)}",
-            "STR": f"+{random.randint(0, 10)}"
+            "💖 HP": random.randint(1, 1000),
+            "⚔️ ATK": random.randint(1, 400),
+            "🔮 MAG": random.randint(1, 400),
+            "🛡️ PHR": f"{random.randint(0, 100)}%",
+            "🌟 MGR": f"{random.randint(0, 100)}%",
+            "🍀 Luck": f"+{random.randint(0, 10)}",
+            "🎭 Charisma": f"+{random.randint(0, 10)}",
+            "💨 SPD": f"+{random.randint(0, 10)}",
+            "🏋️‍♂️ STA": f"+{random.randint(0, 10)}",
+            "🤹 DEX": f"+{random.randint(0, 10)}",
+            "🧠 INT": f"+{random.randint(0, 10)}",
+            "💪 STR": f"+{random.randint(0, 10)}"
         }
         return stats
     
