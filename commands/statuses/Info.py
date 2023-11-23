@@ -173,7 +173,7 @@ class Info(commands.Cog):
         """Generates an invite link for the bot."""
         permissions = Permissions.all()
         invite_link = f"https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&permissions={permissions.value}&scope=bot"
-        await ctx.send(f"Invite me to your server using this link: {invite_link}")
+        await ctx.send(f"[Click Here]({invite_link}) to invite me to your server!")
 
     @commands.command(usage="!stats")
     async def stats(self, ctx):
