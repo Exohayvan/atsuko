@@ -119,12 +119,13 @@ class CharacterClaim(commands.Cog):
     
             # Update the active character ID
             self.active_character_id = next_file_id
-
-            # Add a reaction to the message for claiming
             await message.add_reaction('✅')
-        finally:
-            # Shutdown the executor after use
-            executor.shutdown()
+    
+            return True  # Indicate success
+        except Exception as e:
+            # Log specific error details
+            print(f"Failed to send character to channel {channel.id}: {e}")
+            return False  # Indicate failure
 
     def get_next_file_id(self):
         """Determines the next file ID based on existing files."""
