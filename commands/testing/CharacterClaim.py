@@ -138,7 +138,7 @@ class CharacterClaim(commands.Cog):
 
     def generate_random_prompt(self):
         """Generates a random prompt for the character."""
-        hair_colors = ["blue", "white", "red", "green"]
+        hair_colors = ["black", "brown", "blonde", "blue", "green", "red", "pink", "purple", "white", "grey", "orange"]
         genders = ["male", "female"]
         return f"{random.choice(hair_colors)} hair, {random.choice(genders)}"
 
