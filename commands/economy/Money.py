@@ -41,9 +41,9 @@ class Money(commands.Cog):
     
         self.cursor.execute('SELECT balance, investment FROM UserBalance WHERE user_id=?', (user_id,))
         result = self.cursor.fetchone()
-    
+        total_bal = result[0] + result[1]
         if result:
-            await ctx.send(f"{member.mention} has {result[0]} {CURRENCY_NAME} and {result[1]} {CURRENCY_NAME} invested.")
+            await ctx.send(f"{member.mention} has {total_bal} {CURRENCY_NAME}! \n({result[0]} {CURRENCY_NAME} in their pocket and {result[1]} {CURRENCY_NAME} invested.)")
         else:
             await ctx.send(f"{member.mention} has 0 {CURRENCY_NAME}.")
     
