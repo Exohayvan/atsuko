@@ -165,8 +165,13 @@ async def accept_tos(ctx):
     conn.commit()
     conn.close()
 
-    await ctx.send("Thank you for accepting the Terms of Service!")
-    
+    # Send confirmation message and delete it after 20 seconds
+    await ctx.send("Thank you for accepting the Terms of Service!", delete_after=20)
+
+    # Delete the command invocation message after 20 seconds
+    await asyncio.sleep(20)  # Wait for 20 seconds
+    await ctx.message.delete()  # Delete the command message
+        
 async def load_cogs(bot, root_dir):
     tasks = []
     num_cogs = 0
