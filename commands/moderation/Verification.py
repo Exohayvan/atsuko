@@ -102,9 +102,6 @@ class Verification(commands.Cog):
     async def on_member_join(self, member):
         if member.bot:
             return  # Skip the process for bots
-        # Ignore messages from users with administrator privileges
-        if message.guild and message.author.guild_permissions.administrator:
-            return
         
         self.c.execute("SELECT join_role FROM roles WHERE guild_id=?", (member.guild.id,))
         join_role_id = self.c.fetchone()
@@ -117,6 +114,9 @@ class Verification(commands.Cog):
     async def on_message(self, message):
         # Ignore messages from bots
         if message.author.bot:
+            return
+        # Ignore messages from users with administrator privileges
+        if message.guild and message.author.guild_permissions.administrator:
             return
 
         # Handle messages in the verification channel
