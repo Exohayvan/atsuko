@@ -172,7 +172,7 @@ async def accept_tos(ctx):
     conn.close()
 
     # Send confirmation message and delete it after 60 seconds
-    await ctx.send("Thank you for accepting the Terms of Service!", delete_after=60)
+    await ctx.send("Thank you for accepting the Terms of Service!/n If you were trying to use a command you will have to try it again!", delete_after=60)
 
     # Delete the command invocation message after 60 seconds
     await asyncio.sleep(60)  # Wait for 60 seconds
