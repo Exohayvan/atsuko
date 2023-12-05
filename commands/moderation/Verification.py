@@ -112,6 +112,10 @@ class Verification(commands.Cog):
             
     @commands.Cog.listener()
     async def on_message(self, message):
+        # Ignore messages from bots
+        if message.author.bot:
+            return
+
         # Handle messages in the verification channel
         if message.guild:  # Only proceed if the message is in a guild
             self.c_verification_channel.execute("SELECT channel_id FROM verification_channels WHERE guild_id=?", (message.guild.id,))
