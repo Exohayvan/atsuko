@@ -293,6 +293,10 @@ This is the embed command.
 Usage:
 `!embed <message>`
 
+## set_counting_channel
+
+Sets the current channel as the counting channel.
+
 ## balance
 
 Check your balance or someone else's by mentioning them.
