@@ -13,6 +13,12 @@ class Verification(commands.Cog):
         self.c.execute('''CREATE TABLE IF NOT EXISTS roles
                      (guild_id INTEGER, join_role INTEGER, verify_role INTEGER)''')
         self.conn.commit()
+        # Initialize a new connection for verification_channel.db
+        self.conn_verification_channel = sqlite3.connect('./data/verification_channel.db')
+        self.c_verification_channel = self.conn_verification_channel.cursor()
+        self.c_verification_channel.execute('''CREATE TABLE IF NOT EXISTS verification_channels
+                     (guild_id INTEGER PRIMARY KEY, channel_id INTEGER)''')
+        self.conn_verification_channel.commit()
 
     @commands.command(usage="!show_roles")
     @commands.has_permissions(administrator=True)
