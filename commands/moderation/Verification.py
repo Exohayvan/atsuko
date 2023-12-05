@@ -20,6 +20,14 @@ class Verification(commands.Cog):
                      (guild_id INTEGER PRIMARY KEY, channel_id INTEGER)''')
         self.conn_verification_channel.commit()
 
+    @commands.command(usage="!set_verify_channel <#channel>")
+    @commands.has_permissions(administrator=True)
+    async def set_verify_channel(self, ctx, channel: discord.TextChannel):
+        """Sets a specific channel for verification purposes."""
+        self.c_verification_channel.execute("INSERT OR REPLACE INTO verification_channels VALUES (?, ?)", (ctx.guild.id, channel.id))
+        self.conn_verification_channel.commit()
+        await ctx.send(f"Verification channel has been set to {channel.mention}.")
+
     @commands.command(usage="!show_roles")
     @commands.has_permissions(administrator=True)
     async def show_roles(self, ctx):
