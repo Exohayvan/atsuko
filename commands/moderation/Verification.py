@@ -76,13 +76,13 @@ class Verification(commands.Cog):
             verification_number = random.randint(100, 999)
             self.verification_dict[ctx.author.id] = (verification_number, ctx.guild.id)
             await ctx.author.send(f"Please respond with this number to verify that you are a human: {verification_number}")
-            await ctx.send(f"{ctx.author.mention}, I've sent you a DM with your verification number!", delete_after=20)
+            await ctx.send(f"{ctx.author.mention}, I've sent you a DM with your verification number!", delete_after=60)
         except discord.Forbidden:
             # This exception is raised when the bot cannot send a DM to the user
-            await ctx.send(f"{ctx.author.mention}, I couldn't send you a DM! Please open your DMs and try again.", delete_after=20)
+            await ctx.send(f"{ctx.author.mention}, I couldn't send you a DM! Please open your DMs and try again.", delete_after=60)
         finally:
-            # Delete the original command invocation message after 20 seconds
-            await ctx.message.delete(delay=20)
+            # Delete the original command invocation message after 60 seconds
+            await ctx.message.delete(delay=60)
             
     @commands.Cog.listener()
     async def on_member_join(self, member):
