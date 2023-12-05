@@ -118,10 +118,16 @@ async def has_accepted_tos(ctx):
     if result:
         return True
     else:
+        # Send the TOS embed message and schedule it for deletion after 20 seconds
         embed = discord.Embed(title="Terms of Service", description="You need to accept our Terms of Service before using this command.", color=discord.Color.red())
         embed.add_field(name="Read the TOS", value="[Click here to read the TOS](https://github.com/Exohayvan/atsuko/blob/main/TOS.md)", inline=False)
         embed.add_field(name="Accept the TOS", value="Use `!accept_tos` to accept the Terms of Service.", inline=False)
-        await ctx.send(embed=embed)
+        tos_message = await ctx.send(embed=embed, delete_after=20)
+
+        # Delete the command invocation message after 20 seconds
+        await asyncio.sleep(20)
+        await ctx.message.delete()
+
         return False
         
 bot.add_check(has_accepted_tos)
