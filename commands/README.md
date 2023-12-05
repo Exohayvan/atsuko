@@ -415,6 +415,13 @@ Removes a role to allow moderation.
 Usage:
 `!removemod <@mention>`
 
+## set_verify_channel
+
+Sets a specific channel for verification purposes.
+
+Usage:
+`!set_verify_channel <#channel>`
+
 ## show_roles
 
 Shows the set join and verify roles for the guild.
