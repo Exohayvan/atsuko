@@ -11,24 +11,29 @@ class Counter(commands.Cog):
     def cog_unload(self):
         self.update_counters.cancel()
 
-    @tasks.loop(minutes=10)  # Update every 10 minutes
+    @tasks.loop(minutes=10)
     async def update_counters(self):
         guilds = self.bot.guilds
         conn = sqlite3.connect('./data/db/counter.db')
         c = conn.cursor()
-
+    
         for guild in guilds:
-            # Fetch the voice channels with the count from the database
             c.execute('SELECT channel_id FROM Counter WHERE guild_id = ?', (guild.id,))
             channel_ids = c.fetchall()
             
             for channel_id in channel_ids:
                 channel = self.bot.get_channel(channel_id[0])
-                if channel:
-                    await self.update_counter(channel)
-
+    
+                if not channel:
+                    # If channel does not exist, remove it from the database
+                    c.execute('DELETE FROM Counter WHERE channel_id = ?', (channel_id[0],))
+                    continue
+    
+                await self.update_counter(channel)
+    
+        conn.commit()
         conn.close()
-
+    
     async def update_counter(self, channel):
         guild = channel.guild
         name = channel.name.split(':')[0]  # Get the part before the count
