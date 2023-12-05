@@ -90,7 +90,7 @@ class Verification(commands.Cog):
         try:
             verification_number = random.randint(100, 999)
             self.verification_dict[ctx.author.id] = (verification_number, ctx.guild.id)
-            await ctx.author.send(f"Please respond with this number to verify that you are a human: {verification_number}")
+            await ctx.author.send(f"Please respond to this DM with this number to verify that you are a human: {verification_number}")
             await ctx.send(f"{ctx.author.mention}, I've sent you a DM with your verification number!", delete_after=60)
         except discord.Forbidden:
             # This exception is raised when the bot cannot send a DM to the user
