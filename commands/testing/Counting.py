@@ -15,7 +15,7 @@ class Counting(commands.Cog):
                           (channel_id INTEGER PRIMARY KEY, last_number INTEGER, last_user_id INTEGER)''')
         self.conn.commit()
         
-    @commands.command(name='sync_counting_channel', help='Synchronizes the counting channel with the database.')
+    @commands.command(name='sync_counting_channel', help='Fully synchronizes the counting channel with the database.')
     async def sync_counting_channel(self, ctx):
         channel_id = ctx.channel.id
         cursor = self.conn.cursor()
@@ -43,8 +43,8 @@ class Counting(commands.Cog):
     
             cursor.execute('UPDATE counting_channels SET last_number = ?, last_user_id = ? WHERE channel_id = ?', (last_number, last_user_id, channel_id))
             self.conn.commit()
-            await print(f"Counting channel synchronized. Current count: {last_number}")
-                
+            await print(f"Counting channel fully synchronized. Current count: {last_number}")
+                        
     @commands.command(name='set_counting_channel', help='Sets the current channel as the counting channel.')
     async def set_counting_channel(self, ctx):
         channel_id = ctx.channel.id
