@@ -295,7 +295,7 @@ Usage:
 
 ## sync_counting_channel
 
-Synchronizes the counting channel with the database.
+Fully synchronizes the counting channel with the database.
 
 ## set_counting_channel
 
