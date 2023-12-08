@@ -36,17 +36,22 @@ class Counter(commands.Cog):
     
     async def update_counter(self, channel):
         guild = channel.guild
-        name = channel.name.split(':')[0]  # Get the part before the count
-
-        if name == "Total members":
+        name = channel.name
+    
+        if "Total members" in name:
             count = len(guild.members)
-        elif name == "Online members":
+            new_name = f"Total members: {count}"
+        elif "Online members" in name:
             count = len([member for member in guild.members if member.status != discord.Status.offline])
-        elif name == "Bots":
-            count = len([member.bot for member in guild.members if member.bot])
-
-        await channel.edit(name=f'{name}: {count}')
-
+            new_name = f"Online members: {count}"
+        elif "Bots" in name:
+            count = len([member for member in guild.members if member.bot])
+            new_name = f"Bots: {count}"
+        else:
+            return  # If none of the keywords match, do nothing
+    
+        await channel.edit(name=new_name)
+        
     @commands.command(usage="!create_counter \"Counter Type\" (Must be inclosed in \"\". Also caps are needed. This is a bug will fix later.)")
     async def create_counter(self, ctx, name):
         """Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots."""
