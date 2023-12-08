@@ -14,7 +14,34 @@ class Counting(commands.Cog):
         cursor.execute('''CREATE TABLE IF NOT EXISTS counting_channels 
                           (channel_id INTEGER PRIMARY KEY, last_number INTEGER, last_user_id INTEGER)''')
         self.conn.commit()
-
+        
+    @commands.command(name='sync_counting_channel', help='Synchronizes the counting channel with the database.')
+    async def sync_counting_channel(self, ctx):
+        channel_id = ctx.channel.id
+        cursor = self.conn.cursor()
+        cursor.execute('SELECT last_number FROM counting_channels WHERE channel_id = ?', (channel_id,))
+        row = cursor.fetchone()
+    
+        if row:
+            last_number = row[0]
+            messages = await ctx.channel.history(limit=100).flatten() # Adjust limit as needed
+    
+            for message in reversed(messages):
+                if message.author.bot:
+                    continue
+    
+                if re.fullmatch(r'^\d+$', message.content):
+                    number = int(message.content)
+                    if number == last_number + 1:
+                        last_number = number
+                        last_user_id = message.author.id
+                    else:
+                        break
+    
+            cursor.execute('UPDATE counting_channels SET last_number = ?, last_user_id = ? WHERE channel_id = ?', (last_number, last_user_id, channel_id))
+            self.conn.commit()
+            await print(f"Counting channel synchronized. Current count: {last_number}")
+        
     @commands.command(name='set_counting_channel', help='Sets the current channel as the counting channel.')
     async def set_counting_channel(self, ctx):
         channel_id = ctx.channel.id
