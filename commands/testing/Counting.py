@@ -25,19 +25,23 @@ class Counting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-
+        # Skip bot messages
+        if message.author.bot:
+            return
+    
         channel_id = message.channel.id
         cursor = self.conn.cursor()
         cursor.execute('SELECT last_number, last_user_id FROM counting_channels WHERE channel_id = ?', (channel_id,))
         row = cursor.fetchone()
-
+    
         if row:
             last_number, last_user_id = row
             if message.author.id == last_user_id:
                 await message.delete()
                 return
-
-            if re.match(r'^\d+$', message.content):
+    
+            # Check if the message is exactly the next number
+            if re.fullmatch(r'^\d+$', message.content):
                 number = int(message.content)
                 if number == last_number + 1:
                     cursor.execute('UPDATE counting_channels SET last_number = ?, last_user_id = ? WHERE channel_id = ?', (number, message.author.id, channel_id))
