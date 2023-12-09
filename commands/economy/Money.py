@@ -31,6 +31,18 @@ class Money(commands.Cog):
 
         self.cursor.execute("INSERT INTO Pot (pot_id, balance) SELECT 1, 100 WHERE NOT EXISTS(SELECT 1 FROM Pot WHERE pot_id = 1)")
         self.db.commit()
+        
+        self.remind_db = sqlite3.connect('./data/db/dailyremind.db')
+        self.remind_cursor = self.remind_db.cursor()
+        self.remind_cursor.execute('''
+        CREATE TABLE IF NOT EXISTS DailyRemind (
+        user_id TEXT PRIMARY KEY,
+        last_channel_id TEXT
+        )''')
+        self.remind_db.commit()
+
+        # Start the background task
+        self.bot.loop.create_task(self.daily_reminder_check())
 
     @commands.command(aliases=['bal'])
     async def balance(self, ctx, member: commands.MemberConverter = None):
