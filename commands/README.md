@@ -301,6 +301,10 @@ Fully synchronizes the counting channel with the database.
 
 Sets the current channel as the counting channel.
 
+## dailyremind
+
+Toggle daily reminders on or off.
+
 ## balance
 
 Check your balance or someone else's by mentioning them.

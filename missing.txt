@@ -18,6 +18,7 @@ Command 'sync_counting_channel' in cog Counting is missing usage details.
 Command 'set_counting_channel' in cog Counting is missing usage details.
 Command 'feedback' in cog Feedback is missing help details.
 Command 'feedback' in cog Feedback is missing usage details.
+Command 'dailyremind' in cog Money is missing usage details.
 Command 'balance' in cog Money is missing usage details.
 Command 'daily' in cog Money is missing usage details.
 Command 'invest' in cog Money is missing usage details.
