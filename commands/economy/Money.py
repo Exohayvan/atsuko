@@ -44,6 +44,36 @@ class Money(commands.Cog):
         # Start the background task
         self.bot.loop.create_task(self.daily_reminder_check())
 
+    @commands.command()
+    async def dailyremind(self, ctx, option: str):
+        """Toggle daily reminders on or off."""
+        user_id = str(ctx.author.id)
+        last_channel_id = str(ctx.channel.id)
+        if option.lower() in ['on', 'true']:
+            self.remind_cursor.execute('REPLACE INTO DailyRemind (user_id, last_channel_id) VALUES (?, ?)', (user_id, last_channel_id))
+            await ctx.send("Daily reminders turned on.")
+        elif option.lower() in ['off', 'false']:
+            self.remind_cursor.execute('DELETE FROM DailyRemind WHERE user_id=?', (user_id,))
+            await ctx.send("Daily reminders turned off.")
+        else:
+            await ctx.send("Invalid option. Please use 'on' or 'off'.")
+        self.remind_db.commit()
+
+    async def daily_reminder_check(self):
+        while True:
+            await asyncio.sleep(60)  # Wait for 60 seconds between each check
+            self.remind_cursor.execute('SELECT user_id, last_channel_id FROM DailyRemind')
+            users_to_remind = self.remind_cursor.fetchall()
+            for user_id, last_channel_id in users_to_remind:
+                self.cursor.execute('SELECT last_daily FROM UserBalance WHERE user_id=?', (user_id,))
+                result = self.cursor.fetchone()
+                if result and result[0]:
+                    time_difference = datetime.now() - datetime.strptime(result[0], "%Y-%m-%d %H:%M:%S.%f")
+                    if time_difference >= timedelta(days=1):
+                        channel = self.bot.get_channel(int(last_channel_id))
+                        if channel:
+                            await channel.send(f'<@{user_id}> you can claim your daily again!')
+                            
     @commands.command(aliases=['bal'])
     async def balance(self, ctx, member: commands.MemberConverter = None):
         """Check your balance or someone else's by mentioning them."""
