@@ -55,9 +55,6 @@ class Counting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        # Skip bot messages
-        if message.author.bot:
-            return
     
         channel_id = message.channel.id
         cursor = self.conn.cursor()
