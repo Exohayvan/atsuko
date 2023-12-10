@@ -202,6 +202,10 @@ Returns the donation address for the specified method.
 Usage:
 `!donate <method>`
 
+## roles
+
+Creates a reaction role message.
+
 ## connect_channel
 
 Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)
