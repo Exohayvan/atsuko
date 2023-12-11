@@ -134,7 +134,7 @@ class AniList(commands.Cog):
         list_response = requests.post('https://graphql.anilist.co', json={'query': list_query, 'variables': list_variables})
     
         if list_response.status_code != 200:
-            await ctx.send(f"Failed to fetch stats. API Response: {list_response.content}")
+            await ctx.send(f"Failed to fetch anime stats. API Response: {list_response.content}")
             return
     
         data = list_response.json()
@@ -142,6 +142,34 @@ class AniList(commands.Cog):
         watching_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'CURRENT')
         completed_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'COMPLETED')
         planning_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'PLANNING')
+    
+        # Fetch additional anime statistics (like episodes watched)
+        anime_stats_query = '''
+        query ($username: String) {
+          User(name: $username) {
+            statistics {
+              anime {
+                episodesWatched
+                minutesWatched
+              }
+            }
+          }
+        }
+        '''
+        anime_stats_variables = {'username': username}
+        anime_stats_response = requests.post('https://graphql.anilist.co', json={'query': anime_stats_query, 'variables': anime_stats_variables})
+    
+        if anime_stats_response.status_code != 200:
+            await ctx.send("Failed to fetch anime statistics.")
+            return
+    
+        anime_stats_data = anime_stats_response.json()
+        episodes = anime_stats_data['data']['User']['statistics']['anime']['episodesWatched']
+        total_minutes = anime_stats_data['data']['User']['statistics']['anime']['minutesWatched']
+        days = total_minutes // (24 * 60)
+        hours = (total_minutes % (24 * 60)) // 60
+        minutes = total_minutes % 60
+        time_watched_str = f"{days} days, {hours} hours, {minutes} minutes"
     
         # Fetch the entire manga list for the user
         manga_list_query = '''
