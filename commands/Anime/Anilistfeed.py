@@ -67,9 +67,8 @@ class AnilistFeed(commands.Cog):
                                 if channel_id:
                                     channel = guild.get_channel(channel_id[0])
                                     if channel:
-                                        embed = discord.Embed(title=activity['media_name'], url=activity['link'], description=f"{activity['status']} {activity['media_type']}")
-                                        embed.set_image(url=activity['cover_image'])  # Use cover image URL directly
-                                        await channel.send(content=message, embed=embed)
+                                        message = f"{member.mention}, {activity['status']} {activity['media_name']}.\n[Watch Here]({activity['link']})"
+                                        await channel.send(message)
                                         await asyncio.sleep(1)
     
                         # Update the last activity ID for the user
@@ -134,10 +133,7 @@ class AnilistFeed(commands.Cog):
                     'status': activity['status'],
                     'media_name': activity['media']['title']['english'] or activity['media']['title']['romaji'],
                     'link': activity['media']['siteUrl'],
-                    'media_type': media_type,
-                    'media_id': activity['media']['id'],  # Add this line to include media_id
-                    # Optionally, you can fetch the cover image URL here instead of in a separate function.
-                    'cover_image': activity['media']['coverImage']['large']  # Add this line to get cover image URL
+                    'media_type': media_type  # Include the type of media in the return data
                 }
         return None
 
