@@ -68,7 +68,7 @@ class AnilistFeed(commands.Cog):
                                     channel = guild.get_channel(channel_id[0])
                                     if channel:
                                         embed = discord.Embed(title=activity['media_name'], url=activity['link'], description=f"{activity['status']} {activity['media_type']}")
-                                        embed.set_image(url=activity['cover_image'])  # Add cover image to embed
+                                        embed.set_image(url=activity['cover_image'])  # Use cover image URL directly
                                         await channel.send(content=message, embed=embed)
                                         await asyncio.sleep(1)
     
