@@ -67,8 +67,9 @@ class AnilistFeed(commands.Cog):
                                 if channel_id:
                                     channel = guild.get_channel(channel_id[0])
                                     if channel:
-                                        message = f"{member.mention}, {activity['status']} {activity['media_name']}.\n[View Here]({activity['link']})"
-                                        await channel.send(message)
+                                        embed = discord.Embed(title=activity['media_name'], url=activity['link'], description=f"{activity['status']} {activity['media_type']}")
+                                        embed.set_image(url=activity['cover_image'])  # Add cover image to embed
+                                        await channel.send(content=message, embed=embed)
                                         await asyncio.sleep(1)
     
                         # Update the last activity ID for the user
