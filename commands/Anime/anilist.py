@@ -143,11 +143,12 @@ class AniList(commands.Cog):
         completed_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'COMPLETED')
         planning_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'PLANNING')
     
-        # Fetch manga list and statistics
+        # Fetch the entire manga list for the user
         manga_list_query = '''
         query ($userId: Int) {
             MediaListCollection(userId: $userId, type: MANGA) {
                 lists {
+                    name
                     entries {
                         status
                         progress
@@ -165,10 +166,13 @@ class AniList(commands.Cog):
     
         manga_data = manga_list_response.json()
         manga_lists = manga_data['data']['MediaListCollection']['lists']
-        manga_read_count = sum(entry['progress'] for lst in manga_lists for entry in lst['entries'])
+        manga_reading_count = sum(1 for lst in manga_lists for entry in lst['entries'] if entry['status'] == 'CURRENT')
+        manga_read_count = sum(1 for lst in manga_lists for entry in lst['entries'] if entry['status'] == 'COMPLETED')
+        manga_planned_count = sum(1 for lst in manga_lists for entry in lst['entries'] if entry['status'] == 'PLANNING')
+        manga_chapters_read = sum(entry['progress'] for lst in manga_lists for entry in lst['entries'])
     
         # Calculate time spent reading manga
-        total_manga_minutes = manga_read_count * 9
+        total_manga_minutes = manga_chapters_read * 9
         manga_days = total_manga_minutes // (24 * 60)
         manga_hours = (total_manga_minutes % (24 * 60)) // 60
         manga_minutes = total_manga_minutes % 60
@@ -179,7 +183,12 @@ class AniList(commands.Cog):
         embed.add_field(name="Animes Watching", value=watching_count, inline=True)
         embed.add_field(name="Animes Watched", value=completed_count, inline=True)
         embed.add_field(name="Animes Planned", value=planning_count, inline=True)
-        embed.add_field(name="Chapters Read", value=manga_read_count, inline=True)
+        embed.add_field(name="Episodes Watched", value=episodes, inline=True)
+        embed.add_field(name="Time Spent Watching Anime", value=time_watched_str, inline=True)
+        embed.add_field(name="Mangas Reading", value=manga_reading_count, inline=True)
+        embed.add_field(name="Mangas Read", value=manga_read_count, inline=True)
+        embed.add_field(name="Mangas Planned", value=manga_planned_count, inline=True)
+        embed.add_field(name="Chapters Read", value=manga_chapters_read, inline=True)
         embed.add_field(name="Time Spent Reading Manga", value=time_read_str, inline=True)
     
         await ctx.send(embed=embed)
