@@ -100,7 +100,7 @@ class AnilistFeed(commands.Cog):
         query = '''
         query ($userId: Int) {
           Page(page: 1, perPage: 1) {
-            activities(userId: $userId, type: ANIME_LIST, sort: ID_DESC) {
+            activities(userId: $userId, sort: ID_DESC) {
               ... on ListActivity {
                 id
                 status
@@ -111,6 +111,7 @@ class AnilistFeed(commands.Cog):
                     english
                   }
                   siteUrl
+                  type # This is added to distinguish between anime and manga
                 }
                 createdAt
               }
@@ -120,17 +121,19 @@ class AnilistFeed(commands.Cog):
         '''
         variables = {'userId': anilist_user_id}
         response = requests.post('https://graphql.anilist.co', json={'query': query, 'variables': variables})
-
+    
         if response.status_code == 200:
             data = response.json()
             activities = data['data']['Page']['activities']
             if activities:
                 activity = activities[0]
+                media_type = "Anime" if activity['media']['type'] == 'ANIME' else "Manga"
                 return {
                     'id': activity['id'],
                     'status': activity['status'],
-                    'episode_name': activity['media']['title']['english'] or activity['media']['title']['romaji'],
-                    'link': activity['media']['siteUrl']
+                    'media_name': activity['media']['title']['english'] or activity['media']['title']['romaji'],
+                    'link': activity['media']['siteUrl'],
+                    'media_type': media_type  # Include the type of media in the return data
                 }
         return None
 
