@@ -67,7 +67,7 @@ class AnilistFeed(commands.Cog):
                                 if channel_id:
                                     channel = guild.get_channel(channel_id[0])
                                     if channel:
-                                        message = f"{member.mention}, {activity['status']} {activity['episode_name']}.\n[Watch Here]({activity['link']})"
+                                        message = f"{member.mention}, {activity['status']} {activity['media_name']}.\n[Watch Here]({activity['link']})"
                                         await channel.send(message)
                                         await asyncio.sleep(1)
     
