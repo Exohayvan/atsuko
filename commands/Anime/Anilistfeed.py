@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands, tasks
 import sqlite3
 import requests
+import asyncio
 import os
 
 class AnilistFeed(commands.Cog):
