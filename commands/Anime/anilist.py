@@ -104,7 +104,7 @@ class AniList(commands.Cog):
             await ctx.send(f"{user.mention} has not set their AniList username.")
             return
     
-        # First, get the user's ID from the username.
+        # Fetch the user's ID from the username
         user_query = '''
         query ($username: String) {
             User(name: $username) {
@@ -117,7 +117,7 @@ class AniList(commands.Cog):
         user_data = user_response.json()
         user_id = user_data['data']['User']['id']
     
-        # Fetch the entire anime list for the user.
+        # Fetch the entire anime list for the user
         list_query = '''
         query ($userId: Int) {
             MediaListCollection(userId: $userId, type: ANIME) {
@@ -143,66 +143,44 @@ class AniList(commands.Cog):
         completed_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'COMPLETED')
         planning_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'PLANNING')
     
-        # Fetch watched statistics
-        watched_query = '''
-        query ($username: String) {
-          User(name: $username) {
-            statistics {
-              anime {
-                minutesWatched
-                episodesWatched
-              }
-            }
-          }
-        }
-        '''
-        watched_variables = {'username': username}
-        watched_response = requests.post('https://graphql.anilist.co', json={'query': watched_query, 'variables': watched_variables})
-    
-        if watched_response.status_code != 200:
-            await ctx.send(f"Failed to fetch watched statistics. API Response: {watched_response.content}")
-            return
-    
-        watched_data = watched_response.json()
-        total_minutes = watched_data['data']['User']['statistics']['anime']['minutesWatched']
-        episodes = watched_data['data']['User']['statistics']['anime']['episodesWatched']
-        
-        days = total_minutes // (24 * 60)
-        hours = (total_minutes % (24 * 60)) // 60
-        minutes = total_minutes % 60
-        time_watched_str = f"{days} days, {hours} hours, {minutes} minutes"
-    
-        # Fetch top 3 genres
-        genre_query = '''
-        query ($username: String) {
-          User(name: $username) {
-            statistics {
-              anime {
-                genres(limit: 3) {
-                  genre
+        # Fetch manga list and statistics
+        manga_list_query = '''
+        query ($userId: Int) {
+            MediaListCollection(userId: $userId, type: MANGA) {
+                lists {
+                    entries {
+                        status
+                        progress
+                    }
                 }
-              }
             }
-          }
         }
         '''
-        genre_variables = {'username': username}
-        genre_response = requests.post('https://graphql.anilist.co', json={'query': genre_query, 'variables': genre_variables})
+        manga_list_variables = {'userId': user_id}
+        manga_list_response = requests.post('https://graphql.anilist.co', json={'query': manga_list_query, 'variables': manga_list_variables})
     
-        if genre_response.status_code != 200:
-            await ctx.send(f"Failed to fetch top genres. API Response: {genre_response.content}")
+        if manga_list_response.status_code != 200:
+            await ctx.send(f"Failed to fetch manga stats. API Response: {manga_list_response.content}")
             return
     
-        genre_data = genre_response.json()
-        top_genres = ", ".join([genre['genre'] for genre in genre_data['data']['User']['statistics']['anime']['genres']])
+        manga_data = manga_list_response.json()
+        manga_lists = manga_data['data']['MediaListCollection']['lists']
+        manga_read_count = sum(entry['progress'] for lst in manga_lists for entry in lst['entries'])
     
+        # Calculate time spent reading manga
+        total_manga_minutes = manga_read_count * 9
+        manga_days = total_manga_minutes // (24 * 60)
+        manga_hours = (total_manga_minutes % (24 * 60)) // 60
+        manga_minutes = total_manga_minutes % 60
+        time_read_str = f"{manga_days} days, {manga_hours} hours, {manga_minutes} minutes"
+    
+        # Add both anime and manga stats to the embed
         embed = discord.Embed(title=f"{user}'s AniList Stats", color=discord.Color.blue())
         embed.add_field(name="Animes Watching", value=watching_count, inline=True)
         embed.add_field(name="Animes Watched", value=completed_count, inline=True)
         embed.add_field(name="Animes Planned", value=planning_count, inline=True)
-        embed.add_field(name="Time Watched", value=time_watched_str, inline=True)
-        embed.add_field(name="Episodes Watched", value=episodes, inline=True)
-        embed.add_field(name="Top 3 Genres", value=top_genres, inline=True)
+        embed.add_field(name="Chapters Read", value=manga_read_count, inline=True)
+        embed.add_field(name="Time Spent Reading Manga", value=time_read_str, inline=True)
     
         await ctx.send(embed=embed)
                                                     
