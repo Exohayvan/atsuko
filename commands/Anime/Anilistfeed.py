@@ -133,7 +133,8 @@ class AnilistFeed(commands.Cog):
                     'status': activity['status'],
                     'media_name': activity['media']['title']['english'] or activity['media']['title']['romaji'],
                     'link': activity['media']['siteUrl'],
-                    'media_type': media_type  # Include the type of media in the return data
+                    'media_type': media_type,
+                    'cover_image': activity['media']['coverImage']['large']  # Add this line to get cover image URL
                 }
         return None
 
