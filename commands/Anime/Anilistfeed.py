@@ -67,6 +67,7 @@ class AnilistFeed(commands.Cog):
                                         await channel.send(message)
                                         activity_c.execute("INSERT OR REPLACE INTO last_activity (user_id, last_activity_id) VALUES (?, ?)", (user_id, activity['id']))
                                         activity_conn.commit()
+                                    await asyncio.sleep(1)
 
         activity_conn.close()
         anilist_conn.close()
