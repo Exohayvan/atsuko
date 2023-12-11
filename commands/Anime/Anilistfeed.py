@@ -132,12 +132,13 @@ class AnilistFeed(commands.Cog):
                 status
                 progress
                 media {
+                  id  # Fetch the media ID here
                   title {
                     romaji
                     english
                   }
                   siteUrl
-                  type # This is added to distinguish between anime and manga
+                  type
                 }
                 createdAt
               }
@@ -159,7 +160,8 @@ class AnilistFeed(commands.Cog):
                     'status': activity['status'],
                     'media_name': activity['media']['title']['english'] or activity['media']['title']['romaji'],
                     'link': activity['media']['siteUrl'],
-                    'media_type': media_type  # Include the type of media in the return data
+                    'media_type': media_type,
+                    'media_id': activity['media']['id']  # Include the media ID in the return data
                 }
         return None
 
