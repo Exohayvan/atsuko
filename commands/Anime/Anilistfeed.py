@@ -36,29 +36,31 @@ class AnilistFeed(commands.Cog):
         self.feed_conn.commit()
         await ctx.send(f"AniList feed updates will be posted in this channel.")
 
+    @commands.command()
+    async def setanifeed(self, ctx):
+        """Sets the channel for AniList feed updates."""
+        self.feed_c.execute("INSERT OR REPLACE INTO feed_channels (guild_id, channel_id) VALUES (?, ?)", (ctx.guild.id, ctx.channel.id))
+        self.feed_conn.commit()
+        await ctx.send(f"AniList feed updates will be posted in this channel.")
+
     @tasks.loop(seconds=60)
     async def check_anilist_updates(self):
-        # Connect to the AniList and activity databases
         anilist_conn = sqlite3.connect('data/db/anilist.db')
         anilist_c = anilist_conn.cursor()
         activity_conn = sqlite3.connect('data/db/anilistactivity.db')
         activity_c = activity_conn.cursor()
-    
-        # Fetch all users and their AniList usernames
+
         anilist_c.execute("SELECT id, username FROM usernames")
         users = anilist_c.fetchall()
-    
+
         for user_id, username in users:
-            # Fetch the AniList user ID and their latest activity
             anilist_user_id = self.fetch_anilist_user_id(username)
             if anilist_user_id:
                 activity = self.fetch_latest_activity(anilist_user_id)
                 if activity:
-                    # Check if this activity is already posted
                     activity_c.execute("SELECT last_activity_id FROM last_activity WHERE user_id=?", (user_id,))
                     last_activity_id = activity_c.fetchone()
                     if not last_activity_id or last_activity_id[0] != activity['id']:
-                        # Post the update to all servers where the user is a member
                         for guild in self.bot.guilds:
                             member = guild.get_member(user_id)
                             if member:
@@ -67,18 +69,42 @@ class AnilistFeed(commands.Cog):
                                 if channel_id:
                                     channel = guild.get_channel(channel_id[0])
                                     if channel:
-                                        message = f"{member.mention}, {activity['status']} {activity['media_name']}.\n[Watch Here]({activity['link']})"
-                                        await channel.send(message)
+                                        cover_image_url = self.fetch_cover_image(activity['media_id']) # Assuming media_id is part of activity
+                                        embed = discord.Embed(
+                                            title=f"{activity['status']} {activity['media_name']}",
+                                            description=f"{member.mention}, {activity['status']} {activity['media_name']}.",
+                                            url=activity['link'],
+                                            color=discord.Color.blue()
+                                        )
+                                        if cover_image_url:
+                                            embed.set_thumbnail(url=cover_image_url)
+                                        await channel.send(embed=embed)
                                         await asyncio.sleep(1)
-    
-                        # Update the last activity ID for the user
+
                         activity_c.execute("INSERT OR REPLACE INTO last_activity (user_id, last_activity_id) VALUES (?, ?)", (user_id, activity['id']))
                         activity_conn.commit()
-    
-        # Close the database connections
+
         activity_conn.close()
         anilist_conn.close()
-        
+    
+    def fetch_cover_image(self, media_id):
+        query = '''
+        query ($id: Int) {
+            Media(id: $id, type: ANIME) {
+                coverImage {
+                    large
+                }
+            }
+        }
+        '''
+        variables = {'id': media_id}
+        response = requests.post('https://graphql.anilist.co', json={'query': query, 'variables': variables})
+        if response.status_code == 200:
+            data = response.json()
+            return data['data']['Media']['coverImage']['large']
+        else:
+            return None
+            
     def fetch_anilist_user_id(self, username):
         query = '''
         query ($username: String) {
