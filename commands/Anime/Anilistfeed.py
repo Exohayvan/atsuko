@@ -38,40 +38,47 @@ class AnilistFeed(commands.Cog):
 
     @tasks.loop(seconds=60)
     async def check_anilist_updates(self):
-        self.feed_c.execute("SELECT guild_id, channel_id FROM feed_channels")
-        channels = self.feed_c.fetchall()
-
+        # Connect to the AniList and activity databases
         anilist_conn = sqlite3.connect('data/db/anilist.db')
         anilist_c = anilist_conn.cursor()
-
         activity_conn = sqlite3.connect('data/db/anilistactivity.db')
         activity_c = activity_conn.cursor()
-
-        for guild_id, channel_id in channels:
-            guild = self.bot.get_guild(guild_id)
-            if guild:
-                channel = guild.get_channel(channel_id)
-                if channel:
-                    anilist_c.execute("SELECT id, username FROM usernames")
-                    for user_id, username in anilist_c.fetchall():
-                        member = guild.get_member(user_id)
-                        if member:
-                            anilist_user_id = self.fetch_anilist_user_id(username)
-                            if anilist_user_id:
-                                activity = self.fetch_latest_activity(anilist_user_id)
-                                if activity:
-                                    activity_c.execute("SELECT last_activity_id FROM last_activity WHERE user_id=?", (user_id,))
-                                    last_activity_id = activity_c.fetchone()
-                                    if not last_activity_id or last_activity_id[0] != activity['id']:
+    
+        # Fetch all users and their AniList usernames
+        anilist_c.execute("SELECT id, username FROM usernames")
+        users = anilist_c.fetchall()
+    
+        for user_id, username in users:
+            # Fetch the AniList user ID and their latest activity
+            anilist_user_id = self.fetch_anilist_user_id(username)
+            if anilist_user_id:
+                activity = self.fetch_latest_activity(anilist_user_id)
+                if activity:
+                    # Check if this activity is already posted
+                    activity_c.execute("SELECT last_activity_id FROM last_activity WHERE user_id=?", (user_id,))
+                    last_activity_id = activity_c.fetchone()
+                    if not last_activity_id or last_activity_id[0] != activity['id']:
+                        # Post the update to all servers where the user is a member
+                        for guild in self.bot.guilds:
+                            member = guild.get_member(user_id)
+                            if member:
+                                self.feed_c.execute("SELECT channel_id FROM feed_channels WHERE guild_id=?", (guild.id,))
+                                channel_id = self.feed_c.fetchone()
+                                if channel_id:
+                                    channel = guild.get_channel(channel_id[0])
+                                    if channel:
                                         message = f"{member.mention}, {activity['status']} {activity['episode_name']}.\n[Watch Here]({activity['link']})"
                                         await channel.send(message)
-                                        activity_c.execute("INSERT OR REPLACE INTO last_activity (user_id, last_activity_id) VALUES (?, ?)", (user_id, activity['id']))
-                                        activity_conn.commit()
-                                    await asyncio.sleep(1)
-
+                                        await asyncio.sleep(1)
+    
+                        # Update the last activity ID for the user
+                        activity_c.execute("INSERT OR REPLACE INTO last_activity (user_id, last_activity_id) VALUES (?, ?)", (user_id, activity['id']))
+                        activity_conn.commit()
+    
+        # Close the database connections
         activity_conn.close()
         anilist_conn.close()
-
+        
     def fetch_anilist_user_id(self, username):
         query = '''
         query ($username: String) {
