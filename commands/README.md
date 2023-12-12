@@ -337,20 +337,6 @@ Gamble your gold for a chance to win the pot.
 
 Check the current jackpot amount.
 
-## xp
-
-Used to check your own or someone elses xp and level!
-
-Usage:
-`!xp` or `!xp @member`
-
-## leaderboard
-
-Check a servers leaderboard, can take a while sometimes.
-
-Usage:
-`!leaderboard`
-
 ## lock
 
 Locks a channel.
