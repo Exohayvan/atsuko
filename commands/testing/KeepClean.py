@@ -3,6 +3,7 @@ import sqlite3
 import asyncio
 import datetime
 from discord.ext import tasks
+import logging
 
 def create_table(db_path):
     with sqlite3.connect(db_path) as conn:
@@ -39,8 +40,6 @@ class KeepClean(commands.Cog):
     async def keepclean_off(self, ctx):
         self.remove_channel(ctx.channel.id)
         await ctx.send("KeepClean is now OFF for this channel.")
-
-import logging
 
     @tasks.loop(minutes=5)
     async def check_messages(self):
