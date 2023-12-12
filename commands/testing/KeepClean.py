@@ -50,7 +50,7 @@ class KeepClean(commands.Cog):
         for channel_id, time_limit in channels:
             channel = self.bot.get_channel(channel_id)
             if channel:
-                chunk_size = 100
+                chunk_size = 25
                 oldest_message_time = datetime.datetime.utcnow() - datetime.timedelta(minutes=time_limit)
     
                 while True:
