@@ -230,44 +230,54 @@ class AniList(commands.Cog):
         
         await ctx.send(embed=embed)
 
-    @anilist.command()
+    @commands.command()
     async def leaderboard(self, ctx):
         # Fetch all users from the database
         self.c.execute("SELECT id, username FROM usernames")
         users = self.c.fetchall()
-    
-        # Calculate the estimated time (1 second delay per user, 1 second additional processing per user)
+
+        # Calculate the estimated time
         estimated_time_seconds = len(users) * 2
-        estimated_time_message = f"Estimated time to generate leaderboard: {estimated_time_seconds // 60} minutes {estimated_time_seconds % 60} seconds"
+        estimated_time_message = f"Checking Users Stats... This could take a moment\nEstimated time: {estimated_time_seconds // 60} minutes {estimated_time_seconds % 60} seconds"
         estimation_message = await ctx.send(estimated_time_message)
-    
+
         leaderboard_data = []
-    
+
         for user_id, username in users:
-            # Calculate total time for anime
+            # Fetch the Discord member
+            member = ctx.guild.get_member(user_id)
+            if member is None:
+                continue  # Skip if the member is not found
+
+            # Calculate total time for anime and manga
             anime_time = await self.calculate_total_anime_time(username)
-            # Calculate total time for manga
             manga_time = await self.calculate_total_manga_time(username)
-            # Total time
             total_time = anime_time + manga_time
-            leaderboard_data.append((username, total_time))
-    
-            # Wait for 1 second before proceeding to the next user
+
+            leaderboard_data.append((member.mention, self.format_time(total_time)))
+
+            # Wait for 1 second
             await asyncio.sleep(1)
-    
+
         # Sort the data by total time and get top 10
         leaderboard_sorted = sorted(leaderboard_data, key=lambda x: x[1], reverse=True)[:10]
-    
+
         # Create an embed for the leaderboard
         embed = discord.Embed(title="Top 10 Weebs Leaderboard", color=discord.Color.blue())
-        for rank, (username, total_time) in enumerate(leaderboard_sorted, start=1):
-            embed.add_field(name=f"#{rank} {username}", value=f"Total Time: {total_time} min", inline=False)
-    
+        for rank, (user_mention, total_time) in enumerate(leaderboard_sorted, start=1):
+            embed.add_field(name=f"#{rank} {user_mention}", value=f"Total Time: {total_time}", inline=False)
+
         # Delete the estimation message
         await estimation_message.delete()
-    
+
         # Send the leaderboard embed
         await ctx.send(embed=embed)
+
+    def format_time(self, total_minutes):
+        days = total_minutes // (24 * 60)
+        hours = (total_minutes % (24 * 60)) // 60
+        minutes = total_minutes % 60
+        return f"{days}d {hours}h {minutes}m"
     
     async def calculate_total_anime_time(self, username):
         # Fetch anime statistics
