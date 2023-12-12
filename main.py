@@ -132,6 +132,10 @@ async def has_accepted_tos(ctx):
 
         pending_commands[user_id] = ctx
 
+        # Schedule TOS message deletion after 60 seconds
+        await asyncio.sleep(60)
+        await tos_message.delete()
+
         return False
         
 bot.add_check(has_accepted_tos)
