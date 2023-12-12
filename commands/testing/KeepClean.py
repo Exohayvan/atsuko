@@ -50,20 +50,20 @@ class KeepClean(commands.Cog):
         for channel_id, time_limit in channels:
             channel = self.bot.get_channel(channel_id)
             if channel:
-                # Set a reasonable chunk size for deletion
                 chunk_size = 100
                 oldest_message_time = datetime.datetime.utcnow() - datetime.timedelta(minutes=time_limit)
     
-                # Fetch and delete messages in chunks
                 while True:
-                    messages = await channel.history(limit=chunk_size, after=oldest_message_time).flatten()
+                    # Use an async comprehension to gather messages into a list
+                    messages = [message async for message in channel.history(limit=chunk_size, after=oldest_message_time)]
+    
                     if not messages:
                         break
     
                     for message in messages:
                         await message.delete()
     
-                    await asyncio.sleep(1)  # Small delay to respect rate limits
+                    await asyncio.sleep(1)  # Respect rate limits
             else:
                 self.remove_channel(channel_id)
 
