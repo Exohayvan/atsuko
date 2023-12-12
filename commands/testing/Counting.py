@@ -15,36 +15,44 @@ class Counting(commands.Cog):
                           (channel_id INTEGER PRIMARY KEY, last_number INTEGER, last_user_id INTEGER)''')
         self.conn.commit()
         
-    @commands.command(name='sync_counting_channel', help='Fully synchronizes the counting channel with the database.')
-    async def sync_counting_channel(self, ctx):
-        channel_id = ctx.channel.id
+    @commands.Cog.listener()
+    async def on_ready(self):
         cursor = self.conn.cursor()
-        cursor.execute('SELECT last_number, last_user_id FROM counting_channels WHERE channel_id = ?', (channel_id,))
+        cursor.execute('SELECT channel_id FROM counting_channels')
+        channels = cursor.fetchall()
+
+        for channel_id, in channels:
+            channel = self.bot.get_channel(channel_id)
+            if channel:
+                await self.sync_counting_channel_for_startup(channel)
+
+    async def sync_counting_channel_for_startup(self, channel):
+        cursor = self.conn.cursor()
+        cursor.execute('SELECT last_number, last_user_id FROM counting_channels WHERE channel_id = ?', (channel.id,))
         row = cursor.fetchone()
-    
+
         if row:
             last_number, last_user_id = row
-            messages = await ctx.channel.history(limit=100).flatten()  # Adjust limit as needed
-    
+            messages = await channel.history(limit=100).flatten()  # Adjust limit as needed
+
             for message in reversed(messages):
                 if message.author.bot:
                     continue
-    
+
                 if re.fullmatch(r'^\d+$', message.content):
                     number = int(message.content)
-    
-                    # Check if it's the correct next number and not from the same user
+
                     if number == last_number + 1 and message.author.id != last_user_id:
                         last_number = number
                         last_user_id = message.author.id
                         await message.add_reaction("✅")
                     else:
                         await message.delete()
-    
-            cursor.execute('UPDATE counting_channels SET last_number = ?, last_user_id = ? WHERE channel_id = ?', (last_number, last_user_id, channel_id))
+
+            cursor.execute('UPDATE counting_channels SET last_number = ?, last_user_id = ? WHERE channel_id = ?', (last_number, last_user_id, channel.id))
             self.conn.commit()
-            await print(f"Counting channel fully synchronized. Current count: {last_number}")
-                        
+            print(f"Counting channel {channel.name} fully synchronized. Current count: {last_number}")
+                                    
     @commands.command(name='set_counting_channel', help='Sets the current channel as the counting channel.')
     async def set_counting_channel(self, ctx):
         channel_id = ctx.channel.id
