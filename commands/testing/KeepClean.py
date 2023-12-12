@@ -40,33 +40,39 @@ class KeepClean(commands.Cog):
         self.remove_channel(ctx.channel.id)
         await ctx.send("KeepClean is now OFF for this channel.")
 
+import logging
+
     @tasks.loop(minutes=5)
     async def check_messages(self):
-        with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT channel_id, time_limit FROM Channels")
-            channels = cursor.fetchall()
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT channel_id, time_limit FROM Channels")
+                channels = cursor.fetchall()
     
-        for channel_id, time_limit in channels:
-            channel = self.bot.get_channel(channel_id)
-            if channel:
-                chunk_size = 25
-                oldest_message_time = datetime.datetime.utcnow() - datetime.timedelta(minutes=time_limit)
+            for channel_id, time_limit in channels:
+                channel = self.bot.get_channel(channel_id)
+                if channel:
+                    chunk_size = 50
+                    oldest_message_time = datetime.datetime.utcnow() - datetime.timedelta(minutes=time_limit)
     
-                while True:
-                    # Use an async comprehension to gather messages into a list
-                    messages = [message async for message in channel.history(limit=chunk_size, after=oldest_message_time)]
+                    while True:
+                        messages = [message async for message in channel.history(limit=chunk_size, after=oldest_message_time)]
     
-                    if not messages:
-                        break
+                        if not messages:
+                            break
     
-                    for message in messages:
-                        await message.delete()
+                        for message in messages:
+                            await message.delete()
+                            await asyncio.sleep(1.2)
     
-                    await asyncio.sleep(1)  # Respect rate limits
-            else:
-                self.remove_channel(channel_id)
-
+                        logging.info(f"Deleted {len(messages)} messages in channel {channel_id}.")
+                else:
+                    self.remove_channel(channel_id)
+                    logging.warning(f"Channel {channel_id} not found or bot has no access.")
+        except Exception as e:
+            logging.error(f"Error in check_messages: {e}")
+        
     def update_channel(self, channel_id, time_limit):
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
