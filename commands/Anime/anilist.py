@@ -230,7 +230,7 @@ class AniList(commands.Cog):
         
         await ctx.send(embed=embed)
 
-    @commands.command()
+    @anilist.command()
     async def leaderboard(self, ctx):
         # Fetch all users from the database
         self.c.execute("SELECT id, username FROM usernames")
