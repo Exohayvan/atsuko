@@ -29,6 +29,11 @@ class Money(commands.Cog):
         pot_id INTEGER PRIMARY KEY,
         balance INTEGER DEFAULT 100
         )''')
+        
+        self.remind_cursor.execute('''
+        ALTER TABLE DailyRemind ADD COLUMN reminded_today BOOLEAN DEFAULT FALSE
+        ''')
+        self.remind_db.commit()
 
         self.cursor.execute("INSERT INTO Pot (pot_id, balance) SELECT 1, 100 WHERE NOT EXISTS(SELECT 1 FROM Pot WHERE pot_id = 1)")
         self.db.commit()
