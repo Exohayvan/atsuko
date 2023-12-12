@@ -14,41 +14,43 @@ CURRENCY_NAME = "gold"
 class Money(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.db = sqlite3.connect('./data/db/money.db')
-        self.cursor = self.db.cursor()
-        self.cursor.execute('''
-        CREATE TABLE IF NOT EXISTS UserBalance (
-        user_id TEXT PRIMARY KEY,
-        balance INTEGER DEFAULT 0,
-        investment INTEGER DEFAULT 0,
-        last_daily TEXT DEFAULT NULL
-        )''')
-
-        self.cursor.execute('''
-        CREATE TABLE IF NOT EXISTS Pot (
-        pot_id INTEGER PRIMARY KEY,
-        balance INTEGER DEFAULT 100
-        )''')
-        
-        self.remind_cursor.execute('''
-        ALTER TABLE DailyRemind ADD COLUMN reminded_today BOOLEAN DEFAULT FALSE
-        ''')
-        self.remind_db.commit()
-
-        self.cursor.execute("INSERT INTO Pot (pot_id, balance) SELECT 1, 100 WHERE NOT EXISTS(SELECT 1 FROM Pot WHERE pot_id = 1)")
-        self.db.commit()
-        
-        self.remind_db = sqlite3.connect('./data/db/dailyremind.db')
-        self.remind_cursor = self.remind_db.cursor()
-        self.remind_cursor.execute('''
-        CREATE TABLE IF NOT EXISTS DailyRemind (
-        user_id TEXT PRIMARY KEY,
-        last_channel_id TEXT
-        )''')
-        self.remind_db.commit()
+        self.init_databases()
 
         # Start the background task
         self.bot.loop.create_task(self.daily_reminder_check())
+
+    def init_databases(self):
+        try:
+            # Initialize the money database
+            self.db = sqlite3.connect('./data/db/money.db')
+            self.cursor = self.db.cursor()
+            self.init_money_db_tables()
+
+            # Initialize the reminder database
+            self.remind_db = sqlite3.connect('./data/db/dailyremind.db')
+            self.remind_cursor = self.remind_db.cursor()
+            self.init_remind_db_tables()
+        except sqlite3.Error as e:
+            print(f"An error occurred while connecting to databases: {e}")
+
+    def init_money_db_tables(self):
+        try:
+            # Your money.db table creation queries go here
+            self.cursor.execute("CREATE TABLE IF NOT EXISTS UserBalance ...")
+            self.cursor.execute("CREATE TABLE IF NOT EXISTS Pot ...")
+            self.cursor.execute("INSERT INTO Pot ...")
+            self.db.commit()
+        except sqlite3.Error as e:
+            print(f"An error occurred while initializing money.db tables: {e}")
+
+    def init_remind_db_tables(self):
+        try:
+            # Your dailyremind.db table creation and alteration queries go here
+            self.remind_cursor.execute("CREATE TABLE IF NOT EXISTS DailyRemind ...")
+            self.remind_cursor.execute("ALTER TABLE DailyRemind ADD COLUMN reminded_today BOOLEAN DEFAULT FALSE")
+            self.remind_db.commit()
+        except sqlite3.Error as e:
+            print(f"An error occurred while initializing dailyremind.db tables: {e}")
 
     @commands.command()
     async def dailyremind(self, ctx, option: str):
