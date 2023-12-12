@@ -45,13 +45,18 @@ class Money(commands.Cog):
 
     def init_remind_db_tables(self):
         try:
-            # Your dailyremind.db table creation and alteration queries go here
-            self.remind_cursor.execute("CREATE TABLE IF NOT EXISTS DailyRemind ...")
-            self.remind_cursor.execute("ALTER TABLE DailyRemind ADD COLUMN reminded_today BOOLEAN DEFAULT FALSE")
+            # Create DailyRemind table with all necessary columns
+            self.remind_cursor.execute("""
+                CREATE TABLE IF NOT EXISTS DailyRemind (
+                    user_id TEXT PRIMARY KEY,
+                    last_channel_id TEXT,
+                    reminded_today BOOLEAN DEFAULT FALSE
+                )
+            """)
             self.remind_db.commit()
         except sqlite3.Error as e:
             print(f"An error occurred while initializing dailyremind.db tables: {e}")
-
+        
     @commands.command()
     async def dailyremind(self, ctx, option: str):
         """Toggle daily reminders on or off."""
