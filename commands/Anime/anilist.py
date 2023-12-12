@@ -3,6 +3,7 @@ from discord.ext import commands
 import sqlite3
 import requests
 import os
+import asyncio
 
 class AniList(commands.Cog):
     def __init__(self, bot):
