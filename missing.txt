@@ -12,8 +12,6 @@ Command 'tictactoe' in cog TicTacToe is missing usage details.
 Command 'hangman' in cog Hangman is missing usage details.
 Command 'setanifeed' in cog AnilistFeed is missing usage details.
 Command 'anilist' in cog AniList is missing usage details.
-Command 'leaderboard' in cog AniList is missing help details.
-Command 'leaderboard' in cog AniList is missing usage details.
 Command 'random' in cog Random is missing usage details.
 Command 'package_info' in cog Python is missing usage details.
 Command 'roles' in cog Role is missing usage details.
