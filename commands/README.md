@@ -297,10 +297,6 @@ This is the embed command.
 Usage:
 `!embed <message>`
 
-## sync_counting_channel
-
-Fully synchronizes the counting channel with the database.
-
 ## set_counting_channel
 
 Sets the current channel as the counting channel.
