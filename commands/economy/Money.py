@@ -68,10 +68,14 @@ class Money(commands.Cog):
     async def daily_reminder_check(self):
         while True:
             await asyncio.sleep(60)  # Wait for 60 seconds between each check
-            self.remind_cursor.execute('SELECT user_id, last_channel_id FROM DailyRemind')
+            current_time = datetime.now()
+            if current_time.hour == 0 and current_time.minute <= 1:  # Reset reminders once a day
+                self.remind_cursor.execute('UPDATE DailyRemind SET reminded_today = FALSE')
+                self.remind_db.commit()
+
+            self.remind_cursor.execute('SELECT user_id, last_channel_id FROM DailyRemind WHERE reminded_today = FALSE')
             users_to_remind = self.remind_cursor.fetchall()
-            for user_id, last_channel_id in users_to_remind:
-                self.cursor.execute('SELECT last_daily FROM UserBalance WHERE user_id=?', (user_id,))
+            for user_id, last_channel_id in users_to_remind:                self.cursor.execute('SELECT last_daily FROM UserBalance WHERE user_id=?', (user_id,))
                 result = self.cursor.fetchone()
                 if result and result[0]:
                     time_difference = datetime.now() - datetime.strptime(result[0], "%Y-%m-%d %H:%M:%S.%f")
@@ -79,7 +83,9 @@ class Money(commands.Cog):
                         channel = self.bot.get_channel(int(last_channel_id))
                         if channel:
                             await channel.send(f'<@{user_id}> you can claim your daily again!')
-                            
+                            self.remind_cursor.execute('UPDATE DailyRemind SET reminded_today = TRUE WHERE user_id = ?', (user_id,))
+                            self.remind_db.commit()
+
     @commands.command(aliases=['bal'])
     async def balance(self, ctx, member: commands.MemberConverter = None):
         """Check your balance or someone else's by mentioning them."""
