@@ -205,6 +205,13 @@ class AniList(commands.Cog):
         manga_hours = (total_manga_minutes % (24 * 60)) // 60
         manga_minutes = total_manga_minutes % 60
         time_read_str = f"{manga_days} days, {manga_hours} hours, {manga_minutes} minutes"
+
+        # Calculate total time spent
+        total_minutes = total_minutes + total_manga_minutes
+        total_days = total_minutes // (24 * 60)
+        total_hours = (total_minutes % (24 * 60)) // 60
+        total_minutes_remaining = total_minutes % 60
+        total_time_spent_str = f"{total_days} days, {total_hours} hours, {total_minutes_remaining} minutes"
     
         # Add both anime and manga stats to the embed
         embed = discord.Embed(title=f"{user}'s AniList Stats", color=discord.Color.blue())
@@ -218,7 +225,8 @@ class AniList(commands.Cog):
         embed.add_field(name="Mangas Planned", value=manga_planned_count, inline=True)
         embed.add_field(name="Chapters Read", value=manga_chapters_read, inline=True)
         embed.add_field(name="Time Spent Reading Manga", value=time_read_str, inline=True)
-    
+        embed.add_field(name="Total Time Spent Being A Weeb", value=total_time_spent_str, inline=True)
+        
         await ctx.send(embed=embed)
                                                     
 async def setup(bot):
