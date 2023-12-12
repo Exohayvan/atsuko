@@ -125,9 +125,13 @@ class Money(commands.Cog):
 
         if result:
             self.cursor.execute('UPDATE UserBalance SET balance=balance+?, last_daily=? WHERE user_id=?', (total_gain, datetime.now(), user_id))
+            
         else:
             self.cursor.execute('INSERT INTO UserBalance (user_id, balance, last_daily) VALUES (?, ?, ?)', (user_id, total_gain, datetime.now()))
-
+            
+        # Reset the reminded_today flag to False after claiming the daily gold
+        self.remind_cursor.execute('UPDATE DailyRemind SET reminded_today = FALSE WHERE user_id = ?', (user_id,))
+        self.remind_db.commit()
         self.db.commit()
         await ctx.send(f"You received {gold_gain} {CURRENCY_NAME}.\nYour investments brought in an additional {invest_gain} {CURRENCY_NAME}!")
 
