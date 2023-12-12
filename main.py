@@ -167,21 +167,11 @@ async def tos_stats(ctx):
     
 @bot.command(name="accept_tos")
 async def accept_tos(ctx):
-    user_id = ctx.author.id
-
-    conn = sqlite3.connect('./data/tos.db')
-    cursor = conn.cursor()
-    cursor.execute("INSERT OR IGNORE INTO tos_accepted (user_id) VALUES (?)", (user_id,))
-    conn.commit()
-    conn.close()
-
-    # Send confirmation message and delete it after 60 seconds
-    await ctx.send("Thank you for accepting the Terms of Service!\n If you were trying to use a command you will have to try it again!", delete_after=60)
-
-    # Delete the command invocation message after 60 seconds
-    await asyncio.sleep(60)  # Wait for 60 seconds
-    await ctx.message.delete()  # Delete the command message
-        
+    await accept_tos_procedure(ctx.author)
+    await ctx.send("Thank you for accepting the Terms of Service!", delete_after=60)
+    await asyncio.sleep(60)
+    await ctx.message.delete()
+            
 async def load_cogs(bot, root_dir):
     tasks = []
     num_cogs = 0
