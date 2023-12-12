@@ -255,6 +255,30 @@ async def on_message(message):
         return
 
     await bot.process_commands(message)
+    
+@bot.event
+async def on_reaction_add(reaction, user):
+    global tos_message_id
+    if user.bot or str(reaction.emoji) != '✅':
+        return
+
+    if reaction.message.id == tos_message_id:
+        await accept_tos_procedure(user)
+
+async def accept_tos_procedure(user):
+    global pending_commands
+    user_id = user.id
+
+    conn = sqlite3.connect('./data/tos.db')
+    cursor = conn.cursor()
+    cursor.execute("INSERT OR IGNORE INTO tos_accepted (user_id) VALUES (?)", (user_id,))
+    conn.commit()
+    conn.close()
+
+    if user_id in pending_commands:
+        ctx = pending_commands[user_id]
+        await bot.invoke(ctx)
+        del pending_commands[user_id]
 
 initialize_database()
 initialize_tos_database()
