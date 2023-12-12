@@ -228,6 +228,29 @@ class AniList(commands.Cog):
         embed.add_field(name="Total Time Spent Being A Weeb", value=total_time_spent_str, inline=True)
         
         await ctx.send(embed=embed)
+        
+    async def calculate_total_anime_time(self, username):
+        # Fetch anime statistics
+        anime_stats_query = '''
+        query ($username: String) {
+          User(name: $username) {
+            statistics {
+              anime {
+                episodesWatched
+                minutesWatched
+              }
+            }
+          }
+        }
+        '''
+        anime_stats_variables = {'username': username}
+        anime_stats_response = requests.post('https://graphql.anilist.co', json={'query': anime_stats_query, 'variables': anime_stats_variables})
+        if anime_stats_response.status_code != 200:
+            # Handle errors appropriately
+            return 0
+        anime_stats_data = anime_stats_response.json()
+        minutes_watched = anime_stats_data['data']['User']['statistics']['anime']['minutesWatched']
+        return minutes_watched
                                                     
 async def setup(bot):
     await bot.add_cog(AniList(bot))
