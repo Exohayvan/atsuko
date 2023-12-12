@@ -4,10 +4,22 @@ import asyncio
 import datetime
 from discord.ext import tasks
 
+def create_table(db_path):
+    with sqlite3.connect(db_path) as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS Channels (
+                channel_id INTEGER PRIMARY KEY,
+                time_limit INTEGER NOT NULL
+            )
+        """)
+        conn.commit()
+
 class KeepClean(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.db_path = './data/db/keepclean.db'
+        create_table(self.db_path)  # Ensure table exists
         self.check_messages.start()
 
     def cog_unload(self):
