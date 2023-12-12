@@ -235,41 +235,42 @@ class AniList(commands.Cog):
         # Fetch all users from the database
         self.c.execute("SELECT id, username FROM usernames")
         users = self.c.fetchall()
-
+    
         # Calculate the estimated time
         estimated_time_seconds = len(users) * 4
         estimated_time_message = f"Checking Users Stats... This could take a moment\nEstimated time: {estimated_time_seconds // 60} minutes {estimated_time_seconds % 60} seconds"
         estimation_message = await ctx.send(estimated_time_message)
-
+    
         leaderboard_data = []
-
+    
         for user_id, username in users:
             # Fetch the Discord member
             member = ctx.guild.get_member(user_id)
             if member is None:
                 continue  # Skip if the member is not found
-
+    
             # Calculate total time for anime and manga
             anime_time = await self.calculate_total_anime_time(username)
             manga_time = await self.calculate_total_manga_time(username)
             total_time = anime_time + manga_time
-
-            leaderboard_data.append((member.mention, self.format_time(total_time)))
-
-            # Wait for 1 second
+    
+            leaderboard_data.append((member.mention, total_time))
+    
+            # Wait for 2 seconds
             await asyncio.sleep(2)
-
-        # Sort the data by total time and get top 10
+    
+        # Sort the data by total time (in minutes) and get top 10
         leaderboard_sorted = sorted(leaderboard_data, key=lambda x: x[1], reverse=True)[:10]
-
+    
         # Create an embed for the leaderboard
         embed = discord.Embed(title="Top 10 Weebs Leaderboard", color=discord.Color.blue())
         for rank, (user_mention, total_time) in enumerate(leaderboard_sorted, start=1):
-            embed.add_field(name=f"#{rank} {user_mention}", value=f"Total Time: {total_time}", inline=False)
-
+            formatted_time = self.format_time(total_time)
+            embed.add_field(name=f"#{rank} {user_mention}", value=f"Total Time: {formatted_time}", inline=False)
+    
         # Delete the estimation message
         await estimation_message.delete()
-
+    
         # Send the leaderboard embed
         await ctx.send(embed=embed)
 
