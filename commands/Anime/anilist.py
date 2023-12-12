@@ -200,7 +200,7 @@ class AniList(commands.Cog):
         manga_chapters_read = sum(entry['progress'] for lst in manga_lists for entry in lst['entries'])
     
         # Calculate time spent reading manga
-        total_manga_minutes = manga_chapters_read * 9
+        total_manga_minutes = manga_chapters_read * 13
         manga_days = total_manga_minutes // (24 * 60)
         manga_hours = (total_manga_minutes % (24 * 60)) // 60
         manga_minutes = total_manga_minutes % 60
