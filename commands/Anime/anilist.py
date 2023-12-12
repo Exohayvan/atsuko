@@ -237,7 +237,7 @@ class AniList(commands.Cog):
         users = self.c.fetchall()
 
         # Calculate the estimated time
-        estimated_time_seconds = len(users) * 2
+        estimated_time_seconds = len(users) * 4
         estimated_time_message = f"Checking Users Stats... This could take a moment\nEstimated time: {estimated_time_seconds // 60} minutes {estimated_time_seconds % 60} seconds"
         estimation_message = await ctx.send(estimated_time_message)
 
@@ -257,7 +257,7 @@ class AniList(commands.Cog):
             leaderboard_data.append((member.mention, self.format_time(total_time)))
 
             # Wait for 1 second
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
 
         # Sort the data by total time and get top 10
         leaderboard_sorted = sorted(leaderboard_data, key=lambda x: x[1], reverse=True)[:10]
