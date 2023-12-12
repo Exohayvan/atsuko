@@ -252,5 +252,30 @@ class AniList(commands.Cog):
         minutes_watched = anime_stats_data['data']['User']['statistics']['anime']['minutesWatched']
         return minutes_watched
                                                     
+    async def calculate_total_manga_time(self, username):
+        # Fetch manga statistics
+        manga_stats_query = '''
+        query ($username: String) {
+          User(name: $username) {
+            statistics {
+              manga {
+                chaptersRead
+              }
+            }
+          }
+        }
+        '''
+        manga_stats_variables = {'username': username}
+        manga_stats_response = requests.post('https://graphql.anilist.co', json={'query': manga_stats_query, 'variables': manga_stats_variables})
+    
+        if manga_stats_response.status_code != 200:
+            # Handle errors appropriately
+            return 0
+        manga_stats_data = manga_stats_response.json()
+        chapters_read = manga_stats_data['data']['User']['statistics']['manga']['chaptersRead']
+        # Assuming an average of 10 minutes per chapter (this can be adjusted)
+        minutes_read = chapters_read * 13
+        return minutes_read
+        
 async def setup(bot):
     await bot.add_cog(AniList(bot))
