@@ -107,10 +107,11 @@ def initialize_tos_database():
     conn.close()
 
 async def has_accepted_tos(ctx):
-    # Bypass the check for the accept_tos command
+    global tos_message_id
+    global pending_commands
     if ctx.command.name == "accept_tos":
         return True
-
+        
     user_id = ctx.author.id
 
     conn = sqlite3.connect('./data/tos.db')
@@ -122,15 +123,14 @@ async def has_accepted_tos(ctx):
     if result:
         return True
     else:
-        # Send the TOS embed message and schedule it for deletion after 60 seconds
         embed = discord.Embed(title="Terms of Service", description="You need to accept our Terms of Service before using this command.", color=discord.Color.red())
-        embed.add_field(name="Read the TOS", value="[Click here to read the TOS](https://github.com/Exohayvan/atsuko/blob/main/TOS.md)", inline=False)
-        embed.add_field(name="Accept the TOS", value="Use `!accept_tos` to accept the Terms of Service.", inline=False)
-        tos_message = await ctx.send(embed=embed, delete_after=60)
+        embed.add_field(name="Read the TOS", value="[Click here to read the TOS](https://your-tos-link)", inline=False)
+        embed.add_field(name="Accept the TOS", value="React with ✅ or use `!accept_tos` to accept the Terms of Service.", inline=False)
+        tos_message = await ctx.send(embed=embed)
+        await tos_message.add_reaction('✅')
+        tos_message_id = tos_message.id
 
-        # Delete the command invocation message after 60 seconds
-        await asyncio.sleep(60)
-        await ctx.message.delete()
+        pending_commands[user_id] = ctx
 
         return False
         
