@@ -229,7 +229,46 @@ class AniList(commands.Cog):
         embed.add_field(name="Total Time Spent Being A Weeb", value=total_time_spent_str, inline=True)
         
         await ctx.send(embed=embed)
-        
+
+    @anilist.command()
+    async def leaderboard(self, ctx):
+        # Fetch all users from the database
+        self.c.execute("SELECT id, username FROM usernames")
+        users = self.c.fetchall()
+    
+        # Calculate the estimated time (1 second delay per user, 1 second additional processing per user)
+        estimated_time_seconds = len(users) * 2
+        estimated_time_message = f"Estimated time to generate leaderboard: {estimated_time_seconds // 60} minutes {estimated_time_seconds % 60} seconds"
+        estimation_message = await ctx.send(estimated_time_message)
+    
+        leaderboard_data = []
+    
+        for user_id, username in users:
+            # Calculate total time for anime
+            anime_time = await self.calculate_total_anime_time(username)
+            # Calculate total time for manga
+            manga_time = await self.calculate_total_manga_time(username)
+            # Total time
+            total_time = anime_time + manga_time
+            leaderboard_data.append((username, total_time))
+    
+            # Wait for 1 second before proceeding to the next user
+            await asyncio.sleep(1)
+    
+        # Sort the data by total time and get top 10
+        leaderboard_sorted = sorted(leaderboard_data, key=lambda x: x[1], reverse=True)[:10]
+    
+        # Create an embed for the leaderboard
+        embed = discord.Embed(title="Top 10 Weebs Leaderboard", color=discord.Color.blue())
+        for rank, (username, total_time) in enumerate(leaderboard_sorted, start=1):
+            embed.add_field(name=f"#{rank} {username}", value=f"Total Time: {total_time} min", inline=False)
+    
+        # Delete the estimation message
+        await estimation_message.delete()
+    
+        # Send the leaderboard embed
+        await ctx.send(embed=embed)
+    
     async def calculate_total_anime_time(self, username):
         # Fetch anime statistics
         anime_stats_query = '''
