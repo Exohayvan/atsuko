@@ -2,6 +2,7 @@ from discord.ext import commands
 import random
 import sqlite3
 from datetime import datetime, timedelta
+import asyncio
 
 # Define these at the top of your script
 MAX_AMT = 250
