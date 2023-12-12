@@ -8,6 +8,10 @@ import sqlite3
 
 logging.basicConfig(level=logging.INFO)
 
+# Global variable for TOS message ID
+tos_message_id = None
+pending_commands = {}  # user_id: ctx
+
 class CustomHelpCommand(commands.HelpCommand):
     async def get_prefix(self, bot, message):
         conn = sqlite3.connect('./data/prefix.db')
