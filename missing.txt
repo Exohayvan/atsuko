@@ -15,6 +15,8 @@ Command 'anilist' in cog AniList is missing usage details.
 Command 'random' in cog Random is missing usage details.
 Command 'package_info' in cog Python is missing usage details.
 Command 'roles' in cog Role is missing usage details.
+Command 'keepclean' in cog KeepClean is missing help details.
+Command 'keepclean' in cog KeepClean is missing usage details.
 Command 'set_counting_channel' in cog Counting is missing usage details.
 Command 'feedback' in cog Feedback is missing help details.
 Command 'feedback' in cog Feedback is missing usage details.
