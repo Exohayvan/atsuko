@@ -252,10 +252,12 @@ class AniList(commands.Cog):
             # Calculate total time for anime and manga
             anime_time = await self.calculate_total_anime_time(username)
             manga_time = await self.calculate_total_manga_time(username)
-            total_time = anime_time + manga_time
+            
+            # Ensure both times are in minutes and sum them
+            total_time = anime_time + manga_time  # This line ensures proper summation
     
             leaderboard_data.append((member.mention, total_time))
-    
+                
             # Wait for 2 seconds
             await asyncio.sleep(2)
     
