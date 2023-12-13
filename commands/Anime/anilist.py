@@ -201,7 +201,7 @@ class AniList(commands.Cog):
         manga_chapters_read = sum(entry['progress'] for lst in manga_lists for entry in lst['entries'])
     
         # Calculate time spent reading manga
-        total_manga_minutes = manga_chapters_read * 13
+        total_manga_minutes = manga_chapters_read * 11
         manga_days = total_manga_minutes // (24 * 60)
         manga_hours = (total_manga_minutes % (24 * 60)) // 60
         manga_minutes = total_manga_minutes % 60
@@ -325,7 +325,7 @@ class AniList(commands.Cog):
         manga_stats_data = manga_stats_response.json()
         chapters_read = manga_stats_data['data']['User']['statistics']['manga']['chaptersRead']
         # Assuming an average of 10 minutes per chapter (this can be adjusted)
-        minutes_read = chapters_read * 13
+        minutes_read = chapters_read * 11
         return minutes_read
         
 async def setup(bot):
