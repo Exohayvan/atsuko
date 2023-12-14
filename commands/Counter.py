@@ -83,9 +83,26 @@ class Counter(commands.Cog):
 
         await self.update_counter(channel)
 
+    @commands.command(name='channel_reconnect')
+    async def channel_reconnect(self, ctx, channel: discord.VoiceChannel):
+        """Reconnects a voice channel to the counter system and adds it back to the database."""
+        # Check if the channel is already in the database
+        conn = sqlite3.connect('./data/db/counter.db')
+        c = conn.cursor()
+        c.execute('SELECT * FROM Counter WHERE channel_id = ?', (channel.id,))
+        if c.fetchone():
+            await ctx.send("This channel is already connected.")
+        else:
+            # Add the channel back to the database
+            c.execute('INSERT INTO Counter (guild_id, channel_id) VALUES (?, ?)', (ctx.guild.id, channel.id))
+            conn.commit()
+            conn.close()
+            await ctx.send(f"Channel {channel.name} has been reconnected to the counter system.")
+            await self.update_counter(channel)  # Optionally update the counter immediately
+        
     # Manual command to trigger counter update
-    @commands.command(name='forceupdate')
-    async def force_update(self, ctx):
+    @commands.command(name='channelupdate')
+    async def channel_update(self, ctx):
         await self.update_counters()
 
 async def setup(bot):
