@@ -1,3 +1,6 @@
+Command 'create_counter' in cog Counter is missing usage details.
+Command 'forceupdate' in cog Counter is missing help details.
+Command 'forceupdate' in cog Counter is missing usage details.
 Command 'dbsize' in cog DBSize is missing usage details.
 Command 'join' in cog Music is missing usage details.
 Command 'leave' in cog Music is missing usage details.

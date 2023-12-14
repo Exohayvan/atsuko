@@ -16,9 +16,6 @@ Usage:
 
 Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots.
 
-Usage:
-`!create_counter "Counter Type" (Must be inclosed in "". Also caps are needed. This is a bug will fix later.)`
-
 ## ticket
 
 Create a new ticket channel.
