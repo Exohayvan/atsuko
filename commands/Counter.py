@@ -18,17 +18,19 @@ class Counter(commands.Cog):
         c = conn.cursor()
 
         for guild in guilds:
+            print(f"Processing guild: {guild.id}")  # Log guild ID
             c.execute('SELECT channel_id FROM Counter WHERE guild_id = ?', (guild.id,))
             channel_ids = c.fetchall()
 
             for channel_id in channel_ids:
+                print(f"Found channel ID in DB: {channel_id[0]}")  # Log channel ID from DB
                 channel = self.bot.get_channel(channel_id[0])
-                if not channel:
-                    print(f"Channel ID {channel_id[0]} not found, removing from DB")  # Additional logging
+                if channel:
+                    print(f"Channel found: {channel.id}")  # Log fetched channel
+                    await self.update_counter(channel)
+                else:
+                    print(f"Channel ID {channel_id[0]} not found, removing from DB")
                     c.execute('DELETE FROM Counter WHERE channel_id = ?', (channel_id[0],))
-                    continue
-
-                await self.update_counter(channel)
 
         conn.commit()
         conn.close()
