@@ -10,27 +10,26 @@ class Counter(commands.Cog):
     def cog_unload(self):
         self.update_counters.cancel()
 
-    @tasks.loop(minutes=10)
+    @tasks.loop(minutes=1)  # Reduced time for faster updates during testing
     async def update_counters(self):
         print("Updating counters")  # Debug log
         guilds = self.bot.guilds
         conn = sqlite3.connect('./data/db/counter.db')
         c = conn.cursor()
-    
+
         for guild in guilds:
             c.execute('SELECT channel_id FROM Counter WHERE guild_id = ?', (guild.id,))
             channel_ids = c.fetchall()
-            
+
             for channel_id in channel_ids:
                 channel = self.bot.get_channel(channel_id[0])
-    
                 if not channel:
-                    # If channel does not exist, remove it from the database
+                    print(f"Channel ID {channel_id[0]} not found, removing from DB")  # Additional logging
                     c.execute('DELETE FROM Counter WHERE channel_id = ?', (channel_id[0],))
                     continue
-    
+
                 await self.update_counter(channel)
-    
+
         conn.commit()
         conn.close()
 
@@ -38,7 +37,7 @@ class Counter(commands.Cog):
         try:
             guild = channel.guild
             name = channel.name
-        
+
             if "Total members" in name:
                 count = len(guild.members)
                 new_name = f"Total members: {count}"
@@ -50,10 +49,10 @@ class Counter(commands.Cog):
                 new_name = f"Bots: {count}"
             else:
                 return  # If none of the keywords match, do nothing
-        
+
             if channel.name != new_name:  # Only update if the name has changed
                 await channel.edit(name=new_name)
-                print(f"Updated channel: {channel.name}")  # Debug log
+                print(f"Updated channel: {channel.id} to {new_name}")  # Debug log
 
         except Exception as e:
             print(f"Error updating channel: {e}")  # Exception handling
