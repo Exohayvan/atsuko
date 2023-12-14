@@ -10,28 +10,29 @@ class Counter(commands.Cog):
     def cog_unload(self):
         self.update_counters.cancel()
 
-    @tasks.loop(minutes=1)  # Reduced time for faster updates during testing
+    @tasks.loop(minutes=1)
     async def update_counters(self):
-        print("Updating counters")  # Debug log
+        print("Updating counters")
         guilds = self.bot.guilds
         conn = sqlite3.connect('./data/db/counter.db')
         c = conn.cursor()
-
+    
         for guild in guilds:
-            print(f"Processing guild: {guild.id}")  # Log guild ID
+            print(f"Processing guild: {guild.id}")
             c.execute('SELECT channel_id FROM Counter WHERE guild_id = ?', (guild.id,))
             channel_ids = c.fetchall()
-
+    
             for channel_id in channel_ids:
-                print(f"Found channel ID in DB: {channel_id[0]}")  # Log channel ID from DB
+                print(f"Found channel ID in DB: {channel_id[0]}")
                 channel = self.bot.get_channel(channel_id[0])
                 if channel:
-                    print(f"Channel found: {channel.id}")  # Log fetched channel
+                    print(f"Channel found: {channel.id}")
                     await self.update_counter(channel)
                 else:
                     print(f"Channel ID {channel_id[0]} not found, removing from DB")
+                    # Delete the channel from the database if it can't be found
                     c.execute('DELETE FROM Counter WHERE channel_id = ?', (channel_id[0],))
-
+    
         conn.commit()
         conn.close()
 
