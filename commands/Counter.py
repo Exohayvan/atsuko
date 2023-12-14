@@ -39,6 +39,7 @@ class Counter(commands.Cog):
         try:
             guild = channel.guild
             name = channel.name
+            print(f"Updating counter for channel: {channel.id} in guild: {guild.id}")  # Log channel and guild
 
             if "Total members" in name:
                 count = len(guild.members)
@@ -50,15 +51,18 @@ class Counter(commands.Cog):
                 count = len([member for member in guild.members if member.bot])
                 new_name = f"Bots: {count}"
             else:
+                print("No matching counter type found.")  # Log if no match
                 return  # If none of the keywords match, do nothing
 
             if channel.name != new_name:  # Only update if the name has changed
                 await channel.edit(name=new_name)
                 print(f"Updated channel: {channel.id} to {new_name}")  # Debug log
+            else:
+                print(f"No update needed for channel: {channel.id}")  # Log if no update needed
 
         except Exception as e:
             print(f"Error updating channel: {e}")  # Exception handling
-
+            
     @commands.command()
     async def create_counter(self, ctx, *, name):
         """Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots."""
