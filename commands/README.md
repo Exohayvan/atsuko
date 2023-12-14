@@ -16,6 +16,10 @@ Usage:
 
 Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots.
 
+## channel_reconnect
+
+Reconnects a voice channel to the counter system and adds it back to the database.
+
 ## ticket
 
 Create a new ticket channel.
