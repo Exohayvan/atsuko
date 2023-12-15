@@ -10,7 +10,7 @@ class Counter(commands.Cog):
     def cog_unload(self):
         self.update_counters.cancel()
 
-    @tasks.loop(minutes=10)
+    @tasks.loop(minutes=2)
     async def update_counters(self):
         print("Updating counters")
         guilds = self.bot.guilds
