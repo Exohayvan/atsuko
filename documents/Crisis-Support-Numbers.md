@@ -80,3 +80,30 @@
 Remember, reaching out for support is a brave and important step. These services are confidential and available anytime you need them.
 
 For more detailed information and additional resources, you can visit [Mental Health America](https://www.mhanational.org/resources-immediate-response).
+
+
+## Canada
+
+### 1. **Mental Health and Suicide:**
+   - **Suicide Crisis Helpline (9-8-8):** Call or text 9-8-8 for support in English or French. Help is available 24/7.
+
+### 2. **Indigenous Support:**
+   - **Hope for Wellness Help Line:** Call 1-855-242-3310 or [chat online](https://www.hopeforwellness.ca). Available in English, French, Cree, Ojibway, and Inuktitut.
+   - **National Indian Residential School Crisis Line:** Call 1-866-925-4419.
+   - **Missing and Murdered Indigenous Women and Girls Crisis Line:** Call 1-844-413-6649.
+
+### 3. **Youth and Young Adults:**
+   - **Kids Help Phone:** Call 1-800-668-6868 or text CONNECT to 686868. 
+
+### 4. **General Mental Health and Substance Use:**
+   - **Wellness Together Canada:** Call 1-888-668-6810 or text WELLNESS to 686868 for youth, 1-866-585-0445 or text WELLNESS to 741741 for adults.
+
+### 5. **Specific Provincial and Territorial Resources:**
+   - Each province and territory in Canada has specific resources for mental health and substance use. These can be accessed through local government websites or health services.
+
+### 6. **Trans Lifeline – All Ages:**
+   - **Canada:** Call 1-877-330-6366.
+
+Remember, reaching out for help is a sign of strength. These services are confidential and available to support you whenever you need them.
+
+For more detailed information and additional resources, visit the [Canadian Mental Health Association](https://cmha.ca) or [Canada.ca](https://www.canada.ca/en/public-health/services/mental-health-services/mental-health-get-help.html).
