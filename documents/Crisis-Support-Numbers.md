@@ -109,7 +109,7 @@ Remember, reaching out for help is a sign of strength. These services are confid
 For more detailed information and additional resources, visit the [Canadian Mental Health Association](https://cmha.ca) or [Canada.ca](https://www.canada.ca/en/public-health/services/mental-health-services/mental-health-get-help.html).
 
 
-## Brasil
+## Brazil
 
 ### 1. **Linhas de Apoio Nacional para Assalto Sexual:**
    - **Central de Atendimento à Mulher em Situação de Violência:** Ligue 180 para apoio.
