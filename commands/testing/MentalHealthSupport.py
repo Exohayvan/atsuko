@@ -9,7 +9,7 @@ class MentalHealthSupportCog(commands.Cog):
 
     def load_trigger_words(self):
         trigger_words = []
-        directory = '.data/txt/mentaltriggers/'
+        directory = '.data/txt/mentaltriggers'
         
         # Loop through each file in the directory
         for filename in os.listdir(directory):
