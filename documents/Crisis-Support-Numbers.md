@@ -1,4 +1,48 @@
-🌟 **USA Crisis Support Resources** 🌟
+# Global Helpline Directory
+
+**Welcome!** This guide provides helpline contact information for various countries.
+
+**¡Bienvenidos!** Este directorio ofrece información de contacto para líneas de ayuda.
+
+**Bienvenue !** Ce guide fournit des informations de contact pour les lignes d'assistance.
+
+**欢迎！** 本指南提供各国求助热线的联系信息。
+
+**स्वागत है!** यह गाइड हेल्पलाइन संपर्क जानकारी प्रदान करता है।
+
+**مرحباً!** يوفر هذا الدليل معلومات الاتصال لخطوط المساعدة.
+
+## Table of Contents
+1. [United States](#united-states)
+2. [Canada](#canada)
+3. [Brazil](#brazil)
+4. [Mexico](#mexico)
+5. [United Kingdom](#united-kingdom)
+6. [Germany](#germany)
+7. [France](#france)
+8. [Italy](#italy)
+9. [Russia](#russia)
+10. [China](#china)
+11. [India](#india)
+12. [Japan](#japan)
+13. [South Korea](#south-korea)
+14. [Australia](#australia)
+15. [Indonesia](#indonesia)
+16. [Saudi Arabia](#saudi-arabia)
+17. [Turkey](#turkey)
+18. [Nigeria](#nigeria)
+19. [South Africa](#south-africa)
+20. [Egypt](#egypt)
+21. [Iran](#iran)
+22. [Pakistan](#pakistan)
+23. [Bangladesh](#bangladesh)
+24. [Vietnam](#vietnam)
+25. [Thailand](#thailand)
+26. [Spain](#spain)
+27. [Poland](#poland)
+28. [Argentina](#argentina)
+29. [Colombia](#colombia)
+30. [Kenya](#kenya)
 
 If you're facing challenges, remember you're not alone. These resources are here to help, 24/7:
 
