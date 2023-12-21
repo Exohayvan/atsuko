@@ -16,7 +16,7 @@
 1. [United States](#united-states)
 2. [Canada](#canada)
 3. [Brazil](#brazil)
-4. [Mexico](#mexico)
+4. [México](#mexico)
 5. [United Kingdom](#united-kingdom)
 6. [Germany](#germany)
 7. [France](#france)
