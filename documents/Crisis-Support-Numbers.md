@@ -108,6 +108,7 @@ Remember, reaching out for help is a sign of strength. These services are confid
 
 For more detailed information and additional resources, visit the [Canadian Mental Health Association](https://cmha.ca) or [Canada.ca](https://www.canada.ca/en/public-health/services/mental-health-services/mental-health-get-help.html).
 
+
 ## Brasil
 
 ### 1. **Linhas de Apoio Nacional para Assalto Sexual:**
@@ -125,3 +126,21 @@ Estas linhas de apoio e recursos oferecem suporte essencial para indivíduos enf
 
 Para mais informações detalhadas, por favor visite [NO MORE Global Directory](https://nomoredirectory.org/brazil/).
 
+
+## México
+
+### 1. **Líneas Nacionales de Asistencia para Agresión Sexual:**
+   - **Línea Nacional 24 Horas contra la Violencia hacia las Mujeres:** Marcar 800 108 4053.
+   - **HabLalo Línea de Ayuda contra la Violencia:** Marcar 01 800 Hablalo (422 5256).
+   - **ADIVAC (Asociación para el apoyo de víctimas de violación):** En Ciudad de México: 5682 7969 o 5547 8639; León, Guanajuato: (477) 2511847.
+
+### 2. **Líneas Nacionales de Asistencia para Violencia Doméstica:**
+   - **Línea Nacional 24 Horas contra la Violencia hacia las Mujeres:** Marcar 800 108 4053.
+   - **Red Nacional de Refugios:** Marcar +52 800 822 4460 o Línea Metropolitana: 555 243 6432.
+
+### 3. **Recursos Adicionales:**
+   - **Instituto Nacional de las Mujeres (Inmujeres):** Visitar [Inmujeres](https://www.gob.mx/inmujeres).
+
+Estas líneas de ayuda y recursos ofrecen apoyo crucial para personas que enfrentan violencia sexual y doméstica en México, incluyendo asistencia legal, apoyo psicológico y consejería médica.
+
+Para más información, por favor visita [NO MORE Global Directory](https://nomoredirectory.org/mexico/).
