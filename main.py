@@ -124,7 +124,7 @@ async def has_accepted_tos(ctx):
         return True
     else:
         embed = discord.Embed(title="Terms of Service", description="You need to accept our Terms of Service before using this command.", color=discord.Color.red())
-        embed.add_field(name="Read the TOS", value="[Click here to read the TOS](https://your-tos-link)", inline=False)
+        embed.add_field(name="Read the TOS", value="[Click here to read the TOS](https://github.com/Exohayvan/atsuko/blob/main/documents/TOS.md)", inline=False)
         embed.add_field(name="Accept the TOS", value="React with ✅ or use `!accept_tos` to accept the Terms of Service.", inline=False)
         tos_message = await ctx.send(embed=embed)
         await tos_message.add_reaction('✅')
