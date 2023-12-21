@@ -1,7 +1,3 @@
-Certainly! Here's the complete and updated list of crisis hotlines in the USA for you to share:
-
----
-
 🌟 **USA Crisis Support Resources** 🌟
 
 If you're facing challenges, remember you're not alone. These resources are here to help, 24/7:
