@@ -107,3 +107,21 @@ For more detailed information and additional resources, you can visit [Mental He
 Remember, reaching out for help is a sign of strength. These services are confidential and available to support you whenever you need them.
 
 For more detailed information and additional resources, visit the [Canadian Mental Health Association](https://cmha.ca) or [Canada.ca](https://www.canada.ca/en/public-health/services/mental-health-services/mental-health-get-help.html).
+
+## Brasil
+
+### 1. **Linhas de Apoio Nacional para Assalto Sexual:**
+   - **Central de Atendimento à Mulher em Situação de Violência:** Ligue 180 para apoio.
+   - **Instituto Cia dos Sonhos:** Ligue para 11 2079 7458 para assistência.
+
+### 2. **Linhas de Apoio Nacional para Violência Doméstica:**
+   - **Central de Atendimento à Mulher:** Ligue 180.
+   - **Justiceiras:** Oferece apoio legal, psicológico, sócio-assistencial e médico online através de uma rede de suporte nacional. [Visite Justiceiras](https://www.justiceiras.org.br).
+
+### 3. **Recursos Adicionais:**
+   - Para mais serviços de apoio, visite o [Mapa de Serviços de Apoio em Todo o País](https://www.servicospublicos.mapadoacolhimento.org).
+
+Estas linhas de apoio e recursos oferecem suporte essencial para indivíduos enfrentando violência sexual e doméstica no Brasil. Eles fornecem uma gama de serviços, incluindo assistência jurídica, apoio psicológico e aconselhamento médico.
+
+Para mais informações detalhadas, por favor visite [NO MORE Global Directory](https://nomoredirectory.org/brazil/).
+
