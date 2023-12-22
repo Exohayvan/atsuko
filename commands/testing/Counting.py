@@ -62,19 +62,17 @@ class Counting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-    
+        if message.author.bot:
+            return
+
         channel_id = message.channel.id
         cursor = self.conn.cursor()
         cursor.execute('SELECT last_number, last_user_id FROM counting_channels WHERE channel_id = ?', (channel_id,))
         row = cursor.fetchone()
-    
+
         if row:
             last_number, last_user_id = row
-            if message.author.id == last_user_id:
-                await message.delete()
-                return
-    
-            # Check if the message is exactly the next number
+
             if re.fullmatch(r'^\d+$', message.content):
                 number = int(message.content)
                 if number == last_number + 1:
@@ -83,6 +81,8 @@ class Counting(commands.Cog):
                     await message.add_reaction("✅")
                 else:
                     await message.delete()
+            else:
+                await message.delete()  # Deletes any non-numeric message
 
 async def setup(bot):
     await bot.add_cog(Counting(bot))
