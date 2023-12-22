@@ -124,18 +124,19 @@ class ChannelRelay(commands.Cog):
     async def reset_message_counters(self):
         self.message_counters.clear()
                             
-    @tasks.loop(minutes=1)
+    @tasks.loop(hours=1)
     async def check_for_reminder(self):
         # Only check if the bot has finished its first iteration after startup
         if self.is_bot_started:
+            current_time = datetime.datetime.now()
             for guild_id, channel_id in self.connected_channels:
-                if channel_id in self.last_message_times:
-                    elapsed_time = datetime.datetime.now() - self.last_message_times[channel_id]
-                    if datetime.timedelta(minutes=57) < elapsed_time < datetime.timedelta(minutes=60):
-                        channel = self.bot.get_channel(channel_id)
-                        if channel:
-                            await channel.send(self.safety_message)
-                            del self.last_message_times[channel_id]
+                # Check if there was activity in the last hour
+                last_message_time = self.last_message_times.get(channel_id)
+                if last_message_time and (current_time - last_message_time).total_seconds() <= 3600:
+                    # Send safety message
+                    channel = self.bot.get_channel(channel_id)
+                    if channel:
+                        await channel.send(self.safety_message)
         
         self.is_bot_started = True        
     
