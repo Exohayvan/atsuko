@@ -36,8 +36,7 @@ class Counting(commands.Cog):
             messages = await channel.history(limit=100).flatten()  # Adjust limit as needed
 
             for message in reversed(messages):
-                if message.author.bot:
-                    continue
+                # Removed the check for bot messages
 
                 if re.fullmatch(r'^\d+$', message.content):
                     number = int(message.content)
@@ -52,7 +51,7 @@ class Counting(commands.Cog):
             cursor.execute('UPDATE counting_channels SET last_number = ?, last_user_id = ? WHERE channel_id = ?', (last_number, last_user_id, channel.id))
             self.conn.commit()
             print(f"Counting channel {channel.name} fully synchronized. Current count: {last_number}")
-                                    
+                                                
     @commands.command(name='set_counting_channel', help='Sets the current channel as the counting channel.')
     async def set_counting_channel(self, ctx):
         channel_id = ctx.channel.id
