@@ -51,6 +51,20 @@ class Random(commands.Cog):
         await ctx.send("Use !random with one of the following: website, reddit, saying, emoji")
 
     @random.command()
+    async def image(self, ctx):
+        """Generates a random image."""
+        unsplash_url = "https://source.unsplash.com/random"
+
+        embed = discord.Embed(
+            title="Random Image",
+            description="Here's a random image from Unsplash."
+        )
+        embed.set_image(url=unsplash_url)
+        embed.set_footer(text="Image provided by Unsplash Source.")
+
+        await ctx.send(embed=embed)
+
+    @random.command()
     async def color(self, ctx):
         """Generates a random color."""
         random_color = "%06x" % random.randint(0, 0xFFFFFF)
