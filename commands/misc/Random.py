@@ -53,11 +53,12 @@ class Random(commands.Cog):
     @random.command()
     async def image(self, ctx):
         """Generates a random image."""
-        unsplash_url = "https://source.unsplash.com/random"
+        timestamp = int(time.time())
+        unsplash_url = f"https://source.unsplash.com/random?{timestamp}"
 
         embed = discord.Embed(
             title="Random Image",
-            description="Here's a random image from Unsplash."
+            description="Here's a random image."
         )
         embed.set_image(url=unsplash_url)
         embed.set_footer(text="Image provided by Unsplash Source.")
