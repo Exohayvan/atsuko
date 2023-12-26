@@ -6,6 +6,7 @@ import aiohttp
 import discord
 import requests
 import emoji
+import time
 
 class Random(commands.Cog):
     def __init__(self, bot):
