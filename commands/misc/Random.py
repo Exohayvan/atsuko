@@ -51,6 +51,24 @@ class Random(commands.Cog):
         await ctx.send("Use !random with one of the following: website, reddit, saying, emoji")
 
     @random.command()
+    async def color(self, ctx):
+        """Generates a random color."""
+        random_color = "%06x" % random.randint(0, 0xFFFFFF)
+        hex_color = f"#{random_color.upper()}"
+
+        color_image_url = f"https://singlecolorimage.com/get/{random_color}/200x200"
+
+        embed = discord.Embed(
+            title="Random Color", 
+            description=f"Hex: {hex_color}",
+            color=int(random_color, 16)
+        )
+        embed.set_image(url=color_image_url)
+        embed.set_footer(text="This is a randomly generated hex color.")
+        
+        await ctx.send(embed=embed)
+        
+    @random.command()
     async def number(self, ctx):
         """Returns a random number between 0 and 99999999999999999999999999999."""
         random_number = random.randint(0, 10**29 - 1)
