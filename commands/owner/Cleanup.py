@@ -18,8 +18,11 @@ class Cleanup(commands.Cog):
             if file_name.endswith('.png'):
                 os.remove(file_name)
                 deleted_files += 1
+            if file_name.endswith('.gv'):
+                os.remove(file_name)
+                deleted_files += 1
         
-        await ctx.send(f"Cleaned up {deleted_files} .png files.")
+        await ctx.send(f"Cleaned up and deleted {deleted_files} files.")
 
 async def setup(bot):
     await bot.add_cog(Cleanup(bot))
