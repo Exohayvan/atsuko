@@ -27,7 +27,7 @@ class DBSize(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def dbsize(self, ctx):
         """Retrieves the size of all .db files in the ./data directory."""
         try:
