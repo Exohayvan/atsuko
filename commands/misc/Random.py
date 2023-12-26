@@ -51,6 +51,14 @@ class Random(commands.Cog):
         await ctx.send("Use !random with one of the following: website, reddit, saying, emoji")
 
     @random.command()
+    async def number(self, ctx):
+        """Returns a random number between 0 and 99999999999999999999999999999."""
+        random_number = random.randint(0, 10**29 - 1)
+        embed = discord.Embed(title="Random Number", description=str(random_number))
+        embed.set_footer(text="This is a randomly generated number.")
+        await ctx.send(embed=embed)
+    
+    @random.command()
     async def website(self, ctx):
         """Returns a random website."""
 
