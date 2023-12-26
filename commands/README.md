@@ -41,10 +41,6 @@ This is a template for disabling a command!
 Usage:
 `!disabled`
 
-## dbsize
-
-Retrieves the size of all .db files in the ./data directory.
-
 ## join
 
 Joins the user's voice channel.
