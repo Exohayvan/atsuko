@@ -10,7 +10,8 @@ class MentalHealthSupportCog(commands.Cog):
         # Specific list of trigger words
         trigger_words = [
             "kms", "suicide", "self harm", "selfharm", "end my life", 
-            "kill myself", "harming myself", "no one cares", "give up"
+            "kill myself", "harming myself", "no one cares", "give up",
+            "killing myself"
         ]
 
         # Check if any trigger word is in the message and if the author is not the bot
