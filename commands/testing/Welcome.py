@@ -16,9 +16,9 @@ class Welcome(commands.Cog):
                 )
             ''')
 
-    @commands.command(usage="!welcomemsg <message>")
+    @commands.command(usage="<message>")
     async def welcomemsg(self, ctx, *, msg):
-        """Set a custom welcome message."""
+        """Set a custom welcome message. Ex. `!welcomemsg Welcome <user>!`"""
         server_id = ctx.guild.id
         with self.connection:
             self.connection.execute('''
