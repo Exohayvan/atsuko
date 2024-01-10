@@ -340,6 +340,31 @@ class Info(commands.Cog):
         embed.add_field(name="Uptime", value=uptime_string, inline=False)
 
         await ctx.send(embed=embed)
+
+    @commands.command(usage="!version")
+    async def version(self, ctx):
+        """Shows the current version of the bot based on Git commits."""
+        commit_count = self.get_git_commit_count()
+        version = self.format_version(commit_count)
+        await ctx.send(f"Current Version: {version}")
+
+    def get_git_commit_count(self):
+        """Returns the number of commits in the Git repository."""
+        try:
+            count = subprocess.check_output(["git", "rev-list", "--count", "HEAD"])
+            return int(count.strip())
+        except Exception as e:
+            print(f"Error getting commit count: {e}")
+            return 0
+
+    def format_version(self, count):
+        """Formats the commit count into a version string."""
+        major = count // 1000
+        minor = (count // 100) % 10
+        patch = count % 100
+        # Convert patch to hexadecimal
+        patch_hex = format(patch, 'x')
+        return f"v{major}.{minor}.{patch_hex}"
         
 async def setup(bot):
     await bot.add_cog(Info(bot))
