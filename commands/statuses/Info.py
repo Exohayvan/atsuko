@@ -344,23 +344,23 @@ class Info(commands.Cog):
 
     @commands.command(usage="!version")
     async def version(self, ctx):
-        """Shows the current version of the bot based on Git commits."""
-        commit_count = self.get_git_commit_count()
+        """Shows the current version of the bot based on Git commits and the hash of the last commit."""
+        commit_count, last_commit_hash = self.get_git_commit_count_and_hash()
         version = self.format_version(commit_count)
-        await ctx.send(f"Current Version: {version}")
-
-    def get_git_commit_count(self):
-        """Returns the number of commits in the Git repository."""
+        await ctx.send(f"Current Version: {version} (Last Commit Hash: {last_commit_hash})")
+    
+    def get_git_commit_count_and_hash(self):
+        """Returns the number of commits and the hash of the last commit in the Git repository."""
         try:
-            count = subprocess.check_output(["git", "rev-list", "--count", "HEAD"], stderr=subprocess.STDOUT)
-            print(f"Commit count: {count}")  # Debugging
-            return int(count.strip())
+            count = subprocess.check_output(["git", "rev-list", "--count", "HEAD"], stderr=subprocess.STDOUT).strip()
+            last_commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"], stderr=subprocess.STDOUT).strip()
+            return int(count), last_commit_hash.decode('utf-8')
         except subprocess.CalledProcessError as e:
             print(f"Git command error: {e.output.decode()}")
-            return 0
+            return 0, "unknown"
         except Exception as e:
-            print(f"Error getting commit count: {e}")
-            return 0
+            print(f"Error getting commit count and hash: {e}")
+            return 0, "unknown"
 
     def format_version(self, count):
         """Formats the commit count into a version string."""
