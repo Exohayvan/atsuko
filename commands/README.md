@@ -99,6 +99,13 @@ Shows the total lifetime uptime of the bot.
 Usage:
 `!lifetime`
 
+## version
+
+Shows the current version of the bot based on Git commits.
+
+Usage:
+`!version`
+
 ## scrabble
 
 Start or play a game of Scrabble! Use '!scrabble start' to start a new game and other commands to interact with the game.
