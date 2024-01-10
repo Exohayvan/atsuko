@@ -351,8 +351,12 @@ class Info(commands.Cog):
     def get_git_commit_count(self):
         """Returns the number of commits in the Git repository."""
         try:
-            count = subprocess.check_output(["git", "rev-list", "--count", "HEAD"])
+            count = subprocess.check_output(["git", "rev-list", "--count", "HEAD"], stderr=subprocess.STDOUT)
+            print(f"Commit count: {count}")  # Debugging
             return int(count.strip())
+        except subprocess.CalledProcessError as e:
+            print(f"Git command error: {e.output.decode()}")
+            return 0
         except Exception as e:
             print(f"Error getting commit count: {e}")
             return 0
