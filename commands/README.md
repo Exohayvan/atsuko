@@ -233,10 +233,10 @@ Usage:
 
 ## welcomemsg
 
-Set a custom welcome message.
+Set a custom welcome message. Ex. `!welcomemsg Welcome <user>!`
 
 Usage:
-`!welcomemsg <message>`
+`<message>`
 
 ## welcomeremove
 
