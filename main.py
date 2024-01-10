@@ -14,15 +14,21 @@ pending_commands = {}  # user_id: ctx
 
 class CustomHelpCommand(commands.HelpCommand):
     async def get_prefix(self, bot, message):
+        if message.guild is None:  # If the message is a DM
+            return '!'  # Return the default prefix or handle as needed
+    
         conn = sqlite3.connect('./data/prefix.db')
         cursor = conn.cursor()
-        cursor.execute("SELECT prefix FROM prefixes WHERE guild_id = ?", (message.guild.id,))
-        result = cursor.fetchone()
-        conn.close()
-
+        try:
+            cursor.execute("SELECT prefix FROM prefixes WHERE guild_id = ?", (message.guild.id,))
+            result = cursor.fetchone()
+        finally:
+            conn.close()
+    
         if result and result[0]:
             return result[0]
-        return '!'
+        else:
+            return '!'  # Return the default prefix if no specific prefix is set for the guild
 
     async def send_bot_help(self, mapping):
         prefix = await self.get_prefix(self.context.bot, self.context.message)
