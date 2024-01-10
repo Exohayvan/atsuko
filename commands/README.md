@@ -101,7 +101,7 @@ Usage:
 
 ## version
 
-Shows the current version of the bot based on Git commits.
+Shows the current version of the bot based on Git commits and the hash of the last commit.
 
 Usage:
 `!version`
