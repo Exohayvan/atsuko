@@ -151,7 +151,16 @@ def is_command_disabled(command_name):
 async def check_if_command_disabled(ctx):
     command_name = ctx.command.name
     if is_command_disabled(command_name):
-        await ctx.send(f"The `{command_name}` command is currently disabled.")
+        response_message = (
+            f"The `{command_name}` command is currently disabled. "
+            "This could be due to a few reasons:\n"
+            "- The command might be undergoing updates or maintenance.\n"
+            "- There could be an identified issue or error that's being fixed.\n"
+            "- It might be temporarily disabled to improve server performance.\n\n"
+            "If you believe this is an error, or if you have any concerns, "
+            "please message ExoHayvan on Discord for assistance."
+        )
+        await ctx.send(response_message)
         return False
     return True
 
