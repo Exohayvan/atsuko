@@ -140,6 +140,23 @@ async def has_accepted_tos(ctx):
         
 bot.add_check(has_accepted_tos)
 
+def is_command_disabled(command_name):
+    conn = sqlite3.connect('./data/db/disabledcommands.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT 1 FROM disabled_commands WHERE command_name = ?", (command_name,))
+    result = cursor.fetchone()
+    conn.close()
+    return result is not None
+
+async def check_if_command_disabled(ctx):
+    command_name = ctx.command.name
+    if is_command_disabled(command_name):
+        await ctx.send(f"The `{command_name}` command is currently disabled.")
+        return False
+    return True
+
+bot.add_check(check_if_command_disabled)
+
 @bot.command(name="tos_stats")
 async def tos_stats(ctx):
     # Step 1: Count total number of unique users the bot can see
