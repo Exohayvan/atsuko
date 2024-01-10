@@ -7,6 +7,7 @@ import sqlite3
 import os
 import shutil
 import math
+import subprocess
 
 def get_directory_size(path='.'):
     total = 0
