@@ -34,13 +34,6 @@ This is a placeholder command.
 Usage:
 `!placeholder <usage>`
 
-## disabled
-
-This is a template for disabling a command!
-
-Usage:
-`!disabled`
-
 ## join
 
 Joins the user's voice channel.
