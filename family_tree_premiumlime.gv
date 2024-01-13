@@ -1,0 +1,7 @@
+// Family Tree
+digraph {
+	exohayvan -> premiumlime
+	premiumlime -> try105
+	try105 -> premiumlime
+	premiumlime -> try105
+}
