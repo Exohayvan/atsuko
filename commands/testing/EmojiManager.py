@@ -7,22 +7,34 @@ class EmojiManager(commands.Cog):
         self.bot = bot
         self.emoji_folder = './data/emojis/'
 
+    async def save_emoji(self, emoji, file_path):
+        if emoji.url:
+            response = requests.get(emoji.url)
+            with open(file_path, 'wb') as f:
+                f.write(response.content)
+        else:
+            raise ValueError("Emoji URL not found.")
+
     @commands.command(usage="!emoji_save <emoji>")
     @commands.has_permissions(manage_guild=True)
-    async def emoji_save(self, ctx, emoji: discord.PartialEmoji):
+    async def emoji_save(self, ctx, *, emoji_name):
         """Saves an emoji to the local storage."""
         if not os.path.exists(self.emoji_folder):
             os.makedirs(self.emoji_folder)
 
-        emoji_filename = f"{emoji.name}.gif" if emoji.animated else f"{emoji.name}.png"
-        file_path = os.path.join(self.emoji_folder, emoji_filename)
+        emoji = discord.utils.get(self.bot.emojis, name=emoji_name)
+        if emoji:
+            emoji_filename = f"{emoji.name}.gif" if emoji.animated else f"{emoji.name}.png"
+            file_path = os.path.join(self.emoji_folder, emoji_filename)
 
-        if not os.path.exists(file_path):
-            await emoji.url.save(file_path)
-            await ctx.send(f"Emoji {emoji.name} saved!")
+            if not os.path.exists(file_path):
+                await self.save_emoji(emoji, file_path)
+                await ctx.send(f"Emoji {emoji.name} saved!")
+            else:
+                await ctx.send("This emoji is already saved.")
         else:
-            await ctx.send("This emoji is already saved.")
-
+            await ctx.send("Emoji not found.")
+            
     @commands.command(usage="!emoji_add <emoji>")
     @commands.has_permissions(manage_guild=True)
     async def emoji_add(self, ctx, emoji: discord.PartialEmoji):
