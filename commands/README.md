@@ -212,10 +212,10 @@ Usage:
 
 ## emoji_add
 
-Saves an emoji to local storage and adds it to the server.
+Saves multiple custom emojis to local storage and adds them to the server.
 
 Usage:
-`!emoji_add <emoji>`
+`!emoji_add <emoji1> <emoji2> ...`
 
 ## connect_channel
 
