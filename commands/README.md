@@ -203,6 +203,20 @@ Usage:
 
 Creates a reaction role message.
 
+## emoji_save
+
+Saves an emoji to the local storage.
+
+Usage:
+`!emoji_save <emoji>`
+
+## emoji_add
+
+Saves an emoji to local storage and adds it to the server.
+
+Usage:
+`!emoji_add <emoji>`
+
 ## connect_channel
 
 Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)
