@@ -205,7 +205,7 @@ Creates a reaction role message.
 
 ## emoji_save
 
-Saves an emoji to the local storage.
+Saves a custom emoji to the local storage.
 
 Usage:
 `!emoji_save <emoji>`
