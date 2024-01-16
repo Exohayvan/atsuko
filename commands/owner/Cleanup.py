@@ -1,4 +1,5 @@
 import os
+import json
 from discord.ext import commands
 
 class Cleanup(commands.Cog):
@@ -13,12 +14,13 @@ class Cleanup(commands.Cog):
         
         await ctx.send("Cleaning up...")
 
+        # Load file types from JSON file
+        with open('./data/json/cleanupfiles.json', 'r') as file:
+            file_types = json.load(file)
+
         deleted_files = 0
         for file_name in os.listdir('.'):
-            if file_name.endswith('.png'):
-                os.remove(file_name)
-                deleted_files += 1
-            if file_name.endswith('.gv'):
+            if any(file_name.endswith(file_type) for file_type in file_types):
                 os.remove(file_name)
                 deleted_files += 1
         
