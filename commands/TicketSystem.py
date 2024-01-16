@@ -2,7 +2,7 @@ import sqlite3
 import discord
 from discord.ext import commands
 
-DATABASE_PATH = './data/tickets.db'
+DATABASE_PATH = './data/db/tickets.db'
 TICKETS_TABLE = 'tickets'
 MOD_ROLE_DATABASE_PATH = './data/allowed_mods.db'  # Path to the Moderation cog's database
 
