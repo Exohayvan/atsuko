@@ -1,32 +1,3 @@
-## vote
-
-Start an anonymous vote with 2-10 options to choose from! (Besure to include quotes on title and options)
-
-Usage:
-`!vote <minutes> "Title" "Option 1" "Option 2" "Options up to 10"`
-
-## endvote
-
-Ends a currently active vote using the title of the vote. (Besure to enclose the title with quotes)
-
-Usage:
-`!endvote "title of vote"`
-
-## create_counter
-
-Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots.
-
-## channel_reconnect
-
-Reconnects a voice channel to the counter system and adds it back to the database.
-
-## ticket
-
-Create a new ticket channel.
-
-Usage:
-`!ticket`
-
 ## placeholder
 
 This is a placeholder command.
@@ -203,6 +174,20 @@ Usage:
 
 Creates a reaction role message.
 
+## vote
+
+Start an anonymous vote with 2-10 options to choose from! (Besure to include quotes on title and options)
+
+Usage:
+`!vote <minutes> "Title" "Option 1" "Option 2" "Options up to 10"`
+
+## endvote
+
+Ends a currently active vote using the title of the vote. (Besure to enclose the title with quotes)
+
+Usage:
+`!endvote "title of vote"`
+
 ## emoji_save
 
 Saves multiple custom emojis to the local storage.
@@ -216,6 +201,14 @@ Saves multiple custom emojis to local storage and adds them to the server.
 
 Usage:
 `!emoji_add <emoji1> <emoji2> ...`
+
+## create_counter
+
+Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots.
+
+## channel_reconnect
+
+Reconnects a voice channel to the counter system and adds it back to the database.
 
 ## connect_channel
 
@@ -311,6 +304,13 @@ Usage:
 ## set_counting_channel
 
 Sets the current channel as the counting channel.
+
+## ticket
+
+Create a new ticket channel.
+
+Usage:
+`!ticket`
 
 ## dailyremind
 
