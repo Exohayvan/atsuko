@@ -174,6 +174,10 @@ Usage:
 
 Creates a reaction role message.
 
+## refresh_ads
+
+Admin command to refresh the advertisement list.
+
 ## vote
 
 Start an anonymous vote with 2-10 options to choose from! (Besure to include quotes on title and options)
