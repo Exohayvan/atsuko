@@ -120,6 +120,10 @@ Sets the channel for AniList feed updates.
 
 AniList commands.
 
+## refresh_ads
+
+Admin command to refresh the advertisement list.
+
 ## roll
 
 Rolls a dice with the specified format (e.g., 2d6).
@@ -173,10 +177,6 @@ Usage:
 ## roles
 
 Creates a reaction role message.
-
-## refresh_ads
-
-Admin command to refresh the advertisement list.
 
 ## vote
 
