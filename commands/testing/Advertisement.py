@@ -52,7 +52,7 @@ class Advertisement(commands.Cog):
         conn.close()
 
     def load_ads(self):
-        ads = {}
+        ads = []
         ad_path = './data/txt/advertisement/'
         for filename in os.listdir(ad_path):
             if filename.endswith('.txt'):
@@ -60,7 +60,7 @@ class Advertisement(commands.Cog):
                 server_name = self.server_names.get(server_id, "Unknown Server")
                 with open(os.path.join(ad_path, filename), 'r') as file:
                     ad_text = file.read().strip().replace("<server>", server_name)
-                    ads[server_id] = ad_text.split('\n')  # Assuming each ad is separated by a newline
+                    ads.append(ad_text)
         return ads
 
     @commands.Cog.listener()
@@ -81,16 +81,16 @@ class Advertisement(commands.Cog):
         self.save_ad_data_for_guild(guild_id, command_count, last_ad_time)
 
     async def send_advertisement(self, ctx):
-        guild_id = ctx.guild.id
         if not self.ads:  # Check if there are ads available
             print("No advertisements found.")
             return
     
         # Get the current ad index for this server, defaulting to 0
+        guild_id = ctx.guild.id
         ad_index = self.ad_index.get(guild_id, 0)
     
-        # Get the ad message and replace <server> with the current server's name
-        ad_message = self.ads[ad_index].replace("<server>", ctx.guild.name)
+        # Get the ad message
+        ad_message = self.ads[ad_index]
     
         # Send the ad as an embed
         embed = discord.Embed(title="Advertisement", description=ad_message, color=discord.Color.blue())
@@ -98,7 +98,7 @@ class Advertisement(commands.Cog):
     
         # Update the index for the next ad, looping back if at the end
         self.ad_index[guild_id] = (ad_index + 1) % len(self.ads)
-        
+            
     @commands.command()
     async def refresh_ads(self, ctx):
         """Admin command to refresh the advertisement list."""
