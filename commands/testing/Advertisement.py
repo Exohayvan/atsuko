@@ -82,20 +82,23 @@ class Advertisement(commands.Cog):
 
     async def send_advertisement(self, ctx):
         guild_id = ctx.guild.id
-        if guild_id not in self.ads or not self.ads[guild_id]:  # Check if there are ads for this server
-            print(f"No advertisements found for server: {ctx.guild.name}")
+        if not self.ads:  # Check if there are ads available
+            print("No advertisements found.")
             return
     
-        ad_list = self.ads[guild_id]
+        # Get the current ad index for this server, defaulting to 0
         ad_index = self.ad_index.get(guild_id, 0)
-        ad_message = ad_list[ad_index]
     
+        # Get the ad message and replace <server> with the current server's name
+        ad_message = self.ads[ad_index].replace("<server>", ctx.guild.name)
+    
+        # Send the ad as an embed
         embed = discord.Embed(title="Advertisement", description=ad_message, color=discord.Color.blue())
         await ctx.channel.send(embed=embed)
     
-        # Update the index for the next ad
-        self.ad_index[guild_id] = (ad_index + 1) % len(ad_list)
-    
+        # Update the index for the next ad, looping back if at the end
+        self.ad_index[guild_id] = (ad_index + 1) % len(self.ads)
+        
     @commands.command()
     async def refresh_ads(self, ctx):
         """Admin command to refresh the advertisement list."""
