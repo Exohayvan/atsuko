@@ -8,8 +8,16 @@ class Advertisement(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.initialize_advertisement_database()
+        self.server_names = {}
+        self.bot.loop.create_task(self.collect_server_names())
+        self.ads = []
+        self.ad_index = {}
+
+    async def collect_server_names(self):
+        await self.bot.wait_until_ready()
+        for guild in self.bot.guilds:
+            self.server_names[guild.id] = guild.name
         self.ads = self.load_ads()
-        self.ad_index = 0
 
     def initialize_advertisement_database(self):
         conn = sqlite3.connect('./data/db/advertisement.db')
@@ -44,12 +52,15 @@ class Advertisement(commands.Cog):
         conn.close()
 
     def load_ads(self):
-        ads = []
+        ads = {}
         ad_path = './data/txt/advertisement/'
         for filename in os.listdir(ad_path):
             if filename.endswith('.txt'):
+                server_id = int(filename[:-4])  # Extract server ID from filename
+                server_name = self.server_names.get(server_id, "Unknown Server")
                 with open(os.path.join(ad_path, filename), 'r') as file:
-                    ads.append(file.read().strip())
+                    ad_text = file.read().strip().replace("<server>", server_name)
+                    ads[server_id] = ad_text.split('\n')  # Assuming each ad is separated by a newline
         return ads
 
     @commands.Cog.listener()
@@ -70,24 +81,23 @@ class Advertisement(commands.Cog):
         self.save_ad_data_for_guild(guild_id, command_count, last_ad_time)
 
     async def send_advertisement(self, ctx):
-        if not self.ads:  # Reload ads if the list is empty
-            self.ads = self.load_ads()
-        if not self.ads:  # Check again if ads are still empty
+        guild_id = ctx.guild.id
+        if not self.ads:  # Check if there are ads
             print("No advertisements found.")
             return
 
-        ad_message = self.ads[self.ad_index]
+        # Customizing ad for the specific server
+        ad_message = self.ads[self.ad_index.get(guild_id, 0)].replace("<server>", ctx.guild.name)
         embed = discord.Embed(title="Advertisement", description=ad_message, color=discord.Color.blue())
         await ctx.channel.send(embed=embed)
 
-        # Update the index for next ad
-        self.ad_index = (self.ad_index + 1) % len(self.ads)
+        # Update the index for the next ad
+        self.ad_index[guild_id] = (self.ad_index.get(guild_id, 0) + 1) % len(self.ads)
 
     @commands.command()
     async def refresh_ads(self, ctx):
         """Admin command to refresh the advertisement list."""
         self.ads = self.load_ads()
-        self.ad_index = 0
         await ctx.send("Advertisement list refreshed.")
 
 async def setup(bot):
