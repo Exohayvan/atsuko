@@ -63,6 +63,26 @@ class Advertisement(commands.Cog):
                     ads.append(ad_text)
         return ads
 
+    @commands.command()
+    @commands.is_owner()  # Only allow the bot owner to use this command
+    async def deletead(self, ctx, server_id: int):
+        """Deletes the advertisement file for the specified server ID."""
+        ad_path = f'./data/txt/advertisement/{server_id}.txt'
+        if os.path.exists(ad_path):
+            os.remove(ad_path)
+            await ctx.send(f"Advertisement for server ID {server_id} deleted.")
+        else:
+            await ctx.send(f"No advertisement found for server ID {server_id}.")
+
+    @commands.command()
+    @commands.is_owner()  # Only allow the bot owner to use this command
+    async def addad(self, ctx, server_id: int, *, ad_message: str):
+        """Adds or updates the advertisement message for the specified server ID."""
+        ad_path = f'./data/txt/advertisement/{server_id}.txt'
+        with open(ad_path, 'w') as file:
+            file.write(ad_message)
+        await ctx.send(f"Advertisement for server ID {server_id} added/updated.")
+        
     @commands.Cog.listener()
     async def on_command_completion(self, ctx):
         if not ctx.guild:  # Ignore DMs
