@@ -120,6 +120,14 @@ Sets the channel for AniList feed updates.
 
 AniList commands.
 
+## deletead
+
+Deletes the advertisement file for the specified server ID.
+
+## addad
+
+Adds or updates the advertisement message for the specified server ID.
+
 ## refresh_ads
 
 Admin command to refresh the advertisement list.
