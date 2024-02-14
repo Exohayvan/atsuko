@@ -1,8 +1,1 @@
-2024-02-14 17:08:32,952:INFO:verification_bot: Logging setup test message.
-2024-02-14 17:09:01,882:INFO:verification_bot: Manually triggering task logic for testing.
-2024-02-14 17:09:02,011:INFO:verification_bot: Starting to check verification time limits.
-2024-02-14 17:09:02,012:ERROR:verification_bot: An error occurred while checking verification time limits: 'Verification' object has no attribute 'warn_and_kick'
-Traceback (most recent call last):
-  File "/home/exohayvan/Documents/GitHub/astuko/commands/moderation/Verification.py", line 263, in check_verification_timelimit
-    await self.warn_and_kick(member, guild, verification_channel, join_role, guild_id)
-AttributeError: 'Verification' object has no attribute 'warn_and_kick'
+2024-02-14 17:19:15,000:INFO:verification_bot: Logging setup test message.
