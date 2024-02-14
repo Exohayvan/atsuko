@@ -8,17 +8,25 @@ class Verification(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.verification_dict = {}
-        self.conn = sqlite3.connect('./data/roles.db')
-        self.c = self.conn.cursor()
-        self.c.execute('''CREATE TABLE IF NOT EXISTS roles
-                     (guild_id INTEGER, join_role INTEGER, verify_role INTEGER, verify_time_limit INTEGER)''')
-        self.conn.commit()
-        # Initialize a new connection for verification_channel.db
+
+        # Ensure existing databases are created if they don't exist
+        if not os.path.exists('./data/roles.db'):
+            self.create_roles_database()
+        if not os.path.exists('./data/verification_channel.db'):
+            self.create_verification_channel_database()
+
+        # Connect to existing databases
+        self.conn_roles = sqlite3.connect('./data/roles.db')
+        self.c_roles = self.conn_roles.cursor()
         self.conn_verification_channel = sqlite3.connect('./data/verification_channel.db')
         self.c_verification_channel = self.conn_verification_channel.cursor()
-        self.c_verification_channel.execute('''CREATE TABLE IF NOT EXISTS verification_channels
-                     (guild_id INTEGER PRIMARY KEY, channel_id INTEGER)''')
-        self.conn_verification_channel.commit()
+
+        # Connect to the new database for verification time limit
+        self.conn_verify_time_limit = sqlite3.connect('./data/verify_time_limit.db')
+        self.c_verify_time_limit = self.conn_verify_time_limit.cursor()
+        self.c_verify_time_limit.execute('''CREATE TABLE IF NOT EXISTS verify_time_limits
+                     (guild_id INTEGER PRIMARY KEY, verify_time_limit INTEGER)''')
+        self.conn_verify_time_limit.commit()
 
         # Start the background task to check verification time limits
         self.check_verification_task.start()
