@@ -3,6 +3,7 @@ from discord.ext import commands, tasks
 import sqlite3
 import random
 from discord.ext.commands import MissingRequiredArgument
+import os
 
 class Verification(commands.Cog):
     def __init__(self, bot):
