@@ -4,6 +4,18 @@ import sqlite3
 import random
 from datetime import datetime, timedelta
 from discord.ext.commands import MissingRequiredArgument
+import logging
+import os
+
+# Create logs directory if it doesn't exist
+if not os.path.exists('./logs'):
+    os.makedirs('./logs')
+
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='./logs/verification.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
 
 class Verification(commands.Cog):
     def __init__(self, bot):
