@@ -70,6 +70,7 @@ class GitAutoBackup(commands.Cog):
             print("Error while executing Git commands.")
 
     # You can invoke this via a command or event as you wish.
+    @commands.command(hidden=True)
     async def backup_command(self, ctx):
         self.pull_and_push()
         await ctx.send("Backup completed.")
