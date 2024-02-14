@@ -59,3 +59,40 @@ Traceback (most recent call last):
   File "/home/exohayvan/.local/lib/python3.10/site-packages/discord/ext/tasks/__init__.py", line 392, in start
     raise RuntimeError('Task is already launched and is not completed.')
 RuntimeError: Task is already launched and is not completed.
+2024-02-14 18:35:04,131:INFO:verification_bot: Starting to check verification time limits.
+2024-02-14 18:35:04,657:INFO:verification_bot: Kicked TVAUGHN from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:05,296:INFO:verification_bot: Kicked NateFrog17 from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:05,804:INFO:verification_bot: Kicked Dirge from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:06,303:INFO:verification_bot: Kicked and1morefantom from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:06,594:INFO:verification_bot: Kicked DamianM from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:06,864:WARNING:verification_bot: Failed to kick ikytrox from ExoHayvan's Family due to insufficient permissions.
+2024-02-14 18:35:07,491:INFO:verification_bot: Kicked dmv_nate from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:07,648:WARNING:verification_bot: Failed to kick onetimefollower from ExoHayvan's Family due to insufficient permissions.
+2024-02-14 18:35:08,232:INFO:verification_bot: Kicked rio from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:08,893:INFO:verification_bot: Kicked sneakycalf from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:09,253:INFO:verification_bot: Kicked Bitch 🤤 from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:09,703:INFO:verification_bot: Kicked phantom9725 from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:10,116:INFO:verification_bot: Kicked cornyboi from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:10,489:INFO:verification_bot: Kicked vladsandu2000 from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:10,982:INFO:verification_bot: Kicked burgucu670 from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:11,456:INFO:verification_bot: Kicked auddiemae from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:11,612:WARNING:verification_bot: Failed to kick sarankdirector from ExoHayvan's Family due to insufficient permissions.
+2024-02-14 18:35:12,002:INFO:verification_bot: Kicked harding gg from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:12,167:WARNING:verification_bot: Failed to kick lightstar0511 from ExoHayvan's Family due to insufficient permissions.
+2024-02-14 18:35:12,488:INFO:verification_bot: Kicked eun.taki from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:12,765:INFO:verification_bot: Kicked mejedfullharam from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:13,112:INFO:verification_bot: Kicked fizzy0041 from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:13,663:INFO:verification_bot: Kicked Plush from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:13,841:WARNING:verification_bot: Failed to kick flowerboi_domo from ExoHayvan's Family due to insufficient permissions.
+2024-02-14 18:35:14,448:INFO:verification_bot: Kicked InfiniteStaps from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:14,878:INFO:verification_bot: Kicked jaggarkinder from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:18,228:INFO:verification_bot: Kicked diego1682 from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:18,717:INFO:verification_bot: Kicked werd._.drew from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:19,692:INFO:verification_bot: Kicked gucci.bill from ExoHayvan's Family for not verifying in time.
+2024-02-14 18:35:19,884:WARNING:verification_bot: Failed to kick bharney17 from ExoHayvan's Family due to insufficient permissions.
+2024-02-14 18:35:20,389:INFO:verification_bot: Warning sent to ikytrox in ExoHayvan's Family for verification.
+2024-02-14 18:35:20,873:INFO:verification_bot: Warning sent to onetimefollower in ExoHayvan's Family for verification.
+2024-02-14 18:35:21,455:INFO:verification_bot: Warning sent to sarankdirector in ExoHayvan's Family for verification.
+2024-02-14 18:35:21,901:INFO:verification_bot: Warning sent to lightstar0511 in ExoHayvan's Family for verification.
+2024-02-14 18:35:22,474:INFO:verification_bot: Warning sent to flowerboi_domo in ExoHayvan's Family for verification.
+2024-02-14 18:35:23,479:INFO:verification_bot: Warning sent to bharney17 in ExoHayvan's Family for verification.
