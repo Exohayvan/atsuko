@@ -279,6 +279,7 @@ class Verification(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print("Bot is ready. Starting verification check task.")
+        logger.info("Bot is ready. Starting verification check task.")
         self.check_verification_timelimit.start()
 
 async def setup(bot):
