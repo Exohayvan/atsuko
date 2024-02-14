@@ -261,10 +261,10 @@ class Verification(commands.Cog):
         # Store the warning timestamp instead of waiting
         self.warned_users[(member.id, guild_id)] = datetime.utcnow()
 
-@commands.Cog.listener()
-async def on_ready(self):
-    print("Bot is ready. Starting verification check task.")
-    self.check_verification_timelimit.start()
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print("Bot is ready. Starting verification check task.")
+        self.check_verification_timelimit.start()
 
 async def setup(bot):
     await bot.add_cog(Verification(bot))
