@@ -48,7 +48,7 @@ class Verification(commands.Cog):
         conn.commit()
         conn.close()
 
-    @tasks.loop(seconds=3600)  # Run every hour
+    @tasks.loop(minutes=15)  # Run every 15 minutes
     async def check_verification_task(self):
         for guild in self.bot.guilds:
             self.c_verify_time_limit.execute("SELECT verify_time_limit FROM verify_time_limits WHERE guild_id=?", (guild.id,))
@@ -66,7 +66,7 @@ class Verification(commands.Cog):
                                     join_time = member.joined_at
                                     if join_time:
                                         elapsed_time = datetime.utcnow() - join_time
-                                        if elapsed_time >= timedelta(hours=verify_time_limit):
+                                        if elapsed_time >= timedelta(minutes=verify_time_limit):
                                             # Check if the member has already received a warning
                                             if member.id not in self.verification_dict:
                                                 try:
