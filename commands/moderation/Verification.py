@@ -8,18 +8,37 @@ from discord.ext.commands import MissingRequiredArgument
 class Verification(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.verification_dict = {}
+        # Database connection for roles
         self.conn = sqlite3.connect('./data/roles.db')
         self.c = self.conn.cursor()
         self.c.execute('''CREATE TABLE IF NOT EXISTS roles
                      (guild_id INTEGER, join_role INTEGER, verify_role INTEGER)''')
         self.conn.commit()
-        # Initialize a new connection for verification_channel.db
+
+        # Database connection for verification channels
         self.conn_verification_channel = sqlite3.connect('./data/verification_channel.db')
         self.c_verification_channel = self.conn_verification_channel.cursor()
         self.c_verification_channel.execute('''CREATE TABLE IF NOT EXISTS verification_channels
                      (guild_id INTEGER PRIMARY KEY, channel_id INTEGER)''')
         self.conn_verification_channel.commit()
+
+        # Database connection for verification time limit
+        self.conn_verify_timelimit = sqlite3.connect('./data/verify_timelimit.db')
+        self.c_verify_timelimit = self.conn_verify_timelimit.cursor()
+        self.c_verify_timelimit.execute('''CREATE TABLE IF NOT EXISTS verify_timelimit
+                     (guild_id INTEGER PRIMARY KEY, timelimit INTEGER)''')
+        self.conn_verify_timelimit.commit()
+
+        self.verification_dict = {}
+        self.warned_users = {}  # Now maps (member_id, guild_id) to warning timestamp
+        
+    @commands.command(usage="!set_verify_timelimit <hours>")
+    @commands.has_permissions(administrator=True)
+    async def set_verify_timelimit(self, ctx, hours: int):
+        """Sets a time limit for users to verify after joining."""
+        self.c_verify_timelimit.execute("INSERT OR REPLACE INTO verify_timelimit VALUES (?, ?)", (ctx.guild.id, hours))
+        self.conn_verify_timelimit.commit()
+        await ctx.send(f"Verification time limit has been set to {hours} hours.")
 
     @commands.command(usage="!set_verify_channel <#channel>")
     @commands.has_permissions(administrator=True)
