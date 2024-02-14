@@ -450,12 +450,12 @@ Removes a role to allow moderation.
 Usage:
 `!removemod <@mention>`
 
-## set_verify_time_limit
+## set_verify_timelimit
 
-Sets the verification time limit in hours.
+Sets a time limit for users to verify after joining.
 
 Usage:
-`!set_verify_time_limit <hours>`
+`!set_verify_timelimit <hours>`
 
 ## set_verify_channel
 
