@@ -1,1 +1,0 @@
-2024-02-14 16:46:18,650:DEBUG:discord.gateway: Sending "{"op":3,"d":{"activities":[{"flags":0,"type":0,"name":"with the !help command 📚","buttons":[]}],"afk":false,"since":0.0,"status":"online"}}" to change status
