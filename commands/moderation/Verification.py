@@ -265,12 +265,13 @@ class Verification(commands.Cog):
         
         except Exception as e:
             logger.exception(f"An error occurred while checking verification time limits: {e}")    
-        async def warn_and_kick(self, member, guild, verification_channel, join_role, guild_id):
-            try:
-                await member.send(f"You have 1 hour to verify in {guild.name} or you will be kicked.")
-            except discord.Forbidden:
-                # This exception is raised if the bot cannot send a DM to the user.
-                pass
+        
+    async def warn_and_kick(self, member, guild, verification_channel, join_role, guild_id):
+        try:
+            await member.send(f"You have 1 hour to verify in {guild.name} or you will be kicked.")
+        except discord.Forbidden:
+            # This exception is raised if the bot cannot send a DM to the user.
+            pass
     
         warning_message = await verification_channel.send(f"{member.mention}, you have not verified within the set time limit. You have 1 hour to verify, or you will be kicked.")
     
