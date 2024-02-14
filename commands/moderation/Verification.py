@@ -185,6 +185,80 @@ class Verification(commands.Cog):
     
             elif verification_data:
                 await message.author.send("Verification failed.")
-                            
+                
+    @tasks.loop(minutes=15)
+    async def check_verification_timelimit(self):
+        self.c_verify_timelimit.execute("SELECT * FROM verify_timelimit")
+        guilds_timelimits = self.c_verify_timelimit.fetchall()
+    
+        current_time = datetime.utcnow()
+        to_remove = []
+    
+        # First, handle users who have already been warned
+        for (member_id, guild_id), warning_time in self.warned_users.items():
+            if current_time - warning_time >= timedelta(hours=1):
+                guild = self.bot.get_guild(guild_id)
+                if guild:
+                    member = guild.get_member(member_id)
+                    if member:
+                        self.c.execute("SELECT join_role FROM roles WHERE guild_id=?", (guild_id,))
+                        join_role_id = self.c.fetchone()
+                        if join_role_id:
+                            join_role = guild.get_role(join_role_id[0])
+                            if join_role and join_role in member.roles:
+                                try:
+                                    await guild.kick(member)
+                                    await self.bot.get_channel(self.warned_users[(member_id, guild_id)][1]).send(f"{member.display_name} has been kicked for not verifying in time.")
+                                except discord.Forbidden:
+                                    pass
+                to_remove.append((member_id, guild_id))
+    
+        # Remove entries for users who have been handled
+        for key in to_remove:
+            del self.warned_users[key]
+    
+        # Now, check for new unverified members
+        for guild_id, timelimit in guilds_timelimits:
+            guild = self.bot.get_guild(guild_id)
+            if not guild:
+                continue
+    
+            self.c_verification_channel.execute("SELECT channel_id FROM verification_channels WHERE guild_id=?", (guild_id,))
+            verification_channel_id = self.c_verification_channel.fetchone()
+            if not verification_channel_id:
+                continue
+            verification_channel = guild.get_channel(verification_channel_id[0])
+    
+            self.c.execute("SELECT join_role FROM roles WHERE guild_id=?", (guild_id,))
+            join_role_id = self.c.fetchone()
+            if not join_role_id:
+                continue
+            join_role = guild.get_role(join_role_id[0])
+            if not join_role:
+                continue
+    
+            for member in guild.members:
+                if member.bot or join_role not in member.roles:
+                    continue
+                if (member.id, guild_id) in self.warned_users:
+                    continue
+                join_time = member.joined_at.replace(tzinfo=None)
+                if current_time - join_time > timedelta(hours=timelimit):
+                    # Schedule the warning without blocking
+                    await self.warn_and_kick(member, guild, verification_channel, join_role, guild_id)
+    
+        async def warn_and_kick(self, member, guild, verification_channel, join_role, guild_id):
+            try:
+                await member.send(f"You have 1 hour to verify in {guild.name} or you will be kicked.")
+            except discord.Forbidden:
+                pass
+        
+            warning_message = await verification_channel.send(
+                f"{member.mention}, you have not verified within the set time limit. You have 1 hour to verify, or you will be kicked."
+            )
+        
+            # Store the warning timestamp instead of waiting
+            self.warned_users[(member.id, guild_id)] = datetime.utcnow()
+               
 async def setup(bot):
     await bot.add_cog(Verification(bot))
