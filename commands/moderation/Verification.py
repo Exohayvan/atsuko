@@ -1,109 +1,25 @@
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 import sqlite3
 import random
 from discord.ext.commands import MissingRequiredArgument
-import os
 
 class Verification(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.verification_dict = {}
-
-        # Ensure existing databases are created if they don't exist
-        if not os.path.exists('./data/roles.db'):
-            self.create_roles_database()
-        if not os.path.exists('./data/verification_channel.db'):
-            self.create_verification_channel_database()
-
-        # Connect to existing databases
-        self.conn_roles = sqlite3.connect('./data/roles.db')
-        self.c_roles = self.conn_roles.cursor()
+        self.conn = sqlite3.connect('./data/roles.db')
+        self.c = self.conn.cursor()
+        self.c.execute('''CREATE TABLE IF NOT EXISTS roles
+                     (guild_id INTEGER, join_role INTEGER, verify_role INTEGER)''')
+        self.conn.commit()
+        # Initialize a new connection for verification_channel.db
         self.conn_verification_channel = sqlite3.connect('./data/verification_channel.db')
         self.c_verification_channel = self.conn_verification_channel.cursor()
-
-        # Connect to the new database for verification time limit
-        self.conn_verify_time_limit = sqlite3.connect('./data/verify_time_limit.db')
-        self.c_verify_time_limit = self.conn_verify_time_limit.cursor()
-        self.c_verify_time_limit.execute('''CREATE TABLE IF NOT EXISTS verify_time_limits
-                     (guild_id INTEGER PRIMARY KEY, verify_time_limit INTEGER)''')
-        self.conn_verify_time_limit.commit()
-
-        # Start the background task to check verification time limits
-        self.check_verification_task.start()
-
-    def create_roles_database(self):
-        conn = sqlite3.connect('./data/roles.db')
-        c = conn.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS roles
-                     (guild_id INTEGER, join_role INTEGER, verify_role INTEGER, verify_time_limit INTEGER)''')
-        conn.commit()
-        conn.close()
-
-    def create_verification_channel_database(self):
-        conn = sqlite3.connect('./data/verification_channel.db')
-        c = conn.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS verification_channels
+        self.c_verification_channel.execute('''CREATE TABLE IF NOT EXISTS verification_channels
                      (guild_id INTEGER PRIMARY KEY, channel_id INTEGER)''')
-        conn.commit()
-        conn.close()
+        self.conn_verification_channel.commit()
 
-    @tasks.loop(minutes=15)  # Run every 15 minutes
-    async def check_verification_task(self):
-        for guild in self.bot.guilds:
-            self.c_verify_time_limit.execute("SELECT verify_time_limit FROM verify_time_limits WHERE guild_id=?", (guild.id,))
-            result = self.c_verify_time_limit.fetchone()
-            if result:
-                verify_time_limit = result[0]
-                if verify_time_limit > 0:
-                    self.c_roles.execute("SELECT join_role FROM roles WHERE guild_id=?", (guild.id,))
-                    join_role_id = self.c_roles.fetchone()
-                    if join_role_id:
-                        join_role = guild.get_role(join_role_id[0])
-                        if join_role:
-                            for member in guild.members:
-                                if not member.bot and join_role in member.roles:
-                                    join_time = member.joined_at
-                                    if join_time:
-                                        elapsed_time = datetime.utcnow() - join_time
-                                        if elapsed_time >= timedelta(minutes=verify_time_limit):
-                                            # Check if the member has already received a warning
-                                            if member.id not in self.verification_dict:
-                                                try:
-                                                    # Send warning to the member
-                                                    await member.send(f"You haven't verified in the server within the specified time limit. "
-                                                                      f"You will be kicked from the server if you don't verify within 1 hour.")
-                                                    # Store the member ID to indicate that a warning has been sent
-                                                    self.verification_dict[member.id] = datetime.utcnow()
-                                                    await asyncio.sleep(2)  # Add a 2-second delay between sending messages
-                                                except discord.Forbidden:
-                                                    pass  # Unable to send DM to the member
-                                            else:
-                                                # Check if 1 hour has passed since the last warning
-                                                last_warning_time = self.verification_dict[member.id]
-                                                if datetime.utcnow() - last_warning_time >= timedelta(hours=1):
-                                                    # Kick the member
-                                                    await member.kick(reason="Verification time limit exceeded")
-                                                    # Send warning in the verification channel
-                                                    self.c_verification_channel.execute("SELECT channel_id FROM verification_channels WHERE guild_id=?", (guild.id,))
-                                                    channel_id = self.c_verification_channel.fetchone()
-                                                    if channel_id:
-                                                        channel = guild.get_channel(channel_id[0])
-                                                        if channel:
-                                                            await channel.send(f"{member.mention}, you haven't verified in the server within the specified time limit. "
-                                                                               f"You have been kicked from the server.")
-                                                            await asyncio.sleep(2)  # Add a 2-second delay between sending messages
-                                                else:
-                                                    continue  # Skip if less than 1 hour has passed since the last warning
-
-    @commands.command(usage="!set_verify_time_limit <hours>")
-    @commands.has_permissions(administrator=True)
-    async def set_verify_time_limit(self, ctx, hours: int):
-        """Sets the verification time limit in hours."""
-        self.c_verify_time_limit.execute("INSERT OR REPLACE INTO verify_time_limits VALUES (?, ?)", (ctx.guild.id, hours))
-        self.conn_verify_time_limit.commit()
-        await ctx.send(f"Verification time limit has been set to {hours} hours.")
-    
     @commands.command(usage="!set_verify_channel <#channel>")
     @commands.has_permissions(administrator=True)
     async def set_verify_channel(self, ctx):
