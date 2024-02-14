@@ -283,5 +283,14 @@ class Verification(commands.Cog):
         logger.info("Bot is ready. Starting verification check task.")
         self.check_verification_timelimit.start()
 
+    @commands.command(hidden=True)
+    @commands.has_permissions(administrator=True)
+    async def trigger_time_test(self, ctx):
+        try:
+            logger.info("Manually triggering task logic for testing.")
+            self.check_verification_timelimit.start()
+        except Exception as e:
+            logger.exception(f"Error during manual task trigger: {e}")
+            
 async def setup(bot):
     await bot.add_cog(Verification(bot))
