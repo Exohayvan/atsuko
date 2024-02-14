@@ -47,6 +47,7 @@ class Verification(commands.Cog):
                                                                   f"You will be kicked from the server if you don't verify within 1 hour.")
                                                 # Store the member ID to indicate that a warning has been sent
                                                 self.verification_dict[member.id] = datetime.utcnow()
+                                                await asyncio.sleep(2)
                                             except discord.Forbidden:
                                                 pass  # Unable to send DM to the member
                                         else:
@@ -63,6 +64,7 @@ class Verification(commands.Cog):
                                                     if channel:
                                                         await channel.send(f"{member.mention}, you haven't verified in the server within the specified time limit. "
                                                                            f"You have been kicked from the server.")
+                                                        await asyncio.sleep(2)
                                             else:
                                                 continue  # Skip if less than 1 hour has passed since the last warning
 
