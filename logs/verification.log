@@ -42,3 +42,12 @@ Traceback (most recent call last):
   File "/home/exohayvan/.local/lib/python3.10/site-packages/discord/ext/tasks/__init__.py", line 392, in start
     raise RuntimeError('Task is already launched and is not completed.')
 RuntimeError: Task is already launched and is not completed.
+2024-02-14 18:20:04,131:INFO:verification_bot: Starting to check verification time limits.
+2024-02-14 18:24:46,576:INFO:verification_bot: Manually triggering task logic for testing.
+2024-02-14 18:24:46,576:ERROR:verification_bot: Error during manual task trigger: Task is already launched and is not completed.
+Traceback (most recent call last):
+  File "/home/exohayvan/Documents/GitHub/astuko/commands/moderation/Verification.py", line 292, in trigger_time_test
+    self.check_verification_timelimit.start()
+  File "/home/exohayvan/.local/lib/python3.10/site-packages/discord/ext/tasks/__init__.py", line 392, in start
+    raise RuntimeError('Task is already launched and is not completed.')
+RuntimeError: Task is already launched and is not completed.
