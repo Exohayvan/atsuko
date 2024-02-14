@@ -16,6 +16,7 @@ logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='./logs/verification.log', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
+logger.info("Logging setup test message.")
 
 class Verification(commands.Cog):
     def __init__(self, bot):
