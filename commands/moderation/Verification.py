@@ -254,9 +254,7 @@ class Verification(commands.Cog):
             # This exception is raised if the bot cannot send a DM to the user.
             pass
     
-        warning_message = await verification_channel.send(
-            f"{member.mention}, you have not verified within the set time limit. You have 1 hour to verify, or you will be kicked."
-        )
+        warning_message = await verification_channel.send(f"{member.mention}, you have not verified within the set time limit. You have 1 hour to verify, or you will be kicked.")
     
         # Store the warning timestamp instead of waiting
         self.warned_users[(member.id, guild_id)] = datetime.utcnow()
