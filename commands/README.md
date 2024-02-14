@@ -450,38 +450,3 @@ Removes a role to allow moderation.
 Usage:
 `!removemod <@mention>`
 
-## set_verify_channel
-
-Sets a specific channel for verification purposes.
-
-Usage:
-`!set_verify_channel <#channel>`
-
-## show_roles
-
-Shows the set join and verify roles for the guild.
-
-Usage:
-`!show_roles`
-
-## set_join_role
-
-Sets the role to give to users when they first join.
-
-Usage:
-`!set_join_role <@role>`
-
-## set_verify_role
-
-Sets the role to give to users when they are verified.
-
-Usage:
-`!set_verify_role <@role>`
-
-## verify
-
-Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs.
-
-Usage:
-`!verify`
-
