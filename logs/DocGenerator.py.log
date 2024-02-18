@@ -1,241 +1,241 @@
-2024-02-17 23:13:01,190:INFO:DocGenerator.py: DocGenerator Cog Loaded. Logging started...
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Generating README.md
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Processing cog: Template
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Skipping hidden command: placeholder
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Processing cog: Cleanup
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Skipping hidden command: cleanup
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Processing cog: DBSize
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Skipping hidden command: dbsize
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Processing cog: PullLog
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Adding command "pulllog" with "Send a log file or the entire log directory if no file is specified." to readme
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Command usage for pulllog added to readme: pulllog <filename>
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Processing cog: GitAutoBackup
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Skipping hidden command: backup
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Processing cog: CommandToggle
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Skipping hidden command: disable
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Skipping hidden command: enable
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Processing cog: OwnerCommands
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Skipping hidden command: unload_cog
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Skipping hidden command: execute
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Skipping hidden command: tree
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Skipping hidden command: update
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Skipping hidden command: restart
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Processing cog: Presence
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: No commands found for cog: Presence
-2024-02-17 23:13:01,191:INFO:DocGenerator.py: Processing cog: Info
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Adding command "ping" with "Shows the bot's latency and API ping." to readme
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Command usage for ping added to readme: !ping
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Adding command "info" with "Provides detailed information about the bot." to readme
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Command usage for info added to readme: !info
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Adding command "invite" with "Generates an invite link for the bot." to readme
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Command usage for invite added to readme: !invite
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Adding command "stats" with "Shows the bot's current stats, including the number of guilds, users, and more." to readme
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Command usage for stats added to readme: !stats
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Adding command "uptime" with "Shows the current uptime of the bot since last restart." to readme
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Command usage for uptime added to readme: !uptime
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Adding command "lifetime" with "Shows the total lifetime uptime of the bot." to readme
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Command usage for lifetime added to readme: !lifetime
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Adding command "version" with "Shows the current version of the bot based on Git commits and the hash of the last commit." to readme
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Command usage for version added to readme: !version
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Processing cog: CommandUsageTracker
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: No commands found for cog: CommandUsageTracker
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Processing cog: Music
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Adding command "join" with "Joins the user's voice channel." to readme
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Adding command "leave" with "Leaves the current voice channel." to readme
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Adding command "volume" with "Sets the volume of the bot." to readme
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Adding command "play" with "Plays audio from a YouTube URL." to readme
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Processing cog: Donation
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Adding command "donate" with "Returns the donation address for the specified method." to readme
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Command usage for donate added to readme: !donate <method>
-2024-02-17 23:13:01,192:INFO:DocGenerator.py: Processing cog: Feedback
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Adding command "feedback" with "Provide feedback to bot owners, feedback will be posted to GitHub. Link to issue will be sent after feedback is posted to GitHub." to readme
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Command usage for feedback added to readme: feedback "Feedback you would like to provide."
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Processing cog: Fun
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Adding command "roll" with "Rolls a dice with the specified format (e.g., 2d6)." to readme
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Command usage for roll added to readme: !roll NdN
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Adding command "coinflip" with "Flips a coin and shows the result." to readme
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Command usage for coinflip added to readme: !coinflip
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Processing cog: ChannelRelay
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Adding command "connect_channel" with "Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)" to readme
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Command usage for connect_channel added to readme: !connect_channel
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Adding command "disconnect_channel" with "Disconnect the channel connected to the relay channels." to readme
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Command usage for disconnect_channel added to readme: !disconnect_channel
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Processing cog: Random
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Adding command "random" with "Returns a random item. Currently you can use the following: image, color, number, emoji, or anime." to readme
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Command usage for random added to readme: random <item>
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Processing cog: Counting
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Adding command "set_counting_channel" with "Sets the current channel as the counting channel." to readme
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Processing cog: Scrabble
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Adding command "scrabble" with "Start or play a game of Scrabble! Use '!scrabble start' to start a new game and other commands to interact with the game." to readme
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Processing cog: Monopoly
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Adding command "monopoly" with "Start or play a game of Monopoly! Use '!monopoly start' to start a new game and other commands to interact with the game." to readme
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Processing cog: Chess
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Adding command "chess" with "Main chess command." to readme
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Processing cog: Checkers
-2024-02-17 23:13:01,193:INFO:DocGenerator.py: Adding command "checkers" with "Start or play a game of Checkers! Use '!checkers start' to start a new game and other commands to interact with the game." to readme
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Command usage for checkers added to readme: !checkers <command> (Will add list later).
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Processing cog: Sorry
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Adding command "sorry" with "Start or play a game of Sorry! Use '!sorry start' to start a new game and other commands to interact with the game." to readme
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Processing cog: Uno
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Adding command "uno" with "Start or play a game of Uno! Use '!uno start' to start a new game and other commands to interact with the game." to readme
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Processing cog: TicTacToe
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Adding command "tictactoe" with "Start or play a game of Tic-Tac-Toe! Use '!tictactoe start' to start a new game and '!tictactoe move <position>' to make a move." to readme
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Processing cog: Hangman
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Adding command "hangman" with "Start or play a game of Hangman! Use '!hangman start' to start a new game and '!hangman guess <letter>' to make a guess." to readme
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Processing cog: DND
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Adding command "dnd" with "This base of the dnd commands, few options to use: create, show, & card. More to come soon!" to readme
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Command usage for dnd added to readme: !dnd
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Processing cog: AnilistFeed
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Adding command "setanifeed" with "Sets the channel for AniList feed updates." to readme
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Processing cog: AniList
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Adding command "anilist" with "AniList commands." to readme
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Processing cog: Advertisement
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Adding command "deletead" with "Deletes the advertisement file for the specified server ID." to readme
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Adding command "addad" with "Adds or updates the advertisement message for the specified server ID." to readme
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Adding command "refresh_ads" with "Admin command to refresh the advertisement list." to readme
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,194:INFO:DocGenerator.py: Processing cog: CommandError
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: No commands found for cog: CommandError
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Processing cog: ImageGenerator
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Adding command "animediff" with "Generates an anime-style image based on the provided prompt and sends the MD5 hash of the image data." to readme
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Command usage for animediff added to readme: !animediff <prompt>, <another prompt>, so on
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Adding command "dnddiff" with "Generates an dnd-style image based on the provided prompt and sends the MD5 hash of the image data." to readme
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Command usage for dnddiff added to readme: !dnddiff <prompt>, <another prompt>, so on
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Adding command "imagediff" with "Generates a realistic image based on the provided prompt and sends the MD5 hash of the image data." to readme
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Command usage for imagediff added to readme: !imagediff <prompt>, <another prompt>, so on
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Processing cog: Python
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Adding command "package_info" with "Provides information about a pip package." to readme
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Processing cog: Role
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Adding command "roles" with "Creates a reaction role message." to readme
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Processing cog: EmojiManager
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Adding command "emoji_save" with "Saves multiple custom emojis to the local storage." to readme
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Command usage for emoji_save added to readme: !emoji_save <emoji1> <emoji2> ...
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Adding command "emoji_add" with "Saves multiple custom emojis to local storage and adds them to the server." to readme
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Command usage for emoji_add added to readme: !emoji_add <emoji1> <emoji2> ...
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Processing cog: MentalHealthSupportCog
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: No commands found for cog: MentalHealthSupportCog
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Processing cog: KeepClean
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Command 'keepclean' in cog KeepClean is missing help details.
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Processing cog: TikTokLive
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Adding command "tiktok" with "Command to track a TikTok user's live status." to readme
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Command usage for tiktok added to readme: !tiktok <username>
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Adding command "stoptracking" with "Stop tracking a TikTok user's live status." to readme
-2024-02-17 23:13:01,195:INFO:DocGenerator.py: Command usage for stoptracking added to readme: !stoptracking <username>
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Processing cog: Family
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "adopt" with "Sends an adoption request to another member." to readme
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Command usage for adopt added to readme: !adopt <@member>
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "marry" with "Sends a marriage request to another member." to readme
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Command usage for marry added to readme: !marry <@member>
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "family" with "Shows the family tree of the author." to readme
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Command usage for family added to readme: !family
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Processing cog: HyperBot
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "hyper" with "This is the hyper command." to readme
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Command usage for hyper added to readme: !hyper <usage>
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "embed" with "This is the embed command." to readme
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Command usage for embed added to readme: !embed <message>
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Processing cog: Money
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "dailyremind" with "Toggle daily reminders on or off." to readme
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "balance" with "Check your balance or someone else's by mentioning them." to readme
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "daily" with "Receive your daily gold." to readme
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "invest" with "Invest your gold to earn more." to readme
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "uninvest" with "Uninvest your gold, with a 10% penalty." to readme
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "give" with "Give gold to someone." to readme
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "gamble" with "Gamble your gold for a chance to win the pot." to readme
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "jackpot" with "Check the current jackpot amount." to readme
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Processing cog: Leveling
-2024-02-17 23:13:01,196:INFO:DocGenerator.py: Adding command "xp" with "Used to check your own or someone elses xp and level!" to readme
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Command usage for xp added to readme: !xp` or `!xp @member
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Skipping hidden command: removexp
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Adding command "leaderboard" with "Check a servers leaderboard, can take a while sometimes." to readme
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Command usage for leaderboard added to readme: !leaderboard
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Skipping hidden command: rexp
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Processing cog: Voting
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Adding command "vote" with "Start an anonymous vote with 2-10 options to choose from! (Besure to include quotes on title and options)" to readme
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Command usage for vote added to readme: !vote <minutes> "Title" "Option 1" "Option 2" "Options up to 10"
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Adding command "endvote" with "Ends a currently active vote using the title of the vote. (Besure to enclose the title with quotes)" to readme
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Command usage for endvote added to readme: !endvote "title of vote"
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Processing cog: Counter
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Adding command "create_counter" with "Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots." to readme
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Adding command "channel_reconnect" with "Reconnects a voice channel to the counter system and adds it back to the database." to readme
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Command 'channelupdate' in cog Counter is missing help details.
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Missing command usage for None
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Processing cog: Moderation
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Adding command "lock" with "Locks a channel." to readme
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Command usage for lock added to readme: !lock
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Adding command "unlock" with "Unlocks a channel." to readme
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Command usage for unlock added to readme: !unlock
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Adding command "kick" with "Kicks a user out of the server." to readme
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Command usage for kick added to readme: !kick <@mention>
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Command 'setprefix' in cog Moderation is missing help details.
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Command usage for setprefix added to readme: !setprefix <prefix you want> (This can be literaly anything you like, just please make it a normal one please.)
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Adding command "ban" with "Bans a user from the server." to readme
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Command usage for ban added to readme: !ban <@mention>
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Adding command "unban" with "Unbans a user." to readme
-2024-02-17 23:13:01,197:INFO:DocGenerator.py: Command usage for unban added to readme: !unban <userID>
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "purge" with "Clears a specified amount of messages in the channel." to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for purge added to readme: !purge <number of messages>
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "mute" with "Mutes a user." to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for mute added to readme: !mute <@mention>
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "unmute" with "Unmutes a user." to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for unmute added to readme: !unmute <@mention>
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "user" with "Shows info about the mentioned user." to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for user added to readme: !user <mention>
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "addmod" with "Adds a role to allow moderation." to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for addmod added to readme: !addmod <@mention>
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "removemod" with "Removes a role to allow moderation." to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for removemod added to readme: !removemod <@mention>
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Processing cog: Welcome
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "welcomemsg" with "Set a custom welcome message. Ex. `!welcomemsg Welcome <user>!`" to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for welcomemsg added to readme: <message>
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "welcomeremove" with "Remove the set welcome message." to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for welcomeremove added to readme: !welcomeremove
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Processing cog: Verification
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "set_verify_timelimit" with "Sets a time limit for users to verify after joining." to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for set_verify_timelimit added to readme: !set_verify_timelimit <hours>
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "set_verify_channel" with "Sets a specific channel for verification purposes." to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for set_verify_channel added to readme: !set_verify_channel <#channel>
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "show_roles" with "Shows the set join and verify roles for the guild." to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for show_roles added to readme: !show_roles
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "set_join_role" with "Sets the role to give to users when they first join." to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for set_join_role added to readme: !set_join_role <@role>
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "set_verify_role" with "Sets the role to give to users when they are verified." to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for set_verify_role added to readme: !set_verify_role <@role>
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Adding command "verify" with "Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs." to readme
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Command usage for verify added to readme: !verify
-2024-02-17 23:13:01,198:INFO:DocGenerator.py: Skipping hidden command: trigger_time_test
-2024-02-17 23:13:01,199:INFO:DocGenerator.py: Processing cog: TicketSystem
-2024-02-17 23:13:01,199:INFO:DocGenerator.py: Adding command "ticket" with "Create a new ticket channel." to readme
-2024-02-17 23:13:01,199:INFO:DocGenerator.py: Command usage for ticket added to readme: !ticket
-2024-02-17 23:13:01,199:INFO:DocGenerator.py: Processing cog: PackageRequirements
-2024-02-17 23:13:01,199:INFO:DocGenerator.py: No commands found for cog: PackageRequirements
-2024-02-17 23:13:01,199:INFO:DocGenerator.py: README.md has been generated/updated.
-2024-02-17 23:13:01,199:INFO:DocGenerator.py: missing.txt has been generated/updated.
+2024-02-17 23:26:56,621:INFO:DocGenerator.py: DocGenerator Cog Loaded. Logging started...
+2024-02-17 23:26:56,621:INFO:DocGenerator.py: Generating README.md
+2024-02-17 23:26:56,621:INFO:DocGenerator.py: Processing cog: Template
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Skipping hidden command: placeholder
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Processing cog: Cleanup
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Skipping hidden command: cleanup
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Processing cog: DBSize
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Skipping hidden command: dbsize
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Processing cog: PullLog
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Adding command "pulllog" with "Send a log file or the entire log directory if no file is specified." to readme
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Command usage for pulllog added to readme: pulllog <filename>
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Processing cog: GitAutoBackup
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Skipping hidden command: backup
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Processing cog: CommandToggle
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Skipping hidden command: disable
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Skipping hidden command: enable
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Processing cog: OwnerCommands
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Skipping hidden command: unload_cog
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Skipping hidden command: execute
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Skipping hidden command: tree
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Skipping hidden command: update
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Skipping hidden command: restart
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Processing cog: Presence
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: No commands found for cog: Presence
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Processing cog: Info
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Adding command "ping" with "Shows the bot's latency and API ping." to readme
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Command usage for ping added to readme: !ping
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Adding command "info" with "Provides detailed information about the bot." to readme
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Command usage for info added to readme: !info
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Adding command "invite" with "Generates an invite link for the bot." to readme
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Command usage for invite added to readme: !invite
+2024-02-17 23:26:56,622:INFO:DocGenerator.py: Adding command "stats" with "Shows the bot's current stats, including the number of guilds, users, and more." to readme
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Command usage for stats added to readme: !stats
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Adding command "uptime" with "Shows the current uptime of the bot since last restart." to readme
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Command usage for uptime added to readme: !uptime
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Adding command "lifetime" with "Shows the total lifetime uptime of the bot." to readme
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Command usage for lifetime added to readme: !lifetime
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Adding command "version" with "Shows the current version of the bot based on Git commits and the hash of the last commit." to readme
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Command usage for version added to readme: !version
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Processing cog: CommandUsageTracker
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: No commands found for cog: CommandUsageTracker
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Processing cog: Music
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Adding command "join" with "Joins the user's voice channel." to readme
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Adding command "leave" with "Leaves the current voice channel." to readme
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Adding command "volume" with "Sets the volume of the bot." to readme
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Adding command "play" with "Plays audio from a YouTube URL." to readme
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Processing cog: Donation
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Adding command "donate" with "Returns the donation address for the specified method." to readme
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Command usage for donate added to readme: !donate <method>
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Processing cog: Feedback
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Adding command "feedback" with "Provide feedback to bot owners, feedback will be posted to GitHub. Link to issue will be sent after feedback is posted to GitHub." to readme
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Command usage for feedback added to readme: feedback "Feedback you would like to provide."
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Processing cog: Fun
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Adding command "roll" with "Rolls a dice with the specified format (e.g., 2d6)." to readme
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Command usage for roll added to readme: !roll NdN
+2024-02-17 23:26:56,623:INFO:DocGenerator.py: Adding command "coinflip" with "Flips a coin and shows the result." to readme
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Command usage for coinflip added to readme: !coinflip
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Processing cog: ChannelRelay
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Adding command "connect_channel" with "Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)" to readme
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Command usage for connect_channel added to readme: !connect_channel
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Adding command "disconnect_channel" with "Disconnect the channel connected to the relay channels." to readme
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Command usage for disconnect_channel added to readme: !disconnect_channel
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Processing cog: Random
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Adding command "random" with "Returns a random item. Currently you can use the following: image, color, number, emoji, or anime." to readme
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Command usage for random added to readme: random <item>
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Processing cog: Counting
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Adding command "set_counting_channel" with "Sets the current channel as the counting channel." to readme
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Processing cog: Scrabble
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Adding command "scrabble" with "Start or play a game of Scrabble! Use '!scrabble start' to start a new game and other commands to interact with the game." to readme
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Processing cog: Monopoly
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Adding command "monopoly" with "Start or play a game of Monopoly! Use '!monopoly start' to start a new game and other commands to interact with the game." to readme
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Processing cog: Chess
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Adding command "chess" with "Main chess command." to readme
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Processing cog: Checkers
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Adding command "checkers" with "Start or play a game of Checkers! Use '!checkers start' to start a new game and other commands to interact with the game." to readme
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Command usage for checkers added to readme: !checkers <command> (Will add list later).
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Processing cog: Sorry
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Adding command "sorry" with "Start or play a game of Sorry! Use '!sorry start' to start a new game and other commands to interact with the game." to readme
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,624:INFO:DocGenerator.py: Processing cog: Uno
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Adding command "uno" with "Start or play a game of Uno! Use '!uno start' to start a new game and other commands to interact with the game." to readme
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Processing cog: TicTacToe
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Adding command "tictactoe" with "Start or play a game of Tic-Tac-Toe! Use '!tictactoe start' to start a new game and '!tictactoe move <position>' to make a move." to readme
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Processing cog: Hangman
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Adding command "hangman" with "Start or play a game of Hangman! Use '!hangman start' to start a new game and '!hangman guess <letter>' to make a guess." to readme
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Processing cog: DND
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Adding command "dnd" with "This base of the dnd commands, few options to use: create, show, & card. More to come soon!" to readme
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Command usage for dnd added to readme: !dnd
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Processing cog: AnilistFeed
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Adding command "setanifeed" with "Sets the channel for AniList feed updates." to readme
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Processing cog: AniList
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Adding command "anilist" with "AniList commands." to readme
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Processing cog: Advertisement
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Adding command "deletead" with "Deletes the advertisement file for the specified server ID." to readme
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Adding command "addad" with "Adds or updates the advertisement message for the specified server ID." to readme
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Adding command "refresh_ads" with "Admin command to refresh the advertisement list." to readme
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Processing cog: CommandError
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: No commands found for cog: CommandError
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Processing cog: ImageGenerator
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Adding command "animediff" with "Generates an anime-style image based on the provided prompt and sends the MD5 hash of the image data." to readme
+2024-02-17 23:26:56,625:INFO:DocGenerator.py: Command usage for animediff added to readme: !animediff <prompt>, <another prompt>, so on
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Adding command "dnddiff" with "Generates an dnd-style image based on the provided prompt and sends the MD5 hash of the image data." to readme
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Command usage for dnddiff added to readme: !dnddiff <prompt>, <another prompt>, so on
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Adding command "imagediff" with "Generates a realistic image based on the provided prompt and sends the MD5 hash of the image data." to readme
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Command usage for imagediff added to readme: !imagediff <prompt>, <another prompt>, so on
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Processing cog: Python
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Adding command "package_info" with "Provides information about a pip package." to readme
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Processing cog: Role
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Adding command "roles" with "Creates a reaction role message." to readme
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Processing cog: EmojiManager
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Adding command "emoji_save" with "Saves multiple custom emojis to the local storage." to readme
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Command usage for emoji_save added to readme: !emoji_save <emoji1> <emoji2> ...
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Adding command "emoji_add" with "Saves multiple custom emojis to local storage and adds them to the server." to readme
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Command usage for emoji_add added to readme: !emoji_add <emoji1> <emoji2> ...
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Processing cog: MentalHealthSupportCog
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: No commands found for cog: MentalHealthSupportCog
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Processing cog: KeepClean
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Command 'keepclean' in cog KeepClean is missing help details.
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Processing cog: TikTokLive
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Adding command "tiktok" with "Command to track a TikTok user's live status." to readme
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Command usage for tiktok added to readme: !tiktok <username>
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Adding command "stoptracking" with "Stop tracking a TikTok user's live status." to readme
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Command usage for stoptracking added to readme: !stoptracking <username>
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Processing cog: Family
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Adding command "adopt" with "Sends an adoption request to another member." to readme
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Command usage for adopt added to readme: !adopt <@member>
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Adding command "marry" with "Sends a marriage request to another member." to readme
+2024-02-17 23:26:56,626:INFO:DocGenerator.py: Command usage for marry added to readme: !marry <@member>
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Adding command "family" with "Shows the family tree of the author." to readme
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Command usage for family added to readme: !family
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Processing cog: HyperBot
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Adding command "hyper" with "This is the hyper command." to readme
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Command usage for hyper added to readme: !hyper <usage>
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Adding command "embed" with "This is the embed command." to readme
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Command usage for embed added to readme: !embed <message>
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Processing cog: Money
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Adding command "dailyremind" with "Toggle daily reminders on or off." to readme
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Adding command "balance" with "Check your balance or someone else's by mentioning them." to readme
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Adding command "daily" with "Receive your daily gold." to readme
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Adding command "invest" with "Invest your gold to earn more." to readme
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Adding command "uninvest" with "Uninvest your gold, with a 10% penalty." to readme
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Adding command "give" with "Give gold to someone." to readme
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Adding command "gamble" with "Gamble your gold for a chance to win the pot." to readme
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Adding command "jackpot" with "Check the current jackpot amount." to readme
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Processing cog: Leveling
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Adding command "xp" with "Used to check your own or someone elses xp and level!" to readme
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Command usage for xp added to readme: !xp` or `!xp @member
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Skipping hidden command: removexp
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Adding command "leaderboard" with "Check a servers leaderboard, can take a while sometimes." to readme
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Command usage for leaderboard added to readme: !leaderboard
+2024-02-17 23:26:56,627:INFO:DocGenerator.py: Skipping hidden command: rexp
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Processing cog: Voting
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Adding command "vote" with "Start an anonymous vote with 2-10 options to choose from! (Besure to include quotes on title and options)" to readme
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Command usage for vote added to readme: !vote <minutes> "Title" "Option 1" "Option 2" "Options up to 10"
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Adding command "endvote" with "Ends a currently active vote using the title of the vote. (Besure to enclose the title with quotes)" to readme
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Command usage for endvote added to readme: !endvote "title of vote"
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Processing cog: Counter
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Adding command "create_counter" with "Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots." to readme
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Adding command "channel_reconnect" with "Reconnects a voice channel to the counter system and adds it back to the database." to readme
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Command 'channelupdate' in cog Counter is missing help details.
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Missing command usage for None
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Processing cog: Moderation
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Adding command "lock" with "Locks a channel." to readme
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Command usage for lock added to readme: !lock
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Adding command "unlock" with "Unlocks a channel." to readme
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Command usage for unlock added to readme: !unlock
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Adding command "kick" with "Kicks a user out of the server." to readme
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Command usage for kick added to readme: !kick <@mention>
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Command 'setprefix' in cog Moderation is missing help details.
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Command usage for setprefix added to readme: !setprefix <prefix you want> (This can be literaly anything you like, just please make it a normal one please.)
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Adding command "ban" with "Bans a user from the server." to readme
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Command usage for ban added to readme: !ban <@mention>
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Adding command "unban" with "Unbans a user." to readme
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Command usage for unban added to readme: !unban <userID>
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Adding command "purge" with "Clears a specified amount of messages in the channel." to readme
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Command usage for purge added to readme: !purge <number of messages>
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Adding command "mute" with "Mutes a user." to readme
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Command usage for mute added to readme: !mute <@mention>
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Adding command "unmute" with "Unmutes a user." to readme
+2024-02-17 23:26:56,628:INFO:DocGenerator.py: Command usage for unmute added to readme: !unmute <@mention>
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Adding command "user" with "Shows info about the mentioned user." to readme
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Command usage for user added to readme: !user <mention>
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Adding command "addmod" with "Adds a role to allow moderation." to readme
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Command usage for addmod added to readme: !addmod <@mention>
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Adding command "removemod" with "Removes a role to allow moderation." to readme
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Command usage for removemod added to readme: !removemod <@mention>
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Processing cog: Welcome
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Adding command "welcomemsg" with "Set a custom welcome message. Ex. `!welcomemsg Welcome <user>!`" to readme
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Command usage for welcomemsg added to readme: <message>
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Adding command "welcomeremove" with "Remove the set welcome message." to readme
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Command usage for welcomeremove added to readme: !welcomeremove
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Processing cog: Verification
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Adding command "set_verify_timelimit" with "Sets a time limit for users to verify after joining." to readme
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Command usage for set_verify_timelimit added to readme: !set_verify_timelimit <hours>
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Adding command "set_verify_channel" with "Sets a specific channel for verification purposes." to readme
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Command usage for set_verify_channel added to readme: !set_verify_channel <#channel>
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Adding command "show_roles" with "Shows the set join and verify roles for the guild." to readme
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Command usage for show_roles added to readme: !show_roles
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Adding command "set_join_role" with "Sets the role to give to users when they first join." to readme
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Command usage for set_join_role added to readme: !set_join_role <@role>
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Adding command "set_verify_role" with "Sets the role to give to users when they are verified." to readme
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Command usage for set_verify_role added to readme: !set_verify_role <@role>
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Adding command "verify" with "Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs." to readme
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Command usage for verify added to readme: !verify
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Skipping hidden command: trigger_time_test
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Processing cog: TicketSystem
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Adding command "ticket" with "Create a new ticket channel." to readme
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Command usage for ticket added to readme: !ticket
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: Processing cog: PackageRequirements
+2024-02-17 23:26:56,629:INFO:DocGenerator.py: No commands found for cog: PackageRequirements
+2024-02-17 23:26:56,630:INFO:DocGenerator.py: README.md has been generated/updated.
+2024-02-17 23:26:56,630:INFO:DocGenerator.py: missing.txt has been generated/updated.
