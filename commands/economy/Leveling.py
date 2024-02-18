@@ -51,7 +51,7 @@ class Leveling(commands.Cog):
                     xp_earned = elapsed_minutes * VOICE_XP_RATE
                     await self.add_voice_xp(member, xp_earned)
                     logger.info(f"Voice channel leave: {member} left {before.channel.name}, earned {xp_earned} XP")
-        except:
+        except Exception as e:
             logger.error(f"Error in on_voice_state_update for {member}: {str(e)}")
     
     async def add_voice_xp(self, member, xp_earned):
