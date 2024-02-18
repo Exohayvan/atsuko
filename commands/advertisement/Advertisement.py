@@ -3,6 +3,15 @@ from discord.ext import commands
 import datetime
 import sqlite3
 import os
+import logging
+
+logger = logging.getLogger('Advertisement.py')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='./logs/Advertisement.py.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+logger.propagate = False
+logger.info("Advertisement Cog Loaded. Logging started...")
 
 class Advertisement(commands.Cog):
     def __init__(self, bot):
@@ -58,6 +67,7 @@ class Advertisement(commands.Cog):
             if filename.endswith('.txt'):
                 server_id = int(filename[:-4])  # Extract server ID from filename
                 server_name = self.server_names.get(server_id, "Unknown Server")
+                logger.info(f"Ad collected: {server_id} | {server_name}")
                 with open(os.path.join(ad_path, filename), 'r') as file:
                     ad_text = file.read().strip().replace("<server>", server_name)
                     ads.append(ad_text)
@@ -71,8 +81,10 @@ class Advertisement(commands.Cog):
         if os.path.exists(ad_path):
             os.remove(ad_path)
             await ctx.send(f"Advertisement for server ID {server_id} deleted.")
+            logger.info(f"Advertisement for server ID {server_id} deleted.")
         else:
             await ctx.send(f"No advertisement found for server ID {server_id}.")
+            logger.error(f"No advertisement found for server ID {server_id}.")
 
     @commands.command()
     @commands.is_owner()  # Only allow the bot owner to use this command
@@ -82,10 +94,12 @@ class Advertisement(commands.Cog):
         with open(ad_path, 'w') as file:
             file.write(ad_message)
         await ctx.send(f"Advertisement for server ID {server_id} added/updated.")
+        logger.info(f"Advertisement for server ID {server_id} added/updated.")
         
     @commands.Cog.listener()
     async def on_command_completion(self, ctx):
         if not ctx.guild:  # Ignore DMs
+            logger.info("DM was ignored for AD.")
             return
 
         guild_id = ctx.guild.id
@@ -102,7 +116,7 @@ class Advertisement(commands.Cog):
 
     async def send_advertisement(self, ctx):
         if not self.ads:  # Check if there are ads available
-            print("No advertisements found.")
+            logger.warning("No advertisements found.")
             return
     
         # Get the current ad index for this server, defaulting to 0
@@ -115,6 +129,7 @@ class Advertisement(commands.Cog):
         # Send the ad as an embed
         embed = discord.Embed(title="Advertisement", description=ad_message, color=discord.Color.blue())
         await ctx.channel.send(embed=embed)
+        logger.info(f"Advertisement sent.")
     
         # Update the index for the next ad, looping back if at the end
         self.ad_index[guild_id] = (ad_index + 1) % len(self.ads)
@@ -124,6 +139,7 @@ class Advertisement(commands.Cog):
         """Admin command to refresh the advertisement list."""
         self.ads = self.load_ads()
         await ctx.send("Advertisement list refreshed.")
+        logger.info("Advertisement list manually refreshed.")
 
 async def setup(bot):
     await bot.add_cog(Advertisement(bot))
