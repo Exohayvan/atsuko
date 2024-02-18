@@ -79,7 +79,7 @@ class GitAutoBackup(commands.Cog):
             logger.info("Pushing new commit.")
             subprocess.run(["git", "push", remote_url], cwd=self.git_dir, check=True)
         except subprocess.CalledProcessError:
-            logger.info("Error while executing Git commands.")
+            logger.error("Error while executing Git commands.")
 
     # You can invoke this via a command or event as you wish.
     @commands.command(hidden=True)
