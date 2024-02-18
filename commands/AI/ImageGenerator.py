@@ -7,6 +7,15 @@ import torch
 import hashlib
 import asyncio
 import os
+import logging
+
+logger = logging.getLogger('ImageGenerator.py')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='./logs/ImageGenerator.py.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+logger.propagate = False
+logger.info("ImageGenerator Cog Loaded. Logging started...")
 
 DB_PATH = "./data/db/imagegenerationqueue.db"
 
@@ -87,8 +96,10 @@ class ImageGenerator(commands.Cog):
 
         if not self.is_generating:
             self.process_queue()
+            logger.info(f"Request started: {ctx.message.auther.id} | {ctx.channel.id} | anime, {prompt}")
         else:
             await ctx.send(f"Your request is queued. Position in queue: {position}. Estimated time: {position * 15} minutes.")
+            logger.info("Request queued: {ctx.message.auther.id} | {ctx.channel.id} | anime, {prompt}")
 
     @commands.command(usage="!dnddiff <prompt>, <another prompt>, so on")
     async def dnddiff(self, ctx, *, prompt: commands.clean_content):
@@ -100,8 +111,10 @@ class ImageGenerator(commands.Cog):
 
         if not self.is_generating:
             self.process_queue()
+            logger.info("Request started: {ctx.message.auther.id} | {ctx.channel.id} | dungeons and dragons character, {prompt}")
         else:
             await ctx.send(f"Your request is queued. Position in queue: {position}. Estimated time: {position * 15} minutes.")
+            logger.info("Request queued: {ctx.message.auther.id} | {ctx.channel.id} | dungeons and dragons character, {prompt}")
 
     @commands.command(usage="!imagediff <prompt>, <another prompt>, so on")
     async def imagediff(self, ctx, *, prompt: commands.clean_content):
@@ -113,8 +126,10 @@ class ImageGenerator(commands.Cog):
 
         if not self.is_generating:
             self.process_queue()
+            logger.info("Request started: {ctx.message.auther.id} | {ctx.channel.id} | image, realistic, {prompt}")
         else:
             await ctx.send(f"Your request is queued. Position in queue: {position}. Estimated time: {position * 15} minutes.")
+            logger.info("Request queued: {ctx.message.auther.id} | {ctx.channel.id} | image, realistic, {prompt}")
 
     async def generate_and_send_image(self, ctx, prompt, task_id, user_id, channel_id):
         """Helper function to generate an image and send it to the user."""
@@ -122,12 +137,15 @@ class ImageGenerator(commands.Cog):
             async with self.lock:
                 def generate_and_save_image(prompt):
                     full_prompt = "masterpiece, high quality, high resolution " + prompt
+                    logger.info(f"Generation started: {prompt}")
                     image = self.pipe(full_prompt, negative_prompt=self.negative_prompt).images[0]
         
                     # Generate the MD5 hash of the image data
+                    logger.info("Generating MD5 Hash.")
                     hash_object = hashlib.md5(image.tobytes())
                     filename = hash_object.hexdigest() + ".png"
-        
+
+                    logger.info(f"Filename: {filename}")
                     # Save the image with the hashed filename
                     image.save("./" + filename)
         
@@ -144,9 +162,11 @@ class ImageGenerator(commands.Cog):
                 filename = await task
         
                 # Send the hash and the image to the user
+                logger.info("Sent file to user.")
                 await ctx.send(f"The MD5 hash of your image is: {filename[:-4]}", file=File("./" + filename))
         
                 #delete file after sending
+                logger.info(f"Deleted file: {filename}")
                 os.remove("./" + filename)
                 
                 # Set is_generating to false and process the next task in the queue
@@ -154,10 +174,10 @@ class ImageGenerator(commands.Cog):
                 self.process_queue()
         except asyncio.CancelledError:
             # Handle the cancellation here
-            print("Task was cancelled")
+            logger.warning("Task was cancelled")
         except Exception as e:
             # Handle other exceptions here
-            print(f"An error occurred: {e}")
+            logger.warning(f"An error occurred: {e}")
         
     def process_queue(self):
         """Helper function to process the next task in the queue."""

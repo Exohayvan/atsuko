@@ -4,6 +4,15 @@ import sqlite3
 import requests
 import os
 import asyncio
+import logging
+
+logger = logging.getLogger('AniList.py')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='./logs/AniList.py.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+logger.propagate = False
+logger.info("AniList Cog Loaded. Logging started...")
 
 class AniList(commands.Cog):
     def __init__(self, bot):
@@ -28,6 +37,7 @@ class AniList(commands.Cog):
         """AniList commands."""
         if ctx.invoked_subcommand is None:
             await ctx.send("Invalid AniList command. Use `!anilist help` for more information.")
+            logger.error("Invalid AniList command.")
 
     @anilist.command()
     async def watching(self, ctx, user: discord.Member = None):
@@ -42,6 +52,7 @@ class AniList(commands.Cog):
             username = result[0]
         else:
             await ctx.send(f"{user.mention} has not set their AniList username.")
+            logger.error("User has not set their AniList username.")
             return
 
         query = '''
@@ -76,8 +87,10 @@ class AniList(commands.Cog):
                 embed.add_field(name="\u200B", value=f"• {title}", inline=False)
 
             await ctx.send(embed=embed)
+            logger.info(f"Info about user '{username}' sent.")
         else:
             await ctx.send("Failed to fetch watching list.")
+            logger.error("Failed to fetch watching list.")
 
     @anilist.command()
     async def help(self, ctx):
@@ -90,6 +103,7 @@ class AniList(commands.Cog):
         self.c.execute("INSERT OR REPLACE INTO usernames (id, username) VALUES (?, ?)", (ctx.author.id, username))
         self.conn.commit()
         await ctx.send("AniList username set successfully.")
+        logger.info(f"{ctx.author.id} set username to {username}")
 
     @anilist.command()
     async def stats(self, ctx, user: discord.Member = None):
@@ -103,6 +117,7 @@ class AniList(commands.Cog):
             username = result[0]
         else:
             await ctx.send(f"{user.mention} has not set their AniList username.")
+            logger.error("User has not set their AniList username.")
             return
     
         # Fetch the user's ID from the username
@@ -136,6 +151,7 @@ class AniList(commands.Cog):
     
         if list_response.status_code != 200:
             await ctx.send(f"Failed to fetch anime stats. API Response: {list_response.content}")
+            logger.error(f"Failed to fetch anime stats. API Response: {list_response.content}")
             return
     
         data = list_response.json()
@@ -162,6 +178,7 @@ class AniList(commands.Cog):
     
         if anime_stats_response.status_code != 200:
             await ctx.send("Failed to fetch anime statistics.")
+            logger.error("Failed to fetch anime statistics.")
             return
     
         anime_stats_data = anime_stats_response.json()
@@ -240,28 +257,37 @@ class AniList(commands.Cog):
         estimated_time_seconds = len(users) * 4
         estimated_time_message = f"Checking Users Stats... This could take a moment\nEstimated time: {estimated_time_seconds // 60} minutes {estimated_time_seconds % 60} seconds"
         estimation_message = await ctx.send(estimated_time_message)
+        logger.warning(f"Pulling total users in server. High API calls. ETA {estimated_time_seconds // 60} minutes.")
     
         leaderboard_data = []
-    
+
+        logger.info("Checking users.")
         for user_id, username in users:
             # Fetch the Discord member
             member = ctx.guild.get_member(user_id)
             if member is None:
+                logger.info(f"{username} not found in server. Continuing.")
                 continue  # Skip if the member is not found
-    
+            
+            logger.info(f"{username} found in server. Checking and calculating total times.")
             # Calculate total time for anime and manga
             anime_time = await self.calculate_total_anime_time(username)
+            logger.info(f"{username} total anime time: {anime_time}")
             manga_time = await self.calculate_total_manga_time(username)
+            logger.info(f"{username} total manga time: {manga_time}")
             
             # Ensure both times are in minutes and sum them
             total_time = anime_time + manga_time  # This line ensures proper summation
-    
+
+            logger.info(f"Appending {member} to leaderboard with {total_time} total time.")
             leaderboard_data.append((member.mention, total_time))
                 
             # Wait for 2 seconds
+            logger.info("Waiting 2 seconds to avoid API Limits.")
             await asyncio.sleep(2)
     
         # Sort the data by total time (in minutes) and get top 10
+        logger.info("Sorting data.")
         leaderboard_sorted = sorted(leaderboard_data, key=lambda x: x[1], reverse=True)[:10]
     
         # Create an embed for the leaderboard
@@ -269,12 +295,13 @@ class AniList(commands.Cog):
         for rank, (user_mention, total_time) in enumerate(leaderboard_sorted, start=1):
             formatted_time = self.format_time(total_time)
             embed.add_field(name=f"#{rank} {user_mention}", value=f"Total Time: {formatted_time}", inline=False)
-    
+
         # Delete the estimation message
         await estimation_message.delete()
     
         # Send the leaderboard embed
         await ctx.send(embed=embed)
+        logger.info("Sent leaderboard.")
 
     def format_time(self, total_minutes):
         days = total_minutes // (24 * 60)
