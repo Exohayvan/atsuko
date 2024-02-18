@@ -23,7 +23,8 @@ class PullLog(commands.Cog):
         if log_filename:
             # Send specific log file
             file_path = os.path.join(self.log_directory, log_filename)
-            if os.path.exists(f'{file_path}.log'):
+            file_path = 'f{filepath}.log'
+            if os.path.exists({file_path}):
                 await ctx.send(file=discord.File(file_path))
                 logger.info(f"Sent log file: {log_filename}")
             else:
