@@ -7,6 +7,7 @@ import discord
 import requests
 import emoji
 import time
+import json
 
 class Random(commands.Cog):
     def __init__(self, bot):
