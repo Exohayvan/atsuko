@@ -7,13 +7,13 @@ import discord
 import datetime
 import logging
 
-logger = logging.getLogger('Template.py')
+logger = logging.getLogger('Leveling.py')
 logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='./logs/Template.py.log', encoding='utf-8', mode='w')
+handler = logging.FileHandler(filename='./logs/Leveling.py.log', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 logger.propagate = False
-logger.info("Template Cog Loaded. Logging started...")
+logger.info("Leveling Cog Loaded. Logging started...")
 
 VOICE_XP_RATE = 12  # Set the XP awarded for every minute in a voice channel
 active_voice_users = {}  # Store users and their join times
