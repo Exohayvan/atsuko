@@ -4,6 +4,15 @@ import sqlite3
 import requests
 import asyncio
 import os
+import logging
+
+logger = logging.getLogger('AnilistFeed.py')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='./logs/AnilistFeed.py.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+logger.propagate = False
+logger.info("AnilistFeed Cog Loaded. Logging started...")
 
 class AnilistFeed(commands.Cog):
     def __init__(self, bot):
@@ -38,6 +47,7 @@ class AnilistFeed(commands.Cog):
 
     @tasks.loop(seconds=60)
     async def check_anilist_updates(self):
+        logger.warning("Checking for updates. Possible high API calls.")
         # Connect to the AniList and activity databases
         anilist_conn = sqlite3.connect('data/db/anilist.db')
         anilist_c = anilist_conn.cursor()
@@ -49,16 +59,19 @@ class AnilistFeed(commands.Cog):
         users = anilist_c.fetchall()
     
         for user_id, username in users:
+            logger.info(f"Fetching latest activity for {username} | {user_id}")
             # Fetch the AniList user ID and their latest activity
             anilist_user_id = self.fetch_anilist_user_id(username)
             if anilist_user_id:
                 activity = self.fetch_latest_activity(anilist_user_id)
                 if activity:
                     # Check if this activity is already posted
+                    logger.info(f"Checking if activity for {username} is new")
                     activity_c.execute("SELECT last_activity_id FROM last_activity WHERE user_id=?", (user_id,))
                     last_activity_id = activity_c.fetchone()
                     if not last_activity_id or last_activity_id[0] != activity['id']:
                         # Post the update to all servers where the user is a member
+                        logger.info(f"New Activity for {username} found.")
                         for guild in self.bot.guilds:
                             member = guild.get_member(user_id)
                             if member:
@@ -69,9 +82,11 @@ class AnilistFeed(commands.Cog):
                                     if channel:
                                         message = f"{member.mention}, {activity['status']} {activity['media_name']}.\n[View Here]({activity['link']})"
                                         await channel.send(message)
+                                        logger.info(f"Update sent to {channel_id}")
                                         await asyncio.sleep(1)
     
                         # Update the last activity ID for the user
+                        logger.info(f"Updating last activity ID for {username}")
                         activity_c.execute("INSERT OR REPLACE INTO last_activity (user_id, last_activity_id) VALUES (?, ?)", (user_id, activity['id']))
                         activity_conn.commit()
     
