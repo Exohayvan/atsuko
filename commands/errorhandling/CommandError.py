@@ -34,8 +34,8 @@ class CommandError(commands.Cog):
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
             return
-        if isinstance(error, CheckFailure):
-            print("CheckFailure caught.")
+        if isinstance(error, commands.CheckFailure):
+            await ctx.send("Error: commands.CheckFailure\nYou don't have the required permissions to use this command! If you believe you should have permission to use this command, please open an issue with the feedback command explaining the issue.")
             return
         if isinstance(error, commands.BadArgument):
             await ctx.send("Error: commands.BadArgument\nIt appears that you have used an incorrect argument. Please use `!help <command>` to see correct usage. If you still run into an issue, please use `!feedback <describe issue>` to report.")
