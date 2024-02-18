@@ -162,6 +162,10 @@ class ChannelRelay(commands.Cog):
         if message.guild is None:
             return
         if (message.guild.id, message.channel.id) in self.connected_channels:
+            # Check the message content before proceeding
+            if not await self.check_message_content(message):
+                return  # Skip relaying this message
+        if (message.guild.id, message.channel.id) in self.connected_channels:
             # Increment message counter for dynamic slowmode
             self.message_counters[message.channel.id] += 1
             
@@ -230,5 +234,34 @@ class ChannelRelay(commands.Cog):
         self.remove_channel_from_db(ctx.guild.id, channel.id)
         await ctx.send(f"Disconnected {channel.mention} from relaying messages.")
 
+    async def check_message_content(self, message):
+        """
+        Check if the message contains any banned words or links, and handle accordingly.
+        
+        :param message: The Discord message object to check.
+        :return: True if the message is okay to be relayed, False otherwise.
+        """
+        block_links = True
+
+        # Check for links
+        if block_links and ("http://" in message.content or "https://" in message.content or "www." in message.content):
+            logger.info("Message blocked due to containing a link.")
+            try:
+                # Attempt to delete the original message
+                await message.delete()
+                # Send a warning message to the channel and delete it after 30 seconds
+                warning_message = await message.channel.send(
+                    f"{message.author.mention}, your message was deleted because it contained a link. "
+                    "Sharing links in this channel is not allowed.", 
+                    delete_after=30
+                )
+            except discord.Forbidden:
+                logger.error("I don't have permission to delete messages or send messages in this channel.")
+            except discord.HTTPException as e:
+                logger.error(f"An error occurred while trying to delete a message or send a warning: {e}")
+            return False  # Indicate the message should not be relayed
+
+        return True  # Message is okay to be relayed
+    
 async def setup(bot):
     await bot.add_cog(ChannelRelay(bot))
