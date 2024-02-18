@@ -71,7 +71,7 @@ class GitAutoBackup(commands.Cog):
 
     # You can invoke this via a command or event as you wish.
     @commands.command(hidden=True)
-    async def backup_command(self, ctx):
+    async def backup(self, ctx):
         self.pull_and_push()
         await ctx.send("Backup completed.")
     

@@ -11,12 +11,12 @@ import os
 if not os.path.exists('./logs'):
     os.makedirs('./logs')
 
-logger = logging.getLogger('verification_bot')
+logger = logging.getLogger('verification_cog')
 logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='./logs/verification.log', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
-logger.info("Logging setup test message.")
+logger.info("Logging started...")
 
 class Verification(commands.Cog):
     def __init__(self, bot):
@@ -44,6 +44,9 @@ class Verification(commands.Cog):
 
         self.verification_dict = {}
         self.warned_users = {}  # Now maps (member_id, guild_id) to warning timestamp
+
+        #Start Timelimit Checks
+        self.check_verification_timelimit.start()
         
     @commands.command(usage="!set_verify_timelimit <hours>")
     @commands.has_permissions(administrator=True)
@@ -280,7 +283,6 @@ class Verification(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print("Bot is ready. Starting verification check task.")
         logger.info("Bot is ready. Starting verification check task.")
         self.check_verification_timelimit.start()
 

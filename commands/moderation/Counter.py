@@ -1,6 +1,14 @@
 import discord
 from discord.ext import commands, tasks
 import sqlite3
+import logging
+
+logger = logging.getLogger('Counter_cog')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='./logs/Counter.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+logger.info("Logging started...")
 
 class Counter(commands.Cog):
     def __init__(self, bot):
@@ -12,24 +20,24 @@ class Counter(commands.Cog):
 
     @tasks.loop(minutes=2)
     async def update_counters(self):
-        print("Updating counters")
+        logger.info("Updating counters")
         guilds = self.bot.guilds
         conn = sqlite3.connect('./data/db/counter.db')
         c = conn.cursor()
     
         for guild in guilds:
-            print(f"Processing guild: {guild.id}")
+            logger.info(f"Processing guild: {guild.id}")
             c.execute('SELECT channel_id FROM Counter WHERE guild_id = ?', (guild.id,))
             channel_ids = c.fetchall()
     
             for channel_id in channel_ids:
-                print(f"Found channel ID in DB: {channel_id[0]}")
+                logger.info(f"Found channel ID in DB: {channel_id[0]}")
                 channel = self.bot.get_channel(channel_id[0])
                 if channel:
-                    print(f"Channel found: {channel.id}")
+                    logger.info(f"Channel found: {channel.id}")
                     await self.update_counter(channel)
                 else:
-                    print(f"Channel ID {channel_id[0]} not found, removing from DB")
+                    logger.info(f"Channel ID {channel_id[0]} not found, removing from DB")
                     # Delete the channel from the database if it can't be found
                     c.execute('DELETE FROM Counter WHERE channel_id = ?', (channel_id[0],))
     
@@ -40,7 +48,7 @@ class Counter(commands.Cog):
         try:
             guild = channel.guild
             name = channel.name
-            print(f"Updating counter for channel: {channel.id} in guild: {guild.id}")  # Log channel and guild
+            logger.info(f"Updating counter for channel: {channel.id} in guild: {guild.id}")  # Log channel and guild
 
             if "Total members" in name:
                 count = len(guild.members)
@@ -52,17 +60,17 @@ class Counter(commands.Cog):
                 count = len([member for member in guild.members if member.bot])
                 new_name = f"Bots: {count}"
             else:
-                print("No matching counter type found.")  # Log if no match
+                logger.info("No matching counter type found.")  # Log if no match
                 return  # If none of the keywords match, do nothing
 
             if channel.name != new_name:  # Only update if the name has changed
                 await channel.edit(name=new_name)
-                print(f"Updated channel: {channel.id} to {new_name}")  # Debug log
+                logger.info(f"Updated channel: {channel.id} to {new_name}")
             else:
-                print(f"No update needed for channel: {channel.id}")  # Log if no update needed
+                logger.info(f"No update needed for channel: {channel.id}")
 
         except Exception as e:
-            print(f"Error updating channel: {e}")  # Exception handling
+            logger.info(f"Error updating channel: {e}")  # Exception handling
             
     @commands.command()
     async def create_counter(self, ctx, *, name):
