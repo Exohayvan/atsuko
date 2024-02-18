@@ -110,7 +110,7 @@ def initialize_database():
     conn.close()
     
 def initialize_tos_database():
-    conn = sqlite3.connect('./data/tos.db')
+    conn = sqlite3.connect('./data/db/tos.db')
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS tos_accepted (user_id INTEGER PRIMARY KEY)")
     conn.commit()
@@ -124,7 +124,7 @@ async def has_accepted_tos(ctx):
         
     user_id = ctx.author.id
 
-    conn = sqlite3.connect('./data/tos.db')
+    conn = sqlite3.connect('./data/db/tos.db')
     cursor = conn.cursor()
     cursor.execute("SELECT 1 FROM tos_accepted WHERE user_id = ?", (user_id,))
     result = cursor.fetchone()
@@ -186,7 +186,7 @@ async def tos_stats(ctx):
     total_count = len(total_users)
 
     # Step 2: Count users who've accepted the TOS
-    conn = sqlite3.connect('./data/tos.db')
+    conn = sqlite3.connect('./data/db/tos.db')
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(user_id) FROM tos_accepted")
     accepted_count = cursor.fetchone()[0]
@@ -299,7 +299,7 @@ async def accept_tos_procedure(user):
     global pending_commands
     user_id = user.id
 
-    conn = sqlite3.connect('./data/tos.db')
+    conn = sqlite3.connect('./data/db/tos.db')
     cursor = conn.cursor()
     cursor.execute("INSERT OR IGNORE INTO tos_accepted (user_id) VALUES (?)", (user_id,))
     conn.commit()
