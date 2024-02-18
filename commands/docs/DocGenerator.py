@@ -15,12 +15,6 @@ class DocGenerator(commands.Cog):
         self.bot = bot
         self.generate_readme()
 
-    @commands.Cog.listener()
-    async def on_ready(self):
-        """Listener for when the bot has connected to Discord."""
-        await asyncio.sleep(20)
-        self.generate_readme()
-
     def generate_readme(self):
         """Generates or updates the readme.md file in the current directory."""
         lines = []
