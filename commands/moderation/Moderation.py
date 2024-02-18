@@ -197,6 +197,7 @@ class Moderation(commands.Cog):
             member_roles = [role.id for role in ctx.author.roles]
             return bool(set(mod_roles).intersection(set(member_roles)))
         except CheckFailure:
+            await ctx.sent("Sorry you don't appear to have permissions to do that")
             return False  # This will disallow the command if a CheckFailure occurs
         except Exception as e:
             print(f"Error in cog_check: {e}")  # Logs other errors for debugging
