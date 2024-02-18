@@ -1,9 +1,51 @@
-## placeholder
+## ping
 
-This is a placeholder command.
+Shows the bot's latency and API ping.
 
 Usage:
-`!placeholder <usage>`
+`!ping`
+
+## info
+
+Provides detailed information about the bot.
+
+Usage:
+`!info`
+
+## invite
+
+Generates an invite link for the bot.
+
+Usage:
+`!invite`
+
+## stats
+
+Shows the bot's current stats, including the number of guilds, users, and more.
+
+Usage:
+`!stats`
+
+## uptime
+
+Shows the current uptime of the bot since last restart.
+
+Usage:
+`!uptime`
+
+## lifetime
+
+Shows the total lifetime uptime of the bot.
+
+Usage:
+`!lifetime`
+
+## version
+
+Shows the current version of the bot based on Git commits and the hash of the last commit.
+
+Usage:
+`!version`
 
 ## join
 
@@ -105,55 +147,6 @@ This base of the dnd commands, few options to use: create, show, & card. More to
 
 Usage:
 `!dnd`
-
-## ping
-
-Shows the bot's latency and API ping.
-
-Usage:
-`!ping`
-
-## info
-
-Provides detailed information about the bot.
-
-Usage:
-`!info`
-
-## invite
-
-Generates an invite link for the bot.
-
-Usage:
-`!invite`
-
-## stats
-
-Shows the bot's current stats, including the number of guilds, users, and more.
-
-Usage:
-`!stats`
-
-## uptime
-
-Shows the current uptime of the bot since last restart.
-
-Usage:
-`!uptime`
-
-## lifetime
-
-Shows the total lifetime uptime of the bot.
-
-Usage:
-`!lifetime`
-
-## version
-
-Shows the current version of the bot based on Git commits and the hash of the last commit.
-
-Usage:
-`!version`
 
 ## setanifeed
 
