@@ -19,8 +19,9 @@ class Feedback(commands.Cog):
         self.installation_id = self.config.get('INSTALLATION_ID')
         self.private_key_path = self.config.get('PRIVATE_KEY_PATH')
 
-    @commands.command(name='feedback')
+    @commands.command(name='feedback', usage='feedback "Feedback you would like to provide."')
     async def feedback(self, ctx, *, message):
+        """Provide feedback to bot owners, feedback will be posted to GitHub. Link to issue will be sent after feedback is posted to GitHub."""
         issue_title = f"User Feedback: {ctx.author} - {ctx.message.id}"
         issue_body = (f"**User Message:** {message}\n"
                       f"**Author:** {ctx.author}\n"

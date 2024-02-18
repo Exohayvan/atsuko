@@ -46,9 +46,9 @@ class Random(commands.Cog):
         except Exception:
             return None
 
-    @commands.group(invoke_without_command=True)
+    @commands.group(invoke_without_command=True, usage='random <item>')
     async def random(self, ctx):
-        """Shows a help message for the random group command."""
+        """Returns a random item. Currently you can use the following: image, color, number, emoji, or anime."""
         await ctx.send("Use !random with one of the following: website, reddit, saying, emoji")
 
     @random.command()
