@@ -1,4 +1,0 @@
-2024-02-17 22:49:22,216:INFO:PullLog: PullLog Cog Loaded. Logging started...
-2024-02-17 22:50:16,693:INFO:PullLog: Making log archive.
-2024-02-17 22:50:17,398:INFO:PullLog: Sent compressed log directory.
-2024-02-17 22:51:48,380:ERROR:PullLog: Log file not found: Counter.py
