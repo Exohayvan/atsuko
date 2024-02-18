@@ -5,6 +5,15 @@ import datetime
 import sqlite3
 import json
 from discord.errors import NotFound
+import logging
+
+logger = logging.getLogger('Voting.py')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='./logs/Voting.py.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+logger.propagate = False
+logger.info("Voting Cog Loaded. Logging started...")
 
 class Voting(commands.Cog):
     def __init__(self, bot):
@@ -43,6 +52,7 @@ class Voting(commands.Cog):
             await asyncio.sleep(20)  # Wait for 1 seconds before repeating the process
                         
     async def resume_vote(self, title):
+        logger.info("Resuming votes.")
         vote_data = self.active_votes[title]
         channel = self.bot.get_channel(vote_data['channel_id'])
         start_time = datetime.datetime.strptime(vote_data['start_time'], "%Y-%m-%d %H:%M:%S.%f")
@@ -61,6 +71,7 @@ class Voting(commands.Cog):
         await voting_message.edit(embed=embed)
 
         # Add these lines to delete the vote from the database when it ends
+        logger.info("Voting expired, deleting votes from database.")
         self.cursor.execute("DELETE FROM active_votes WHERE title = ?", (title,))
         self.conn.commit()
 
@@ -70,10 +81,12 @@ class Voting(commands.Cog):
         winner = max(vote_data['votes'], key=vote_data['votes'].get)
 
         # create a new embed object for the winner announcement
+        logger.info(f"Voting results: {title} ended as {winner}")
         winner_embed = discord.Embed(title=f"Vote Results for '{title}'", description=f"The winner is: {winner}", color=0x00ff00)
         await channel.send(embed=winner_embed)
     
     async def load_votes(self):
+        logger.info("Loading votes.")
         self.cursor.execute("SELECT * FROM active_votes")
         for row in self.cursor.fetchall():
             title, message_id, channel_id, option_emojis, votes, start_time, duration, user_votes = row
@@ -89,9 +102,22 @@ class Voting(commands.Cog):
             await self.recount_and_resume_votes(title)  # Add this line to recount and resume votes
 
     async def recount_votes(self, title):
+        logger.info("Recounding votes.")
         vote_data = self.active_votes[title]
         channel = self.bot.get_channel(vote_data['channel_id'])
-        message = await channel.fetch_message(vote_data['message_id'])
+        try:
+            message = await channel.fetch_message(vote_data['message_id'])
+        except NotFound:
+            # If the message is not found, delete the vote from the database and active_votes
+            logger.info(f"Vote message for {title} not found. Deleting vote from database.")
+            self.cursor.execute("DELETE FROM active_votes WHERE title = ?", (title,))
+            self.conn.commit()
+            del self.active_votes[title]
+            # If there's a running vote task, cancel it
+            if title in self.running_votes:
+                self.running_votes[title].cancel()
+                del self.running_votes[title]
+            return  # Exit the function early as there's nothing more to do
 
         for reaction in message.reactions:
             async for user in reaction.users():
@@ -102,6 +128,7 @@ class Voting(commands.Cog):
                     user_id = str(user.id)  # user.id should be converted to string because JSON stores keys as string
                     if user_id in vote_data['user_votes']:
                         # If the user has already voted and their new vote is different from their old vote
+                        logger.info(f"{user_id} updated vote. Recalculating votes.")
                         if vote_data['user_votes'][user_id] != vote_data['option_emojis'][emoji]:
                             # Subtract one from the previous vote
                             vote_data['votes'][vote_data['user_votes'][user_id]] -= 1
@@ -111,18 +138,24 @@ class Voting(commands.Cog):
                             vote_data['user_votes'][user_id] = vote_data['option_emojis'][emoji]
                         else:
                             try:
+                                logger.info(f"Removing repeated reaction for {user_id}.")
                                 await message.remove_reaction(reaction.emoji, user)  # Remove repeated reaction
                             except NotFound:
+                                logger.error(f"Reaction not found for {user_id}.")
                                 pass  # Handle case when reaction is not found
                     else:
                         # If the user has not voted before, count their vote as usual
+                        logger.info(f"{user_id} voted for the first time.")
                         vote_data['votes'][vote_data['option_emojis'][emoji]] += 1
                         vote_data['user_votes'][user_id] = vote_data['option_emojis'][emoji]
                     try:
+                        logger.info(f"Removing reaction for {user_id}")
                         await message.remove_reaction(reaction.emoji, user)  # Remove user reaction
                     except NotFound:
+                        logger.error(f"Reaction for {user_id} not found.")
                         pass  # Handle case when reaction is not found
         await self.update_vote_count(title)  # Add this line to update the vote count in the embed message
+        logger.info("Updating vote count in embed.")
 
     async def recount_and_resume_votes(self, title):
         # Recount votes and then resume the vote
@@ -132,6 +165,7 @@ class Voting(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         # When the bot starts/restarts, load votes from the database and resume voting countdown
+        logger.info("Loading databases and resuming voting.")
         await self.load_votes()
         
     @commands.Cog.listener()
@@ -189,9 +223,11 @@ class Voting(commands.Cog):
         """Start an anonymous vote with 2-10 options to choose from! (Besure to include quotes on title and options)"""
         if title in self.active_votes:
             await ctx.send("A vote with that title already exists.")
+            logger.error(f"{title} already exists.")
             return
         if len(options) < 2:
             await ctx.send("You need at least two options to start a vote.")
+            logger.error(f"Not enought options to start vote for {title}")
             return
 
         option_emojis = {f"{i+1}\N{combining enclosing keycap}": option for i, option in enumerate(options)}
@@ -207,6 +243,7 @@ class Voting(commands.Cog):
             await message.add_reaction(emoji)
 
         start_time = datetime.datetime.utcnow()
+        logger.info(f"Vote started as {title} at {start_time}")
 
         self.active_votes[title] = {
             'message_id': message.id,
