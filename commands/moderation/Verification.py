@@ -5,18 +5,13 @@ import random
 from datetime import datetime, timedelta
 from discord.ext.commands import MissingRequiredArgument
 import logging
-import os
-
-# Create logs directory if it doesn't exist
-if not os.path.exists('./logs'):
-    os.makedirs('./logs')
 
 logger = logging.getLogger('Verification.py')
 logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='./logs/Verification.py.log', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
-logger.info("Logging started...")
+logger.info("Verification Cog Loaded. Logging started...")
 
 class Verification(commands.Cog):
     def __init__(self, bot):

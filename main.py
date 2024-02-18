@@ -8,6 +8,10 @@ import sqlite3
 
 logging.basicConfig(level=logging.INFO)
 
+# Create logs directory if it doesn't exist
+if not os.path.exists('./logs'):
+    os.makedirs('./logs')
+
 # Global variable for TOS message ID
 tos_message_id = None
 pending_commands = {}  # user_id: ctx

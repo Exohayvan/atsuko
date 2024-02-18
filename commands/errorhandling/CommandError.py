@@ -8,6 +8,14 @@ import sys
 import platform
 import discord
 import traceback
+import logging
+
+logger = logging.getLogger('CommandError.py')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='./logs/CommandError.py.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+logger.info("CommandError Cog Loaded. Logging started...")
 
 def get_config():
     with open('../config.json', 'r') as f:
@@ -17,10 +25,6 @@ def get_config():
 # Retrieve the private key path from the config file
 config = get_config()
 private_key_path = config.get('PRIVATE_KEY_PATH')
-
-# Configure logging
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
 
 class CommandError(commands.Cog):
     def __init__(self, bot, private_key_path):
@@ -36,12 +40,15 @@ class CommandError(commands.Cog):
             return
         if isinstance(error, commands.CheckFailure):
             await ctx.send("Error: commands.CheckFailure\nYou don't have the required permissions to use this command! If you believe you should have permission to use this command, please open an issue with the feedback command explaining the issue.")
+            logger.info(f"commands.CheckFailure: {ctx.message.content}")
             return
         if isinstance(error, commands.BadArgument):
             await ctx.send("Error: commands.BadArgument\nIt appears that you have used an incorrect argument. Please use `!help <command>` to see correct usage. If you still run into an issue, please use `!feedback <describe issue>` to report.")
+            logger.info(f"commands.BadArgument: {ctx.message.content}")
             return
         if isinstance(error, MissingRequiredArgument):
             await ctx.send("Error: commands.MissingRequiredArgument\nIt appears thats you are missing a required argument. Please use `!help <command>` to see correct usage. If you still run into an issue, please use `!feedback <describe issue>` to report.")
+            logger.info(f"commands.MissingRequiredArgument: {ctx.message.content}")
             return
         error_message = str(error.original) if hasattr(error, 'original') else str(error)
         tb = traceback.format_exception(type(error), error, error.__traceback__)
@@ -73,9 +80,11 @@ class CommandError(commands.Cog):
             embed = Embed(title='An error occurred', color=0xff0000)
             embed.add_field(name='Issue created on GitHub', value=f'[Link to issue]({issue.html_url})', inline=False)
             await ctx.send(embed=embed)
+            logger.info(f"New issue opened on GitHub: {issue.html_url}")
         except Exception as e:
             await ctx.send(f"I am unable to open an issue on GitHub.")
             await ctx.send(f"An unexpected error occurred: {e}")
+            logger.info(f"Unable to open an issue: {e}")
 
 async def setup(bot):
     config = get_config()

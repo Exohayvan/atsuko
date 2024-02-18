@@ -8,7 +8,7 @@ logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='./logs/Counter.py.log', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
-logger.info("Logging started...")
+logger.info("Counter Cog Loaded. Logging started...")
 
 class Counter(commands.Cog):
     def __init__(self, bot):
