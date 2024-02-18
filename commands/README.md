@@ -330,6 +330,14 @@ Ends a currently active vote using the title of the vote. (Besure to enclose the
 Usage:
 `!endvote "title of vote"`
 
+## create_counter
+
+Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots.
+
+## channel_reconnect
+
+Reconnects a voice channel to the counter system and adds it back to the database.
+
 ## lock
 
 Locks a channel.
