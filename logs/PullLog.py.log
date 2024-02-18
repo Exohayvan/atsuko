@@ -1,5 +1,1 @@
-2024-02-18 01:34:09,613:INFO:PullLog: PullLog Cog Loaded. Logging started...
-2024-02-18 01:37:00,875:INFO:PullLog: Making log archive.
-2024-02-18 01:37:01,441:INFO:PullLog: Sent compressed log directory.
-2024-02-18 01:37:30,450:ERROR:PullLog: Log file not found: AnilistFeed
-2024-02-18 01:37:48,030:INFO:PullLog: Sent log file: Counter.py
+2024-02-18 05:47:42,844:INFO:PullLog: PullLog Cog Loaded. Logging started...
