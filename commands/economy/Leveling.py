@@ -5,6 +5,15 @@ import random
 import sqlite3
 import discord
 import datetime
+import logging
+
+logger = logging.getLogger('Template.py')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='./logs/Template.py.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+logger.propagate = False
+logger.info("Template Cog Loaded. Logging started...")
 
 VOICE_XP_RATE = 12  # Set the XP awarded for every minute in a voice channel
 active_voice_users = {}  # Store users and their join times
@@ -26,19 +35,24 @@ class Leveling(commands.Cog):
     async def on_voice_state_update(self, member, before, after):
         # If the member is a bot, ignore
         if member.bot:
+            logger.info(f"Voice channel join: {member} is bot user, ignored")
             return
-    
-        # If the member joined a voice channel
-        if after.channel and not before.channel:
-            active_voice_users[member.id] = datetime.datetime.utcnow()
-    
-        # If the member left a voice channel
-        elif before.channel and not after.channel:
-            join_time = active_voice_users.pop(member.id, None)
-            if join_time:
-                elapsed_minutes = (datetime.datetime.utcnow() - join_time).total_seconds() / 60
-                xp_earned = elapsed_minutes * VOICE_XP_RATE
-                await self.add_voice_xp(member, xp_earned)
+        try:
+            # If the member joined a voice channel
+            if after.channel and not before.channel:
+                active_voice_users[member.id] = datetime.datetime.utcnow()
+                logger.info(f"Voice channel join: {member} joined {after.channel.name}")
+        
+            # If the member left a voice channel
+            elif before.channel and not after.channel:
+                join_time = active_voice_users.pop(member.id, None)
+                if join_time:
+                    elapsed_minutes = (datetime.datetime.utcnow() - join_time).total_seconds() / 60
+                    xp_earned = elapsed_minutes * VOICE_XP_RATE
+                    await self.add_voice_xp(member, xp_earned)
+                    logger.info(f"Voice channel leave: {member} left {before.channel.name}, earned {xp_earned} XP")
+        except:
+            logger.error(f"Error in on_voice_state_update for {member}: {str(e)}")
     
     async def add_voice_xp(self, member, xp_earned):
         self.cursor.execute("SELECT * FROM users WHERE id = ?", (member.id,))
@@ -86,6 +100,7 @@ class Leveling(commands.Cog):
                     # Check if the message's guild ID is not the excluded one before sending the level-up message
                     if unnotified_users.get(message.author.id) or (remaining_xp < level_xp and message.guild.id != EXCLUDED_SERVER_ID):
                         await message.channel.send(f'{message.author.mention} has leveled up to level {level}!')
+                        logger.info(f"{message.author.id} has leveled up to {level}")
                         unnotified_users.pop(message.author.id, None)  # Remove the user from the dictionary after notifying
                 self.cursor.execute("UPDATE users SET xp = ?, total_xp = ?, level = ?, level_xp = ? WHERE id = ?", (remaining_xp, total_xp, level, level_xp, message.author.id))
             self.db.commit()
