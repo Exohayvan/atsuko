@@ -257,6 +257,7 @@ class ChannelRelay(commands.Cog):
                 )
             except discord.Forbidden:
                 logger.error("I don't have permission to delete messages or send messages in this channel.")
+                await message.channel.send("Unable to delete messages. Please check perms.\n Message was not relayed as sharing links in this channel is not allowed.")
             except discord.HTTPException as e:
                 logger.error(f"An error occurred while trying to delete a message or send a warning: {e}")
             return False  # Indicate the message should not be relayed
