@@ -19,7 +19,7 @@ class CommandToggle(commands.Cog):
         self.bot = bot
         ensure_database()
 
-    @commands.command(usage="!disable <command_name>")
+    @commands.command(hidden=True)
     async def disable(self, ctx, command_name: str):
         """Disable a specific command."""
         if ctx.author.id == 276782057412362241:
@@ -32,7 +32,7 @@ class CommandToggle(commands.Cog):
         else:
             await ctx.send("You do not have permission to use this command!")
 
-    @commands.command(usage="!enable <command_name>")
+    @commands.command(hidden=True)
     async def enable(self, ctx, command_name: str):
         """Enable a previously disabled command."""
         if ctx.author.id == 276782057412362241:

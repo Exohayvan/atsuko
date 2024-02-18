@@ -172,7 +172,7 @@ async def check_if_command_disabled(ctx):
 
 bot.add_check(check_if_command_disabled)
 
-@bot.command(name="tos_stats")
+@bot.command(hidden=True)
 async def tos_stats(ctx):
     # Step 1: Count total number of unique users the bot can see
     total_users = set()  # Using a set to avoid counting duplicates
