@@ -70,6 +70,13 @@ Returns the donation address for the specified method.
 Usage:
 `!donate <method>`
 
+## feedback
+
+Provide feedback to bot owners, feedback will be posted to GitHub. Link to issue will be sent after feedback is posted to GitHub.
+
+Usage:
+`feedback "Feedback you would like to provide."`
+
 ## roll
 
 Rolls a dice with the specified format (e.g., 2d6).
@@ -100,7 +107,10 @@ Usage:
 
 ## random
 
-Shows a help message for the random group command.
+Returns a random item. Currently you can use the following: image, color, number, emoji, or anime.
+
+Usage:
+`random <item>`
 
 ## set_counting_channel
 

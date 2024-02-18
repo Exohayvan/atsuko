@@ -2,9 +2,6 @@ Command 'join' in cog Music is missing usage details.
 Command 'leave' in cog Music is missing usage details.
 Command 'volume' in cog Music is missing usage details.
 Command 'play' in cog Music is missing usage details.
-Command 'feedback' in cog Feedback is missing help details.
-Command 'feedback' in cog Feedback is missing usage details.
-Command 'random' in cog Random is missing usage details.
 Command 'set_counting_channel' in cog Counting is missing usage details.
 Command 'scrabble' in cog Scrabble is missing usage details.
 Command 'monopoly' in cog Monopoly is missing usage details.
