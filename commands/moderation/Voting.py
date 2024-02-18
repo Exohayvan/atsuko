@@ -52,7 +52,6 @@ class Voting(commands.Cog):
             await asyncio.sleep(20)  # Wait for 1 seconds before repeating the process
                         
     async def resume_vote(self, title):
-        logger.info("Resuming votes.")
         vote_data = self.active_votes[title]
         channel = self.bot.get_channel(vote_data['channel_id'])
         start_time = datetime.datetime.strptime(vote_data['start_time'], "%Y-%m-%d %H:%M:%S.%f")
@@ -102,7 +101,6 @@ class Voting(commands.Cog):
             await self.recount_and_resume_votes(title)  # Add this line to recount and resume votes
 
     async def recount_votes(self, title):
-        logger.info("Recounding votes.")
         vote_data = self.active_votes[title]
         channel = self.bot.get_channel(vote_data['channel_id'])
         try:
@@ -155,7 +153,6 @@ class Voting(commands.Cog):
                         logger.error(f"Reaction for {user_id} not found.")
                         pass  # Handle case when reaction is not found
         await self.update_vote_count(title)  # Add this line to update the vote count in the embed message
-        logger.info("Updating vote count in embed.")
 
     async def recount_and_resume_votes(self, title):
         # Recount votes and then resume the vote
