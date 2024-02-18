@@ -21,6 +21,13 @@ Sets the volume of the bot.
 
 Plays audio from a YouTube URL.
 
+## donate
+
+Returns the donation address for the specified method.
+
+Usage:
+`!donate <method>`
+
 ## ping
 
 Shows the bot's latency and API ping.
@@ -174,13 +181,6 @@ Usage:
 ## package_info
 
 Provides information about a pip package.
-
-## donate
-
-Returns the donation address for the specified method.
-
-Usage:
-`!donate <method>`
 
 ## roles
 

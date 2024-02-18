@@ -2,6 +2,8 @@ Command 'join' in cog Music is missing usage details.
 Command 'leave' in cog Music is missing usage details.
 Command 'volume' in cog Music is missing usage details.
 Command 'play' in cog Music is missing usage details.
+Command 'feedback' in cog Feedback is missing help details.
+Command 'feedback' in cog Feedback is missing usage details.
 Command 'scrabble' in cog Scrabble is missing usage details.
 Command 'monopoly' in cog Monopoly is missing usage details.
 Command 'chess' in cog Chess is missing usage details.
@@ -24,8 +26,6 @@ Command 'channelupdate' in cog Counter is missing usage details.
 Command 'keepclean' in cog KeepClean is missing help details.
 Command 'keepclean' in cog KeepClean is missing usage details.
 Command 'set_counting_channel' in cog Counting is missing usage details.
-Command 'feedback' in cog Feedback is missing help details.
-Command 'feedback' in cog Feedback is missing usage details.
 Command 'dailyremind' in cog Money is missing usage details.
 Command 'balance' in cog Money is missing usage details.
 Command 'daily' in cog Money is missing usage details.
