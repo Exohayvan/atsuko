@@ -11,6 +11,7 @@ logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='./logs/Verification.py.log', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
+logger.propagate = False
 logger.info("Verification Cog Loaded. Logging started...")
 
 class Verification(commands.Cog):
