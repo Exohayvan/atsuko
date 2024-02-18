@@ -5,20 +5,6 @@ This is a placeholder command.
 Usage:
 `!placeholder <usage>`
 
-## disable
-
-Disable a specific command.
-
-Usage:
-`!disable <command_name>`
-
-## enable
-
-Enable a previously disabled command.
-
-Usage:
-`!enable <command_name>`
-
 ## join
 
 Joins the user's voice channel.
