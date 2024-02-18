@@ -6,7 +6,7 @@ import logging
 
 logger = logging.getLogger('PullLog')
 logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='./logs/PullLog.log', encoding='utf-8', mode='w')
+handler = logging.FileHandler(filename='./logs/PullLog.py.log', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 logger.propagate = False
@@ -22,7 +22,7 @@ class PullLog(commands.Cog):
         """Send a log file or the entire log directory if no file is specified."""
         if log_filename:
             # Send specific log file
-            file_path = os.path.join(self.log_directory, log_filename)
+            file_path = os.path.join(self.log_directory, log_filename, '.log')
             if os.path.exists(file_path):
                 await ctx.send(file=discord.File(file_path))
                 logger.info(f"Sent log file: {log_filename}")
