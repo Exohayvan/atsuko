@@ -4,6 +4,15 @@ import datetime
 import sqlite3
 import asyncio
 from collections import defaultdict
+import logging
+
+logger = logging.getLogger('ChannelRelay.py')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='./logs/ChannelRelay.py.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+logger.propagate = False
+logger.info("ChannelRelay Cog Loaded. Logging started...")
 
 DATABASE_PATH = './data/db/channelrelays.db'
 
@@ -87,6 +96,7 @@ class ChannelRelay(commands.Cog):
         
     @tasks.loop(seconds=10)  # Adjust time as needed
     async def check_for_dynamic_slowmode(self):
+        logger.info("Checking if slowmode is needed.")
         # Prune messages older than 15 minutes from all channels first
         fifteen_mins_ago = datetime.datetime.now() - datetime.timedelta(minutes=15)
         for channel_id in self.message_timestamps:
@@ -105,6 +115,7 @@ class ChannelRelay(commands.Cog):
                 if messages_per_minute == 0:
                     cooldown = 0
                 else:
+                    logger.warning("Slowmode needed. Calulating cooldown limit.")
                     fraction = messages_per_minute / 60  # Assuming a potential max of 60 messages per minute
                     cooldown = int(MAX_SLOWMODE * fraction**POWER)
                     cooldown = min(cooldown, MAX_SLOWMODE)  # Ensure cooldown doesn't exceed max limit
@@ -114,8 +125,10 @@ class ChannelRelay(commands.Cog):
                     try:
                         await channel.edit(slowmode_delay=cooldown)
                         emoji = ChannelRelay.get_cooldown_emoji(cooldown)
+                        logger.warning(f"Slowmode enabled and set to {cooldown}")
                         await channel.send(f"{emoji} This channel's chat cooldown has been set to {cooldown} seconds due to recent message activity.")
                     except discord.Forbidden:
+                        logger.warning(f"Unable to change chat slowmode for {channel}, disconnecting relay.")
                         await channel.send("⚠️ I don't have the permissions to change the chat cooldown speed. This permission is required for the relay connection. Disconnecting the channel from the relay.")
                         fake_ctx = await self.bot.get_context(channel.last_message)  # creating a fake context
                         await self.disconnect_channel.invoke(fake_ctx, channel=channel)
@@ -136,6 +149,7 @@ class ChannelRelay(commands.Cog):
                     # Send safety message
                     channel = self.bot.get_channel(channel_id)
                     if channel:
+                        logger.info(f"Safety message sent to {channel}")
                         await channel.send(self.safety_message)
         
         self.is_bot_started = True        
@@ -199,6 +213,7 @@ class ChannelRelay(commands.Cog):
                 # 4. If author reacts with the green emoji, proceed with channel connection
                 self.connected_channels.add((ctx.guild.id, channel.id))
                 self.add_channel_to_db(ctx.guild.id, channel.id)
+                await ctx.send(self.safety_message)
                 await ctx.send(f"Connected {channel.mention} for relaying messages. This channel is now connected to external channels! To disconnect channel, use `disconnect_channel`")
             else:
                 await ctx.send("Channel connection cancelled.")
