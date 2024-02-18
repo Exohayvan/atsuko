@@ -5,6 +5,20 @@ This is a placeholder command.
 Usage:
 `!placeholder <usage>`
 
+## disable
+
+Disable a specific command.
+
+Usage:
+`!disable <command_name>`
+
+## enable
+
+Enable a previously disabled command.
+
+Usage:
+`!enable <command_name>`
+
 ## join
 
 Joins the user's voice channel.
@@ -27,6 +41,84 @@ Returns the donation address for the specified method.
 
 Usage:
 `!donate <method>`
+
+## roll
+
+Rolls a dice with the specified format (e.g., 2d6).
+
+Usage:
+`!roll NdN`
+
+## coinflip
+
+Flips a coin and shows the result.
+
+Usage:
+`!coinflip`
+
+## connect_channel
+
+Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)
+
+Usage:
+`!connect_channel`
+
+## disconnect_channel
+
+Disconnect the channel connected to the relay channels.
+
+Usage:
+`!disconnect_channel`
+
+## random
+
+Shows a help message for the random group command.
+
+## set_counting_channel
+
+Sets the current channel as the counting channel.
+
+## scrabble
+
+Start or play a game of Scrabble! Use '!scrabble start' to start a new game and other commands to interact with the game.
+
+## monopoly
+
+Start or play a game of Monopoly! Use '!monopoly start' to start a new game and other commands to interact with the game.
+
+## chess
+
+Main chess command.
+
+## checkers
+
+Start or play a game of Checkers! Use '!checkers start' to start a new game and other commands to interact with the game.
+
+Usage:
+`!checkers <command> (Will add list later).`
+
+## sorry
+
+Start or play a game of Sorry! Use '!sorry start' to start a new game and other commands to interact with the game.
+
+## uno
+
+Start or play a game of Uno! Use '!uno start' to start a new game and other commands to interact with the game.
+
+## tictactoe
+
+Start or play a game of Tic-Tac-Toe! Use '!tictactoe start' to start a new game and '!tictactoe move <position>' to make a move.
+
+## hangman
+
+Start or play a game of Hangman! Use '!hangman start' to start a new game and '!hangman guess <letter>' to make a guess.
+
+## dnd
+
+This base of the dnd commands, few options to use: create, show, & card. More to come soon!
+
+Usage:
+`!dnd`
 
 ## ping
 
@@ -77,48 +169,6 @@ Shows the current version of the bot based on Git commits and the hash of the la
 Usage:
 `!version`
 
-## scrabble
-
-Start or play a game of Scrabble! Use '!scrabble start' to start a new game and other commands to interact with the game.
-
-## monopoly
-
-Start or play a game of Monopoly! Use '!monopoly start' to start a new game and other commands to interact with the game.
-
-## chess
-
-Main chess command.
-
-## checkers
-
-Start or play a game of Checkers! Use '!checkers start' to start a new game and other commands to interact with the game.
-
-Usage:
-`!checkers <command> (Will add list later).`
-
-## sorry
-
-Start or play a game of Sorry! Use '!sorry start' to start a new game and other commands to interact with the game.
-
-## uno
-
-Start or play a game of Uno! Use '!uno start' to start a new game and other commands to interact with the game.
-
-## tictactoe
-
-Start or play a game of Tic-Tac-Toe! Use '!tictactoe start' to start a new game and '!tictactoe move <position>' to make a move.
-
-## hangman
-
-Start or play a game of Hangman! Use '!hangman start' to start a new game and '!hangman guess <letter>' to make a guess.
-
-## dnd
-
-This base of the dnd commands, few options to use: create, show, & card. More to come soon!
-
-Usage:
-`!dnd`
-
 ## setanifeed
 
 Sets the channel for AniList feed updates.
@@ -138,24 +188,6 @@ Adds or updates the advertisement message for the specified server ID.
 ## refresh_ads
 
 Admin command to refresh the advertisement list.
-
-## roll
-
-Rolls a dice with the specified format (e.g., 2d6).
-
-Usage:
-`!roll NdN`
-
-## coinflip
-
-Flips a coin and shows the result.
-
-Usage:
-`!coinflip`
-
-## random
-
-Shows a help message for the random group command.
 
 ## animediff
 
@@ -186,20 +218,6 @@ Provides information about a pip package.
 
 Creates a reaction role message.
 
-## vote
-
-Start an anonymous vote with 2-10 options to choose from! (Besure to include quotes on title and options)
-
-Usage:
-`!vote <minutes> "Title" "Option 1" "Option 2" "Options up to 10"`
-
-## endvote
-
-Ends a currently active vote using the title of the vote. (Besure to enclose the title with quotes)
-
-Usage:
-`!endvote "title of vote"`
-
 ## emoji_save
 
 Saves multiple custom emojis to the local storage.
@@ -214,28 +232,6 @@ Saves multiple custom emojis to local storage and adds them to the server.
 Usage:
 `!emoji_add <emoji1> <emoji2> ...`
 
-## create_counter
-
-Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots.
-
-## channel_reconnect
-
-Reconnects a voice channel to the counter system and adds it back to the database.
-
-## connect_channel
-
-Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)
-
-Usage:
-`!connect_channel`
-
-## disconnect_channel
-
-Disconnect the channel connected to the relay channels.
-
-Usage:
-`!disconnect_channel`
-
 ## tiktok
 
 Command to track a TikTok user's live status.
@@ -249,20 +245,6 @@ Stop tracking a TikTok user's live status.
 
 Usage:
 `!stoptracking <username>`
-
-## welcomemsg
-
-Set a custom welcome message. Ex. `!welcomemsg Welcome <user>!`
-
-Usage:
-`<message>`
-
-## welcomeremove
-
-Remove the set welcome message.
-
-Usage:
-`!welcomeremove`
 
 ## adopt
 
@@ -285,20 +267,6 @@ Shows the family tree of the author.
 Usage:
 `!family`
 
-## disable
-
-Disable a specific command.
-
-Usage:
-`!disable <command_name>`
-
-## enable
-
-Enable a previously disabled command.
-
-Usage:
-`!enable <command_name>`
-
 ## hyper
 
 This is the hyper command.
@@ -312,17 +280,6 @@ This is the embed command.
 
 Usage:
 `!embed <message>`
-
-## set_counting_channel
-
-Sets the current channel as the counting channel.
-
-## ticket
-
-Create a new ticket channel.
-
-Usage:
-`!ticket`
 
 ## dailyremind
 
@@ -369,6 +326,28 @@ Check a servers leaderboard, can take a while sometimes.
 
 Usage:
 `!leaderboard`
+
+## vote
+
+Start an anonymous vote with 2-10 options to choose from! (Besure to include quotes on title and options)
+
+Usage:
+`!vote <minutes> "Title" "Option 1" "Option 2" "Options up to 10"`
+
+## endvote
+
+Ends a currently active vote using the title of the vote. (Besure to enclose the title with quotes)
+
+Usage:
+`!endvote "title of vote"`
+
+## create_counter
+
+Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots.
+
+## channel_reconnect
+
+Reconnects a voice channel to the counter system and adds it back to the database.
 
 ## lock
 
@@ -450,6 +429,20 @@ Removes a role to allow moderation.
 Usage:
 `!removemod <@mention>`
 
+## welcomemsg
+
+Set a custom welcome message. Ex. `!welcomemsg Welcome <user>!`
+
+Usage:
+`<message>`
+
+## welcomeremove
+
+Remove the set welcome message.
+
+Usage:
+`!welcomeremove`
+
 ## set_verify_timelimit
 
 Sets a time limit for users to verify after joining.
@@ -491,4 +484,11 @@ Sends a verification CAPTCHA to the user's DMs and alerts the user to check thei
 
 Usage:
 `!verify`
+
+## ticket
+
+Create a new ticket channel.
+
+Usage:
+`!ticket`
 
