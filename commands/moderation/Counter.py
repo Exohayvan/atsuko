@@ -3,9 +3,9 @@ from discord.ext import commands, tasks
 import sqlite3
 import logging
 
-logger = logging.getLogger('Counter_cog')
+logger = logging.getLogger('Counter.py')
 logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='./logs/Counter.log', encoding='utf-8', mode='w')
+handler = logging.FileHandler(filename='./logs/Counter.py.log', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 logger.info("Logging started...")
