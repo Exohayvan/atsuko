@@ -1,3 +1,10 @@
+## pulllog
+
+Send a log file or the entire log directory if no file is specified.
+
+Usage:
+`pulllog <filename>`
+
 ## ping
 
 Shows the bot's latency and API ping.
