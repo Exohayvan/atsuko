@@ -356,6 +356,131 @@ class AniList(commands.Cog):
         # Assuming an average of 10 minutes per chapter (this can be adjusted)
         minutes_read = chapters_read * 11
         return minutes_read
+
+    @anilist.command()
+    async def compare(self, ctx, category: str, user1: discord.Member, user2: discord.Member):
+        """Compares AniList anime lists between two users."""
+        if category not in ["all", "planned", "watched", "watching"]:
+            await ctx.send("Invalid category. Must be one of 'all', 'planned', 'watched', 'watching'.")
+            return
+
+        list1 = await self.fetch_user_list_by_category(user1.id, category)
+        list2 = await self.fetch_user_list_by_category(user2.id, category)
+
+        # Find similarities
+        similarities = set(list1).intersection(set(list2))
+
+        if similarities:
+            anime_list = '\n'.join(similarities)
+            message = f"📺 Similar Animes ({category}):\n{anime_list}"
+        else:
+            message = "No similarities found in the specified category."
+
+        await ctx.send(message)
+        
+    async def fetch_user_list_by_category(self, user_id, category):
+        """Fetches the user's AniList anime list by category."""
+        self.c.execute("SELECT username FROM usernames WHERE id=?", (user_id,))
+        result = self.c.fetchone()
+    
+        if result is None:
+            # User has not set their AniList username
+            return []
+    
+        username = result[0]
+    
+        # Define the GraphQL query based on the category
+        if category == "all":
+            query = '''
+            query ($username: String) {
+                MediaListCollection(userName: $username, type: ANIME) {
+                    lists {
+                        entries {
+                            media {
+                                title {
+                                    english
+                                    romaji
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            '''
+        elif category == "planned":
+            query = '''
+            query ($username: String) {
+                MediaListCollection(userName: $username, type: ANIME, status: PLANNING) {
+                    lists {
+                        entries {
+                            media {
+                                title {
+                                    english
+                                    romaji
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            '''
+        elif category == "watched":
+            query = '''
+            query ($username: String) {
+                MediaListCollection(userName: $username, type: ANIME, status: COMPLETED) {
+                    lists {
+                        entries {
+                            media {
+                                title {
+                                    english
+                                    romaji
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            '''
+        elif category == "watching":
+            query = '''
+            query ($username: String) {
+                MediaListCollection(userName: $username, type: ANIME, status: CURRENT) {
+                    lists {
+                        entries {
+                            media {
+                                title {
+                                    english
+                                    romaji
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            '''
+        else:
+            # Invalid category
+            return []
+    
+        variables = {'username': username}
+    
+        response = requests.post('https://graphql.anilist.co', json={'query': query, 'variables': variables})
+    
+        if response.status_code == 200:
+            data = response.json()
+            if 'errors' in data:
+                # Handle errors
+                return []
+            anime_list = []
+            for lst in data['data']['MediaListCollection']['lists']:
+                for entry in lst['entries']:
+                    media = entry['media']
+                    title = media['title']['english'] or media['title']['romaji']
+                    anime_list.append(title)
+            return anime_list
+        else:
+            # Failed to fetch anime list
+            return []
         
 async def setup(bot):
     await bot.add_cog(AniList(bot))
