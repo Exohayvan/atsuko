@@ -1,3 +1,19 @@
+## join
+
+Joins the user's voice channel.
+
+## leave
+
+Leaves the current voice channel.
+
+## volume
+
+Sets the volume of the bot.
+
+## play
+
+Plays audio from a YouTube URL.
+
 ## xp
 
 Used to check your own or someone elses xp and level!
@@ -132,6 +148,13 @@ Usage:
 
 Sets the current channel as the counting channel.
 
+## random
+
+Returns a random item. Currently you can use the following: image, color, number, emoji, or anime.
+
+Usage:
+`random <item>`
+
 ## monopoly
 
 Start or play a game of Monopoly! Use '!monopoly start' to start a new game and other commands to interact with the game.
@@ -188,6 +211,27 @@ Usage:
 
 Creates a reaction role message.
 
+## adopt
+
+Sends an adoption request to another member.
+
+Usage:
+`!adopt <@member>`
+
+## marry
+
+Sends a marriage request to another member.
+
+Usage:
+`!marry <@member>`
+
+## family
+
+Shows the family tree of the author.
+
+Usage:
+`!family`
+
 ## hyper
 
 This is the hyper command.
@@ -201,6 +245,13 @@ This is the embed command.
 
 Usage:
 `!embed <message>`
+
+## feedback
+
+Provide feedback to bot owners, feedback will be posted to GitHub. Link to issue will be sent after feedback is posted to GitHub.
+
+Usage:
+`feedback "Feedback you would like to provide."`
 
 ## donate
 
