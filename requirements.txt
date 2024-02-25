@@ -1,5 +1,7 @@
 discord
-github
+PyGithub
 graphviz
 emoji
 aiofiles
+PyNaCl
+watchdog
