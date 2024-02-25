@@ -40,7 +40,7 @@ class ChannelRelay(commands.Cog):
             f"Currently {self.unique_guilds_connected} servers have set this up.\n"
             "Anyone can set this up by using `connect_channel` so be cautious and please read the online safety."
         )
-        self.user_last_message_time = defaultdict(lambda: defaultdict(datetime.datetime.min))
+        self.user_last_message_time = defaultdict(lambda: defaultdict(lambda: datetime.datetime.min))
         self.is_bot_started = False
         self.check_for_reminder.start()
 
