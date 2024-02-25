@@ -40,6 +40,7 @@ class ChannelRelay(commands.Cog):
             f"Currently {self.unique_guilds_connected} servers have set this up.\n"
             "Anyone can set this up by using `connect_channel` so be cautious and please read the online safety."
         )
+        self.user_last_message_time = defaultdict(lambda: defaultdict(datetime.datetime.min))
         self.is_bot_started = False
         self.check_for_reminder.start()
 
@@ -162,24 +163,52 @@ class ChannelRelay(commands.Cog):
         if message.guild is None:
             return
         if (message.guild.id, message.channel.id) in self.connected_channels:
+            # Enforce cooldown based on channel's slowmode setting for each user
+            channel_id = message.channel.id
+            user_id = message.author.id
+            now = datetime.datetime.now()
+            channel = message.channel
+
+            # Retrieve the current slowmode delay for the channel
+            current_slowmode_delay = channel.slowmode_delay
+
+            # Calculate the elapsed time since the last message from this user in this channel
+            last_message_time = self.user_last_message_time[channel_id].get(user_id, datetime.datetime.min)
+            elapsed_time = (now - last_message_time).total_seconds()
+
+            if elapsed_time < current_slowmode_delay:
+                try:
+                    # If the message is sent before the cooldown has elapsed, delete the message
+                    await message.delete()
+                    warning_msg = "please wait a bit longer before sending another message."
+                    await message.channel.send(f"{message.author.mention}, {warning_msg}", delete_after=10)
+                    return  # Stop processing this message
+                except discord.Forbidden:
+                    logger.error("I don't have permission to delete messages in this channel.")
+                except discord.HTTPException as e:
+                    logger.error(f"An error occurred while trying to delete a message: {e}")
+            else:
+                # Update the last message time for this user in this channel
+                self.user_last_message_time[channel_id][user_id] = now
+
             # Check the message content before proceeding
             if not await self.check_message_content(message):
                 return  # Skip relaying this message
-        if (message.guild.id, message.channel.id) in self.connected_channels:
+
             # Increment message counter for dynamic slowmode
             self.message_counters[message.channel.id] += 1
-            
+
             # Record the timestamp of the message for messages per minute calculation
             self.message_timestamps[message.channel.id].append(datetime.datetime.now())
-    
+
             # Remove messages older than 15 minutes for efficient memory usage
             fifteen_mins_ago = datetime.datetime.now() - datetime.timedelta(minutes=15)
             self.message_timestamps[message.channel.id] = [timestamp for timestamp in self.message_timestamps[message.channel.id] if timestamp > fifteen_mins_ago]
-    
+
             # Update last message time for safety reminders
             self.last_message_times[message.channel.id] = datetime.datetime.now()
             self.update_last_message_time_in_db(message.channel.id, datetime.datetime.now())
-    
+
             # Relay message to other connected channels
             for guild_id, channel_id in self.connected_channels:
                 if guild_id != message.guild.id or channel_id != message.channel.id:
@@ -188,6 +217,7 @@ class ChannelRelay(commands.Cog):
                         target_channel = target_guild.get_channel(channel_id)
                         if target_channel:
                             await target_channel.send(f"**{message.author.display_name}:** {message.content}")
+
                         
     @commands.command(usage="!connect_channel")
     @commands.has_permissions(administrator=True)
