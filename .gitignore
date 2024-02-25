@@ -1,6 +1,5 @@
-
 *.pyc
 *.temp
 *.DS_Store
 *.log
-*.log
+*.py.log
