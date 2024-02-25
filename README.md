@@ -13,10 +13,6 @@ The reliability of Astuko is maintained by the `Watcher.py` script, which contin
 
 Astuko's design invites collaboration and customization, aiming to create a bot that meets various needs and preferences. We encourage contributions that enhance its functionality, making it more versatile and adaptable.
 
-## License
-
-Astuko is made available under the MIT License. For more details, see the [LICENSE.md](LICENSE.md) file.
-
 ## Acknowledgments
 
 - Hat tip to anyone whose code was used.
