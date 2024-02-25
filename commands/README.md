@@ -332,6 +332,13 @@ Creates a new counter voice channel with the given name. Counter types: Total me
 
 Reconnects a voice channel to the counter system and adds it back to the database.
 
+## warn
+
+Warns a user and deletes the warning command message.
+
+Usage:
+`!warn @user [reason]`
+
 ## set_verify_timelimit
 
 Sets a time limit for users to verify after joining.
