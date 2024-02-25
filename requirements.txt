@@ -1,7 +1,6 @@
 aiofiles==23.2.1
 aiohttp==3.9.0
-diffusers==0.20.0.dev0
-discord.py==2.3.2
+discord.py
 emoji==2.10.1
 graphviz==0.20.1
 PyGithub==2.2.0
