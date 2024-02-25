@@ -1,3 +1,49 @@
+## xp
+
+Used to check your own or someone elses xp and level!
+
+Usage:
+`!xp` or `!xp @member`
+
+## leaderboard
+
+Check a servers leaderboard, can take a while sometimes.
+
+Usage:
+`!leaderboard`
+
+## dailyremind
+
+Toggle daily reminders on or off.
+
+## balance
+
+Check your balance or someone else's by mentioning them.
+
+## daily
+
+Receive your daily gold.
+
+## invest
+
+Invest your gold to earn more.
+
+## uninvest
+
+Uninvest your gold, with a 10% penalty.
+
+## give
+
+Give gold to someone.
+
+## gamble
+
+Gamble your gold for a chance to win the pot.
+
+## jackpot
+
+Check the current jackpot amount.
+
 ## pulllog
 
 Send a log file or the entire log directory if no file is specified.
@@ -54,35 +100,19 @@ Shows the current version of the bot based on Git commits and the hash of the la
 Usage:
 `!version`
 
-## join
+## connect_channel
 
-Joins the user's voice channel.
-
-## leave
-
-Leaves the current voice channel.
-
-## volume
-
-Sets the volume of the bot.
-
-## play
-
-Plays audio from a YouTube URL.
-
-## donate
-
-Returns the donation address for the specified method.
+Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)
 
 Usage:
-`!donate <method>`
+`!connect_channel`
 
-## feedback
+## disconnect_channel
 
-Provide feedback to bot owners, feedback will be posted to GitHub. Link to issue will be sent after feedback is posted to GitHub.
+Disconnect the channel connected to the relay channels.
 
 Usage:
-`feedback "Feedback you would like to provide."`
+`!disconnect_channel`
 
 ## roll
 
@@ -98,42 +128,13 @@ Flips a coin and shows the result.
 Usage:
 `!coinflip`
 
-## connect_channel
-
-Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)
-
-Usage:
-`!connect_channel`
-
-## disconnect_channel
-
-Disconnect the channel connected to the relay channels.
-
-Usage:
-`!disconnect_channel`
-
-## random
-
-Returns a random item. Currently you can use the following: image, color, number, emoji, or anime.
-
-Usage:
-`random <item>`
-
 ## set_counting_channel
 
 Sets the current channel as the counting channel.
 
-## scrabble
-
-Start or play a game of Scrabble! Use '!scrabble start' to start a new game and other commands to interact with the game.
-
 ## monopoly
 
 Start or play a game of Monopoly! Use '!monopoly start' to start a new game and other commands to interact with the game.
-
-## chess
-
-Main chess command.
 
 ## checkers
 
@@ -141,6 +142,10 @@ Start or play a game of Checkers! Use '!checkers start' to start a new game and 
 
 Usage:
 `!checkers <command> (Will add list later).`
+
+## hangman
+
+Start or play a game of Hangman! Use '!hangman start' to start a new game and '!hangman guess <letter>' to make a guess.
 
 ## sorry
 
@@ -154,9 +159,9 @@ Start or play a game of Uno! Use '!uno start' to start a new game and other comm
 
 Start or play a game of Tic-Tac-Toe! Use '!tictactoe start' to start a new game and '!tictactoe move <position>' to make a move.
 
-## hangman
+## scrabble
 
-Start or play a game of Hangman! Use '!hangman start' to start a new game and '!hangman guess <letter>' to make a guess.
+Start or play a game of Scrabble! Use '!scrabble start' to start a new game and other commands to interact with the game.
 
 ## dnd
 
@@ -165,25 +170,44 @@ This base of the dnd commands, few options to use: create, show, & card. More to
 Usage:
 `!dnd`
 
-## setanifeed
+## emoji_save
 
-Sets the channel for AniList feed updates.
+Saves multiple custom emojis to the local storage.
 
-## anilist
+Usage:
+`!emoji_save <emoji1> <emoji2> ...`
 
-AniList commands.
+## emoji_add
 
-## deletead
+Saves multiple custom emojis to local storage and adds them to the server.
 
-Deletes the advertisement file for the specified server ID.
+Usage:
+`!emoji_add <emoji1> <emoji2> ...`
 
-## addad
+## roles
 
-Adds or updates the advertisement message for the specified server ID.
+Creates a reaction role message.
 
-## refresh_ads
+## hyper
 
-Admin command to refresh the advertisement list.
+This is the hyper command.
+
+Usage:
+`!hyper <usage>`
+
+## embed
+
+This is the embed command.
+
+Usage:
+`!embed <message>`
+
+## donate
+
+Returns the donation address for the specified method.
+
+Usage:
+`!donate <method>`
 
 ## animediff
 
@@ -210,140 +234,67 @@ Usage:
 
 Provides information about a pip package.
 
-## roles
+## deletead
 
-Creates a reaction role message.
+Deletes the advertisement file for the specified server ID.
 
-## emoji_save
+## addad
 
-Saves multiple custom emojis to the local storage.
+Adds or updates the advertisement message for the specified server ID.
 
-Usage:
-`!emoji_save <emoji1> <emoji2> ...`
+## refresh_ads
 
-## emoji_add
+Admin command to refresh the advertisement list.
 
-Saves multiple custom emojis to local storage and adds them to the server.
+## setanifeed
 
-Usage:
-`!emoji_add <emoji1> <emoji2> ...`
+Sets the channel for AniList feed updates.
 
-## tiktok
+## anilist
 
-Command to track a TikTok user's live status.
+AniList commands.
 
-Usage:
-`!tiktok <username>`
+## set_verify_timelimit
 
-## stoptracking
-
-Stop tracking a TikTok user's live status.
+Sets a time limit for users to verify after joining.
 
 Usage:
-`!stoptracking <username>`
+`!set_verify_timelimit <hours>`
 
-## adopt
+## set_verify_channel
 
-Sends an adoption request to another member.
-
-Usage:
-`!adopt <@member>`
-
-## marry
-
-Sends a marriage request to another member.
+Sets a specific channel for verification purposes.
 
 Usage:
-`!marry <@member>`
+`!set_verify_channel <#channel>`
 
-## family
+## show_roles
 
-Shows the family tree of the author.
-
-Usage:
-`!family`
-
-## hyper
-
-This is the hyper command.
+Shows the set join and verify roles for the guild.
 
 Usage:
-`!hyper <usage>`
+`!show_roles`
 
-## embed
+## set_join_role
 
-This is the embed command.
-
-Usage:
-`!embed <message>`
-
-## dailyremind
-
-Toggle daily reminders on or off.
-
-## balance
-
-Check your balance or someone else's by mentioning them.
-
-## daily
-
-Receive your daily gold.
-
-## invest
-
-Invest your gold to earn more.
-
-## uninvest
-
-Uninvest your gold, with a 10% penalty.
-
-## give
-
-Give gold to someone.
-
-## gamble
-
-Gamble your gold for a chance to win the pot.
-
-## jackpot
-
-Check the current jackpot amount.
-
-## xp
-
-Used to check your own or someone elses xp and level!
+Sets the role to give to users when they first join.
 
 Usage:
-`!xp` or `!xp @member`
+`!set_join_role <@role>`
 
-## leaderboard
+## set_verify_role
 
-Check a servers leaderboard, can take a while sometimes.
-
-Usage:
-`!leaderboard`
-
-## vote
-
-Start an anonymous vote with 2-10 options to choose from! (Besure to include quotes on title and options)
+Sets the role to give to users when they are verified.
 
 Usage:
-`!vote <minutes> "Title" "Option 1" "Option 2" "Options up to 10"`
+`!set_verify_role <@role>`
 
-## endvote
+## verify
 
-Ends a currently active vote using the title of the vote. (Besure to enclose the title with quotes)
+Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs.
 
 Usage:
-`!endvote "title of vote"`
-
-## create_counter
-
-Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots.
-
-## channel_reconnect
-
-Reconnects a voice channel to the counter system and adds it back to the database.
+`!verify`
 
 ## lock
 
@@ -425,6 +376,27 @@ Removes a role to allow moderation.
 Usage:
 `!removemod <@mention>`
 
+## ticket
+
+Create a new ticket channel.
+
+Usage:
+`!ticket`
+
+## vote
+
+Start an anonymous vote with 2-10 options to choose from! (Besure to include quotes on title and options)
+
+Usage:
+`!vote <minutes> "Title" "Option 1" "Option 2" "Options up to 10"`
+
+## endvote
+
+Ends a currently active vote using the title of the vote. (Besure to enclose the title with quotes)
+
+Usage:
+`!endvote "title of vote"`
+
 ## welcomemsg
 
 Set a custom welcome message. Ex. `!welcomemsg Welcome <user>!`
@@ -439,52 +411,11 @@ Remove the set welcome message.
 Usage:
 `!welcomeremove`
 
-## set_verify_timelimit
+## create_counter
 
-Sets a time limit for users to verify after joining.
+Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots.
 
-Usage:
-`!set_verify_timelimit <hours>`
+## channel_reconnect
 
-## set_verify_channel
-
-Sets a specific channel for verification purposes.
-
-Usage:
-`!set_verify_channel <#channel>`
-
-## show_roles
-
-Shows the set join and verify roles for the guild.
-
-Usage:
-`!show_roles`
-
-## set_join_role
-
-Sets the role to give to users when they first join.
-
-Usage:
-`!set_join_role <@role>`
-
-## set_verify_role
-
-Sets the role to give to users when they are verified.
-
-Usage:
-`!set_verify_role <@role>`
-
-## verify
-
-Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs.
-
-Usage:
-`!verify`
-
-## ticket
-
-Create a new ticket channel.
-
-Usage:
-`!ticket`
+Reconnects a voice channel to the counter system and adds it back to the database.
 

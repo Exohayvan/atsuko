@@ -176,12 +176,17 @@ class ChannelRelay(commands.Cog):
             last_message_time = self.user_last_message_time[channel_id].get(user_id, datetime.datetime.min)
             elapsed_time = (now - last_message_time).total_seconds()
 
+            # Calculate remaining cooldown time
+            remaining_cooldown = current_slowmode_delay - elapsed_time
+
             if elapsed_time < current_slowmode_delay:
                 try:
                     # If the message is sent before the cooldown has elapsed, delete the message
                     await message.delete()
-                    warning_msg = "please wait a bit longer before sending another message."
-                    await message.channel.send(f"{message.author.mention}, {warning_msg}", delete_after=10)
+                    warning_msg = (f"{message.author.mention}, it looks like you have permissions to bypass the cooldown on this server. "
+                                "Unfortunately, we must limit you as well to allow the bot to avoid rate limits. "
+                                f"You can send another message in {int(remaining_cooldown)} seconds.")
+                    await message.channel.send(warning_msg, delete_after=10)
                     return  # Stop processing this message
                 except discord.Forbidden:
                     logger.error("I don't have permission to delete messages in this channel.")
