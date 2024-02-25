@@ -2,6 +2,7 @@ from discord.ext import commands
 import subprocess
 import asyncio
 import logging
+import aiofiles
 
 logger = logging.getLogger('DocGenerator.py')
 logger.setLevel(logging.DEBUG)
