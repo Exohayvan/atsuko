@@ -1,33 +1,3 @@
-## join
-
-Joins the user's voice channel.
-
-## leave
-
-Leaves the current voice channel.
-
-## volume
-
-Sets the volume of the bot.
-
-## play
-
-Plays audio from a YouTube URL.
-
-## xp
-
-Used to check your own or someone elses xp and level!
-
-Usage:
-`!xp` or `!xp @member`
-
-## leaderboard
-
-Check a servers leaderboard, can take a while sometimes.
-
-Usage:
-`!leaderboard`
-
 ## dailyremind
 
 Toggle daily reminders on or off.
@@ -59,6 +29,124 @@ Gamble your gold for a chance to win the pot.
 ## jackpot
 
 Check the current jackpot amount.
+
+## xp
+
+Used to check your own or someone elses xp and level!
+
+Usage:
+`!xp` or `!xp @member`
+
+## leaderboard
+
+Check a servers leaderboard, can take a while sometimes.
+
+Usage:
+`!leaderboard`
+
+## adopt
+
+Sends an adoption request to another member.
+
+Usage:
+`!adopt <@member>`
+
+## marry
+
+Sends a marriage request to another member.
+
+Usage:
+`!marry <@member>`
+
+## family
+
+Shows the family tree of the author.
+
+Usage:
+`!family`
+
+## emoji_save
+
+Saves multiple custom emojis to the local storage.
+
+Usage:
+`!emoji_save <emoji1> <emoji2> ...`
+
+## emoji_add
+
+Saves multiple custom emojis to local storage and adds them to the server.
+
+Usage:
+`!emoji_add <emoji1> <emoji2> ...`
+
+## hyper
+
+This is the hyper command.
+
+Usage:
+`!hyper <usage>`
+
+## embed
+
+This is the embed command.
+
+Usage:
+`!embed <message>`
+
+## roles
+
+Creates a reaction role message.
+
+## deletead
+
+Deletes the advertisement file for the specified server ID.
+
+## addad
+
+Adds or updates the advertisement message for the specified server ID.
+
+## refresh_ads
+
+Admin command to refresh the advertisement list.
+
+## roll
+
+Rolls a dice with the specified format (e.g., 2d6).
+
+Usage:
+`!roll NdN`
+
+## coinflip
+
+Flips a coin and shows the result.
+
+Usage:
+`!coinflip`
+
+## set_counting_channel
+
+Sets the current channel as the counting channel.
+
+## connect_channel
+
+Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)
+
+Usage:
+`!connect_channel`
+
+## disconnect_channel
+
+Disconnect the channel connected to the relay channels.
+
+Usage:
+`!disconnect_channel`
+
+## random
+
+Returns a random item. Currently you can use the following: image, color, number, emoji, or anime.
+
+Usage:
+`random <item>`
 
 ## pulllog
 
@@ -116,186 +204,9 @@ Shows the current version of the bot based on Git commits and the hash of the la
 Usage:
 `!version`
 
-## connect_channel
-
-Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)
-
-Usage:
-`!connect_channel`
-
-## disconnect_channel
-
-Disconnect the channel connected to the relay channels.
-
-Usage:
-`!disconnect_channel`
-
-## roll
-
-Rolls a dice with the specified format (e.g., 2d6).
-
-Usage:
-`!roll NdN`
-
-## coinflip
-
-Flips a coin and shows the result.
-
-Usage:
-`!coinflip`
-
-## set_counting_channel
-
-Sets the current channel as the counting channel.
-
-## random
-
-Returns a random item. Currently you can use the following: image, color, number, emoji, or anime.
-
-Usage:
-`random <item>`
-
-## monopoly
-
-Start or play a game of Monopoly! Use '!monopoly start' to start a new game and other commands to interact with the game.
-
-## checkers
-
-Start or play a game of Checkers! Use '!checkers start' to start a new game and other commands to interact with the game.
-
-Usage:
-`!checkers <command> (Will add list later).`
-
-## hangman
-
-Start or play a game of Hangman! Use '!hangman start' to start a new game and '!hangman guess <letter>' to make a guess.
-
-## sorry
-
-Start or play a game of Sorry! Use '!sorry start' to start a new game and other commands to interact with the game.
-
-## uno
-
-Start or play a game of Uno! Use '!uno start' to start a new game and other commands to interact with the game.
-
-## tictactoe
-
-Start or play a game of Tic-Tac-Toe! Use '!tictactoe start' to start a new game and '!tictactoe move <position>' to make a move.
-
-## scrabble
-
-Start or play a game of Scrabble! Use '!scrabble start' to start a new game and other commands to interact with the game.
-
-## dnd
-
-This base of the dnd commands, few options to use: create, show, & card. More to come soon!
-
-Usage:
-`!dnd`
-
-## emoji_save
-
-Saves multiple custom emojis to the local storage.
-
-Usage:
-`!emoji_save <emoji1> <emoji2> ...`
-
-## emoji_add
-
-Saves multiple custom emojis to local storage and adds them to the server.
-
-Usage:
-`!emoji_add <emoji1> <emoji2> ...`
-
-## roles
-
-Creates a reaction role message.
-
-## adopt
-
-Sends an adoption request to another member.
-
-Usage:
-`!adopt <@member>`
-
-## marry
-
-Sends a marriage request to another member.
-
-Usage:
-`!marry <@member>`
-
-## family
-
-Shows the family tree of the author.
-
-Usage:
-`!family`
-
-## hyper
-
-This is the hyper command.
-
-Usage:
-`!hyper <usage>`
-
-## embed
-
-This is the embed command.
-
-Usage:
-`!embed <message>`
-
-## feedback
-
-Provide feedback to bot owners, feedback will be posted to GitHub. Link to issue will be sent after feedback is posted to GitHub.
-
-Usage:
-`feedback "Feedback you would like to provide."`
-
-## donate
-
-Returns the donation address for the specified method.
-
-Usage:
-`!donate <method>`
-
-## animediff
-
-Generates an anime-style image based on the provided prompt and sends the MD5 hash of the image data.
-
-Usage:
-`!animediff <prompt>, <another prompt>, so on`
-
-## dnddiff
-
-Generates an dnd-style image based on the provided prompt and sends the MD5 hash of the image data.
-
-Usage:
-`!dnddiff <prompt>, <another prompt>, so on`
-
-## imagediff
-
-Generates a realistic image based on the provided prompt and sends the MD5 hash of the image data.
-
-Usage:
-`!imagediff <prompt>, <another prompt>, so on`
-
 ## package_info
 
 Provides information about a pip package.
-
-## deletead
-
-Deletes the advertisement file for the specified server ID.
-
-## addad
-
-Adds or updates the advertisement message for the specified server ID.
-
-## refresh_ads
-
-Admin command to refresh the advertisement list.
 
 ## setanifeed
 
@@ -304,48 +215,6 @@ Sets the channel for AniList feed updates.
 ## anilist
 
 AniList commands.
-
-## set_verify_timelimit
-
-Sets a time limit for users to verify after joining.
-
-Usage:
-`!set_verify_timelimit <hours>`
-
-## set_verify_channel
-
-Sets a specific channel for verification purposes.
-
-Usage:
-`!set_verify_channel <#channel>`
-
-## show_roles
-
-Shows the set join and verify roles for the guild.
-
-Usage:
-`!show_roles`
-
-## set_join_role
-
-Sets the role to give to users when they first join.
-
-Usage:
-`!set_join_role <@role>`
-
-## set_verify_role
-
-Sets the role to give to users when they are verified.
-
-Usage:
-`!set_verify_role <@role>`
-
-## verify
-
-Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs.
-
-Usage:
-`!verify`
 
 ## lock
 
@@ -427,12 +296,19 @@ Removes a role to allow moderation.
 Usage:
 `!removemod <@mention>`
 
-## ticket
+## welcomemsg
 
-Create a new ticket channel.
+Set a custom welcome message. Ex. `!welcomemsg Welcome <user>!`
 
 Usage:
-`!ticket`
+`<message>`
+
+## welcomeremove
+
+Remove the set welcome message.
+
+Usage:
+`!welcomeremove`
 
 ## vote
 
@@ -448,20 +324,6 @@ Ends a currently active vote using the title of the vote. (Besure to enclose the
 Usage:
 `!endvote "title of vote"`
 
-## welcomemsg
-
-Set a custom welcome message. Ex. `!welcomemsg Welcome <user>!`
-
-Usage:
-`<message>`
-
-## welcomeremove
-
-Remove the set welcome message.
-
-Usage:
-`!welcomeremove`
-
 ## create_counter
 
 Creates a new counter voice channel with the given name. Counter types: Total members, Online members, Bots.
@@ -469,4 +331,67 @@ Creates a new counter voice channel with the given name. Counter types: Total me
 ## channel_reconnect
 
 Reconnects a voice channel to the counter system and adds it back to the database.
+
+## set_verify_timelimit
+
+Sets a time limit for users to verify after joining.
+
+Usage:
+`!set_verify_timelimit <hours>`
+
+## set_verify_channel
+
+Sets a specific channel for verification purposes.
+
+Usage:
+`!set_verify_channel <#channel>`
+
+## show_roles
+
+Shows the set join and verify roles for the guild.
+
+Usage:
+`!show_roles`
+
+## set_join_role
+
+Sets the role to give to users when they first join.
+
+Usage:
+`!set_join_role <@role>`
+
+## set_verify_role
+
+Sets the role to give to users when they are verified.
+
+Usage:
+`!set_verify_role <@role>`
+
+## verify
+
+Sends a verification CAPTCHA to the user's DMs and alerts the user to check their DMs.
+
+Usage:
+`!verify`
+
+## ticket
+
+Create a new ticket channel.
+
+Usage:
+`!ticket`
+
+## donate
+
+Returns the donation address for the specified method.
+
+Usage:
+`!donate <method>`
+
+## feedback
+
+Provide feedback to bot owners, feedback will be posted to GitHub. Link to issue will be sent after feedback is posted to GitHub.
+
+Usage:
+`feedback "Feedback you would like to provide."`
 
