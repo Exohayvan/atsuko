@@ -1,1 +1,124 @@
 2024-02-25 00:38:03,155:INFO:AniList.py: AniList Cog Loaded. Logging started...
+2024-02-25 01:22:48,374:ERROR:AniList.py: User has not set their AniList username.
+2024-02-25 01:27:11,203:INFO:AniList.py: 1109300306036133969 set username to chaosdragonsteel
+2024-02-25 01:30:26,715:WARNING:AniList.py: Pulling total users in server. High API calls. ETA 0 minutes.
+2024-02-25 01:30:26,716:INFO:AniList.py: Checking users.
+2024-02-25 01:30:26,716:INFO:AniList.py: CosmicUnicornFam found in server. Checking and calculating total times.
+2024-02-25 01:30:26,763:INFO:AniList.py: CosmicUnicornFam total anime time: 0
+2024-02-25 01:30:26,808:INFO:AniList.py: CosmicUnicornFam total manga time: 0
+2024-02-25 01:30:26,808:INFO:AniList.py: Appending ketazombie#0 to leaderboard with 0 total time.
+2024-02-25 01:30:26,808:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:30:28,809:INFO:AniList.py: exohayvan found in server. Checking and calculating total times.
+2024-02-25 01:30:28,849:INFO:AniList.py: exohayvan total anime time: 0
+2024-02-25 01:30:28,891:INFO:AniList.py: exohayvan total manga time: 0
+2024-02-25 01:30:28,892:INFO:AniList.py: Appending exohayvan#0 to leaderboard with 0 total time.
+2024-02-25 01:30:28,892:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:30:30,892:INFO:AniList.py: XdevilsacidX found in server. Checking and calculating total times.
+2024-02-25 01:30:30,934:INFO:AniList.py: XdevilsacidX total anime time: 0
+2024-02-25 01:30:30,974:INFO:AniList.py: XdevilsacidX total manga time: 0
+2024-02-25 01:30:30,974:INFO:AniList.py: Appending xdevilsacidx#0 to leaderboard with 0 total time.
+2024-02-25 01:30:30,974:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:30:32,975:INFO:AniList.py: SleepySpyro found in server. Checking and calculating total times.
+2024-02-25 01:30:33,016:INFO:AniList.py: SleepySpyro total anime time: 0
+2024-02-25 01:30:33,058:INFO:AniList.py: SleepySpyro total manga time: 0
+2024-02-25 01:30:33,058:INFO:AniList.py: Appending sleepydragon13#0 to leaderboard with 0 total time.
+2024-02-25 01:30:33,058:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:30:35,059:INFO:AniList.py: AkiraNakamura found in server. Checking and calculating total times.
+2024-02-25 01:30:35,097:INFO:AniList.py: AkiraNakamura total anime time: 0
+2024-02-25 01:30:35,144:INFO:AniList.py: AkiraNakamura total manga time: 0
+2024-02-25 01:30:35,144:INFO:AniList.py: Appending akira_nakamura12#0 to leaderboard with 0 total time.
+2024-02-25 01:30:35,144:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:30:37,145:INFO:AniList.py: Snakesepic found in server. Checking and calculating total times.
+2024-02-25 01:30:37,182:INFO:AniList.py: Snakesepic total anime time: 0
+2024-02-25 01:30:37,220:INFO:AniList.py: Snakesepic total manga time: 0
+2024-02-25 01:30:37,221:INFO:AniList.py: Appending jake1887.#0 to leaderboard with 0 total time.
+2024-02-25 01:30:37,221:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:30:39,221:INFO:AniList.py: EmbersofNovember found in server. Checking and calculating total times.
+2024-02-25 01:30:39,277:INFO:AniList.py: EmbersofNovember total anime time: 0
+2024-02-25 01:30:39,318:INFO:AniList.py: EmbersofNovember total manga time: 0
+2024-02-25 01:30:39,318:INFO:AniList.py: Appending embers_of_november#0 to leaderboard with 0 total time.
+2024-02-25 01:30:39,318:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:30:41,318:INFO:AniList.py: jiggly08 found in server. Checking and calculating total times.
+2024-02-25 01:30:41,357:INFO:AniList.py: jiggly08 total anime time: 0
+2024-02-25 01:30:41,398:INFO:AniList.py: jiggly08 total manga time: 0
+2024-02-25 01:30:41,399:INFO:AniList.py: Appending jiggly4899#0 to leaderboard with 0 total time.
+2024-02-25 01:30:41,399:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:30:43,399:INFO:AniList.py: pandabear99 found in server. Checking and calculating total times.
+2024-02-25 01:30:43,442:INFO:AniList.py: pandabear99 total anime time: 0
+2024-02-25 01:30:43,490:INFO:AniList.py: pandabear99 total manga time: 0
+2024-02-25 01:30:43,491:INFO:AniList.py: Appending ._.1ghost1._._.#0 to leaderboard with 0 total time.
+2024-02-25 01:30:43,491:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:30:45,492:INFO:AniList.py: PremiumLime found in server. Checking and calculating total times.
+2024-02-25 01:30:45,534:INFO:AniList.py: PremiumLime total anime time: 0
+2024-02-25 01:30:45,583:INFO:AniList.py: PremiumLime total manga time: 0
+2024-02-25 01:30:45,583:INFO:AniList.py: Appending premiumlime#0 to leaderboard with 0 total time.
+2024-02-25 01:30:45,583:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:30:47,584:INFO:AniList.py: chaosdragonsteel found in server. Checking and calculating total times.
+2024-02-25 01:30:47,624:INFO:AniList.py: chaosdragonsteel total anime time: 0
+2024-02-25 01:30:47,667:INFO:AniList.py: chaosdragonsteel total manga time: 0
+2024-02-25 01:30:47,667:INFO:AniList.py: Appending king_of_the_ferrets#0 to leaderboard with 0 total time.
+2024-02-25 01:30:47,667:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:30:49,668:INFO:AniList.py: KiBubbless not found in server. Continuing.
+2024-02-25 01:30:49,668:INFO:AniList.py: Sorting data.
+2024-02-25 01:30:50,677:INFO:AniList.py: Sent leaderboard.
+2024-02-25 01:31:17,949:WARNING:AniList.py: Pulling total users in server. High API calls. ETA 0 minutes.
+2024-02-25 01:31:17,949:INFO:AniList.py: Checking users.
+2024-02-25 01:31:17,949:INFO:AniList.py: CosmicUnicornFam found in server. Checking and calculating total times.
+2024-02-25 01:31:18,046:INFO:AniList.py: CosmicUnicornFam total anime time: 41996
+2024-02-25 01:31:18,133:INFO:AniList.py: CosmicUnicornFam total manga time: 0
+2024-02-25 01:31:18,133:INFO:AniList.py: Appending ketazombie#0 to leaderboard with 41996 total time.
+2024-02-25 01:31:18,133:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:31:20,133:INFO:AniList.py: exohayvan found in server. Checking and calculating total times.
+2024-02-25 01:31:20,235:INFO:AniList.py: exohayvan total anime time: 33727
+2024-02-25 01:31:20,356:INFO:AniList.py: exohayvan total manga time: 363
+2024-02-25 01:31:20,357:INFO:AniList.py: Appending exohayvan#0 to leaderboard with 34090 total time.
+2024-02-25 01:31:20,357:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:31:22,357:INFO:AniList.py: XdevilsacidX found in server. Checking and calculating total times.
+2024-02-25 01:31:22,487:INFO:AniList.py: XdevilsacidX total anime time: 75550
+2024-02-25 01:31:22,538:INFO:AniList.py: XdevilsacidX total manga time: 0
+2024-02-25 01:31:22,538:INFO:AniList.py: Appending xdevilsacidx#0 to leaderboard with 75550 total time.
+2024-02-25 01:31:22,538:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:31:24,538:INFO:AniList.py: SleepySpyro found in server. Checking and calculating total times.
+2024-02-25 01:31:24,580:INFO:AniList.py: SleepySpyro total anime time: 0
+2024-02-25 01:31:24,621:INFO:AniList.py: SleepySpyro total manga time: 0
+2024-02-25 01:31:24,621:INFO:AniList.py: Appending sleepydragon13#0 to leaderboard with 0 total time.
+2024-02-25 01:31:24,621:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:31:26,624:INFO:AniList.py: AkiraNakamura found in server. Checking and calculating total times.
+2024-02-25 01:31:26,663:INFO:AniList.py: AkiraNakamura total anime time: 0
+2024-02-25 01:31:26,706:INFO:AniList.py: AkiraNakamura total manga time: 0
+2024-02-25 01:31:26,706:INFO:AniList.py: Appending akira_nakamura12#0 to leaderboard with 0 total time.
+2024-02-25 01:31:26,706:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:31:28,707:INFO:AniList.py: Snakesepic found in server. Checking and calculating total times.
+2024-02-25 01:31:28,748:INFO:AniList.py: Snakesepic total anime time: 0
+2024-02-25 01:31:28,787:INFO:AniList.py: Snakesepic total manga time: 0
+2024-02-25 01:31:28,788:INFO:AniList.py: Appending jake1887.#0 to leaderboard with 0 total time.
+2024-02-25 01:31:28,788:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:31:30,788:INFO:AniList.py: EmbersofNovember found in server. Checking and calculating total times.
+2024-02-25 01:31:30,830:INFO:AniList.py: EmbersofNovember total anime time: 0
+2024-02-25 01:31:30,872:INFO:AniList.py: EmbersofNovember total manga time: 0
+2024-02-25 01:31:30,872:INFO:AniList.py: Appending embers_of_november#0 to leaderboard with 0 total time.
+2024-02-25 01:31:30,872:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:31:32,872:INFO:AniList.py: jiggly08 found in server. Checking and calculating total times.
+2024-02-25 01:31:32,911:INFO:AniList.py: jiggly08 total anime time: 0
+2024-02-25 01:31:32,957:INFO:AniList.py: jiggly08 total manga time: 0
+2024-02-25 01:31:32,957:INFO:AniList.py: Appending jiggly4899#0 to leaderboard with 0 total time.
+2024-02-25 01:31:32,957:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:31:34,959:INFO:AniList.py: pandabear99 found in server. Checking and calculating total times.
+2024-02-25 01:31:34,999:INFO:AniList.py: pandabear99 total anime time: 0
+2024-02-25 01:31:35,041:INFO:AniList.py: pandabear99 total manga time: 0
+2024-02-25 01:31:35,042:INFO:AniList.py: Appending ._.1ghost1._._.#0 to leaderboard with 0 total time.
+2024-02-25 01:31:35,042:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:31:37,042:INFO:AniList.py: PremiumLime found in server. Checking and calculating total times.
+2024-02-25 01:31:37,091:INFO:AniList.py: PremiumLime total anime time: 0
+2024-02-25 01:31:37,129:INFO:AniList.py: PremiumLime total manga time: 0
+2024-02-25 01:31:37,130:INFO:AniList.py: Appending premiumlime#0 to leaderboard with 0 total time.
+2024-02-25 01:31:37,130:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:31:39,130:INFO:AniList.py: chaosdragonsteel found in server. Checking and calculating total times.
+2024-02-25 01:31:39,172:INFO:AniList.py: chaosdragonsteel total anime time: 0
+2024-02-25 01:31:39,219:INFO:AniList.py: chaosdragonsteel total manga time: 0
+2024-02-25 01:31:39,219:INFO:AniList.py: Appending king_of_the_ferrets#0 to leaderboard with 0 total time.
+2024-02-25 01:31:39,219:INFO:AniList.py: Waiting 2 seconds to avoid API Limits.
+2024-02-25 01:31:41,220:INFO:AniList.py: KiBubbless not found in server. Continuing.
+2024-02-25 01:31:41,220:INFO:AniList.py: Sorting data.
+2024-02-25 01:31:41,553:INFO:AniList.py: Sent leaderboard.
+2024-02-25 01:32:38,476:INFO:AniList.py: Info about user 'chaosdragonsteel' sent.
