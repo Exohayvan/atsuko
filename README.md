@@ -7,7 +7,7 @@
 
 Astuko is a Discord bot designed with a focus on extensibility and reliability. Built using Python and leveraging a dynamic cog system for modularity, it enables easy addition of new features by creating new Python files in the `commands` directory. The bot includes a custom help interface and various commands, which can be found [Here](https://github.com/Exohayvan/atsuko/blob/main/commands/README.md).
 
-The reliability of Astuko is maintained by the `Watcher.py` script, which continuously monitors the bot process. If the process exits with a specific exit code (42), it restarts the bot, ensuring it remains operational.
+The reliability of Astuko is maintained by the `Watcher.py` script, which continuously monitors the bot process. If the process exits, it restarts the bot, ensuring it remains operational.
 
 ## Collaborate and Customize
 
