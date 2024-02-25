@@ -1,12 +1,1 @@
-aiofiles
-aiohttp
-discord.py
-emoji
-graphviz
-PyGithub
-Requests
-setuptools
-torch
-watchdog
-youtube_dl
-TiktokLive
+discord
