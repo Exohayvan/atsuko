@@ -2,3 +2,4 @@ discord
 github
 graphviz
 emoji
+aiofiles
