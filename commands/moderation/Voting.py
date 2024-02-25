@@ -18,7 +18,7 @@ logger.info("Voting Cog Loaded. Logging started...")
 class Voting(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.conn = sqlite3.connect('./data/voting.db')
+        self.conn = sqlite3.connect('./data/db/voting.db')
         self.cursor = self.conn.cursor()
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS active_votes (
