@@ -95,7 +95,7 @@ class ChannelRelay(commands.Cog):
         else:
             return "❓"  # default case, should not normally happen
         
-    @tasks.loop(seconds=10)  # Adjust time as needed
+    @tasks.loop(seconds=1)  # Adjust time as needed
     async def check_for_dynamic_slowmode(self):
         logger.info("Checking if slowmode is needed.")
         # Prune messages older than 15 minutes from all channels first
