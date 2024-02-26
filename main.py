@@ -190,21 +190,52 @@ async def check_blacklist(ctx):
     user_id = ctx.author.id
     conn = sqlite3.connect('./data/db/blacklist.db')
     cursor = conn.cursor()
+
+    # Select the blacklist expiration time for the user
     cursor.execute("SELECT expires_at FROM blacklist WHERE user_id = ?", (user_id,))
     result = cursor.fetchone()
-    conn.close()
 
     if result:
         expires_at = datetime.fromtimestamp(result[0])
-        if expires_at > datetime.now():
+        if datetime.now() < expires_at:
+            # User is still blacklisted
             await ctx.send(f"You are blacklisted until {expires_at}.")
+            conn.close()  # Make sure to close the connection before returning
             return False
+        else:
+            # Blacklist expired, remove from the database
+            cursor.execute("DELETE FROM blacklist WHERE user_id = ?", (user_id,))
+            conn.commit()
+
+    conn.close()
     return True
 
 bot.add_check(check_blacklist)
 bot.add_check(check_if_command_disabled)
 
-@bot.command(hidden=True)
+@bot.group()
+async def blacklist(ctx):
+    if ctx.invoked_subcommand is None:
+        await ctx.send("Invalid blacklist command passed...")
+
+@blacklist.command()
+async def add(ctx, user: discord.User, days: int):
+    unban_timestamp = (datetime.now() + timedelta(days=days)).timestamp()
+    conn = sqlite3.connect('./data/db/blacklist.db')
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO blacklist (user_id, unban_timestamp) VALUES (?, ?) ON CONFLICT(user_id) DO UPDATE SET unban_timestamp = ?", (user.id, unban_timestamp, unban_timestamp))
+    conn.commit()
+    conn.close()
+    await ctx.send(f"User {user} has been blacklisted for {days} days.")
+
+@blacklist.command()
+async def remove(ctx, user: discord.User):
+    conn = sqlite3.connect('./data/db/blacklist.db')
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM blacklist WHERE user_id = ?", (user.id,))
+    conn.commit()
+    conn.close()
+    await ctx.send(f"User {user} has been removed from the blacklist.")@bot.command(hidden=True)
 async def tos_stats(ctx):
     # Step 1: Count total number of unique users the bot can see
     total_users = set()  # Using a set to avoid counting duplicates
