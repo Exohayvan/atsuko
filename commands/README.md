@@ -65,6 +65,10 @@ Shows the family tree of the author.
 Usage:
 `!family`
 
+## invites
+
+Display the invite leaderboard.
+
 ## emoji_save
 
 Saves multiple custom emojis to the local storage.
