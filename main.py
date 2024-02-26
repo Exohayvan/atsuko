@@ -5,6 +5,7 @@ import json
 import logging
 import asyncio
 import sqlite3
+from datetime import datetime, timedelta
 
 logging.basicConfig(level=logging.INFO)
 
@@ -184,7 +185,23 @@ async def check_if_command_disabled(ctx):
         await ctx.send(response_message)
         return False
     return True
+    
+async def check_blacklist(ctx):
+    user_id = ctx.author.id
+    conn = sqlite3.connect('./data/db/blacklist.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT expires_at FROM blacklist WHERE user_id = ?", (user_id,))
+    result = cursor.fetchone()
+    conn.close()
 
+    if result:
+        expires_at = datetime.fromtimestamp(result[0])
+        if expires_at > datetime.now():
+            await ctx.send(f"You are blacklisted until {expires_at}.")
+            return False
+    return True
+
+bot.add_check(check_blacklist)
 bot.add_check(check_if_command_disabled)
 
 @bot.command(hidden=True)
