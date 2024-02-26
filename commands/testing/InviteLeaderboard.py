@@ -50,7 +50,7 @@ class InviteLeaderboard(commands.Cog):
                 break
 
     @commands.command()
-    async def leaderboard(self, ctx):
+    async def invites(self, ctx):
         """Display the invite leaderboard."""
         guild_id = ctx.guild.id
         if guild_id in self.invites:
