@@ -62,25 +62,32 @@ class Counting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-
+        # Prevent the bot from responding to its own messages
+        if message.author == self.bot.user:
+            return
+    
         channel_id = message.channel.id
         cursor = self.conn.cursor()
         cursor.execute('SELECT last_number, last_user_id FROM counting_channels WHERE channel_id = ?', (channel_id,))
         row = cursor.fetchone()
-
+    
         if row:
             last_number, last_user_id = row
-
-            if re.fullmatch(r'^\d+$', message.content):
+    
+            # Check if the message is numeric and not from the same user as the last message
+            if re.fullmatch(r'^\d+$', message.content) and message.author.id != last_user_id:
                 number = int(message.content)
                 if number == last_number + 1:
+                    # Update the database with the new number and the author's ID
                     cursor.execute('UPDATE counting_channels SET last_number = ?, last_user_id = ? WHERE channel_id = ?', (number, message.author.id, channel_id))
                     self.conn.commit()
                     await message.add_reaction("✅")
                 else:
+                    # Delete the message if the number is not the expected next number
                     await message.delete()
             else:
-                await message.delete()  # Deletes any non-numeric message
+                # Delete the message if it is not numeric or if it's from the same user
+                await message.delete()
 
 async def setup(bot):
     await bot.add_cog(Counting(bot))
