@@ -189,14 +189,14 @@ async def check_blacklist(ctx):
     cursor = conn.cursor()
 
     # Select the blacklist expiration time for the user
-    cursor.execute("SELECT expires_at FROM blacklist WHERE user_id = ?", (user_id,))
+    cursor.execute("SELECT unban_timestamp FROM blacklist WHERE user_id = ?", (user_id,))
     result = cursor.fetchone()
 
     if result:
-        expires_at = datetime.fromtimestamp(result[0])
-        if datetime.now() < expires_at:
+        unban_timestamp = datetime.fromtimestamp(result[0])
+        if datetime.now() < unban_timestamp:
             # User is still blacklisted
-            await ctx.send(f"You are blacklisted until {expires_at}.")
+            await ctx.send(f"You are blacklisted until {unban_timestamp}.")
             conn.close()  # Make sure to close the connection before returning
             return False
         else:
@@ -232,7 +232,9 @@ async def remove(ctx, user: discord.User):
     cursor.execute("DELETE FROM blacklist WHERE user_id = ?", (user.id,))
     conn.commit()
     conn.close()
-    await ctx.send(f"User {user} has been removed from the blacklist.")@bot.command(hidden=True)
+    await ctx.send(f"User {user} has been removed from the blacklist.")
+
+@bot.command(hidden=True)
 async def tos_stats(ctx):
     # Step 1: Count total number of unique users the bot can see
     total_users = set()  # Using a set to avoid counting duplicates
