@@ -120,11 +120,8 @@ def initialize_tos_database():
 def initialize_blacklist_database():
     conn = sqlite3.connect('./data/db/blacklist.db')
     cursor = conn.cursor()
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS blacklist (
-        user_id INTEGER PRIMARY KEY,
-        expires_at INTEGER
-    )""")
+    # Create table with user_id and unban_timestamp
+    cursor.execute("CREATE TABLE IF NOT EXISTS blacklist (user_id INTEGER PRIMARY KEY, unban_timestamp INTEGER)")
     conn.commit()
     conn.close()
     
