@@ -48,3 +48,5 @@
 2024-02-26 01:04:53,646:INFO:Leveling.py: Voice channel leave: medievalsamurai_#0 left General, earned 21.3455932 XP
 2024-02-26 01:49:13,915:INFO:Leveling.py: Voice channel leave: princiebean#0 left General, earned 2823.7987244 XP
 2024-02-26 03:31:35,626:INFO:Leveling.py: Voice channel leave: jiggly4899#0 left General, earned 9636.337112599998 XP
+2024-02-26 10:27:13,084:INFO:Leveling.py: Voice channel join: ayush_1#0 joined Testing
+2024-02-26 10:27:15,778:INFO:Leveling.py: Voice channel leave: ayush_1#0 left Testing, earned 0.5363162 XP
