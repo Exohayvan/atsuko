@@ -194,9 +194,17 @@ async def check_blacklist(ctx):
 
     if result:
         unban_timestamp = datetime.fromtimestamp(result[0])
-        if datetime.now() < unban_timestamp:
+        now = datetime.now()
+        if now < unban_timestamp:
+            # Calculate remaining time
+            delta = unban_timestamp - now
+            days, seconds = delta.days, delta.seconds
+            hours = seconds // 3600
+            minutes = (seconds % 3600) // 60
+            time_str = f"{days} days, {hours} hours, {minutes} minutes"
+            
             # User is still blacklisted
-            await ctx.send(f"You are blacklisted until {unban_timestamp}.")
+            await ctx.send(f"You are blacklisted until {unban_timestamp} ({time_str} remaining).")
             conn.close()  # Make sure to close the connection before returning
             return False
         else:
