@@ -115,7 +115,18 @@ def initialize_tos_database():
     cursor.execute("CREATE TABLE IF NOT EXISTS tos_accepted (user_id INTEGER PRIMARY KEY)")
     conn.commit()
     conn.close()
-
+    
+def initialize_blacklist_database():
+    conn = sqlite3.connect('./data/db/blacklist.db')
+    cursor = conn.cursor()
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS blacklist (
+        user_id INTEGER PRIMARY KEY,
+        expires_at INTEGER
+    )""")
+    conn.commit()
+    conn.close()
+    
 async def has_accepted_tos(ctx):
     global tos_message_id
     global pending_commands
@@ -312,6 +323,7 @@ async def accept_tos_procedure(user):
 
 initialize_database()
 initialize_tos_database()
+initialize_blacklist_database()
 
 config = get_config()
 bot.run(config['bot_token'])
