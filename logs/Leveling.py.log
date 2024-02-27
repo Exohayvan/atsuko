@@ -31,3 +31,8 @@
 2024-02-26 23:49:50,407:INFO:Leveling.py: Voice channel join: confuzzderg#0 joined General
 2024-02-26 23:53:09,112:INFO:Leveling.py: Voice channel join: premiumlime#0 joined Gaming (64kbps)
 2024-02-26 23:54:33,921:INFO:Leveling.py: Voice channel leave: confuzzderg#0 left General, earned 56.70039020000001 XP
+2024-02-27 00:02:58,944:INFO:Leveling.py: Voice channel join: pandora.26#0 joined Testing
+2024-02-27 00:04:50,643:INFO:Leveling.py: Voice channel leave: pandora.26#0 left Music 2 (128kbps), earned 22.3374076 XP
+2024-02-27 00:32:44,021:INFO:Leveling.py: Voice channel leave: xdevilsacidx#0 left Gaming (64kbps), earned 2482.2219222000003 XP
+2024-02-27 00:32:48,430:INFO:Leveling.py: Voice channel join: xdevilsacidx#0 joined Gaming (64kbps)
+2024-02-27 00:34:04,136:INFO:Leveling.py: Voice channel leave: premiumlime#0 left Gaming (64kbps), earned 491.0024862 XP
