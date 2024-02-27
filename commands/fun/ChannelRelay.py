@@ -174,11 +174,10 @@ class ChannelRelay(commands.Cog):
             return
         if message.guild is None:
             return
-        if message.channel.id in self.connected_channels:
+        if (message.guild.id, message.channel.id) in self.connected_channels:
             if await self.is_blacklisted(message.author.id):
                 await message.channel.send("You are blacklisted from using me. (Maybe next time don't break my TOS)\n Try using the help command to see how long you are blacklisted for.")
                 return
-        if (message.guild.id, message.channel.id) in self.connected_channels:
             # Enforce cooldown based on channel's slowmode setting for each user
             channel_id = message.channel.id
             user_id = message.author.id
