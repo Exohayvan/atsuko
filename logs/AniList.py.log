@@ -2,3 +2,7 @@
 2024-02-26 20:16:23,783:ERROR:AniList.py: User has not set their AniList username.
 2024-02-26 20:22:45,272:ERROR:AniList.py: Invalid AniList command.
 2024-02-26 20:22:53,233:ERROR:AniList.py: Invalid AniList command.
+2024-02-26 21:21:22,183:ERROR:AniList.py: Invalid AniList command.
+2024-02-26 21:22:14,280:ERROR:AniList.py: Invalid AniList command.
+2024-02-26 21:22:34,013:ERROR:AniList.py: Failed to fetch watching list.
+2024-02-26 21:22:40,533:INFO:AniList.py: Info about user 'exohayvan' sent.
