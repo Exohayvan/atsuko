@@ -131,20 +131,6 @@ Usage:
 
 Sets the current channel as the counting channel.
 
-## connect_channel
-
-Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)
-
-Usage:
-`!connect_channel`
-
-## disconnect_channel
-
-Disconnect the channel connected to the relay channels.
-
-Usage:
-`!disconnect_channel`
-
 ## random
 
 Returns a random item. Currently you can use the following: image, color, number, emoji, or anime.
