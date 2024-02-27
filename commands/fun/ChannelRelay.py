@@ -55,7 +55,20 @@ class ChannelRelay(commands.Cog):
             conn.execute('''
             CREATE TABLE IF NOT EXISTS last_messages (channel_id INTEGER PRIMARY KEY, last_message_time TEXT)
             ''')
-
+            
+    async def is_blacklisted(self, user_id):
+        conn = sqlite3.connect('./data/db/blacklist.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT unban_timestamp FROM blacklist WHERE user_id = ?", (user_id,))
+        result = cursor.fetchone()
+        conn.close()
+        
+        if result:
+            unban_timestamp = datetime.fromtimestamp(result[0])
+            if datetime.now() < unban_timestamp:
+                return True
+        return False
+        
     def load_channels_from_db(self):
         with sqlite3.connect(DATABASE_PATH) as conn:
             return set(conn.execute('SELECT guild_id, channel_id FROM channels'))
@@ -159,9 +172,12 @@ class ChannelRelay(commands.Cog):
     async def on_message(self, message):
         if message.author.bot:
             return
-        # Check if message is from a DM and if so, return immediately
         if message.guild is None:
             return
+        if message.channel.id in self.connected_channels:
+            if await self.is_blacklisted(message.author.id):
+                await message.channel.send(".")
+                return
         if (message.guild.id, message.channel.id) in self.connected_channels:
             # Enforce cooldown based on channel's slowmode setting for each user
             channel_id = message.channel.id
