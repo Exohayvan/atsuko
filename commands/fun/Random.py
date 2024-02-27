@@ -8,13 +8,27 @@ import requests
 import emoji
 import time
 import json
+import os
+import asyncio
 
 class Random(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.session = aiohttp.ClientSession()
+        self.total_anime_file = './data/txt/totalanilist.txt'
         self.total_anime = 0
-        self.bot.loop.create_task(self.set_total_anime())
+        self.bot.loop.create_task(self.initialize_total_anime())
+        # Optionally, start a background task to update the total anime periodically
+        self.update_interval = 86400  # 24 hours in seconds
+        self.bot.loop.create_task(self.update_total_anime_periodically())
+
+    async def initialize_total_anime(self):
+        # Read the total anime from a file or fetch it if the file doesn't exist
+        if os.path.exists(self.total_anime_file):
+            with open(self.total_anime_file, 'r') as file:
+                self.total_anime = int(file.read().strip())
+        else:
+            await self.set_total_anime()
 
     async def set_total_anime(self):
         query = """
@@ -22,13 +36,6 @@ class Random(commands.Cog):
             Page(page: 1, perPage: 1) {
                 pageInfo {
                     total
-                    perPage
-                    currentPage
-                    lastPage
-                    hasNextPage
-                }
-                media(type: ANIME, sort: ID) {
-                    id
                 }
             }
         }
@@ -38,7 +45,22 @@ class Random(commands.Cog):
         data = await response.json()
 
         if response.status == 200 and "data" in data and "Page" in data["data"]:
-            self.total_anime = data["data"]["Page"]["pageInfo"]["total"]
+            new_total_anime = data["data"]["Page"]["pageInfo"]["total"]
+            if new_total_anime != self.total_anime:
+                self.total_anime = new_total_anime
+                self.save_total_anime()
+
+    def save_total_anime(self):
+        # Ensure the directory exists and save the new total anime count
+        os.makedirs(os.path.dirname(self.total_anime_file), exist_ok=True)
+        with open(self.total_anime_file, 'w') as file:
+            file.write(str(self.total_anime))
+
+    async def update_total_anime_periodically(self):
+        # Periodically update the total anime count
+        while True:
+            await self.set_total_anime()
+            await asyncio.sleep(self.update_interval)
 
     async def fetch(self, url):
         try:
