@@ -1,3 +1,10 @@
 2024-02-26 19:57:33,362:INFO:Leveling.py: Leveling Cog Loaded. Logging started...
 2024-02-26 20:01:55,735:INFO:Leveling.py: Voice channel join: _wcid#0 joined Gaming (128kbps)
 2024-02-26 20:04:11,049:INFO:Leveling.py: Voice channel join: yourfbiagent27#0 joined Call of Duty (32kbps)
+2024-02-26 20:33:01,842:INFO:Leveling.py: Voice channel join: Jockie Music#8158 is bot user, ignored
+2024-02-26 20:36:02,033:INFO:Leveling.py: Voice channel join: Jockie Music#8158 is bot user, ignored
+2024-02-26 20:36:50,831:INFO:Leveling.py: Voice channel leave: yourfbiagent27#0 left Gaming (64kbps), earned 391.95405200000005 XP
+2024-02-26 20:36:51,131:INFO:Leveling.py: Voice channel join: yourfbiagent27#0 joined Minecraft (32kbps)
+2024-02-26 20:37:21,513:INFO:Leveling.py: Voice channel leave: yourfbiagent27#0 left Gaming (64kbps), earned 6.074053599999999 XP
+2024-02-26 20:37:21,721:INFO:Leveling.py: Voice channel join: yourfbiagent27#0 joined Music (128kbps)
+2024-02-26 20:37:44,725:INFO:Leveling.py: Voice channel join: Jockie Music#8158 is bot user, ignored

@@ -1,1 +1,4 @@
 2024-02-26 19:57:33,485:INFO:AniList.py: AniList Cog Loaded. Logging started...
+2024-02-26 20:16:23,783:ERROR:AniList.py: User has not set their AniList username.
+2024-02-26 20:22:45,272:ERROR:AniList.py: Invalid AniList command.
+2024-02-26 20:22:53,233:ERROR:AniList.py: Invalid AniList command.
