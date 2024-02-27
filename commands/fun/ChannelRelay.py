@@ -56,17 +56,26 @@ class ChannelRelay(commands.Cog):
             CREATE TABLE IF NOT EXISTS last_messages (channel_id INTEGER PRIMARY KEY, last_message_time TEXT)
             ''')
             
-    async def is_blacklisted(self, user_id):
+    async def is_blacklisted(user_id):
+        # Connect to the database
         conn = sqlite3.connect('./data/db/blacklist.db')
         cursor = conn.cursor()
+    
+        # Query the database for the user's blacklist status
         cursor.execute("SELECT unban_timestamp FROM blacklist WHERE user_id = ?", (user_id,))
         result = cursor.fetchone()
+    
+        # Close the database connection
         conn.close()
-        
+    
         if result:
+            # A record was found, so check if the unban timestamp is in the future
             unban_timestamp = datetime.fromtimestamp(result[0])
             if datetime.now() < unban_timestamp:
+                # The user is still blacklisted
                 return True
+    
+        # The user is not blacklisted (either because they were never added, or their ban has expired)
         return False
         
     def load_channels_from_db(self):
