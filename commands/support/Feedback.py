@@ -11,21 +11,21 @@ def get_config():
     return config
 
 class Feedback(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.config = get_config()
-        self.github_repo = "Exohayvan/atsuko"  # Hardcode the repo here
+        self.github_repo = "Exohayvan/atsuko"  # Replace with your actual GitHub repository
         self.app_id = self.config.get('APP_ID')
         self.installation_id = self.config.get('INSTALLATION_ID')
         self.private_key_path = self.config.get('PRIVATE_KEY_PATH')
 
-    @commands.command(name='feedback', usage='feedback "Feedback you would like to provide."')
-    async def feedback(self, ctx, *, message):
+    @discord.app_commands.command(name='feedback', description='Provide feedback about the bot.')
+    async def feedback(self, interaction: discord.Interaction, message: str):
         """Provide feedback to bot owners, feedback will be posted to GitHub. Link to issue will be sent after feedback is posted to GitHub."""
-        issue_title = f"User Feedback: {ctx.author} - {ctx.message.id}"
+        issue_title = f"User Feedback: {interaction.user} - {interaction.id}"
         issue_body = (f"**User Message:** {message}\n"
-                      f"**Author:** {ctx.author}\n"
-                      f"**Channel:** {ctx.channel}")
+                      f"**Author:** {interaction.user}\n"
+                      f"**Channel:** {interaction.channel}")
 
         private_key = open(self.private_key_path, 'r').read()
         integration = GithubIntegration(self.app_id, private_key)
@@ -42,10 +42,10 @@ class Feedback(commands.Cog):
         
             embed = discord.Embed(title='Feedback received', color=0x00ff00)
             embed.add_field(name='Issue created on GitHub', value=f'[Link to issue]({issue.html_url})', inline=False)
-            await ctx.send(embed=embed)
+            await interaction.response.send_message(embed=embed)
         except Exception as e:
-            await ctx.send(f"I am unable to open an issue on GitHub.")
-            await ctx.send(f"An unexpected error occurred: {e}")
+            await interaction.response.send_message(f"I am unable to open an issue on GitHub.")
+            await interaction.followup.send(f"An unexpected error occurred: {e}")
 
-async def setup(bot):
+async def setup(bot: commands.Bot):
     await bot.add_cog(Feedback(bot))
