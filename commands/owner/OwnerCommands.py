@@ -161,9 +161,6 @@ class OwnerCommands(commands.Cog):
         if result.returncode != 0:
             await interaction.response.send_message(f'Update failed with error: {error}', ephemeral=True)
         else:
-            # Save channel ID before restarting
-            with open('restart_id.temp', 'w') as f:
-                json.dump({'channel_id': interaction.channel_id}, f)
             await interaction.response.send_message(f'Update successful: {output}', ephemeral=True)
             await interaction.followup.send('I am restarting.', ephemeral=True)
             sys.exit(RESTART_EXIT_CODE)
@@ -174,10 +171,6 @@ class OwnerCommands(commands.Cog):
         if not await self.bot.is_owner(interaction.user):
             await interaction.response.send_message("You don't have permission to use this command.", ephemeral=True)
             return
-
-        # Save channel ID before restarting
-        with open('restart_id.temp', 'w') as f:
-            json.dump({'channel_id': interaction.channel_id}, f)
 
         await interaction.response.send_message('I am restarting.', ephemeral=True)
         sys.exit(RESTART_EXIT_CODE)
