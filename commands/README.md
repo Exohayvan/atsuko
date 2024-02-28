@@ -93,10 +93,6 @@ This is the embed command.
 Usage:
 `!embed <message>`
 
-## roles
-
-Creates a reaction role message.
-
 ## deletead
 
 Deletes the advertisement file for the specified server ID.

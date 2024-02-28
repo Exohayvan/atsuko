@@ -8,7 +8,6 @@ Command 'jackpot' in cog Money is missing usage details.
 Command 'keepclean' in cog KeepClean is missing help details.
 Command 'keepclean' in cog KeepClean is missing usage details.
 Command 'invites' in cog InviteLeaderboard is missing usage details.
-Command 'roles' in cog Role is missing usage details.
 Command 'deletead' in cog Advertisement is missing usage details.
 Command 'addad' in cog Advertisement is missing usage details.
 Command 'refresh_ads' in cog Advertisement is missing usage details.
