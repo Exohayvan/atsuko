@@ -104,7 +104,7 @@ class Info(commands.Cog):
     async def on_ready(self):
         self.uptime_start = datetime.datetime.utcnow()
         
-    @app_commands.command(name="ping", description="Shows the bot's latency and API ping.")
+    @discord.app_commands.command(name="ping", description="Shows the bot's latency and API ping.")
     async def ping(self, interaction: discord.Interaction):
         # Calculate the latency
         latency = round(self.bot.latency * 1000)  # in milliseconds
