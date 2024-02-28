@@ -175,9 +175,9 @@ class Info(commands.Cog):
         total_voice_channels = total_channels - total_text_channels
         total_roles = sum(len(guild.roles) for guild in self.bot.guilds)
         api_latency = round(self.bot.latency * 1000, 2)
-        database_size = self.get_directory_size('./data')
-        database_size_readable = self.convert_size(database_size)
-        available_space = self.get_available_space('./data')
+        database_size = get_directory_size('./data')
+        database_size_readable = convert_size(database_size)
+        available_space = get_available_space('./data')
         
         total_online = total_idle = total_dnd = total_offline = 0
         for guild in self.bot.guilds:
