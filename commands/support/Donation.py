@@ -19,18 +19,18 @@ class Donation(commands.Cog):
         ]
 
     @discord.app_commands.command(name="donate", description="Returns the donation address for the specified method.")
-        async def donate(self, interaction: discord.Interaction, method: str):
-            """
-            Returns the donation address for the specified method.
-            """
-            method = method.lower()
-            addresses_found = [dm['address'] for dm in self.donation_methods if dm['name'].lower() == method or dm['short'] == method]
+    async def donate(self, interaction: discord.Interaction, method: str):
+        """
+        Returns the donation address for the specified method.
+        """
+        method = method.lower()
+        addresses_found = [dm['address'] for dm in self.donation_methods if dm['name'].lower() == method or dm['short'] == method]
     
-            if addresses_found:
-                await interaction.response.send_message(f"To donate using {method}, send to this address: {', '.join(addresses_found)}")
-            else:
-                methods_available = list(set(dm['short'] for dm in self.donation_methods))
-                await interaction.response.send_message(f"We don't support {method} currently. Available methods: {', '.join(methods_available)}")
+        if addresses_found:
+            await interaction.response.send_message(f"To donate using {method}, send to this address: {', '.join(addresses_found)}")
+        else:
+            methods_available = list(set(dm['short'] for dm in self.donation_methods))
+            await interaction.response.send_message(f"We don't support {method} currently. Available methods: {', '.join(methods_available)}")
                             
 async def setup(bot):
     await bot.add_cog(Donation(bot))
