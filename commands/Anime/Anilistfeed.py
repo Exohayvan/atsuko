@@ -41,9 +41,11 @@ class AnilistFeed(commands.Cog):
     @discord.app_commands.command(name="setanifeed", description="Sets the channel for AniList feed updates.")
     @discord.app_commands.describe(channel="The channel to set for AniList feed updates")
     async def setanifeed(self, interaction: discord.Interaction, channel: discord.abc.GuildChannel):
-        """
-        Sets the channel for AniList feed updates.
-        """
+        """Sets the channel for AniList feed updates."""
+        # Check if the user has the administrator permission
+        if not interaction.user.guild_permissions.administrator:
+            await interaction.response.send_message("You need administrator permissions to use this command.", ephemeral=True)
+            return
         # Insert or replace the channel in your database
         self.feed_c.execute("INSERT OR REPLACE INTO feed_channels (guild_id, channel_id) VALUES (?, ?)", (interaction.guild_id, channel.id))
         self.feed_conn.commit()
