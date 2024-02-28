@@ -38,13 +38,18 @@ class AnilistFeed(commands.Cog):
         activity_conn.commit()
         activity_conn.close()
 
-    @commands.command()
-    async def setanifeed(self, ctx):
-        """Sets the channel for AniList feed updates."""
-        self.feed_c.execute("INSERT OR REPLACE INTO feed_channels (guild_id, channel_id) VALUES (?, ?)", (ctx.guild.id, ctx.channel.id))
+    @discord.app_commands.command(name="setanifeed", description="Sets the channel for AniList feed updates.")
+    @discord.app_commands.describe(channel="The channel to set for AniList feed updates")
+    async def setanifeed(self, interaction: discord.Interaction, channel: discord.abc.GuildChannel):
+        """
+        Sets the channel for AniList feed updates.
+        """
+        # Insert or replace the channel in your database
+        self.feed_c.execute("INSERT OR REPLACE INTO feed_channels (guild_id, channel_id) VALUES (?, ?)", (interaction.guild_id, channel.id))
         self.feed_conn.commit()
-        await ctx.send(f"AniList feed updates will be posted in this channel.")
-
+        
+        await interaction.response.send_message(f"AniList feed updates will be posted in {channel.mention}.")
+        
     @tasks.loop(seconds=60)
     async def check_anilist_updates(self):
         logger.warning("Checking for updates. Possible high API calls.")
