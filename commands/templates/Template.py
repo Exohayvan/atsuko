@@ -1,5 +1,5 @@
-import discord
 from discord.ext import commands
+import discord
 import logging
 
 # Setup logging
@@ -11,11 +11,9 @@ logger.addHandler(handler)
 logger.propagate = False
 logger.info("Template Cog Loaded. Logging started...")
 
-class Template(discord.Cog):
-    def __init__(self, bot):
+class Template(commands.Cog):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
-        # Register the slash command to the bot's command tree
-        self.bot.tree.add_command(self.placeholder)
 
     @discord.app_commands.command(name="placeholder", description="This is a placeholder command.")
     async def placeholder(self, interaction: discord.Interaction):
@@ -25,11 +23,9 @@ class Template(discord.Cog):
         await interaction.response.send_message("This is a placeholder slash command. Replace it with your own implementation!")
         logger.info("Template slash command ran.")
 
-    # Make sure to remove the command when the cog is unloaded to prevent ghost commands
-    def cog_unload(self):
-        self.bot.tree.remove_command(self.placeholder.name, type=discord.AppCommandType.chat_input)
-
-async def setup(bot):
-    await bot.add_cog(Template(bot))
-    # Synchronize the command tree to ensure the slash command is registered
+async def setup(bot: commands.Bot):
+    cog = Template(bot)
+    bot.add_cog(cog)
+    # Register the cog's slash commands with the bot's tree
+    bot.tree.add_cog(cog)
     await bot.tree.sync()
