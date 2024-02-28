@@ -2,6 +2,7 @@
 
 ![Repo Size](https://img.shields.io/github/repo-size/Exohayvan/atsuko)
 
+## Disclaimer: Bot is going through a slash command update. As commands are being converted they may disappear from the help command and the ! prefix will no longer work for said command.
 ### [Click Here to Invite Bot](https://discord.com/oauth2/authorize?client_id=407929486206566400&permissions=2199023255551&scope=bot)
 ### [Click Here to Join My Discord](https://discord.gg/BYF6NTs)
 
