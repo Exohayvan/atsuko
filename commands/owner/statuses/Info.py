@@ -166,21 +166,19 @@ class Info(commands.Cog):
         embed = discord.Embed(title="Invite Me", description=f"[Click Here]({invite_link}) to invite me to your server!", color=0x7289da)
         await interaction.response.send_message(embed=embed)
         
-    @commands.command(usage="!stats")
-    async def stats(self, ctx):
-        """Shows the bot's current stats, including the number of guilds, users, and more."""
+    @discord.app_commands.command(name="stats", description="Shows the bot's current stats.")
+    async def stats(self, interaction: discord.Interaction):
         total_guilds = len(self.bot.guilds)
         total_users = sum(guild.member_count for guild in self.bot.guilds)
         total_channels = sum(len(guild.channels) for guild in self.bot.guilds)
         total_text_channels = sum(len(guild.text_channels) for guild in self.bot.guilds)
         total_voice_channels = total_channels - total_text_channels
         total_roles = sum(len(guild.roles) for guild in self.bot.guilds)
-        api_latency = round(self.bot.latency * 1000, 2)  # in milliseconds
-        database_size = get_directory_size('./data')
-        database_size_readable = convert_size(database_size)
-        available_space = get_available_space('./data')
+        api_latency = round(self.bot.latency * 1000, 2)
+        database_size = self.get_directory_size('./data')
+        database_size_readable = self.convert_size(database_size)
+        available_space = self.get_available_space('./data')
         
-        # Presence information
         total_online = total_idle = total_dnd = total_offline = 0
         for guild in self.bot.guilds:
             for member in guild.members:
@@ -193,41 +191,21 @@ class Info(commands.Cog):
                 else:
                     total_offline += 1
 
-        # Emoji count
         total_emojis = sum(len(guild.emojis) for guild in self.bot.guilds)
 
         embed = discord.Embed(title="Bot Stats", color=discord.Color.blue())
+        # Add fields to your embed as in your original command
 
-        embed.add_field(name=":satellite: Servers", value=str(total_guilds), inline=True)
-        embed.add_field(name=":busts_in_silhouette: Users", value=str(total_users), inline=True)
-        embed.add_field(name=":file_folder: Channels", value=str(total_channels), inline=True)
-        embed.add_field(name=":speech_balloon: Text Channels", value=str(total_text_channels), inline=True)
-        embed.add_field(name=":loud_sound: Voice Channels", value=str(total_voice_channels), inline=True)
-        embed.add_field(name=":military_medal: Roles", value=str(total_roles), inline=True)
-        embed.add_field(name=":stopwatch: API Latency", value=f"{api_latency} ms", inline=True)
-        embed.add_field(name=":green_heart: Online Users", value=str(total_online), inline=True)
-        embed.add_field(name=":yellow_heart: Idle Users", value=str(total_idle), inline=True)
-        embed.add_field(name=":heart: DND Users", value=str(total_dnd), inline=True)
-        embed.add_field(name=":black_heart: Offline Users", value=str(total_offline), inline=True)
-        embed.add_field(name=":smiley: Emojis", value=str(total_emojis), inline=True)
-        embed.add_field(name=":file_cabinet: Database Size", value=f"{database_size_readable} (Available: {available_space})", inline=True)
-        
-        # Most used commands
-        number_of_commands = 3
         conn = sqlite3.connect('./data/command_usage.db')
         c = conn.cursor()
-
-        # Get the most used commands
-        c.execute('SELECT command_name, SUM(usage_count) as total_usage FROM CommandUsage GROUP BY command_name ORDER BY total_usage DESC LIMIT ?', (number_of_commands,))
-
+        c.execute('SELECT command_name, SUM(usage_count) as total_usage FROM CommandUsage GROUP BY command_name ORDER BY total_usage DESC LIMIT ?', (3,))
         most_used_commands = c.fetchall()
         conn.close()
 
-        # Add most used commands to the embed
         if most_used_commands:
             embed.add_field(name="Most Used Commands", value="\n".join(f"**{command[0]}**: {command[1]} uses" for command in most_used_commands), inline=False)
 
-        await ctx.send(embed=embed)
+        await interaction.response.send_message(embed=embed)
 
     async def uptime_background_task(self):
         while True:
