@@ -2,7 +2,7 @@ from discord.ext import commands
 import discord
 import logging
 
-# Setup logging
+# Initialize logging
 logger = logging.getLogger('Template.py')
 logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='./logs/Template.py.log', encoding='utf-8', mode='w')
@@ -15,6 +15,10 @@ class Template(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
+    async def cog_load(self):
+        # Register commands to the cog's command tree here if needed
+        pass
+
     @discord.app_commands.command(name="placeholder", description="This is a placeholder command.")
     async def placeholder(self, interaction: discord.Interaction):
         """
@@ -24,8 +28,4 @@ class Template(commands.Cog):
         logger.info("Template slash command ran.")
 
 async def setup(bot: commands.Bot):
-    cog = Template(bot)
-    bot.add_cog(cog)
-    # Register the cog's slash commands with the bot's tree
-    bot.tree.add_cog(cog)
-    await bot.tree.sync()
+    await bot.add_cog(Template(bot))
