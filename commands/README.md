@@ -151,13 +151,6 @@ Send a log file or the entire log directory if no file is specified.
 Usage:
 `pulllog <filename>`
 
-## stats
-
-Shows the bot's current stats, including the number of guilds, users, and more.
-
-Usage:
-`!stats`
-
 ## uptime
 
 Shows the current uptime of the bot since last restart.
