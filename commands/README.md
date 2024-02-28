@@ -155,55 +155,6 @@ Send a log file or the entire log directory if no file is specified.
 Usage:
 `pulllog <filename>`
 
-## ping
-
-Shows the bot's latency and API ping.
-
-Usage:
-`!ping`
-
-## info
-
-Provides detailed information about the bot.
-
-Usage:
-`!info`
-
-## invite
-
-Generates an invite link for the bot.
-
-Usage:
-`!invite`
-
-## stats
-
-Shows the bot's current stats, including the number of guilds, users, and more.
-
-Usage:
-`!stats`
-
-## uptime
-
-Shows the current uptime of the bot since last restart.
-
-Usage:
-`!uptime`
-
-## lifetime
-
-Shows the total lifetime uptime of the bot.
-
-Usage:
-`!lifetime`
-
-## version
-
-Shows the current version of the bot based on Git commits and the hash of the last commit.
-
-Usage:
-`!version`
-
 ## package_info
 
 Provides information about a pip package.
