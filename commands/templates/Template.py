@@ -1,5 +1,4 @@
 from discord.ext import commands
-from discord.commands import slash_command
 import discord
 import logging
 
@@ -14,9 +13,8 @@ logger.info("Template Cog Loaded. Logging started...")
 class Template(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self._last_member = None
 
-    @discord.slash_command(name="placeholder", description="This is a placeholder command.")
+    @commands.slash_command(name="placeholder", description="This is a placeholder command.")
     async def placeholder(self, ctx):
         """
         This is a placeholder slash command. Replace it with your own implementation!
