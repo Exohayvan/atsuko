@@ -158,13 +158,6 @@ Provides detailed information about the bot.
 Usage:
 `!info`
 
-## invite
-
-Generates an invite link for the bot.
-
-Usage:
-`!invite`
-
 ## stats
 
 Shows the bot's current stats, including the number of guilds, users, and more.
