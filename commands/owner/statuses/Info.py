@@ -131,15 +131,15 @@ class Info(commands.Cog):
 
         await interaction.followup.send(embed=embed)
                         
-    @commands.command(usage="!info")
-    async def info(self, ctx):
+    @discord.app_commands.command(name="info", description="Provides detailed information about the bot.")
+    async def info(self, interaction: discord.Interaction):
         """Provides detailed information about the bot."""
         creation_time = self.bot.user.created_at
-        owner_id = 276782057412362241  # change this to your user ID
-        github_link = "https://github.com/Exohayvan/astuko"  # change this to your repository URL
+        owner_id = 276782057412362241  # Change this to your user ID
+        github_link = "https://github.com/Exohayvan/astuko"  # Change this to your repository URL
         library_version = discord.__version__  # discord.py library version
-        permissions = Permissions.all()
-        invite_link = f"https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&permissions={permissions.value}&scope=bot"
+        permissions = discord.Permissions.all()
+        invite_link = f"https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&permissions={permissions.value}&scope=bot%20applications.commands"
 
         owner = await self.bot.fetch_user(owner_id)
 
@@ -150,13 +150,13 @@ class Info(commands.Cog):
         )
         embed.set_thumbnail(url=self.bot.user.display_avatar.url)
 
-        embed.add_field(name=":bust_in_silhouette: Owner", value=f"{owner.name}#{owner.discriminator}", inline=True)
-        embed.add_field(name=":calendar: Created On", value=creation_time.strftime("%B %d, %Y at %H:%M UTC"), inline=True)
-        embed.add_field(name=":books: Library", value=f"discord.py {library_version}", inline=True)
-        embed.add_field(name=":link: GitHub", value=f"[Repository]({github_link})", inline=True)
-        embed.add_field(name=":mailbox_with_mail: Invite", value=f"[Click here]({invite_link})", inline=True)
+        embed.add_field(name="👤 Owner", value=f"{owner.name}#{owner.discriminator}", inline=True)
+        embed.add_field(name="📅 Created On", value=creation_time.strftime("%B %d, %Y at %H:%M UTC"), inline=True)
+        embed.add_field(name="📚 Library", value=f"discord.py {library_version}", inline=True)
+        embed.add_field(name="🔗 GitHub", value=f"[Repository]({github_link})", inline=True)
+        embed.add_field(name="📩 Invite", value=f"[Click here]({invite_link})", inline=True)
 
-        await ctx.send(embed=embed)
+        await interaction.response.send_message(embed=embed)
 
     @discord.app_commands.command(name="invite", description="Generates an invite link for the bot.")
     async def invite(self, interaction: discord.Interaction):
