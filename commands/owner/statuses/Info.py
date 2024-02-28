@@ -1,5 +1,6 @@
 from discord.ext import commands
 from discord import Permissions
+import discord
 import datetime
 import asyncio
 import discord
