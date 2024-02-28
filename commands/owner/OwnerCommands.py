@@ -141,30 +141,30 @@ class OwnerCommands(commands.Cog):
     
         return tree_structure
     
-    @commands.command(hidden=True)
-    async def update(self, ctx):
-        # Check if the user has the correct ID
-        if ctx.message.author.id != 276782057412362241:
-            await ctx.send("You don't have permission to use this command.")
+    @discord.app_commands.command(name="update", description="Update the bot's code from the git repository.")
+    async def update(self, interaction: discord.Interaction):
+        # Check if the user is the bot owner
+        if interaction.user.id != await self.bot.is_owner(interaction.user):
+            await interaction.response.send_message("You don't have permission to use this command.", ephemeral=True)
             return
 
-        # Then, pull the latest code
+        # Perform the git pull operation
         result = subprocess.run(["git", "pull"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output = result.stdout.decode("utf-8")
         error = result.stderr.decode("utf-8")
 
         if "Already up to date." in output:
-            await ctx.send('Already up to date.')
+            await interaction.response.send_message('Already up to date.', ephemeral=True)
             return
 
         if result.returncode != 0:
-            await ctx.send(f'Update failed with error: {error}')
+            await interaction.response.send_message(f'Update failed with error: {error}', ephemeral=True)
         else:
             # Save channel ID before restarting
             with open('restart_id.temp', 'w') as f:
-                json.dump({'channel_id': ctx.channel.id}, f)
-            await ctx.send(f'Update successful: {output}')
-            await ctx.send('I am restarting.')
+                json.dump({'channel_id': interaction.channel_id}, f)
+            await interaction.response.send_message(f'Update successful: {output}', ephemeral=True)
+            await interaction.followup.send('I am restarting.', ephemeral=True)
             sys.exit(RESTART_EXIT_CODE)
 
     @commands.command(hidden=True)
