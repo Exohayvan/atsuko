@@ -42,19 +42,27 @@ class Role(commands.Cog):
             except Exception as e:
                 print(f"Failed to process message {message_id}: {e}")
 
-    @commands.command()
-    async def roles(self, ctx, words: str, *emoji_role_pairs):
-        """Creates a reaction role message."""
-        if len(emoji_role_pairs) % 2 != 0:
-            await ctx.send("Please provide emoji and role pairs.")
-            return
+    async def cog_load(self):
+        self.bot.tree.add_command(self.create_role_message)
 
-        message = await ctx.send(words)
+    @discord.app_commands.command(name="roles", description="Creates a reaction role message.")
+    @discord.app_commands.describe(words="The message content", emoji_role_pairs="Emoji and role pairs in format: emoji1 role1 emoji2 role2...")
+    async def create_role_message(self, interaction: discord.Interaction, words: str, emoji_role_pairs: str):
+        # Processing the string of emoji_role_pairs into a list
+        emoji_role_pairs = emoji_role_pairs.split()  # This requires input to be space-separated
+        if len(emoji_role_pairs) % 2 != 0:
+            await interaction.response.send_message("Please provide emoji and role pairs.", ephemeral=True)
+            return
+        
+        # Send the initial message
+        message = await interaction.channel.send(words)
         for i in range(0, len(emoji_role_pairs), 2):
             await message.add_reaction(emoji_role_pairs[i])
+            # Assuming role ID is directly after the emoji in the list
             self.c.execute("INSERT INTO reaction_roles VALUES (?, ?, ?)", 
-                           (message.id, emoji_role_pairs[i], int(emoji_role_pairs[i+1][3:-1])))
+                           (message.id, emoji_role_pairs[i], int(emoji_role_pairs[i+1])))
         self.conn.commit()
+        await interaction.response.send_message("Reaction role message created.", ephemeral=True)
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
