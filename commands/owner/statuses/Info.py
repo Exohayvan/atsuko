@@ -158,13 +158,14 @@ class Info(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(usage="!invite")
-    async def invite(self, ctx):
+    @discord.app_commands.command(name="invite", description="Generates an invite link for the bot.")
+    async def invite(self, interaction: discord.Interaction):
         """Generates an invite link for the bot."""
-        permissions = Permissions.all()
-        invite_link = f"https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&permissions={permissions.value}&scope=bot"
-        await ctx.send(f"[Click Here]({invite_link}) to invite me to your server!")
-
+        permissions = discord.Permissions.all()
+        invite_link = f"https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&permissions={permissions.value}&scope=bot%20applications.commands"
+        embed = discord.Embed(title="Invite Me", description=f"[Click Here]({invite_link}) to invite me to your server!", color=0x7289da)
+        await interaction.response.send_message(embed=embed)
+        
     @commands.command(usage="!stats")
     async def stats(self, ctx):
         """Shows the bot's current stats, including the number of guilds, users, and more."""
