@@ -103,28 +103,18 @@ class Info(commands.Cog):
     async def on_ready(self):
         self.uptime_start = datetime.datetime.utcnow()
         
-    @commands.command(usage="!ping")
-    async def ping(self, ctx):
-        """Shows the bot's latency and API ping."""
+    @app_commands.command(name="ping", description="Shows the bot's latency and API ping.")
+    async def ping(self, interaction: discord.Interaction):
         # Calculate the latency
         latency = round(self.bot.latency * 1000)  # in milliseconds
 
         # Measure the API ping
         before_api = discord.utils.utcnow()
-        message = await ctx.send("Pinging...")
+        await interaction.response.defer()
         after_api = discord.utils.utcnow()
         api_ping = (after_api - before_api).total_seconds() * 1000
 
-        # Measure the message ping
-        message_ping = (message.created_at - ctx.message.created_at).total_seconds() * 1000
-
-        # Measure the edit ping
-        before_edit = discord.utils.utcnow()
-        await message.edit(content="Pinging...")
-        after_edit = discord.utils.utcnow()
-        edit_ping = (after_edit - before_edit).total_seconds() * 1000
-
-        # Measure the database ping
+        # Measure the database ping (example placeholder)
         before_db = discord.utils.utcnow()
         # Perform a database operation here, replace with actual database query
         after_db = discord.utils.utcnow()
@@ -134,14 +124,12 @@ class Info(commands.Cog):
         embed.description = (
             f":satellite: **Latency**: {latency}ms\n"
             f":computer: **API Ping**: {api_ping}ms\n"
-            f":speech_balloon: **Message Ping**: {message_ping}ms\n"
-            f":pencil2: **Edit Ping**: {edit_ping}ms\n"
             f":floppy_disk: **Database Ping**: {db_ping}ms"
         )
         embed.set_footer(text="Pong!")
 
-        await message.edit(content="", embed=embed)
-                
+        await interaction.followup.send(embed=embed)
+                        
     @commands.command(usage="!info")
     async def info(self, ctx):
         """Provides detailed information about the bot."""
