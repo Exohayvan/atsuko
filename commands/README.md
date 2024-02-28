@@ -151,13 +151,6 @@ Send a log file or the entire log directory if no file is specified.
 Usage:
 `pulllog <filename>`
 
-## info
-
-Provides detailed information about the bot.
-
-Usage:
-`!info`
-
 ## stats
 
 Shows the bot's current stats, including the number of guilds, users, and more.
