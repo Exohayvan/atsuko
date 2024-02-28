@@ -15,15 +15,9 @@ class Template(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    async def cog_load(self):
-        # Register commands to the cog's command tree here if needed
-        pass
-
     @discord.app_commands.command(name="placeholder", description="This is a placeholder command.")
     async def placeholder(self, interaction: discord.Interaction):
-        """
-        This is a placeholder slash command. Replace it with your own implementation!
-        """
+        """This is a placeholder slash command. Replace it with your own implementation!"""
         await interaction.response.send_message("This is a placeholder slash command. Replace it with your own implementation!")
         logger.info("Template slash command ran.")
 
