@@ -1,4 +1,5 @@
 from discord.ext import commands
+import discord
 import logging
 
 logger = logging.getLogger('Template.py')
@@ -12,13 +13,15 @@ logger.info("Template Cog Loaded. Logging started...")
 class Template(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self._last_member = None
 
-    # Placeholder command
-    @commands.command(usage="!placeholder <usage>", hidden=True) # Remove "hidden=True" for new commands 
+    @discord.slash_command(name="placeholder", description="This is a placeholder command.")
     async def placeholder(self, ctx):
-        """This is a placeholder command."""
-        await ctx.send("This is a placeholder command. Replace it with your own implementation!")
-        logger.info("Template command ran.")
+        """
+        This is a placeholder slash command. Replace it with your own implementation!
+        """
+        await ctx.respond("This is a placeholder slash command. Replace it with your own implementation!")
+        logger.info("Template slash command ran.")
 
 async def setup(bot):
     await bot.add_cog(Template(bot))
