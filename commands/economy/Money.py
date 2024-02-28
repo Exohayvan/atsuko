@@ -1,4 +1,5 @@
 from discord.ext import commands
+import discord
 import random
 import sqlite3
 from datetime import datetime, timedelta
