@@ -212,10 +212,6 @@ Usage:
 
 Provides information about a pip package.
 
-## setanifeed
-
-Sets the channel for AniList feed updates.
-
 ## anilist
 
 AniList commands.
