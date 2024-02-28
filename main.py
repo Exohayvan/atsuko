@@ -332,9 +332,9 @@ async def on_ready():
         if channel_id:
             channel = bot.get_channel(channel_id)
             if channel:
-                await channel.send("I am starting back up!")
+                print("I am starting back up!")
         
-        await channel.send("Loading cogs...")
+        print("Loading cogs...")
         # Remove the file after reading it
         os.remove('restart_id.temp')
 
@@ -342,8 +342,8 @@ async def on_ready():
     num_cogs = await load_cogs(bot, 'commands')
     await bot.tree.sync()  # Synchronizes slash commands with Discord
     if channel:
-        await channel.send(f"Cogs loaded ({num_cogs} cogs)")
-        await channel.send("I have restarted!")
+        print(f"Cogs loaded ({num_cogs} cogs)")
+        print("I have restarted!")
 
 @bot.event
 async def on_message(message):
