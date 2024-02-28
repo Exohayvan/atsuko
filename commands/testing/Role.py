@@ -42,9 +42,6 @@ class Role(commands.Cog):
             except Exception as e:
                 print(f"Failed to process message {message_id}: {e}")
 
-    async def cog_load(self):
-        self.bot.tree.add_command(self.create_role_message)
-
     @discord.app_commands.command(name="roles", description="Creates a reaction role message.")
     @discord.app_commands.describe(words="The message content", emoji_role_pairs="Emoji and role pairs in format: emoji1 role1 emoji2 role2...")
     async def create_role_message(self, interaction: discord.Interaction, words: str, emoji_role_pairs: str):
