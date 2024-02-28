@@ -380,10 +380,3 @@ Returns the donation address for the specified method.
 Usage:
 `!donate <method>`
 
-## feedback
-
-Provide feedback to bot owners, feedback will be posted to GitHub. Link to issue will be sent after feedback is posted to GitHub.
-
-Usage:
-`feedback "Feedback you would like to provide."`
-
