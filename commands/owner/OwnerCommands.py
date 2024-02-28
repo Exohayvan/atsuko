@@ -168,16 +168,18 @@ class OwnerCommands(commands.Cog):
             await interaction.followup.send('I am restarting.', ephemeral=True)
             sys.exit(RESTART_EXIT_CODE)
 
-    @commands.command(hidden=True)
-    async def restart(self, ctx):
-        # Check if the user has the correct ID
-        if ctx.message.author.id != 276782057412362241:
-            await ctx.send("You don't have permission to use this command.")
+    @discord.app_commands.command(name="restart", description="Restart the bot.")
+    async def restart(self, interaction: discord.Interaction):
+        # Check if the user is the bot owner
+        if not await self.bot.is_owner(interaction.user):
+            await interaction.response.send_message("You don't have permission to use this command.", ephemeral=True)
             return
+
         # Save channel ID before restarting
         with open('restart_id.temp', 'w') as f:
-            json.dump({'channel_id': ctx.channel.id}, f)
-        await ctx.send('I am restarting.')
+            json.dump({'channel_id': interaction.channel_id}, f)
+
+        await interaction.response.send_message('I am restarting.', ephemeral=True)
         sys.exit(RESTART_EXIT_CODE)
 
 async def setup(bot):
