@@ -22,8 +22,7 @@ class AniList(commands.Cog):
         self.conn = sqlite3.connect(self.db_path)  # Open connection
         self.c = self.conn.cursor()  # Create a cursor
         self.create_database()
-        
-    anilist = discord.app_commands.Group(name="anilist", description="AniList commands")
+        self.anilist = bot.tree.create_group("anilist", "AniList commands")
 
     def create_database(self):
         self.c.execute('''CREATE TABLE IF NOT EXISTS usernames
