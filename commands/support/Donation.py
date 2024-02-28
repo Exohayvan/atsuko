@@ -18,31 +18,19 @@ class Donation(commands.Cog):
 
         ]
 
-    @commands.command(usage="!donate <method>")
-    async def donate(self, ctx, method: str = None):
-        """
-        Returns the donation address for the specified method.
-        """
-        if method is None:
-            methods_available = [donation['short'] for donation in self.donation_methods]
-            # Remove duplicates by converting to set and then back to list
-            methods_available = list(set(methods_available))
-            await ctx.send(f"Available donation methods:\n `{', '.join(methods_available)}.`\n Use `!donate <method>` to get the address for a specific method.")
-            return
+    @discord.app_commands.command(name="donate", description="Returns the donation address for the specified method.")
+        async def donate(self, interaction: discord.Interaction, method: str):
+            """
+            Returns the donation address for the specified method.
+            """
+            method = method.lower()
+            addresses_found = [dm['address'] for dm in self.donation_methods if dm['name'].lower() == method or dm['short'] == method]
     
-        # Convert method to lowercase to ensure consistency
-        method = method.lower()
-        addresses_found = []
-    
-        # Search for the method in the list of dictionaries
-        for donation_method in self.donation_methods:
-            if donation_method['name'].lower() == method or donation_method['short'] == method:
-                addresses_found.append(donation_method['address'])
-    
-        if addresses_found:
-            await ctx.send(f"To donate using {method}, send to one of these addresses: {''.join(addresses_found)}")
-        else:
-            await ctx.send(f"We don't support {method} currently. Please check available methods or contact an admin.")
-                
+            if addresses_found:
+                await interaction.response.send_message(f"To donate using {method}, send to this address: {', '.join(addresses_found)}")
+            else:
+                methods_available = list(set(dm['short'] for dm in self.donation_methods))
+                await interaction.response.send_message(f"We don't support {method} currently. Available methods: {', '.join(methods_available)}")
+                            
 async def setup(bot):
     await bot.add_cog(Donation(bot))
