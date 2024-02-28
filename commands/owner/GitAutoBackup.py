@@ -2,6 +2,7 @@ import os
 import time
 import json
 from discord.ext import commands
+import discord
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import subprocess
@@ -82,11 +83,19 @@ class GitAutoBackup(commands.Cog):
             logger.error("Error while executing Git commands.")
 
     # You can invoke this via a command or event as you wish.
-    @commands.command(hidden=True)
-    async def backup(self, ctx):
+    @discord.app_commands.command(name="backup", description="Manually start a backup.")
+    async def backup(self, interaction: discord.Interaction):
+        # Check if the user is the bot owner
+        if not await self.bot.is_owner(interaction.user):
+            await interaction.response.send_message("You don't have permission to use this command.", ephemeral=True)
+            return
+
+        # Execute the backup logic
         self.pull_and_push()
         logger.info("Manual backup started.")
-        await ctx.send("Backup completed.")
+
+        # Inform the user
+        await interaction.response.send_message("Backup completed.", ephemeral=True)
     
 async def setup(bot):
     config = get_config()
