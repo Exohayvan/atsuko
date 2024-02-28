@@ -22,7 +22,6 @@ class AniList(commands.Cog):
         self.conn = sqlite3.connect(self.db_path)  # Open connection
         self.c = self.conn.cursor()  # Create a cursor
         self.create_database()
-        self.anilist = bot.tree.create_group("anilist", "AniList commands")
 
     def create_database(self):
         self.c.execute('''CREATE TABLE IF NOT EXISTS usernames
@@ -32,68 +31,6 @@ class AniList(commands.Cog):
     def cog_unload(self):
         """Closes the database connection when the cog is unloaded."""
         self.conn.close()  # Close the connection when the cog is unloaded
-
-    @anilist.command(name="watching", description="Fetches the watching list from AniList.")
-    async def watching(self, interaction: discord.Interaction, user: discord.Member = None):
-        if user is None:
-            user = interaction.user
-
-        async with aiosqlite.connect('database.db') as db:  # Adjust the database path as needed
-            async with db.execute("SELECT username FROM usernames WHERE id=?", (user.id,)) as cursor:
-                result = await cursor.fetchone()
-
-        if result is not None:
-            username = result[0]
-        else:
-            await interaction.response.send_message(f"{user.mention} has not set their AniList username.")
-            return
-
-        query = '''
-        query ($username: String) {
-            MediaListCollection(userName: $username, type: ANIME, status: CURRENT) {
-                lists {
-                    entries {
-                        media {
-                            title {
-                                english
-                                romaji
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        '''
-        variables = {'username': username}
-
-        async with aiohttp.ClientSession() as session:
-            async with session.post('https://graphql.anilist.co', json={'query': query, 'variables': variables}) as response:
-                if response.status == 200:
-                    data = await response.json()
-                    watching_list = data['data']['MediaListCollection']['lists'][0]['entries']
-
-                    embed = discord.Embed(title=f"{user.display_name}'s Watching List", color=discord.Color.blue())
-                    for entry in watching_list:
-                        media = entry['media']
-                        title = media['title']['english'] or media['title']['romaji']
-                        embed.add_field(name="\u200B", value=f"• {title}", inline=False)
-
-                    await interaction.response.send_message(embed=embed)
-                else:
-                    await interaction.response.send_message("Failed to fetch watching list.")
-
-    @anilist.command(name="set", description="Sets the user's AniList username.")
-    async def set(self, interaction: discord.Interaction, username: str):
-        async with aiosqlite.connect('database.db') as db:
-            await db.execute("INSERT OR REPLACE INTO usernames (id, username) VALUES (?, ?)", (interaction.user.id, username))
-            await db.commit()
-
-        await interaction.response.send_message("AniList username set successfully.")
-
-    @anilist.command(name="help", description="Displays help information for AniList commands.")
-    async def help(self, interaction: discord.Interaction):
-        # Customize your help message as needed
-        await interaction.response.send_message("Looking for help? Use `/anilist set <username>` to set your AniList username. Then, you can use `/anilist watching` to get your watching list.")
         
     @commands.group()
     async def anilist(self, ctx):
