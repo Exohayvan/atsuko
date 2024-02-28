@@ -340,7 +340,7 @@ async def on_ready():
 
     # Always load command cogs, regardless of whether restart_id.temp exists or not
     num_cogs = await load_cogs(bot, 'commands')
-    
+    await bot.tree.sync()  # Synchronizes slash commands with Discord
     if channel:
         await channel.send(f"Cogs loaded ({num_cogs} cogs)")
         await channel.send("I have restarted!")
