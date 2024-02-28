@@ -194,8 +194,21 @@ class Info(commands.Cog):
         total_emojis = sum(len(guild.emojis) for guild in self.bot.guilds)
 
         embed = discord.Embed(title="Bot Stats", color=discord.Color.blue())
-        # Add fields to your embed as in your original command
 
+        embed.add_field(name=":satellite: Servers", value=str(total_guilds), inline=True)
+        embed.add_field(name=":busts_in_silhouette: Users", value=str(total_users), inline=True)
+        embed.add_field(name=":file_folder: Channels", value=str(total_channels), inline=True)
+        embed.add_field(name=":speech_balloon: Text Channels", value=str(total_text_channels), inline=True)
+        embed.add_field(name=":loud_sound: Voice Channels", value=str(total_voice_channels), inline=True)
+        embed.add_field(name=":military_medal: Roles", value=str(total_roles), inline=True)
+        embed.add_field(name=":stopwatch: API Latency", value=f"{api_latency} ms", inline=True)
+        embed.add_field(name=":green_heart: Online Users", value=str(total_online), inline=True)
+        embed.add_field(name=":yellow_heart: Idle Users", value=str(total_idle), inline=True)
+        embed.add_field(name=":heart: DND Users", value=str(total_dnd), inline=True)
+        embed.add_field(name=":black_heart: Offline Users", value=str(total_offline), inline=True)
+        embed.add_field(name=":smiley: Emojis", value=str(total_emojis), inline=True)
+        embed.add_field(name=":file_cabinet: Database Size", value=f"{database_size_readable} (Available: {available_space})", inline=True)
+        
         conn = sqlite3.connect('./data/command_usage.db')
         c = conn.cursor()
         c.execute('SELECT command_name, SUM(usage_count) as total_usage FROM CommandUsage GROUP BY command_name ORDER BY total_usage DESC LIMIT ?', (3,))
