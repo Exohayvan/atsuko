@@ -144,8 +144,8 @@ class OwnerCommands(commands.Cog):
     
     @discord.app_commands.command(name="update", description="Update the bot's code from the git repository.")
     async def update(self, interaction: discord.Interaction):
-        # Check if the user is the bot owner
-        if interaction.user.id != await self.bot.is_owner(interaction.user):
+        # Correctly check if the user is the bot owner
+        if not await self.bot.is_owner(interaction.user):
             await interaction.response.send_message("You don't have permission to use this command.", ephemeral=True)
             return
 
