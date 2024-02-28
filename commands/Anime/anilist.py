@@ -23,7 +23,7 @@ class AniList(commands.Cog):
         self.c = self.conn.cursor()  # Create a cursor
         self.create_database()
         
-        self.anilist = discord.app_commands.Group(name="anilist", description="AniList commands")
+    anilist = discord.app_commands.Group(name="anilist", description="AniList commands")
 
     def create_database(self):
         self.c.execute('''CREATE TABLE IF NOT EXISTS usernames
