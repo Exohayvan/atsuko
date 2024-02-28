@@ -1,35 +1,3 @@
-## dailyremind
-
-Toggle daily reminders on or off.
-
-## balance
-
-Check your balance or someone else's by mentioning them.
-
-## daily
-
-Receive your daily gold.
-
-## invest
-
-Invest your gold to earn more.
-
-## uninvest
-
-Uninvest your gold, with a 10% penalty.
-
-## give
-
-Give gold to someone.
-
-## gamble
-
-Gamble your gold for a chance to win the pot.
-
-## jackpot
-
-Check the current jackpot amount.
-
 ## xp
 
 Used to check your own or someone elses xp and level!

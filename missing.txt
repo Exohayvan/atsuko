@@ -1,11 +1,3 @@
-Command 'dailyremind' in cog Money is missing usage details.
-Command 'balance' in cog Money is missing usage details.
-Command 'daily' in cog Money is missing usage details.
-Command 'invest' in cog Money is missing usage details.
-Command 'uninvest' in cog Money is missing usage details.
-Command 'give' in cog Money is missing usage details.
-Command 'gamble' in cog Money is missing usage details.
-Command 'jackpot' in cog Money is missing usage details.
 Command 'keepclean' in cog KeepClean is missing help details.
 Command 'keepclean' in cog KeepClean is missing usage details.
 Command 'invites' in cog InviteLeaderboard is missing usage details.
