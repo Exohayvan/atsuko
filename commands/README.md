@@ -373,10 +373,3 @@ Create a new ticket channel.
 Usage:
 `!ticket`
 
-## donate
-
-Returns the donation address for the specified method.
-
-Usage:
-`!donate <method>`
-
