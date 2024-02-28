@@ -109,10 +109,9 @@ class Money(commands.Cog):
         else:
             await ctx.send(f"{member.mention} has 0 {CURRENCY_NAME}.")
     
-    @commands.command()
-    async def daily(self, ctx):
-        """Receive your daily gold."""
-        user_id = str(ctx.author.id)
+    @discord.app_commands.command(name="daily", description="Receive your daily gold.")
+    async def daily(self, interaction: discord.Interaction):
+        user_id = str(interaction.user.id)
 
         self.cursor.execute('SELECT balance, investment, last_daily FROM UserBalance WHERE user_id=?', (user_id,))
         result = self.cursor.fetchone()
@@ -123,7 +122,7 @@ class Money(commands.Cog):
                 time_left = timedelta(days=1) - time_difference
                 hours, remainder = divmod(time_left.seconds, 3600)
                 minutes, _ = divmod(remainder, 60)
-                await ctx.send(f'You already received your daily gold. Please wait {hours} hour(s) and {minutes} minute(s) to claim again.')
+                await interaction.response.send_message(f'You already received your daily gold. Please wait {hours} hour(s) and {minutes} minute(s) to claim again.')
                 return
 
         gold_gain = random.randint(MIN_AMT, MAX_AMT) if random.randint(1, 100) > ZERO_AMT_CHANCE else 0
@@ -141,7 +140,7 @@ class Money(commands.Cog):
         self.remind_cursor.execute('UPDATE DailyRemind SET reminded_today = FALSE WHERE user_id = ?', (user_id,))
         self.remind_db.commit()
         self.db.commit()
-        await ctx.send(f"You received {gold_gain} {CURRENCY_NAME}.\nYour investments brought in an additional {invest_gain} {CURRENCY_NAME}!")
+        await interaction.response.send_message(f"You received {gold_gain} {CURRENCY_NAME}.\nYour investments brought in an additional {invest_gain} {CURRENCY_NAME}!")
 
     @commands.command()
     async def invest(self, ctx, amount: str):
