@@ -5,3 +5,4 @@ emoji
 aiofiles
 PyNaCl
 watchdog
+aiohttp
