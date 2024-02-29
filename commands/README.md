@@ -1,3 +1,11 @@
+## gamble
+
+Gamble your gold for a chance to win the pot.
+
+## jackpot
+
+Check the current jackpot amount.
+
 ## xp
 
 Used to check your own or someone elses xp and level!
