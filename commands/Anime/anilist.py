@@ -104,8 +104,8 @@ class AniList(commands.Cog):
     async def set_username(self, interaction: discord.Interaction, username: str):
         user_id = interaction.user.id
             
-        await self.c.execute("INSERT OR REPLACE INTO usernames (id, username) VALUES (?, ?)", (user_id, username))
-        await self.conn.commit()
+        self.c.execute("INSERT OR REPLACE INTO usernames (id, username) VALUES (?, ?)", (user_id, username))
+        self.conn.commit()
             
         await interaction.response.send_message("AniList username set successfully.")
         logger.info(f"{user_id} set username to {username}")
