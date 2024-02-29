@@ -146,6 +146,7 @@ class Leveling(commands.Cog):
     @app_commands.command(name="leaderboard", description="Check the top 10 people in this server with my xp.")
     async def leaderboard(self, interaction: discord.Interaction):
         embed = discord.Embed(title="XP Leaderboard", color=0x00FFFF)
+        await interaction.response.defer()
         
         valid_count = 0
         page = 0
@@ -180,7 +181,7 @@ class Leveling(commands.Cog):
     
             page += 1  # go to the next page of users
         
-        await interaction.response.send_message(embed=embed)
+        await interaction.followup.send(embed=embed)
 
     @commands.command(hidden=True)
     async def rexp(self, ctx, *, user: str = None):
