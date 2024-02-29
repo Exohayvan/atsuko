@@ -52,7 +52,7 @@ class AnilistFeed(commands.Cog):
         
         await interaction.response.send_message(f"AniList feed updates will be posted in {channel.mention}.")
         
-    @tasks.loop(seconds=60)
+    @tasks.loop(seconds=120)
     async def check_anilist_updates(self):
         logger.warning("Checking for updates. Possible high API calls.")
         # Connect to the AniList and activity databases
