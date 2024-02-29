@@ -111,8 +111,8 @@ class Leveling(commands.Cog):
         """Used to check your own or someone else's XP and level!"""
         if user is None:
             user = interaction.user
-        await self.cursor.execute("SELECT * FROM users WHERE id = ?", (user.id,))
-        user_data = await self.cursor.fetchone()
+        self.cursor.execute("SELECT * FROM users WHERE id = ?", (user.id,))
+        user_data = self.cursor.fetchone()
         if user_data is None:
             embed = discord.Embed(description=f'{user.mention} has no experience points.', color=0x00FFFF)
             await interaction.response.send_message(embed=embed)
