@@ -96,20 +96,23 @@ class Money(commands.Cog):
                             self.remind_cursor.execute('UPDATE DailyRemind SET reminded_today = TRUE WHERE user_id = ?', (user_id,))
                             self.remind_db.commit()
                             
-    @commands.command(aliases=['bal'])
-    async def balance(self, ctx, member: commands.MemberConverter = None):
+    @app_commands.command(name="balance", description="Check your balance or someone else's by mentioning them.")
+    async def balance(self, interaction: discord.Interaction, member: discord.Member = None):
         """Check your balance or someone else's by mentioning them."""
         if member is None:
-            member = ctx.author
+            member = interaction.user
         user_id = str(member.id)
-    
+        
         self.cursor.execute('SELECT balance, investment FROM UserBalance WHERE user_id=?', (user_id,))
         result = self.cursor.fetchone()
         total_bal = result[0] + result[1]
+        
         if result:
-            await ctx.send(f"{member.mention} has **{total_bal} {CURRENCY_NAME}**! \n*({result[0]} {CURRENCY_NAME} in their pocket and {result[1]} {CURRENCY_NAME} invested.)*")
+            total_bal = result[0] + result[1]
+            currency_name = "Gold"  # Replace "Gold" with your currency name
+            await interaction.response.send_message(f"{member.mention} has **{total_bal} {currency_name}**! \n*({result[0]} {currency_name} in their pocket and {result[1]} {currency_name} invested.)*")
         else:
-            await ctx.send(f"{member.mention} has 0 {CURRENCY_NAME}.")
+            await interaction.response.send_message(f"{member.mention} has 0 {currency_name}.")
     
     @app_commands.command(name="daily", description="Receive your daily gold.")
     async def daily(self, interaction: discord.Interaction):
