@@ -148,14 +148,14 @@ class Money(commands.Cog):
         self.db.commit()
         await interaction.response.send_message(f"You received {gold_gain} {CURRENCY_NAME}.\nYour investments brought in an additional {invest_gain} {CURRENCY_NAME}!")
 
-    @commands.command()
-    async def invest(self, ctx, amount: str):
-        """Invest your gold to earn more."""
-        user_id = str(ctx.author.id)
+    @app_commands.command(name="invest", description="Invest some of your gold to earn more on your daily.")
+    @app_commands.describe(amount="Specify the amount you would like to invest.")
+    async def dailyremind(self, interaction: discord.Interaction, amount: str):
+        user_id = str(interaction.user.id)
     
         # Check if the input can be converted to an integer
         if not amount.isdigit():
-            await ctx.send("Please enter a valid integer for the amount.")
+            await interaction.response.send_message("Please enter a valid integer for the amount.")
             return
     
         # Convert the amount to an integer
@@ -165,14 +165,14 @@ class Money(commands.Cog):
         self.cursor.execute('SELECT balance FROM UserBalance WHERE user_id=?', (user_id,))
         result = self.cursor.fetchone()
         if result is None or result[0] < amount:
-            await ctx.send("You don't have enough gold to invest.")
+            await interaction.response.send_message("You don't have enough gold to invest.")
             return
 
         # Subtract gold from the balance and add to investment
         self.cursor.execute('UPDATE UserBalance SET balance=balance-?, investment=investment+? WHERE user_id=?', (amount, amount, user_id))
         self.db.commit()
 
-        await ctx.send(f"You invested {amount} {CURRENCY_NAME}.")
+        await interaction.response.send_message(f"You invested {amount} {CURRENCY_NAME}.")
 
     @commands.command()
     async def uninvest(self, ctx, amount: int):
