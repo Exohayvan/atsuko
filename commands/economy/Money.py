@@ -174,16 +174,15 @@ class Money(commands.Cog):
 
         await interaction.response.send_message(f"You invested {amount} {CURRENCY_NAME}.")
 
-    @commands.command()
-    async def uninvest(self, ctx, amount: int):
-        """Uninvest your gold, with a 10% penalty."""
-        user_id = str(ctx.author.id)
+    @app_commands.command(name="uninvest", description="Uninvest gold you have invested with a 10% penalty.")
+    async def uninvest(self, interaction: discord.Interaction, amount: str):
+        user_id = str(interaction.user.id)
     
         # Check if the user has enough gold invested
         self.cursor.execute('SELECT investment FROM UserBalance WHERE user_id=?', (user_id,))
         result = self.cursor.fetchone()
         if result is None or result[0] < amount:
-            await ctx.send("You don't have enough gold invested to withdraw.")
+            await interaction.response.send_message("You don't have enough gold invested to withdraw.")
             return
     
         # Subtract gold from the investment and add 90% to balance
@@ -192,19 +191,18 @@ class Money(commands.Cog):
         self.cursor.execute('UPDATE UserBalance SET balance=balance+?, investment=investment-? WHERE user_id=?', (return_amount, amount, user_id))
         self.db.commit()
     
-        await ctx.send(f"You uninvested {amount} {CURRENCY_NAME}. You received {return_amount} {CURRENCY_NAME} back after a 10% penalty.")
+        await interaction.response.send_message(f"You uninvested {amount} {CURRENCY_NAME}. You received {return_amount} {CURRENCY_NAME} back after a 10% penalty.")
     
-    @commands.command()
-    async def give(self, ctx, member: commands.MemberConverter, amount: int):
-        """Give gold to someone."""
-        user_id = str(ctx.author.id)
-        target_id = str(member.id)
+    @app_commands.command(name="give", description="Give some gold to a buddy or maybe blackmail them with gold.")
+    async def give(self, ctx, member: commands.MemberConverter, member: discord.Member, amount: int):
+        user_id = str(interaction.user.id)
+        target_id = str(interaction.user)
 
         # Check if the user has enough gold to give
         self.cursor.execute('SELECT balance FROM UserBalance WHERE user_id=?', (user_id,))
         result = self.cursor.fetchone()
         if result is None or result[0] < amount:
-            await ctx.send("You don't have enough gold to give.")
+            await interaction.response.send_message("You don't have enough gold to give.")
             return
 
         # Subtract gold from the giver
@@ -219,7 +217,7 @@ class Money(commands.Cog):
             self.cursor.execute('INSERT INTO UserBalance (user_id, balance) VALUES (?, ?)', (target_id, amount))
 
         self.db.commit()
-        await ctx.send(f"You gave {amount} {CURRENCY_NAME} to {member.mention}.")
+        await interaction.response.send_message(f"You gave {amount} {CURRENCY_NAME} to {member.mention}.")
 
     @commands.command()
     async def gamble(self, ctx, amount: int):
