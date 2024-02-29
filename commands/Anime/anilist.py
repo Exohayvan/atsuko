@@ -111,18 +111,20 @@ class AniList(commands.Cog):
         await interaction.response.send_message("AniList username set successfully.")
         logger.info(f"{user_id} set username to {username}")
 
-    @anilist.command()
-    async def stats(self, ctx, user: discord.Member = None):
+    @discord.app_commands.command(name="stats", description="Fetches the user's or mentioned user's stats from AniList.")
+    async def stats(self, interaction: discord.Interaction, user: discord.Member = None):
         if user is None:
-            user = ctx.author
-    
+            user = interaction.user
+        
+        await interaction.response.defer()
+        
         self.c.execute("SELECT username FROM usernames WHERE id=?", (user.id,))
         result = self.c.fetchone()
     
         if result is not None:
             username = result[0]
         else:
-            await ctx.send(f"{user.mention} has not set their AniList username.")
+            await interaction.followup.send(f"{user.mention} has not set their AniList username.")
             logger.error("User has not set their AniList username.")
             return
     
@@ -156,7 +158,7 @@ class AniList(commands.Cog):
         list_response = requests.post('https://graphql.anilist.co', json={'query': list_query, 'variables': list_variables})
     
         if list_response.status_code != 200:
-            await ctx.send(f"Failed to fetch anime stats. API Response: {list_response.content}")
+            await interaction.followup.send(f"Failed to fetch anime stats. API Response: {list_response.content}")
             logger.error(f"Failed to fetch anime stats. API Response: {list_response.content}")
             return
     
@@ -183,7 +185,7 @@ class AniList(commands.Cog):
         anime_stats_response = requests.post('https://graphql.anilist.co', json={'query': anime_stats_query, 'variables': anime_stats_variables})
     
         if anime_stats_response.status_code != 200:
-            await ctx.send("Failed to fetch anime statistics.")
+            await interaction.followup.send("Failed to fetch anime statistics.")
             logger.error("Failed to fetch anime statistics.")
             return
     
@@ -213,7 +215,7 @@ class AniList(commands.Cog):
         manga_list_response = requests.post('https://graphql.anilist.co', json={'query': manga_list_query, 'variables': manga_list_variables})
     
         if manga_list_response.status_code != 200:
-            await ctx.send(f"Failed to fetch manga stats. API Response: {manga_list_response.content}")
+            await interaction.followup.send(f"Failed to fetch manga stats. API Response: {manga_list_response.content}")
             return
     
         manga_data = manga_list_response.json()
@@ -251,7 +253,7 @@ class AniList(commands.Cog):
         embed.add_field(name="Time Spent Reading Manga", value=time_read_str, inline=True)
         embed.add_field(name="Total Time Spent Being A Weeb", value=total_time_spent_str, inline=True)
         
-        await ctx.send(embed=embed)
+        await interaction.followup.send(embed=embed)
 
     @anilist.command()
     async def leaderboard(self, ctx):
