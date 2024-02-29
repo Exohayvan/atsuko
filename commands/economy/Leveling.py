@@ -1,6 +1,7 @@
 from discord import Embed
 from discord.ext.commands import Greedy
 from discord.ext import commands
+from discord import app_commands
 import random
 import sqlite3
 import discord
@@ -105,20 +106,22 @@ class Leveling(commands.Cog):
                 self.cursor.execute("UPDATE users SET xp = ?, total_xp = ?, level = ?, level_xp = ? WHERE id = ?", (remaining_xp, total_xp, level, level_xp, message.author.id))
             self.db.commit()
 
-    @commands.command(usage="!xp` or `!xp @member")
-    async def xp(self, ctx, user: discord.Member = None):
-        """Used to check your own or someone elses xp and level!"""
+    @app_commands.command(name="xp", description="Check your own or someone else's XP and level.")
+    async def xp(self, interaction: discord.Interaction, user: discord.Member = None):
+        """Used to check your own or someone else's XP and level!"""
         if user is None:
-            user = ctx.author
-        self.cursor.execute("SELECT * FROM users WHERE id = ?", (user.id,))
-        user_data = self.cursor.fetchone()
+            user = interaction.user
+        await self.cursor.execute("SELECT * FROM users WHERE id = ?", (user.id,))
+        user_data = await self.cursor.fetchone()
         if user_data is None:
-            await ctx.send(embed=discord.Embed(description=f'{user.mention} has no experience points.', color=0x00FFFF))
+            embed = discord.Embed(description=f'{user.mention} has no experience points.', color=0x00FFFF)
+            await interaction.response.send_message(embed=embed)
         else:
             xp_to_next_level = self.format_xp(user_data[4] - user_data[1])
             rounded_total_xp = self.format_xp(user_data[2])
-            await ctx.send(embed=discord.Embed(description=f'{user.mention} is level {user_data[3]}, with {rounded_total_xp} total experience points. They need {xp_to_next_level} more XP to level up.', color=0x00FFFF))
-
+            embed = discord.Embed(description=f'{user.mention} is level {user_data[3]}, with {rounded_total_xp} total experience points. They need {xp_to_next_level} more XP to level up.', color=0x00FFFF)
+            await interaction.response.send_message(embed=embed)
+            
     async def recalculate_levels(self):
         self.cursor.execute("SELECT * FROM users")
         users = self.cursor.fetchall()
