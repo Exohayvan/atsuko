@@ -1,10 +1,3 @@
-## xp
-
-Used to check your own or someone elses xp and level!
-
-Usage:
-`!xp` or `!xp @member`
-
 ## leaderboard
 
 Check a servers leaderboard, can take a while sometimes.
