@@ -60,7 +60,8 @@ class Money(commands.Cog):
             print(f"An error occurred while initializing dailyremind.db tables: {e}")
         
     @discord.app_commands.command(name="dailyremind", description="Toggle daily reminders on or off.")
-    async def dailyremind(self, interaction: discord.Interaction, option: str):
+    @discord.app_commands.describe(status="Specify 'on' to enable or 'off' to disable daily reminders.")
+    async def dailyremind(self, interaction: discord.Interaction, status: str):
         """Toggle daily reminders on or off."""
         user_id = str(interaction.user.id)
         last_channel_id = str(interaction.channel_id)
