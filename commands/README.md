@@ -1,7 +1,3 @@
-## gamble
-
-Gamble your gold for a chance to win the pot.
-
 ## jackpot
 
 Check the current jackpot amount.
