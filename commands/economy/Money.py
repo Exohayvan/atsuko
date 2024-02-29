@@ -225,6 +225,8 @@ class Money(commands.Cog):
         # Initialize pot_balance with the current balance from the Pot table
         self.cursor.execute('SELECT balance FROM Pot WHERE pot_id=1')
         pot_balance = self.cursor.fetchone()[0]
+
+        amount = int(amount)
         
         # Check if the user has enough gold to gamble
         self.cursor.execute('SELECT balance FROM UserBalance WHERE user_id=?', (user_id,))
@@ -246,14 +248,14 @@ class Money(commands.Cog):
                 self.cursor.execute('UPDATE Pot SET balance=100 WHERE pot_id=1')
                 self.db.commit()
 
-                await interaction.response.send_message(f"You won the pot of {win_balance} {CURRENCY_NAME}!\n(It only took {rolled} rolls)")
+                await interaction.followup.send_message(f"You won the pot of {win_balance} {CURRENCY_NAME}!\n(It only took {rolled} rolls)")
                 return  # Return after winning
             rolled += 1
             # If not a win, take bet from balance and add to pot
             self.cursor.execute('UPDATE UserBalance SET balance=balance-1 WHERE user_id=?', (user_id,))
             self.cursor.execute('UPDATE Pot SET balance=balance+1 WHERE pot_id=1')
         self.db.commit()
-        await interaction.response.send_message(f"All Rolls finished. You didn't win the pot, new pot balance is {pot_balance} {CURRENCY_NAME}!")
+        await interaction.followup.send_message(f"All Rolls finished. You didn't win the pot, new pot balance is {pot_balance} {CURRENCY_NAME}!")
         
     @commands.command(aliases=['pot'])
     async def jackpot(self, ctx):
