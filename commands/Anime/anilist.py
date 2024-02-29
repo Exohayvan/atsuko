@@ -81,7 +81,7 @@ class AniList(commands.Cog):
         '''
         variables = {'username': username}
 
-        response = requests.post('https://graphql.anilist.co', json={'query': query, 'variables': variables})
+        response = await asyncio.to_thread(requests.post, 'https://graphql.anilist.co', json={'query': query, 'variables': variables})
 
         if response.status_code == 200:
             data = response.json()
