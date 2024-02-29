@@ -182,37 +182,6 @@ class Leveling(commands.Cog):
             page += 1  # go to the next page of users
         
         await interaction.followup.send(embed=embed)
-
-    @commands.command(hidden=True)
-    async def rexp(self, ctx, *, user: str = None):
-        if ctx.message.author.id != 276782057412362241:
-            await ctx.send("You don't have permission to use this command.")
-            return
-        if user is None:
-            await ctx.send("Please provide a valid user or 'all'.")
-        elif user.lower() == "all":
-            await self.recalculate_levels()
-            await ctx.send("Recalculated levels for all users.")
-        else:
-            try:
-                member = await commands.MemberConverter().convert(ctx, user)
-                self.cursor.execute("SELECT * FROM users WHERE id = ?", (member.id,))
-                user_data = self.cursor.fetchone()
-                if user_data is not None:
-                    total_xp = user_data[2]
-                    level = 0
-                    next_level_xp = START_CAP
-                    while total_xp > next_level_xp:
-                        total_xp -= next_level_xp
-                        level += 1
-                        next_level_xp *= XP_RATE
-                    self.cursor.execute("UPDATE users SET xp = ?, level = ?, level_xp = ? WHERE id = ?", (total_xp, level, next_level_xp, member.id))
-                    self.db.commit()
-                    await ctx.send(f"Recalculated level for {member.mention}. They are now at level {level} with {total_xp} XP remaining.")
-                else:
-                    await ctx.send(f"{member.mention} does not exist in the database.")
-            except commands.BadArgument:
-                await ctx.send("Invalid user. Please provide a valid user or 'all'.")
             
 async def setup(bot):
     await bot.add_cog(Leveling(bot))
