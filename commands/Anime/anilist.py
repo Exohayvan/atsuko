@@ -99,18 +99,16 @@ class AniList(commands.Cog):
             await ctx.send("Failed to fetch watching list.")
             logger.error("Failed to fetch watching list.")
 
-    @anilist.command()
-    async def help(self, ctx):
-        """Displays Help infor with command"""
-        await ctx.send("Looking for help? First do you have an AniList.co account? Once you have one if you dont already. Use `anilist set <username>` to set your account. Then you can use `anilist stats`")
-
-    @anilist.command()
-    async def set(self, ctx, username):
-        """Sets the user's AniList username."""
-        self.c.execute("INSERT OR REPLACE INTO usernames (id, username) VALUES (?, ?)", (ctx.author.id, username))
-        self.conn.commit()
-        await ctx.send("AniList username set successfully.")
-        logger.info(f"{ctx.author.id} set username to {username}")
+    @group.command(name="set", description="Sets your AniList username.")
+    @discord.app_commands.describe(username="Your AniList username")
+    async def set_username(interaction: discord.Interaction, username: str):
+        user_id = interaction.user.id
+            
+        await self.c.execute("INSERT OR REPLACE INTO usernames (id, username) VALUES (?, ?)", (user_id, username))
+        await self.conn.commit()
+            
+        await interaction.response.send_message("AniList username set successfully.")
+        logger.info(f"{user_id} set username to {username}")
 
     @anilist.command()
     async def stats(self, ctx, user: discord.Member = None):
