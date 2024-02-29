@@ -33,12 +33,7 @@ class AniList(commands.Cog):
         """Closes the database connection when the cog is unloaded."""
         self.conn.close()  # Close the connection when the cog is unloaded
 
-    group = app_commands.Group(name="anilist", description="...")
-
-    @group.command(name="help", description="Display info about how to use this.")
-    async def help(self, interaction: discord.Interaction):
-        await interaction.response.send_message("Looking for help? First do you have an AniList.co account? Once you have one if you dont already. Use `anilist set <username>` to set your account. Then you can use `anilist stats`")
-    
+    #Old needs removed after slash update.
     @commands.group()
     async def anilist(self, ctx):
         """AniList commands."""
@@ -46,7 +41,14 @@ class AniList(commands.Cog):
             await ctx.send("Invalid AniList command. Use `!anilist help` for more information.")
             logger.error("Invalid AniList command.")
 
-    @discord.app_commands.command(name="watching", description="Fetches the user's or mentioned user's watching list from AniList.")
+    
+    group = app_commands.Group(name="anilist", description="...")
+
+    @group.command(name="help", description="Display info about how to use this.")
+    async def help(self, interaction: discord.Interaction):
+        await interaction.response.send_message("Looking for help? First do you have an AniList.co account? Once you have one if you dont already. Use `anilist set <username>` to set your account. Then you can use `anilist stats`")
+
+    @group.command(name="watching", description="Fetches the user's or mentioned user's watching list from AniList.")
     async def watching(self, interaction: discord.Interaction, user: discord.Member = None):
         if user is None:
             user = interaction.user
