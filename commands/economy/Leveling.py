@@ -162,10 +162,10 @@ class Leveling(commands.Cog):
                 break
     
             # Fetch a batch of member IDs
-            user_ids = [user[0] for user in users]
             members = []
-            async for member in ctx.guild.fetch_members(limit=100):
-                if member.id in user_ids:
+            for user_id in [user[0] for user in users]:
+                member = interaction.guild.get_member(int(user_id))
+                if member:
                     members.append(member)
             
             member_dict = {member.id: member for member in members}    
