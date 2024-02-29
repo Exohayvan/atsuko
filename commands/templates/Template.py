@@ -16,12 +16,12 @@ class Template(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
     
-    group = app_commands.Group(name="TemplateGroup", description="...")
+    group = app_commands.Group(name="templategroup", description="...")
     # Above, we declare a command Group, in discord terms this is a parent command
     # We define it within the class scope (not an instance scope) so we can use it as a decorator.
     # This does have namespace caveats but i don't believe they're worth outlining in our needs.
 
-    @app_commands.command(name="placeholder", description="This is a placeholder command.")
+    @app_commands.command(name="template", description="This is a placeholder command.")
     async def placeholder(self, interaction: discord.Interaction):
         """This is a placeholder slash command. Replace it with your own implementation!"""
         await interaction.response.send_message("This is a placeholder slash command. Replace it with your own implementation!")
