@@ -1,7 +1,3 @@
-## dailyremind
-
-Toggle daily reminders on or off.
-
 ## invest
 
 Invest your gold to earn more.
