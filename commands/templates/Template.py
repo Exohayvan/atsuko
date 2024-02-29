@@ -38,4 +38,4 @@ class Template(commands.Cog):
         await interaction.response.send_message("Hello from the sub command!", ephemeral=True)
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(MyCog(bot))
+    await bot.add_cog(Template(bot))
