@@ -380,6 +380,7 @@ class AniList(commands.Cog):
             return
         await interaction.response.defer()
         list1 = await self.fetch_user_list_by_category(user1.id, category)
+        await asyncio.sleep(5)
         list2 = await self.fetch_user_list_by_category(user2.id, category)
 
         # Find similarities
