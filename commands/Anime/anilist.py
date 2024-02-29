@@ -111,7 +111,7 @@ class AniList(commands.Cog):
         await interaction.response.send_message("AniList username set successfully.")
         logger.info(f"{user_id} set username to {username}")
 
-    @discord.app_commands.command(name="stats", description="Fetches the user's or mentioned user's stats from AniList.")
+    @group.command(name="stats", description="Fetches the user's or mentioned user's stats from AniList.")
     async def stats(self, interaction: discord.Interaction, user: discord.Member = None):
         if user is None:
             user = interaction.user
