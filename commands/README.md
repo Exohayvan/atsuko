@@ -134,6 +134,10 @@ Usage:
 
 Provides information about a pip package.
 
+## anilist
+
+AniList commands.
+
 ## lock
 
 Locks a channel.

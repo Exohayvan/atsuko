@@ -6,6 +6,7 @@ Command 'addad' in cog Advertisement is missing usage details.
 Command 'refresh_ads' in cog Advertisement is missing usage details.
 Command 'set_counting_channel' in cog Counting is missing usage details.
 Command 'package_info' in cog Python is missing usage details.
+Command 'anilist' in cog AniList is missing usage details.
 Command 'setprefix' in cog Moderation is missing help details.
 Command 'create_counter' in cog Counter is missing usage details.
 Command 'channel_reconnect' in cog Counter is missing usage details.
