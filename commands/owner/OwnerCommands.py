@@ -159,9 +159,9 @@ class OwnerCommands(commands.Cog):
             return
 
         if result.returncode != 0:
-            await interaction.response.send_message(f'Update failed with error: {error}', ephemeral=True)
+            await interaction.followup.send(f'Update failed with error: {error}', ephemeral=True)
         else:
-            await interaction.response.send_message(f'Update successful: {output}', ephemeral=True)
+            await interaction.followup.send(f'Update successful: {output}', ephemeral=True)
             await interaction.followup.send('I am restarting.', ephemeral=True)
             sys.exit(RESTART_EXIT_CODE)
 
