@@ -1,7 +1,3 @@
-## invest
-
-Invest your gold to earn more.
-
 ## uninvest
 
 Uninvest your gold, with a 10% penalty.

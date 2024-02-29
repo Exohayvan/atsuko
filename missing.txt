@@ -1,4 +1,3 @@
-Command 'invest' in cog Money is missing usage details.
 Command 'uninvest' in cog Money is missing usage details.
 Command 'give' in cog Money is missing usage details.
 Command 'gamble' in cog Money is missing usage details.
