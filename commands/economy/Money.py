@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord import app_commands
 import discord
 import random
 import sqlite3
@@ -110,7 +111,7 @@ class Money(commands.Cog):
         else:
             await ctx.send(f"{member.mention} has 0 {CURRENCY_NAME}.")
     
-    @discord.app_commands.command(name="daily", description="Receive your daily gold.")
+    @app_commands.command(name="daily", description="Receive your daily gold.")
     async def daily(self, interaction: discord.Interaction):
         user_id = str(interaction.user.id)
 
