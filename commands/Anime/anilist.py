@@ -378,7 +378,7 @@ class AniList(commands.Cog):
         if category not in ["all", "planned", "watched", "watching"]:
             await interaction.response.send_message("Invalid category. Must be one of 'all', 'planned', 'watched', 'watching'.")
             return
-
+        await interaction.response.defer()
         list1 = await self.fetch_user_list_by_category(user1.id, category)
         list2 = await self.fetch_user_list_by_category(user2.id, category)
 
