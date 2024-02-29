@@ -1,4 +1,5 @@
 import discord
+from discord import app_commands
 from discord.ext import commands
 import sqlite3
 import requests
@@ -31,7 +32,13 @@ class AniList(commands.Cog):
     def cog_unload(self):
         """Closes the database connection when the cog is unloaded."""
         self.conn.close()  # Close the connection when the cog is unloaded
-        
+
+    group = app_commands.Group(name="anilist", description="...")
+
+    @group.command(name="help", description="Display info about how to use this.")
+    async def help(self, interaction: discord.Interaction):
+        await interaction.response.send_message("Looking for help? First do you have an AniList.co account? Once you have one if you dont already. Use `anilist set <username>` to set your account. Then you can use `anilist stats`")
+    
     @commands.group()
     async def anilist(self, ctx):
         """AniList commands."""
