@@ -1,23 +1,5 @@
-2024-02-28 18:28:19,593:INFO:GitAutoBackup.py: GitAutoBackup Cog Loaded. Logging started...
-2024-02-28 18:28:20,162:INFO:GitAutoBackup.py: Cleaning up...
-2024-02-28 18:28:20,162:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-02-28 18:28:20,162:INFO:GitAutoBackup.py: Pulling new commits.
-2024-02-28 18:28:20,833:INFO:GitAutoBackup.py: Adding new changes.
-2024-02-28 18:28:20,849:INFO:GitAutoBackup.py: Creating new commit: Auto comment: 2024-02-28 18:28:20
-2024-02-28 18:28:20,863:INFO:GitAutoBackup.py: Pushing new commit.
-2024-02-28 19:28:20,134:INFO:GitAutoBackup.py: Cleaning up...
-2024-02-28 19:28:20,134:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-02-28 19:28:20,134:INFO:GitAutoBackup.py: Pulling new commits.
-2024-02-28 19:28:20,833:INFO:GitAutoBackup.py: Adding new changes.
-2024-02-28 19:28:20,844:INFO:GitAutoBackup.py: Creating new commit: Auto comment: 2024-02-28 19:28:20
-2024-02-28 19:28:20,854:INFO:GitAutoBackup.py: Pushing new commit.
-2024-02-28 20:28:20,130:INFO:GitAutoBackup.py: Cleaning up...
-2024-02-28 20:28:20,130:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-02-28 20:28:20,130:INFO:GitAutoBackup.py: Pulling new commits.
-2024-02-28 20:28:20,844:INFO:GitAutoBackup.py: Adding new changes.
-2024-02-28 20:28:20,860:INFO:GitAutoBackup.py: Creating new commit: Auto comment: 2024-02-28 20:28:20
-2024-02-28 20:28:20,872:INFO:GitAutoBackup.py: Pushing new commit.
-2024-02-28 21:28:20,136:INFO:GitAutoBackup.py: Cleaning up...
-2024-02-28 21:28:20,137:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-02-28 21:28:20,137:INFO:GitAutoBackup.py: Pulling new commits.
-2024-02-28 21:28:20,815:INFO:GitAutoBackup.py: Adding new changes.
+2024-02-28 21:38:33,248:INFO:GitAutoBackup.py: GitAutoBackup Cog Loaded. Logging started...
+2024-02-28 21:38:33,818:INFO:GitAutoBackup.py: Cleaning up...
+2024-02-28 21:38:33,818:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
+2024-02-28 21:38:33,818:INFO:GitAutoBackup.py: Pulling new commits.
+2024-02-28 21:38:34,659:INFO:GitAutoBackup.py: Adding new changes.
