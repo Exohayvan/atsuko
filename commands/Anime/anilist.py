@@ -141,7 +141,8 @@ class AniList(commands.Cog):
         user_response = requests.post('https://graphql.anilist.co', json={'query': user_query, 'variables': user_variables})
         user_data = user_response.json()
         user_id = user_data['data']['User']['id']
-    
+        await asyncio.sleep(1)
+        
         # Fetch the entire anime list for the user
         list_query = '''
         query ($userId: Int) {
@@ -162,13 +163,14 @@ class AniList(commands.Cog):
             await interaction.followup.send(f"Failed to fetch anime stats. API Response: {list_response.content}")
             logger.error(f"Failed to fetch anime stats. API Response: {list_response.content}")
             return
-    
+        
         data = list_response.json()
         lists = data['data']['MediaListCollection']['lists']
         watching_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'CURRENT')
         completed_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'COMPLETED')
         planning_count = sum(1 for lst in lists for entry in lst['entries'] if entry['status'] == 'PLANNING')
-    
+        await asyncio.sleep(1)
+        
         # Fetch additional anime statistics (like episodes watched)
         anime_stats_query = '''
         query ($username: String) {
@@ -197,7 +199,8 @@ class AniList(commands.Cog):
         hours = (total_minutes % (24 * 60)) // 60
         minutes = total_minutes % 60
         time_watched_str = f"{days} days, {hours} hours, {minutes} minutes"
-    
+        await asyncio.sleep(1)
+        
         # Fetch the entire manga list for the user
         manga_list_query = '''
         query ($userId: Int) {
