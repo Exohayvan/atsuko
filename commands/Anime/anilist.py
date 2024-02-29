@@ -369,11 +369,14 @@ class AniList(commands.Cog):
         minutes_read = chapters_read * 11
         return minutes_read
 
-    @anilist.command()
-    async def compare(self, ctx, category: str, user1: discord.Member, user2: discord.Member):
-        """Compares AniList anime lists between two users."""
+    @group.command(name="compare", description="Compares AniList anime lists between two users.")
+    @app_commands.describe(category="The category to compare ('all', 'planned', 'watched', 'watching').",
+                                   user1="The first user to compare.",
+                                   user2="The second user to compare.")
+    async def compare(self, interaction: discord.Interaction, category: str, 
+                      user1: discord.Member, user2: discord.Member):
         if category not in ["all", "planned", "watched", "watching"]:
-            await ctx.send("Invalid category. Must be one of 'all', 'planned', 'watched', 'watching'.")
+            await interaction.response.send_message("Invalid category. Must be one of 'all', 'planned', 'watched', 'watching'.")
             return
 
         list1 = await self.fetch_user_list_by_category(user1.id, category)
@@ -388,7 +391,7 @@ class AniList(commands.Cog):
         else:
             message = "No similarities found in the specified category."
 
-        await ctx.send(message)
+        await interaction.response.send_message(message)
         
     async def fetch_user_list_by_category(self, user_id, category):
         """Fetches the user's AniList anime list by category."""
