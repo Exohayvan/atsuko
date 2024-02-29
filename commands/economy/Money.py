@@ -219,10 +219,9 @@ class Money(commands.Cog):
         self.db.commit()
         await interaction.response.send_message(f"You gave {amount} {CURRENCY_NAME} to {member.mention}.")
 
-    @commands.command()
-    async def gamble(self, ctx, amount: int):
-        """Gamble your gold for a chance to win the pot."""
-        user_id = str(ctx.author.id)
+    @app_commands.command(name="gamble", description="Risk some gold on the jackpot, you can check this with the jackpot command.")
+    async def gamble(self, interaction: discord.Interaction, amount: str):
+        user_id = str(interaction.user.id)
         # Initialize pot_balance with the current balance from the Pot table
         self.cursor.execute('SELECT balance FROM Pot WHERE pot_id=1')
         pot_balance = self.cursor.fetchone()[0]
@@ -231,11 +230,11 @@ class Money(commands.Cog):
         self.cursor.execute('SELECT balance FROM UserBalance WHERE user_id=?', (user_id,))
         user_balance = self.cursor.fetchone()
         if user_balance is None or user_balance[0] < amount:
-            await ctx.send("You don't have enough gold to gamble.")
+            await interaction.response.send_message("You don't have enough gold to gamble.")
             return
 
         # Start rolling
-        await ctx.send("Starting roll...")
+        await interaction.response.send_message("Starting roll...", ephemeral=True)
         rolled = 0
         for _ in range(amount):
             roll = random.randint(1, 50000)
@@ -247,14 +246,14 @@ class Money(commands.Cog):
                 self.cursor.execute('UPDATE Pot SET balance=100 WHERE pot_id=1')
                 self.db.commit()
 
-                await ctx.send(f"You won the pot of {win_balance} {CURRENCY_NAME}!\n(It only took {rolled} rolls)")
+                await interaction.response.send_message(f"You won the pot of {win_balance} {CURRENCY_NAME}!\n(It only took {rolled} rolls)")
                 return  # Return after winning
             rolled += 1
             # If not a win, take bet from balance and add to pot
             self.cursor.execute('UPDATE UserBalance SET balance=balance-1 WHERE user_id=?', (user_id,))
             self.cursor.execute('UPDATE Pot SET balance=balance+1 WHERE pot_id=1')
         self.db.commit()
-        await ctx.send(f"All Rolls finished. You didn't win the pot, new pot balance is {pot_balance} {CURRENCY_NAME}!")
+        await interaction.response.send_message(f"All Rolls finished. You didn't win the pot, new pot balance is {pot_balance} {CURRENCY_NAME}!")
         
     @commands.command(aliases=['pot'])
     async def jackpot(self, ctx):
