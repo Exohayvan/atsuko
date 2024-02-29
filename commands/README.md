@@ -2,10 +2,6 @@
 
 Toggle daily reminders on or off.
 
-## balance
-
-Check your balance or someone else's by mentioning them.
-
 ## invest
 
 Invest your gold to earn more.
