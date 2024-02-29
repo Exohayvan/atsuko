@@ -100,8 +100,8 @@ class AniList(commands.Cog):
             logger.error("Failed to fetch watching list.")
 
     @group.command(name="set", description="Sets your AniList username.")
-    @discord.app_commands.describe(username="Your AniList username")
-    async def set_username(interaction: discord.Interaction, username: str):
+    @app_commands.describe(username="Your AniList username")
+    async def set_username(self, interaction: discord.Interaction, username: str):
         user_id = interaction.user.id
             
         await self.c.execute("INSERT OR REPLACE INTO usernames (id, username) VALUES (?, ?)", (user_id, username))
