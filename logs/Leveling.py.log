@@ -1,3 +1,5 @@
 2024-02-29 00:31:28,038:INFO:Leveling.py: Leveling Cog Loaded. Logging started...
 2024-02-29 01:02:10,604:INFO:Leveling.py: Voice channel join: koala.0_0#0 joined Music
 2024-02-29 01:02:16,153:INFO:Leveling.py: Voice channel leave: koala.0_0#0 left Music, earned 1.1073746 XP
+2024-02-29 04:31:37,234:INFO:Leveling.py: Voice channel join: galianoquive#0 joined Music 3 (256kbps)
+2024-02-29 04:31:48,985:INFO:Leveling.py: Voice channel leave: galianoquive#0 left Music 3 (256kbps), earned 2.349675 XP
