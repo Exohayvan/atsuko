@@ -1,7 +1,3 @@
-## jackpot
-
-Check the current jackpot amount.
-
 ## xp
 
 Used to check your own or someone elses xp and level!
