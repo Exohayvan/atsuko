@@ -257,12 +257,11 @@ class Money(commands.Cog):
         self.db.commit()
         await interaction.followup.send_message(f"All Rolls finished. You didn't win the pot, new pot balance is {pot_balance} {CURRENCY_NAME}!")
         
-    @commands.command(aliases=['pot'])
-    async def jackpot(self, ctx):
-        """Check the current jackpot amount."""
+    @app_commands.command(name="jackpot", description="View the current jackpot that you can gamble for.")
+    async def jackpot(self, interaction: discord.Interaction):
         self.cursor.execute('SELECT balance FROM Pot WHERE pot_id=1')
         pot_balance = self.cursor.fetchone()[0]
-        await ctx.send(f"The current jackpot is {pot_balance} {CURRENCY_NAME}.")
+        await interaction.response.send_message(f"The current jackpot is {pot_balance} {CURRENCY_NAME}.")
 
 async def setup(bot):
     await bot.add_cog(Money(bot))
