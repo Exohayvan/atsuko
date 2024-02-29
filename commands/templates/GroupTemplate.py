@@ -11,7 +11,7 @@ class MyCog(commands.Cog):
   # We define it within the class scope (not an instance scope) so we can use it as a decorator.
   # This does have namespace caveats but i don't believe they're worth outlining in our needs.
 
-  @app_commands.command(name="top-command")
+  @group.command(name="top-command")
   async def my_top_command(self, interaction: discord.Interaction) -> None:
     """ /top-command """
     await interaction.response.send_message("Hello from top level command!", ephemeral=True)
