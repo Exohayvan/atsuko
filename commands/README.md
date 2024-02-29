@@ -1,10 +1,3 @@
-## leaderboard
-
-Check a servers leaderboard, can take a while sometimes.
-
-Usage:
-`!leaderboard`
-
 ## adopt
 
 Sends an adoption request to another member.
