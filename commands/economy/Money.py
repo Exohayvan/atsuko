@@ -59,19 +59,19 @@ class Money(commands.Cog):
         except sqlite3.Error as e:
             print(f"An error occurred while initializing dailyremind.db tables: {e}")
         
-    @commands.command()
-    async def dailyremind(self, ctx, option: str):
+    @discord.app_commands.command(name="dailyremind", description="Toggle daily reminders on or off.")
+    async def dailyremind(self, interaction: discord.Interaction, option: str):
         """Toggle daily reminders on or off."""
-        user_id = str(ctx.author.id)
-        last_channel_id = str(ctx.channel.id)
+        user_id = str(interaction.user.id)
+        last_channel_id = str(interaction.channel_id)
         if option.lower() in ['on', 'true']:
             self.remind_cursor.execute('REPLACE INTO DailyRemind (user_id, last_channel_id) VALUES (?, ?)', (user_id, last_channel_id))
-            await ctx.send("Daily reminders turned on.")
+            await interaction.response.send_message("Daily reminders turned on.")
         elif option.lower() in ['off', 'false']:
             self.remind_cursor.execute('DELETE FROM DailyRemind WHERE user_id=?', (user_id,))
-            await ctx.send("Daily reminders turned off.")
+            await interaction.response.send_message("Daily reminders turned off.")
         else:
-            await ctx.send("Invalid option. Please use 'on' or 'off'.")
+            await interaction.response.send_message("Invalid option. Please use 'on' or 'off'.")
         self.remind_db.commit()
 
     async def daily_reminder_check(self):
