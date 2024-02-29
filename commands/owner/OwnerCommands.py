@@ -148,7 +148,7 @@ class OwnerCommands(commands.Cog):
         if not await self.bot.is_owner(interaction.user):
             await interaction.response.send_message("You don't have permission to use this command.", ephemeral=True)
             return
-
+        await interaction.response.defer()
         # Perform the git pull operation
         result = subprocess.run(["git", "pull"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output = result.stdout.decode("utf-8")
