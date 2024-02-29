@@ -155,7 +155,7 @@ class OwnerCommands(commands.Cog):
         error = result.stderr.decode("utf-8")
 
         if "Already up to date." in output:
-            await interaction.response.send_message('Already up to date.', ephemeral=True)
+            await interaction.followup.send('Already up to date.', ephemeral=True)
             return
 
         if result.returncode != 0:
