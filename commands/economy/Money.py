@@ -194,7 +194,7 @@ class Money(commands.Cog):
         await interaction.response.send_message(f"You uninvested {amount} {CURRENCY_NAME}. You received {return_amount} {CURRENCY_NAME} back after a 10% penalty.")
     
     @app_commands.command(name="give", description="Give some gold to a buddy or maybe blackmail them with gold.")
-    async def give(self, ctx, member: commands.MemberConverter, member: discord.Member, amount: int):
+    async def give(self, interaction: discord.Interaction, member: discord.Member, amount: int):
         user_id = str(interaction.user.id)
         target_id = str(interaction.user)
 
