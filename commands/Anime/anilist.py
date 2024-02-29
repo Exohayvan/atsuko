@@ -391,7 +391,7 @@ class AniList(commands.Cog):
         else:
             message = "No similarities found in the specified category."
 
-        await interaction.response.send_message(message)
+        await interaction.followup.send(message)
         
     async def fetch_user_list_by_category(self, user_id, category):
         """Fetches the user's AniList anime list by category."""
