@@ -46,11 +46,10 @@ class AniList(commands.Cog):
             await ctx.send("Invalid AniList command. Use `!anilist help` for more information.")
             logger.error("Invalid AniList command.")
 
-    @anilist.command()
-    async def watching(self, ctx, user: discord.Member = None):
-        """Fetches the user's or mentioned user's watching list from AniList."""
+    @discord.app_commands.command(name="watching", description="Fetches the user's or mentioned user's watching list from AniList.")
+    async def watching(self, interaction: discord.Interaction, user: discord.Member = None):
         if user is None:
-            user = ctx.author
+            user = interaction.user
 
         self.c.execute("SELECT username FROM usernames WHERE id=?", (user.id,))
         result = self.c.fetchone()
@@ -58,7 +57,7 @@ class AniList(commands.Cog):
         if result is not None:
             username = result[0]
         else:
-            await ctx.send(f"{user.mention} has not set their AniList username.")
+            await interaction.response.send_message(f"{user.mention} has not set their AniList username.")
             logger.error("User has not set their AniList username.")
             return
 
@@ -93,10 +92,10 @@ class AniList(commands.Cog):
                 title = media['title']['english'] or media['title']['romaji']
                 embed.add_field(name="\u200B", value=f"• {title}", inline=False)
 
-            await ctx.send(embed=embed)
+            await interaction.response.send_message(embed=embed)
             logger.info(f"Info about user '{username}' sent.")
         else:
-            await ctx.send("Failed to fetch watching list.")
+            await interaction.response.send_message("Failed to fetch watching list.")
             logger.error("Failed to fetch watching list.")
 
     @group.command(name="set", description="Sets your AniList username.")
