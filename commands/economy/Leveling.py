@@ -136,14 +136,6 @@ class Leveling(commands.Cog):
             self.cursor.execute("UPDATE users SET xp = ?, level = ?, level_xp = ? WHERE id = ?", (total_xp, level, next_level_xp, user[0]))
         self.db.commit()
 
-    @commands.command(hidden=True)
-    async def removexp(self, ctx, user: discord.Member):
-        if ctx.author.id == 276782057412362241:
-            self.cursor.execute("DELETE FROM users WHERE id = ?", (user.id,))
-            self.db.commit()
-            embed = Embed(description=f'XP for user {user.name} has been removed.', color=0x00FFFF)
-            await ctx.send(embed=embed)
-
     def format_xp(self, amount):
         magnitude = 0
         while abs(amount) >= 1000:
@@ -151,9 +143,8 @@ class Leveling(commands.Cog):
             amount /= 1000.0
         return '%.1f%s' % (amount, ['', 'K', 'M', 'B', 'T', 'P'][magnitude])
 
-    @commands.command(usage="!leaderboard")
-    async def leaderboard(self, ctx):
-        """Check a servers leaderboard, can take a while sometimes."""
+    @app_commands.command(name="leaderboard", description="Check the top 10 people in this server with my xp.")
+    async def leaderboard(self, interaction: discord.Interaction):
         embed = discord.Embed(title="XP Leaderboard", color=0x00FFFF)
         
         valid_count = 0
@@ -189,7 +180,7 @@ class Leveling(commands.Cog):
     
             page += 1  # go to the next page of users
         
-        await ctx.send(embed=embed)
+        await interaction.response.send_message(embed=embed)
 
     @commands.command(hidden=True)
     async def rexp(self, ctx, *, user: str = None):
