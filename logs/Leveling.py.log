@@ -1,3 +1,7 @@
 2024-02-29 23:26:45,557:INFO:Leveling.py: Leveling Cog Loaded. Logging started...
 2024-03-01 06:54:20,659:INFO:Leveling.py: Voice channel join: maximiliangt500#0 joined Testing 4 (384kbps)
 2024-03-01 06:55:31,720:INFO:Leveling.py: Voice channel leave: maximiliangt500#0 left Testing 4 (384kbps), earned 14.2118874 XP
+2024-03-01 11:07:09,508:INFO:Leveling.py: Voice channel join: yuk_yukkkkk#0 joined Music
+2024-03-01 11:07:24,353:INFO:Leveling.py: Voice channel join: Jockie Music#8158 is bot user, ignored
+2024-03-01 11:12:20,378:INFO:Leveling.py: Voice channel join: Jockie Music#8158 is bot user, ignored
+2024-03-01 11:13:22,867:INFO:Leveling.py: Voice channel leave: yuk_yukkkkk#0 left Music, earned 74.6693334 XP
