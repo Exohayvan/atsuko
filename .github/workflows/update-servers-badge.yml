@@ -26,10 +26,8 @@ jobs:
     - name: Save badge URL to file
       run: echo "${{ steps.update-badge.outputs.badge_url }}" > badge_url.txt
 
-  - name: Commit badge URL changes
-    uses: stefanzweifel/git-auto-commit-action@v4
-    with:
-      commit_message: "Update server count badge URL"
-      file_pattern: "badge_url.txt"
-      github_token: ${{ secrets.GITHUB_TOKEN }}
-
+    - name: Commit badge URL changes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "Update server count badge URL"
+        file_pattern: "badge_url.txt"
