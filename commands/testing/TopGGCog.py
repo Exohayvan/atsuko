@@ -35,5 +35,5 @@ class TopGGCog(commands.Cog):
             await self.bot.wait_until_ready()  # Ensure bot is ready
             self.post_server_count()  # Call the function to post server count
 
-def setup(bot):
-    bot.add_cog(TopGGCog(bot))
+async def setup(bot):
+    await bot.add_cog(TopGGCog(bot))
