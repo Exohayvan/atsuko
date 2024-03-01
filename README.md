@@ -1,6 +1,10 @@
 # Astuko
 
-![Repo Size](https://img.shields.io/github/repo-size/Exohayvan/atsuko)
+![Repo Size](https://img.shields.io/github/repo-size/Exohayvan/atsuko?style=for-the-badge)
+[![GitHub last commit](https://img.shields.io/github/last-commit/exohayvan/atsuko?style=for-the-badge)]
+[![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/exohayvan/atsuko?style=for-the-badge)]
+[![GitHub issues](https://img.shields.io/github/issues-raw/exohayvan/atsuko?style=for-the-badge)]
+
 
 ## Disclaimer: Bot is going through a slash command update. As commands are being converted they may disappear from the help command and the ! prefix will no longer work for said command.
 ### [Click Here to Invite Bot](https://discord.com/oauth2/authorize?client_id=407929486206566400&permissions=2199023255551&scope=bot)
