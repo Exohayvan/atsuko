@@ -4,7 +4,8 @@
 ![Repo Size](https://img.shields.io/github/repo-size/Exohayvan/atsuko?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/exohayvan/atsuko?style=for-the-badge)
 ![GitHub issues](https://img.shields.io/github/issues-raw/exohayvan/atsuko?style=for-the-badge)
-[![Discord Server Online](https://discord.com/api/guilds/BYF6NTs/widget.png?style=shield)](https://discord.gg/BYF6NTs)
+[![Discord Server Online](https://discord.com/api/guilds/761673024004816936/widget.png?style=shield)](https://discord.gg/BYF6NTs)
+
 
 
 
