@@ -29,10 +29,13 @@ class TopGGCog(commands.Cog):
         except requests.RequestException as e:
             print('Error posting server count:', e)
 
+    async def wait_until_bot_ready(self):
+        await self.bot.wait_until_ready()
+
     @tasks.loop(hours=6)  # Run every 6 hours
     async def server_count_post(self):
-        self.bot.wait_until_ready()
-        self.post_server_count()
+        await self.wait_until_bot_ready()  # Call the awaitable function here
+        self.post_server_count()  # No need for await here
 
 def setup(bot):
     bot.add_cog(TopGGCog(bot))
