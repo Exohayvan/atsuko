@@ -32,7 +32,7 @@ class TopGGCog(commands.Cog):
     @tasks.loop(hours=6)  # Run every 6 hours
     async def server_count_post(self):
         await self.bot.wait_until_ready()
-        await self.post_server_count()
+        self.post_server_count()
 
 def setup(bot):
     bot.add_cog(TopGGCog(bot))
