@@ -1,0 +1,33 @@
+name: Update Server Count Badge
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-badge:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Read server count from file
+      id: read-server-count
+      run: echo "::set-output name=server_count::$(cat data/txt/botstats/servers.txt)"
+
+    - name: Update badge
+      run: |
+        server_count=$SERVER_COUNT
+        badge_url="https://img.shields.io/badge/Servers-$server_count-green"
+        echo "::set-output name=badge_url::$badge_url"
+
+    - name: Save badge URL to file
+      run: echo "${{ steps.update-badge.outputs.badge_url }}" > badge_url.txt
+
+    - name: Commit badge URL changes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "Update server count badge URL"
+        file_pattern: "badge_url.txt"
