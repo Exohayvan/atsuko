@@ -13,7 +13,7 @@ class TopGGCog(commands.Cog):
     def cog_unload(self):
         self.server_count_post.cancel()
 
-    async def post_server_count(self):
+    def post_server_count(self):
         server_count = len(self.bot.guilds)  # Get the current server count
         headers = {
             'Authorization': self.token
@@ -29,13 +29,10 @@ class TopGGCog(commands.Cog):
         except requests.RequestException as e:
             print('Error posting server count:', e)
 
-    async def wait_until_bot_ready(self):
-        await self.bot.wait_until_ready()
-
     @tasks.loop(hours=6)  # Run every 6 hours
     async def server_count_post(self):
-        await self.wait_until_bot_ready()  # Call the awaitable function here
-        self.post_server_count()  # No need for await here
+        await self.bot.wait_until_ready()  # Ensure bot is ready
+        self.post_server_count()  # Call the function to post server count
 
 def setup(bot):
     bot.add_cog(TopGGCog(bot))
