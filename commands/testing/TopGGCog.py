@@ -14,7 +14,7 @@ class TopGGCog(commands.Cog):
         self.server_count_post.cancel()
 
     def post_server_count(self):
-        server_count = len(self.bot.guilds)  # Get the current server count
+        server_count = len(self.bot.guilds) if self.bot else 0  # Get the current server count if bot is not None
         headers = {
             'Authorization': self.token
         }
@@ -31,8 +31,9 @@ class TopGGCog(commands.Cog):
 
     @tasks.loop(hours=6)  # Run every 6 hours
     async def server_count_post(self):
-        await self.bot.wait_until_ready()  # Ensure bot is ready
-        self.post_server_count()  # Call the function to post server count
+        if self.bot:  # Ensure bot is not None
+            await self.bot.wait_until_ready()  # Ensure bot is ready
+            self.post_server_count()  # Call the function to post server count
 
 def setup(bot):
     bot.add_cog(TopGGCog(bot))
