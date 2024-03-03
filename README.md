@@ -13,9 +13,9 @@
 ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
 ![discordusers](https://img.shields.io/badge/Users-82294-blue?style=for-the-badge)
 ![1uptime](https://img.shields.io/badge/1Day_Uptime-2.08%25-blue?style=for-the-badge)
-![7uptime]()
-![30uptime]()
-![365uptime]()
+![7uptime](https://img.shields.io/badge/7Day_Uptime-0.30%25-blue?style=for-the-badge)
+![30uptime](https://img.shields.io/badge/30Day_Uptime-0.07%25-blue?style=for-the-badge)
+![365uptime](https://img.shields.io/badge/365Day_Uptime-0.01%25-blue?style=for-the-badge)
 
 ## Disclaimer: Bot is going through a slash command update. As commands are being converted they may disappear from the help command and the ! prefix will no longer work for said command.
 ### [Click Here to Invite Bot](https://discord.com/oauth2/authorize?client_id=407929486206566400&permissions=2199023255551&scope=bot)
