@@ -1,10 +1,6 @@
 name: Update README Badges
 
-on:
-  push:
-    paths:
-      - '.github/badges/servers_badge_url.txt'
-      - '.github/badges/users_badge_url.txt'
+on: push
 
 jobs:
   update-readme:
@@ -17,14 +13,17 @@ jobs:
         run: |
           SERVER_URL=$(cat .github/badges/servers_badge_url.txt)
           sed -i "s|!\[discordservers].*|!\[discordservers]($SERVER_URL)|" README.md
+        if: github.actor != 'github-actions[bot]'
 
       - name: Update README with User Badge URL
         run: |
           USER_URL=$(cat .github/badges/users_badge_url.txt)
           sed -i "s|!\[discordusers].*|!\[discordusers]($USER_URL)|" README.md
+        if: github.actor != 'github-actions[bot]'
 
       - name: Commit and Push if changed
         run: |
           git add README.md
           git diff --staged --quiet || git commit -m "Update README badges"
           git push
+        if: github.actor != 'github-actions[bot]'
