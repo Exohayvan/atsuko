@@ -49,27 +49,27 @@ class Uptime(commands.Cog):
     async def get_uptime_summary(self, days):
         connection = sqlite3.connect(self.database_path)
         cursor = connection.cursor()
-        cursor.execute("""SELECT status, COUNT(*) 
-                          FROM uptime_records 
-                          WHERE timestamp > datetime('now', ?) 
+        # Calculate the start date for the query
+        start_date = datetime.now() - timedelta(days=days)
+        # Query to count 'online' and total records
+        cursor.execute("""SELECT status, COUNT(*) FROM uptime_records
+                          WHERE timestamp > datetime('now', ?)
                           GROUP BY status""", (f'-{days} days',))
         summary = cursor.fetchall()
+        # Calculate the total possible checks (6 checks per hour)
+        total_possible_checks = days * 24 * 6
+        online_checks = sum(count for status, count in summary if status == 'online')
         connection.close()
-        return summary
+        return online_checks, total_possible_checks
 
     @app_commands.command(name="uptime", description="Shows the bot's uptime summary.")
     async def uptime(self, interaction: discord.Interaction):
-        uptime_1d = await self.get_uptime_summary(1)
-        uptime_7d = await self.get_uptime_summary(7)
-        uptime_30d = await self.get_uptime_summary(30)
-        uptime_365d = await self.get_uptime_summary(365)
-
-        message = f"🕒 Uptime Summary:\n"
-        message += f"- Last 24 hours: {dict(uptime_1d).get('online', 0)} checks online\n"
-        message += f"- Last 7 days: {dict(uptime_7d).get('online', 0)} checks online\n"
-        message += f"- Last 30 days: {dict(uptime_30d).get('online', 0)} checks online\n"
-        message += f"- Last 365 days: {dict(uptime_365d).get('online', 0)} checks online\n"
-
+        message = "🕒 Uptime Summary:\n"
+        for days in [1, 7, 30, 365]:
+            online_checks, total_checks = await self.get_uptime_summary(days)
+            percentage_online = (online_checks / total_checks) * 100 if total_checks else 0
+            message += f"- Last {days} day(s): {percentage_online:.2f}% online ({online_checks}/{total_checks} checks)\n"
+    
         await interaction.response.send_message(message)
 
 async def setup(bot: commands.Bot) -> None:
