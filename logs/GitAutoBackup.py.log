@@ -1,53 +1,5 @@
-2024-03-03 01:45:39,220:INFO:GitAutoBackup.py: GitAutoBackup Cog Loaded. Logging started...
-2024-03-03 01:45:40,470:INFO:GitAutoBackup.py: Cleaning up...
-2024-03-03 01:45:40,470:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-03-03 01:45:40,470:INFO:GitAutoBackup.py: Pulling new commits.
-2024-03-03 01:45:41,147:INFO:GitAutoBackup.py: Adding new changes.
-2024-03-03 01:45:41,157:INFO:GitAutoBackup.py: Creating new commit: Auto comment: 2024-03-03 01:45:41
-2024-03-03 01:45:41,168:INFO:GitAutoBackup.py: Pushing new commit.
-2024-03-03 02:45:39,751:INFO:GitAutoBackup.py: Cleaning up...
-2024-03-03 02:45:39,751:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-03-03 02:45:39,751:INFO:GitAutoBackup.py: Pulling new commits.
-2024-03-03 02:45:40,659:INFO:GitAutoBackup.py: Adding new changes.
-2024-03-03 02:45:40,671:INFO:GitAutoBackup.py: Creating new commit: Auto comment: 2024-03-03 02:45:40
-2024-03-03 02:45:40,681:INFO:GitAutoBackup.py: Pushing new commit.
-2024-03-03 03:45:39,767:INFO:GitAutoBackup.py: Cleaning up...
-2024-03-03 03:45:39,768:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-03-03 03:45:39,768:INFO:GitAutoBackup.py: Pulling new commits.
-2024-03-03 03:45:40,712:INFO:GitAutoBackup.py: Adding new changes.
-2024-03-03 03:45:40,728:INFO:GitAutoBackup.py: Creating new commit: Auto comment: 2024-03-03 03:45:40
-2024-03-03 03:45:40,740:INFO:GitAutoBackup.py: Pushing new commit.
-2024-03-03 04:45:39,750:INFO:GitAutoBackup.py: Cleaning up...
-2024-03-03 04:45:39,750:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-03-03 04:45:39,750:INFO:GitAutoBackup.py: Pulling new commits.
-2024-03-03 04:45:40,677:INFO:GitAutoBackup.py: Adding new changes.
-2024-03-03 04:45:40,697:INFO:GitAutoBackup.py: Creating new commit: Auto comment: 2024-03-03 04:45:40
-2024-03-03 04:45:40,710:INFO:GitAutoBackup.py: Pushing new commit.
-2024-03-03 05:45:39,761:INFO:GitAutoBackup.py: Cleaning up...
-2024-03-03 05:45:39,761:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-03-03 05:45:39,761:INFO:GitAutoBackup.py: Pulling new commits.
-2024-03-03 05:45:40,674:INFO:GitAutoBackup.py: Adding new changes.
-2024-03-03 05:45:40,698:INFO:GitAutoBackup.py: Creating new commit: Auto comment: 2024-03-03 05:45:40
-2024-03-03 05:45:40,714:INFO:GitAutoBackup.py: Pushing new commit.
-2024-03-03 06:45:39,763:INFO:GitAutoBackup.py: Cleaning up...
-2024-03-03 06:45:39,763:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-03-03 06:45:39,763:INFO:GitAutoBackup.py: Pulling new commits.
-2024-03-03 06:45:40,690:INFO:GitAutoBackup.py: Adding new changes.
-2024-03-03 06:45:40,719:INFO:GitAutoBackup.py: Creating new commit: Auto comment: 2024-03-03 06:45:40
-2024-03-03 06:45:40,739:INFO:GitAutoBackup.py: Pushing new commit.
-2024-03-03 07:45:40,519:INFO:GitAutoBackup.py: Cleaning up...
-2024-03-03 07:45:40,519:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-03-03 07:45:40,519:INFO:GitAutoBackup.py: Pulling new commits.
-2024-03-03 07:45:41,450:INFO:GitAutoBackup.py: Adding new changes.
-2024-03-03 07:45:41,481:INFO:GitAutoBackup.py: Creating new commit: Auto comment: 2024-03-03 07:45:41
-2024-03-03 07:45:41,504:INFO:GitAutoBackup.py: Pushing new commit.
-2024-03-03 08:45:39,766:INFO:GitAutoBackup.py: Cleaning up...
-2024-03-03 08:45:39,766:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-03-03 08:45:39,767:INFO:GitAutoBackup.py: Pulling new commits.
-2024-03-03 08:45:40,683:INFO:GitAutoBackup.py: Adding new changes.
-2024-03-03 08:45:40,720:INFO:GitAutoBackup.py: Creating new commit: Auto comment: 2024-03-03 08:45:40
-2024-03-03 08:45:40,742:INFO:GitAutoBackup.py: Pushing new commit.
-2024-03-03 09:45:39,775:INFO:GitAutoBackup.py: Cleaning up...
-2024-03-03 09:45:39,776:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-03-03 09:45:39,776:INFO:GitAutoBackup.py: Pulling new commits.
-2024-03-03 09:45:40,729:INFO:GitAutoBackup.py: Adding new changes.
+2024-03-03 10:27:06,478:INFO:GitAutoBackup.py: GitAutoBackup Cog Loaded. Logging started...
+2024-03-03 10:27:07,919:INFO:GitAutoBackup.py: Cleaning up...
+2024-03-03 10:27:07,919:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
+2024-03-03 10:27:07,919:INFO:GitAutoBackup.py: Pulling new commits.
+2024-03-03 10:27:08,605:INFO:GitAutoBackup.py: Adding new changes.
