@@ -21,6 +21,24 @@ class BadgeUpdater(commands.Cog):
         badge_url = f'https://img.shields.io/badge/{label}-{adjusted_message}-{color}'
         return badge_url
 
+    async def update_messagecount_txt(self):
+        # Read the message count from the file
+        messagecount_file_path = '.github/badges/messagecount.txt'
+        try:
+            with open(messagecount_file_path, 'r') as file:
+                message_count = file.read().strip()
+        except FileNotFoundError:
+            print(f"File not found: {messagecount_file_path}")
+            return  # Exit the method if the file doesn't exist
+
+        # Generate the badge URL using the message count
+        badge_url = await self.generate_badge_url('Messages_Processed', message_count, 'red')
+        
+        # Save the badge URL to a new file
+        badge_url_file_path = '.github/badges/messagecount_badge_url.txt'
+        with open(badge_url_file_path, 'w') as badge_file:
+            badge_file.write(badge_url)
+            
     async def update_uptime_badge_urls(self):
         # Define the periods for which to update uptime badge URLs
         periods = [1, 7, 30, 365]
@@ -67,7 +85,8 @@ class BadgeUpdater(commands.Cog):
         await self.update_servers_txt()
         await self.update_users_txt()
         await self.update_uptime_badge_urls()
-
+        await self.update_messagecount_txt()
+        
     @update_badges.before_loop
     async def before_update_badges(self):
         await self.bot.wait_until_ready()
