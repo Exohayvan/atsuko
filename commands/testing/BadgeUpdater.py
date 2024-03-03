@@ -17,7 +17,7 @@ class BadgeUpdater(commands.Cog):
         
         # Encode the label and message to ensure the URL is valid
         encoded_label = quote(label)
-        encoded_message = quote(adjusted_message)
+        encoded_message = quote(message)
         
         badge_url = f'https://img.shields.io/badge/{encoded_label}-{encoded_message}-{color}'
         return badge_url
