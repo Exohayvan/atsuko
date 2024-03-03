@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import os
 
 class BadgeUpdater(commands.Cog):
@@ -10,34 +10,25 @@ class BadgeUpdater(commands.Cog):
     def cog_unload(self):
         self.update_badges.cancel()
 
-    async def generate_badge_url(self, file_path):
-        try:
-            with open(file_path, 'r') as file:
-                count = file.read().strip()
-                badge_url = f'https://img.shields.io/badge/Count-{count}-blue'
-                return badge_url
-        except FileNotFoundError:
-            return None
+    async def generate_badge_url(self, label, count, color='blue'):
+        badge_url = f'https://img.shields.io/badge/{label}-{count}-{color}'
+        return badge_url
 
     async def update_servers_txt(self):
-        try:
-            with open('.github/badges/servers.txt', 'r') as file:
-                server_count = file.read().strip()
-                badge_url = f'https://img.shields.io/badge/Servers-{server_count}-green'
-                with open('.github/badges/servers_badge_url.txt', 'w') as badge_file:
-                    badge_file.write(badge_url)
-        except FileNotFoundError:
-            pass
+        server_count = len(self.bot.guilds)
+        with open('.github/badges/servers.txt', 'w') as file:
+            file.write(str(server_count))
+        badge_url = await self.generate_badge_url('Servers', server_count, 'green')
+        with open('.github/badges/servers_badge_url.txt', 'w') as badge_file:
+            badge_file.write(badge_url)
 
     async def update_users_txt(self):
-        try:
-            with open('.github/badges/users.txt', 'r') as file:
-                user_count = file.read().strip()
-                badge_url = f'https://img.shields.io/badge/Users-{user_count}-blue'
-                with open('.github/badges/users_badge_url.txt', 'w') as badge_file:
-                    badge_file.write(badge_url)
-        except FileNotFoundError:
-            pass
+        user_count = sum(len(guild.members) for guild in self.bot.guilds)
+        with open('.github/badges/users.txt', 'w') as file:
+            file.write(str(user_count))
+        badge_url = await self.generate_badge_url('Users', user_count)
+        with open('.github/badges/users_badge_url.txt', 'w') as badge_file:
+            badge_file.write(badge_url)
 
     @tasks.loop(minutes=30)
     async def update_badges(self):
