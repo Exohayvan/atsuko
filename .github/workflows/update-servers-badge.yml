@@ -1,33 +1,30 @@
-name: Update Server Count Badge
+name: Update README Badges
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - '.github/badges/servers_badge_url.txt'
+      - '.github/badges/users_badge_url.txt'
 
 jobs:
-  update-badge:
+  update-readme:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Read server count from file
-      id: read-server-count
-      run: echo "::set-output name=server_count::$(cat data/txt/botstats/servers.txt)"
+      - name: Update README with Server Badge URL
+        run: |
+          SERVER_URL=$(cat .github/badges/servers_badge_url.txt)
+          sed -i "s|!\[discordservers].*|!\[discordservers]($SERVER_URL)|" README.md
 
-    - name: Update badge
-      run: |
-        server_count=$SERVER_COUNT
-        badge_url="https://img.shields.io/badge/Servers-$server_count-green"
-        echo "::set-output name=badge_url::$badge_url"
+      - name: Update README with User Badge URL
+        run: |
+          USER_URL=$(cat .github/badges/users_badge_url.txt)
+          sed -i "s|!\[discordusers].*|!\[discordusers]($USER_URL)|" README.md
 
-    - name: Save badge URL to file
-      run: echo "${{ steps.update-badge.outputs.badge_url }}" > badge_url.txt
-
-    - name: Commit badge URL changes
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: "Update server count badge URL"
-        file_pattern: "badge_url.txt"
+      - name: Commit and Push if changed
+        run: |
+          git add README.md
+          git diff --staged --quiet || git commit -m "Update README badges"
+          git push
