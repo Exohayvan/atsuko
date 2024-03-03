@@ -60,10 +60,11 @@ class Uptime(commands.Cog):
             with open(filename, 'w') as file:
                 file.write(f"{percentage_online:.2f}%")
                 
-    @tasks.loop(seconds=60)
+    @tasks.loop(seconds=30)
     async def check_discord_connectivity(self):
         current_time = datetime.now()
-        if current_time.minute % 10 == 0 and current_time.second < 30:  # A 30-second window for minor deviations
+        # Check if the current time is exactly on a 10-minute mark
+        if current_time.minute % 10 == 0 and current_time.second == 0:
             status = await self.check_connectivity()
             await self.record_uptime(status)
 
