@@ -19,6 +19,8 @@
 ![365uptime](https://img.shields.io/badge/365Day_Uptime-0.01%25-blue?style=for-the-badge)
 
 *Note: Uptime collection for this bot started on 03/03/2024 at 12:00 AM.*
+*Uptime should update every hour to every 2 hours*
+
 
 ## Disclaimer: Bot is going through a slash command update. As commands are being converted they may disappear from the help command and the ! prefix will no longer work for said command.
 ### [Click Here to Invite Bot](https://discord.com/oauth2/authorize?client_id=407929486206566400&permissions=2199023255551&scope=bot)
