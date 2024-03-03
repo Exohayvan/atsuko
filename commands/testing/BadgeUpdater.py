@@ -14,7 +14,6 @@ class BadgeUpdater(commands.Cog):
     async def generate_badge_url(self, label, message, color='blue'):
         # Ensure message is a string, especially if it's a numeric value like percentage
         message_str = str(message)
-        adjusted_message = message_str.replace('%', '%25')
         
         # Encode the label and message to ensure the URL is valid
         encoded_label = quote(label)
