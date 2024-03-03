@@ -12,11 +12,13 @@ class BadgeUpdater(commands.Cog):
         self.update_badges.cancel()
 
     async def update_servers_txt(self):
+        print("Updating servers.txt")
         server_count = len(self.bot.guilds)
         with open('.github/badges/servers.txt', 'w') as file:
             file.write(str(server_count))
 
     async def update_users_txt(self):
+        print("Updating users.txt")
         user_count = len(set(self.bot.get_all_members()))
         with open('.github/badges/users.txt', 'w') as file:
             file.write(str(user_count))
@@ -32,5 +34,6 @@ class BadgeUpdater(commands.Cog):
 
 async def setup(bot):
     cog = BadgeUpdater(bot)
+    await cog.before_update_badges()  # Ensure bot is ready before starting the loop
     await bot.add_cog(cog)
-    await cog.before_update_badges()
+    print("BadgeUpdater cog added")
