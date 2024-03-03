@@ -14,6 +14,26 @@ jobs:
           SERVER_URL=$(cat .github/badges/servers_badge_url.txt)?style=for-the-badge
           sed -i "s|!\[discordservers].*|!\[discordservers]($SERVER_URL)|" README.md
         if: github.actor != 'github-actions[bot]'
+
+      - name: Update README with 1-Day Uptime Badge URL
+        run: |
+          UPTIME_URL=$(cat .github/badges/1uptime_badge_url.txt)?style=for-the-badge
+          sed -i "s|!\[1uptime].*|!\[1uptime]($UPTIME_URL)|" README.md
+
+      - name: Update README with 7-Day Uptime Badge URL
+        run: |
+          UPTIME_URL=$(cat .github/badges/7uptime_badge_url.txt)?style=for-the-badge
+          sed -i "s|!\[7uptime].*|!\[7uptime]($UPTIME_URL)|" README.md
+
+      - name: Update README with 30-Day Uptime Badge URL
+        run: |
+          UPTIME_URL=$(cat .github/badges/30uptime_badge_url.txt)?style=for-the-badge
+          sed -i "s|!\[30uptime].*|!\[30uptime]($UPTIME_URL)|" README.md
+
+      - name: Update README with 365-Day Uptime Badge URL
+        run: |
+          UPTIME_URL=$(cat .github/badges/365uptime_badge_url.txt)?style=for-the-badge
+          sed -i "s|!\[365uptime].*|!\[365uptime]($UPTIME_URL)|" README.md
       
       - name: Update README with User Badge URL
         run: |
