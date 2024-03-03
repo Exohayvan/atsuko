@@ -62,7 +62,7 @@ class BadgeUpdater(commands.Cog):
         with open('.github/badges/users_badge_url.txt', 'w') as badge_file:
             badge_file.write(badge_url)
 
-    @tasks.loop(minutes=30)
+    @tasks.loop(minutes=10)
     async def update_badges(self):
         await self.update_servers_txt()
         await self.update_users_txt()
