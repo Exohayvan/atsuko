@@ -71,8 +71,8 @@ class Uptime(commands.Cog):
     @tasks.loop(seconds=60)
     async def check_discord_connectivity(self):
         current_time = datetime.now()
-        # Check if the current minute is on a 10-minute mark
-        if current_time.minute % 10 == 0:
+        # Check if the current minute is on a 5-minute mark
+        if current_time.minute % 5 == 0:
             status = await self.check_connectivity()
             await self.record_uptime(status)
             await self.delete_old_records()
@@ -88,7 +88,7 @@ class Uptime(commands.Cog):
                           GROUP BY status""", (f'-{days} days',))
         summary = cursor.fetchall()
         # Calculate the total possible checks (6 checks per hour)
-        total_possible_checks = days * 24 * 6
+        total_possible_checks = days * 24 * 12
         online_checks = sum(count for status, count in summary if status == 'online')
         connection.close()
         return online_checks, total_possible_checks
