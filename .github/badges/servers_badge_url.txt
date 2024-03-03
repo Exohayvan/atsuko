@@ -1,1 +1,1 @@
-https://img.shields.io/badge/Servers-39-green
+https://img.shields.io/badge/Servers-39-green?style=for-the-badge
