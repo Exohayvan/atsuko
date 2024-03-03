@@ -14,6 +14,31 @@ class BadgeUpdater(commands.Cog):
         badge_url = f'https://img.shields.io/badge/{label}-{count}-{color}'
         return badge_url
 
+    async def update_uptime_badge_urls(self):
+        # Define the periods for which to update uptime badge URLs
+        periods = [1, 7, 30, 365]
+        # Ensure the badges directory exists
+        os.makedirs('.github/badges/', exist_ok=True)
+        
+        for period in periods:
+            # Read the uptime percentage from the file
+            uptime_file_path = f'.github/badges/{period}uptime.txt'
+            try:
+                with open(uptime_file_path, 'r') as file:
+                    uptime_percentage = file.read().strip()
+            except FileNotFoundError:
+                print(f"File not found: {uptime_file_path}")
+                continue  # Skip to the next period if the file doesn't exist
+
+            # Generate the badge URL using the uptime percentage
+            label = f'{period}Day_Uptime'
+            badge_url = await self.generate_badge_url(label, uptime_percentage, 'blue')
+            
+            # Save the badge URL to a new file
+            badge_url_file_path = f'.github/badges/{period}uptime_badge_url.txt'
+            with open(badge_url_file_path, 'w') as badge_file:
+                badge_file.write(badge_url)
+                
     async def update_servers_txt(self):
         server_count = len(self.bot.guilds)
         with open('.github/badges/servers.txt', 'w') as file:
@@ -34,6 +59,7 @@ class BadgeUpdater(commands.Cog):
     async def update_badges(self):
         await self.update_servers_txt()
         await self.update_users_txt()
+        await self.update_uptime_badge_urls()
 
     @update_badges.before_loop
     async def before_update_badges(self):
