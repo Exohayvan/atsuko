@@ -3,6 +3,7 @@ from discord.ext import commands, tasks
 from discord import app_commands
 import sqlite3
 from datetime import datetime, timedelta
+import os
 
 class Uptime(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
