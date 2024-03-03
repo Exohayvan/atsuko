@@ -34,6 +34,14 @@ class Uptime(commands.Cog):
         connection.commit()
         connection.close()
 
+    async def delete_old_records(self):
+        connection = sqlite3.connect(self.database_path)
+        cursor = connection.cursor()
+        # Delete records older than 365 days
+        cursor.execute("DELETE FROM uptime_records WHERE timestamp < datetime('now', '-365 days')")
+        connection.commit()
+        connection.close()
+    
     async def check_connectivity(self):
         try:
             await self.bot.fetch_user(self.bot.user.id)
@@ -67,6 +75,7 @@ class Uptime(commands.Cog):
         if current_time.minute % 10 == 0:
             status = await self.check_connectivity()
             await self.record_uptime(status)
+            await self.delete_old_records()
 
     async def get_uptime_summary(self, days):
         connection = sqlite3.connect(self.database_path)
