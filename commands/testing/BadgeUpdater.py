@@ -14,12 +14,11 @@ class BadgeUpdater(commands.Cog):
     async def generate_badge_url(self, label, message, color='blue'):
         # Ensure message is a string, especially if it's a numeric value like percentage
         message_str = str(message)
-        
+
+        adjusted_message = message_str.replace('%', '%25')
         # Encode the label and message to ensure the URL is valid
-        encoded_label = quote(label)
-        encoded_message = quote(message)
         
-        badge_url = f'https://img.shields.io/badge/{encoded_label}-{encoded_message}-{color}'
+        badge_url = f'https://img.shields.io/badge/{label}-{adjusted_message}-{color}'
         return badge_url
 
     async def update_uptime_badge_urls(self):
