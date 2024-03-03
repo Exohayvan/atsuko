@@ -12,6 +12,7 @@
 ### Astuko's Stats
 ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
 ![discordusers](https://img.shields.io/badge/Users-82293-blue?style=for-the-badge)
+![1uptime](https://img.shields.io/badge/1Day_Uptime-0.69%-blue)
 
 
 
