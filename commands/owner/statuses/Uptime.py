@@ -42,7 +42,7 @@ class Uptime(commands.Cog):
     @tasks.loop(seconds=60)
     async def check_discord_connectivity(self):
         current_time = datetime.now()
-        if current_time.minute % 10 == 0 and current_time.second < 5:  # A 5-second window for minor deviations
+        if current_time.minute % 10 == 0 and current_time.second < 30:  # A 30-second window for minor deviations
             status = await self.check_connectivity()
             await self.record_uptime(status)
 
