@@ -11,13 +11,13 @@ jobs:
 
       - name: Update README with Server Badge URL
         run: |
-          SERVER_URL=$(cat .github/badges/servers_badge_url.txt)
+          SERVER_URL=$(cat .github/badges/servers_badge_url.txt)?style=for-the-badge
           sed -i "s|!\[discordservers].*|!\[discordservers]($SERVER_URL)|" README.md
         if: github.actor != 'github-actions[bot]'
-
+      
       - name: Update README with User Badge URL
         run: |
-          USER_URL=$(cat .github/badges/users_badge_url.txt)
+          USER_URL=$(cat .github/badges/users_badge_url.txt)?style=for-the-badge
           sed -i "s|!\[discordusers].*|!\[discordusers]($USER_URL)|" README.md
         if: github.actor != 'github-actions[bot]'
 
