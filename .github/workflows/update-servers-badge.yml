@@ -41,6 +41,11 @@ jobs:
           sed -i "s|!\[discordusers].*|!\[discordusers]($USER_URL)|" README.md
         if: github.actor != 'github-actions[bot]'
 
+      - name: Update README with Message Processed Badge URL
+        run: |
+          MESSAGE_URL=$(cat .github/badges/messagecount_badge_url.txt)?style=for-the-badge
+          sed -i "s|!\[messageprocessed].*|!\[messageprocessed]($MESSAGE_URL)|" README.md
+
       - name: Commit and Push if changed
         run: |
           git config user.email "actions@github.com"
