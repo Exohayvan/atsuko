@@ -1,1 +1,19 @@
 2024-03-03 00:16:08,756:INFO:AnilistFeed.py: AnilistFeed Cog Loaded. Logging started...
+2024-03-03 00:16:12,151:WARNING:AnilistFeed.py: Checking for updates. Possible high API calls.
+2024-03-03 00:16:12,151:INFO:AnilistFeed.py: Fetching latest activity for CosmicUnicornFam | 236961890637578240
+2024-03-03 00:16:12,381:INFO:AnilistFeed.py: Checking if activity for CosmicUnicornFam is new
+2024-03-03 00:16:12,381:INFO:AnilistFeed.py: Fetching latest activity for exohayvan | 276782057412362241
+2024-03-03 00:16:12,620:INFO:AnilistFeed.py: Checking if activity for exohayvan is new
+2024-03-03 00:16:12,620:INFO:AnilistFeed.py: Fetching latest activity for XdevilsacidX | 300862398754193408
+2024-03-03 00:16:12,859:INFO:AnilistFeed.py: Checking if activity for XdevilsacidX is new
+2024-03-03 00:16:12,860:INFO:AnilistFeed.py: Fetching latest activity for SleepySpyro | 302587918026014720
+2024-03-03 00:16:13,080:INFO:AnilistFeed.py: Checking if activity for SleepySpyro is new
+2024-03-03 00:16:13,080:INFO:AnilistFeed.py: Fetching latest activity for AkiraNakamura | 389474720036290564
+2024-03-03 00:16:13,316:INFO:AnilistFeed.py: Checking if activity for AkiraNakamura is new
+2024-03-03 00:16:13,316:INFO:AnilistFeed.py: Fetching latest activity for Snakesepic | 474568724268187648
+2024-03-03 00:16:13,368:INFO:AnilistFeed.py: Fetching latest activity for EmbersofNovember | 833112981452750869
+2024-03-03 00:16:13,413:INFO:AnilistFeed.py: Fetching latest activity for jiggly08 | 875962318050172979
+2024-03-03 00:16:13,458:INFO:AnilistFeed.py: Fetching latest activity for pandabear99 | 955651036452905020
+2024-03-03 00:16:13,498:INFO:AnilistFeed.py: Fetching latest activity for PremiumLime | 958277287915159572
+2024-03-03 00:16:13,542:INFO:AnilistFeed.py: Fetching latest activity for chaosdragonsteel | 1109300306036133969
+2024-03-03 00:16:13,590:INFO:AnilistFeed.py: Fetching latest activity for KiBubbless | 1157134343504920727
