@@ -1,13 +1,17 @@
 # Astuko
 
+### GitHub Stats
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/exohayvan/atsuko?style=for-the-badge)
 ![Repo Size](https://img.shields.io/github/repo-size/Exohayvan/atsuko?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/exohayvan/atsuko?style=for-the-badge)
 ![GitHub issues](https://img.shields.io/github/issues-raw/exohayvan/atsuko?style=for-the-badge)
 
+### My Server Stats
 [![Discord Server Online](https://img.shields.io/discord/761673024004816936.svg?logo=discord&style=for-the-badge)](https://discord.gg/BYF6NTs)
-- Discord Servers: ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
-- Discord Users: ![discordusers](https://img.shields.io/badge/Users-82296-blue?style=for-the-badge)
+
+### Astuko's Stats
+![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
+![discordusers](https://img.shields.io/badge/Users-82296-blue?style=for-the-badge)
 
 
 
