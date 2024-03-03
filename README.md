@@ -25,6 +25,7 @@
 
 *Uptime is set as a check every 10th minute (Ex. 1:00am, 1:10am, 1:20am... 5:30am and so on), if bot is able to connect to discord API it counts bot as online and records it.*
 
+*Update: 10-minute checks weren't very accurate, changed to every 5th-minute on 03/03/2024 at 10:30 AM EST.*
 
 ## Disclaimer: Bot is going through a slash command update. As commands are being converted they may disappear from the help command and the ! prefix will no longer work for said command.
 ### [Click Here to Invite Bot](https://discord.com/oauth2/authorize?client_id=407929486206566400&permissions=2199023255551&scope=bot)
