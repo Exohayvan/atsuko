@@ -10,6 +10,7 @@
 [![Discord Server Online](https://img.shields.io/discord/761673024004816936.svg?logo=discord&style=for-the-badge)](https://discord.gg/BYF6NTs)
 
 ### Astuko's Stats
+*Most stats started being recording on 03/03/2024*
 ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
 ![discordusers](https://img.shields.io/badge/Users-82214-blue?style=for-the-badge)
 ![messageprocessed](https://img.shields.io/badge/Messages_Processed-359-red?style=for-the-badge)
