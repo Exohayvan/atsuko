@@ -32,5 +32,5 @@ class BadgeUpdater(commands.Cog):
 
 async def setup(bot):
     cog = BadgeUpdater(bot)
-    bot.add_cog(cog)
+    await bot.add_cog(cog)
     await cog.before_update_badges()
