@@ -10,6 +10,7 @@ class Uptime(commands.Cog):
         self.database_path = './data/db/uptime.db'
         self.initialize_database()
         self.check_discord_connectivity.start()
+        self.update_uptime_badges_task.start()
 
     def cog_unload(self):
         self.check_discord_connectivity.cancel()
@@ -39,6 +40,25 @@ class Uptime(commands.Cog):
         except Exception:
             return "offline"
 
+    async def update_uptime_badges(self):
+        # Ensure the directory exists
+        os.makedirs('.github/badges/', exist_ok=True)
+        
+        # Define the periods for which to calculate uptime
+        periods = [1, 7, 30, 365]
+        
+        # Iterate over each period, calculate the uptime, and write to the corresponding file
+        for period in periods:
+            online_checks, total_checks = await self.get_uptime_summary(period)
+            percentage_online = (online_checks / total_checks) * 100 if total_checks else 0
+            
+            # Define the filename based on the period
+            filename = f'.github/badges/{period}uptime.txt'
+            
+            # Write the percentage to the file
+            with open(filename, 'w') as file:
+                file.write(f"{percentage_online:.2f}%")
+                
     @tasks.loop(seconds=60)
     async def check_discord_connectivity(self):
         current_time = datetime.now()
@@ -71,6 +91,14 @@ class Uptime(commands.Cog):
             message += f"- Last {days} day(s): {percentage_online:.2f}% online ({online_checks}/{total_checks} checks)\n"
     
         await interaction.response.send_message(message)
+        
+    @tasks.loop(minutes=30)
+    async def update_uptime_badges_task(self):
+        await self.update_uptime_badges()
 
+    @update_uptime_badges_task.before_loop
+    async def before_update_uptime_badges_task(self):
+        await self.bot.wait_until_ready()
+        
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(Uptime(bot))
