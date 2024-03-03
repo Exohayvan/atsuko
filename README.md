@@ -6,8 +6,8 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/exohayvan/atsuko?style=for-the-badge)
 
 [![Discord Server Online](https://img.shields.io/discord/761673024004816936.svg?logo=discord&style=for-the-badge)](https://discord.gg/BYF6NTs)
-- Discord Servers: ![discordservers]
-- Discord Users: ![discordusers]
+- Discord Servers: ![discordservers](https://img.shields.io/badge/Servers-39-green)
+- Discord Users: ![discordusers](https://img.shields.io/badge/Users-82296-blue)
 
 
 
