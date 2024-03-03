@@ -11,12 +11,12 @@
 
 ### Astuko's Stats
 ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
-![discordusers](https://img.shields.io/badge/Users-82260-blue?style=for-the-badge)
+![discordusers](https://img.shields.io/badge/Users-82252-blue?style=for-the-badge)
 
-![1uptime](https://img.shields.io/badge/1Day_Uptime-15.28%25-blue?style=for-the-badge)
-![7uptime](https://img.shields.io/badge/7Day_Uptime-2.18%25-blue?style=for-the-badge)
-![30uptime](https://img.shields.io/badge/30Day_Uptime-0.51%25-blue?style=for-the-badge)
-![365uptime](https://img.shields.io/badge/365Day_Uptime-0.04%25-blue?style=for-the-badge)
+![1uptime](https://img.shields.io/badge/1Day_Uptime-19.44%25-blue?style=for-the-badge)
+![7uptime](https://img.shields.io/badge/7Day_Uptime-2.78%25-blue?style=for-the-badge)
+![30uptime](https://img.shields.io/badge/30Day_Uptime-0.65%25-blue?style=for-the-badge)
+![365uptime](https://img.shields.io/badge/365Day_Uptime-0.05%25-blue?style=for-the-badge)
 
 *Note: Uptime collection for this bot started on 03/03/2024 at 12:00 AM EST.*
 *Uptime should update every hour to every 2 hours.*
