@@ -1,1 +1,1 @@
-https://img.shields.io/badge/7Day_Uptime-6.75%25-blue
+https://img.shields.io/badge/7Day_Uptime-6.80%25-blue
