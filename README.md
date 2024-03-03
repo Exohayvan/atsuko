@@ -21,7 +21,9 @@
 *Note: Uptime collection for this bot started on 03/03/2024 at 12:00 AM EST.*
 *Uptime should update every hour to every 2 hours.*
 
-*Disclaimer: Uptime collection was somewhat broken until 03/03/2024 at 1:10 AM EST*
+*Uptime collection was somewhat broken until 03/03/2024 at 1:10 AM EST*
+
+*Uptime is set as a check every 10th minute (Ex. 1:00am, 1:10am, 1:20am... 5:30am and so on), if bot is able to connect to discord API it counts bot as online and records it*
 
 
 ## Disclaimer: Bot is going through a slash command update. As commands are being converted they may disappear from the help command and the ! prefix will no longer work for said command.
