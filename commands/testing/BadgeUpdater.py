@@ -15,6 +15,7 @@ class BadgeUpdater(commands.Cog):
         print("Updating servers.txt")
         server_count = len(self.bot.guilds)
         try:
+            os.makedirs('.github/badges/', exist_ok=True)  # Create directory if it doesn't exist
             with open('.github/badges/servers.txt', 'w') as file:
                 file.write(str(server_count))
             print("servers.txt updated successfully")
@@ -25,6 +26,7 @@ class BadgeUpdater(commands.Cog):
         print("Updating users.txt")
         user_count = len(set(self.bot.get_all_members()))
         try:
+            os.makedirs('.github/badges/', exist_ok=True)  # Create directory if it doesn't exist
             with open('.github/badges/users.txt', 'w') as file:
                 file.write(str(user_count))
             print("users.txt updated successfully")
