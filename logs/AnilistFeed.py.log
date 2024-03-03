@@ -1,1 +1,26 @@
 2024-03-03 00:37:32,044:INFO:AnilistFeed.py: AnilistFeed Cog Loaded. Logging started...
+2024-03-03 00:37:35,373:WARNING:AnilistFeed.py: Checking for updates. Possible high API calls.
+2024-03-03 00:37:35,373:INFO:AnilistFeed.py: Fetching latest activity for CosmicUnicornFam | 236961890637578240
+2024-03-03 00:37:35,580:INFO:AnilistFeed.py: Checking if activity for CosmicUnicornFam is new
+2024-03-03 00:37:35,580:INFO:AnilistFeed.py: Fetching latest activity for exohayvan | 276782057412362241
+2024-03-03 00:37:35,808:INFO:AnilistFeed.py: Checking if activity for exohayvan is new
+2024-03-03 00:37:35,808:INFO:AnilistFeed.py: Fetching latest activity for XdevilsacidX | 300862398754193408
+2024-03-03 00:37:36,030:INFO:AnilistFeed.py: Checking if activity for XdevilsacidX is new
+2024-03-03 00:37:36,030:INFO:AnilistFeed.py: Fetching latest activity for SleepySpyro | 302587918026014720
+2024-03-03 00:37:36,272:INFO:AnilistFeed.py: Checking if activity for SleepySpyro is new
+2024-03-03 00:37:36,272:INFO:AnilistFeed.py: Fetching latest activity for AkiraNakamura | 389474720036290564
+2024-03-03 00:37:36,479:INFO:AnilistFeed.py: Checking if activity for AkiraNakamura is new
+2024-03-03 00:37:36,479:INFO:AnilistFeed.py: Fetching latest activity for Snakesepic | 474568724268187648
+2024-03-03 00:37:36,693:INFO:AnilistFeed.py: Checking if activity for Snakesepic is new
+2024-03-03 00:37:36,693:INFO:AnilistFeed.py: Fetching latest activity for EmbersofNovember | 833112981452750869
+2024-03-03 00:37:36,893:INFO:AnilistFeed.py: Checking if activity for EmbersofNovember is new
+2024-03-03 00:37:36,893:INFO:AnilistFeed.py: Fetching latest activity for jiggly08 | 875962318050172979
+2024-03-03 00:37:37,092:INFO:AnilistFeed.py: Checking if activity for jiggly08 is new
+2024-03-03 00:37:37,092:INFO:AnilistFeed.py: Fetching latest activity for pandabear99 | 955651036452905020
+2024-03-03 00:37:37,305:INFO:AnilistFeed.py: Checking if activity for pandabear99 is new
+2024-03-03 00:37:37,305:INFO:AnilistFeed.py: Fetching latest activity for PremiumLime | 958277287915159572
+2024-03-03 00:37:37,490:INFO:AnilistFeed.py: Checking if activity for PremiumLime is new
+2024-03-03 00:37:37,490:INFO:AnilistFeed.py: Fetching latest activity for chaosdragonsteel | 1109300306036133969
+2024-03-03 00:37:37,686:INFO:AnilistFeed.py: Checking if activity for chaosdragonsteel is new
+2024-03-03 00:37:37,686:INFO:AnilistFeed.py: Fetching latest activity for KiBubbless | 1157134343504920727
+2024-03-03 00:37:37,893:INFO:AnilistFeed.py: Checking if activity for KiBubbless is new
