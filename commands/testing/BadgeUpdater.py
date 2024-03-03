@@ -12,9 +12,10 @@ class BadgeUpdater(commands.Cog):
         self.update_badges.cancel()
 
     async def generate_badge_url(self, label, message, color='blue'):
-        # Encode the label and message to ensure the URL is valid
+        # Replace '%' with '%25' or remove it before encoding
+        adjusted_message = message.replace('%', '%25')
         encoded_label = quote(label)
-        encoded_message = quote(message)
+        encoded_message = quote(adjusted_message)
         badge_url = f'https://img.shields.io/badge/{encoded_label}-{encoded_message}-{color}'
         return badge_url
 
