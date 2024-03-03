@@ -11,6 +11,7 @@
 
 ### Astuko's Stats
 *Most stats started being recording on 03/03/2024*
+
 ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
 ![discordusers](https://img.shields.io/badge/Users-82214-blue?style=for-the-badge)
 ![messageprocessed](https://img.shields.io/badge/Messages_Processed-359-red?style=for-the-badge)
