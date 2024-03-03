@@ -18,7 +18,7 @@ class BadgeUpdater(commands.Cog):
         adjusted_message = message_str.replace('%', '%25')
         # Encode the label and message to ensure the URL is valid
         
-        badge_url = f'https://img.shields.io/badge/{label}-{adjusted_message}-{color}?style=for-the-badge'
+        badge_url = f'https://img.shields.io/badge/{label}-{adjusted_message}-{color}'
         return badge_url
 
     async def update_uptime_badge_urls(self):
