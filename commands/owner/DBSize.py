@@ -32,23 +32,30 @@ class DBSize(commands.Cog):
         """Retrieves the size of all .db files in the ./data directory."""
         try:
             embed = discord.Embed(title="Database Sizes", color=discord.Color.blue())
-    
+            field_count = 0
+            
             for root, dirs, files in os.walk('./data'):
                 for file in files:
                     if file.endswith('.db'):
+                        if field_count == 25:
+                            # When reaching the limit, send the current embed and start a new one
+                            await ctx.send(embed=embed)
+                            embed = discord.Embed(title="Database Sizes (cont.)", color=discord.Color.blue())
+                            field_count = 0
+                        
                         full_file_path = os.path.join(root, file)
-                        print(f"Checking file: {full_file_path}")  # Debug print
                         file_size = os.path.getsize(full_file_path)
                         file_size_readable = convert_size(file_size)
                         embed.add_field(name=full_file_path, value=file_size_readable, inline=False)
-            if len(embed.fields) == 0:
-                print("No .db files found in './data' directory.")  # Debug print
-                await ctx.send("No database files found.")
-            else:
+                        field_count += 1
+            
+            if field_count > 0:  # If there are fields in the final embed, send it
                 await ctx.send(embed=embed)
+            elif field_count == 0 and len(embed.fields) == 0:
+                await ctx.send("No database files found.")
+                
         except Exception as e:
             print(f"An error occurred: {e}")
-            print(format_exc())  # Print the full traceback
 
 async def setup(bot):
     await bot.add_cog(DBSize(bot))
