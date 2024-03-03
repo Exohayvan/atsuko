@@ -109,20 +109,6 @@ Send a log file or the entire log directory if no file is specified.
 Usage:
 `pulllog <filename>`
 
-## uptime
-
-Shows the current uptime of the bot since last restart.
-
-Usage:
-`!uptime`
-
-## lifetime
-
-Shows the total lifetime uptime of the bot.
-
-Usage:
-`!lifetime`
-
 ## version
 
 Shows the current version of the bot based on Git commits and the hash of the last commit.
