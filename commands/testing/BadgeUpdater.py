@@ -14,14 +14,22 @@ class BadgeUpdater(commands.Cog):
     async def update_servers_txt(self):
         print("Updating servers.txt")
         server_count = len(self.bot.guilds)
-        with open('.github/badges/servers.txt', 'w') as file:
-            file.write(str(server_count))
+        try:
+            with open('.github/badges/servers.txt', 'w') as file:
+                file.write(str(server_count))
+            print("servers.txt updated successfully")
+        except Exception as e:
+            print(f"Error updating servers.txt: {e}")
 
     async def update_users_txt(self):
         print("Updating users.txt")
         user_count = len(set(self.bot.get_all_members()))
-        with open('.github/badges/users.txt', 'w') as file:
-            file.write(str(user_count))
+        try:
+            with open('.github/badges/users.txt', 'w') as file:
+                file.write(str(user_count))
+            print("users.txt updated successfully")
+        except Exception as e:
+            print(f"Error updating users.txt: {e}")
 
     @tasks.loop(minutes=30)
     async def update_badges(self):
