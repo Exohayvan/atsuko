@@ -18,8 +18,10 @@
 ![30uptime](https://img.shields.io/badge/30Day_Uptime-0.07%25-blue?style=for-the-badge)
 ![365uptime](https://img.shields.io/badge/365Day_Uptime-0.01%25-blue?style=for-the-badge)
 
-*Note: Uptime collection for this bot started on 03/03/2024 at 12:00 AM.*
+*Note: Uptime collection for this bot started on 03/03/2024 at 12:00 AM EST.*
 *Uptime should update every hour to every 2 hours.*
+
+*Disclaimer: Uptime collection was somewhat broken until 03/03/2024 at 1:10 AM EST*
 
 
 ## Disclaimer: Bot is going through a slash command update. As commands are being converted they may disappear from the help command and the ! prefix will no longer work for said command.
