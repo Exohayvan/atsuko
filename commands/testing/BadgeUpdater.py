@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands, tasks
 import os
+from urllib.parse import quote
 
 class BadgeUpdater(commands.Cog):
     def __init__(self, bot):
@@ -10,8 +11,11 @@ class BadgeUpdater(commands.Cog):
     def cog_unload(self):
         self.update_badges.cancel()
 
-    async def generate_badge_url(self, label, count, color='blue'):
-        badge_url = f'https://img.shields.io/badge/{label}-{count}-{color}'
+    async def generate_badge_url(self, label, message, color='blue'):
+        # Encode the label and message to ensure the URL is valid
+        encoded_label = quote(label)
+        encoded_message = quote(message)
+        badge_url = f'https://img.shields.io/badge/{encoded_label}-{encoded_message}-{color}'
         return badge_url
 
     async def update_uptime_badge_urls(self):
