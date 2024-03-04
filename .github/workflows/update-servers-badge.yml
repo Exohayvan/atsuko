@@ -48,6 +48,14 @@ jobs:
           MESSAGE_URL=$(cat .github/badges/messagecount_badge_url.txt)?style=for-the-badge
           sed -i "s|!\[messageprocessed].*|!\[messageprocessed]($MESSAGE_URL)|" README.md
 
+      - name: Update README with Last Updated Badge
+        run: |
+          DATE=$(date +'%Y-%m-%d_%H-%M-%S')
+          BADGE_URL="https://img.shields.io/badge/Last%20Updated-${DATE}-blue?style=for-the-badge"
+          # URL encoding for the badge URL is simplified since DATE is now URL-safe
+          ESCAPED_BADGE_URL=$(echo "$BADGE_URL" | sed 's| |%20|g')
+          sed -i "s|!\[statslast].*|!\[statslast]($ESCAPED_BADGE_URL)|" README.md
+
       - name: Commit and Push if changed
         run: |
           git config user.email "actions@github.com"
