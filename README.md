@@ -19,6 +19,7 @@
 ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
 ![discordusers](https://img.shields.io/badge/Users-82207-blue?style=for-the-badge)
 ![messageprocessed](https://img.shields.io/badge/Messages_Processed-2981-red?style=for-the-badge)
+![48lag]()
 
 ![1uptime](https://img.shields.io/badge/1Day_Uptime-71.18%25-blue?style=for-the-badge)
 ![7uptime](https://img.shields.io/badge/7Day_Uptime-12.00%25-blue?style=for-the-badge)
