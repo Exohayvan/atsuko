@@ -1,1 +1,1 @@
-Latest API Latency: 41.22ms
+28.83ms
