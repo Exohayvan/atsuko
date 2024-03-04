@@ -51,12 +51,11 @@ jobs:
 
       - name: Update README with Last Updated Badge
         run: |
-          DATE=$(date +"%Y-%m-%d %H:%M:%S")
-          ENCODED_DATE=$(echo "$DATE" | sed -e 's| |%20|g' -e 's|:|%3A|g')
-          BADGE_URL="https://img.shields.io/static/v1?label=Last%20Updated&message=${ENCODED_DATE}&color=blue&style=for-the-badge"
-          # Make sure to escape special characters that might be interpreted by sed or shell
-          ESCAPED_BADGE_URL=$(echo "$BADGE_URL" | sed -e 's|&|\\&|g')
-          sed -i "s|!\[statslast\].*|!\[statslast\]($ESCAPED_BADGE_URL)|" README.md
+          # Manually construct the date string with underscores instead of hyphens or colons
+          DATE=$(date +"%Y_%m_%d_%H_%M")
+          BADGE_URL="https://img.shields.io/static/v1?label=Last%20Updated&message=${DATE}&color=blue&style=for-the-badge"
+          # Use sed to replace the existing "Last Updated" badge in README.md
+          sed -i "s|!\[statslast\].*|!\[statslast\]($BADGE_URL)|" README.md
 
       - name: Commit and Push if changed
         run: |
