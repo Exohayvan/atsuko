@@ -58,7 +58,7 @@ class BadgeUpdater(commands.Cog):
 
             # Generate the badge URL using the uptime percentage
             label = f'{period}Day_Uptime'
-            badge_url = await self.generate_badge_url(label, uptime_percentage, 'blue')
+            badge_url = await self.generate_badge_url(label, uptime_percentage, '00FFFF')
             
             # Save the badge URL to a new file
             badge_url_file_path = f'.github/badges/{period}uptime_badge_url.txt'
