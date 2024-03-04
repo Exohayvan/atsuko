@@ -55,7 +55,7 @@ jobs:
           DATE=$(date +"%Y_%m_%d_%H_%M")
           BADGE_URL="https://img.shields.io/static/v1?label=Last%20Updated&message=${DATE}&color=blue&style=for-the-badge"
           # Use sed to properly replace the existing "Last Updated" badge in README.md
-          sed -i "s|!\[statslast\].*|!\[statslast\]($BADGE_URL)|" README.md
+          sed -i "s|!\[statslast\].*|!\[statslast]($BADGE_URL)|" README.md
 
       - name: Commit and Push if changed
         run: |
