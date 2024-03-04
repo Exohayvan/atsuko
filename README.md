@@ -28,7 +28,7 @@
 
 *Note: Uptime collection for this bot started on 03/03/2024 at 12:00 AM EST.*
 
-*Uptime collection was somewhat broken until 03/03/2024 at 10:10 EST*
+*Uptime collection was somewhat broken until 03/03/2024 at 10:10 AM EST*
 
 *Uptime is set as a check every 5th minute (Ex. 1:00am, 1:05am, 1:10am... 5:15am and so on), if bot is able to connect to discord API it counts bot as online and records it.*
 
