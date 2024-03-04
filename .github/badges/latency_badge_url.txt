@@ -1,0 +1,1 @@
+https://img.shields.io/badge/API_Latency-Latest API Latency: 41.22ms-blue
