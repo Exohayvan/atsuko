@@ -51,11 +51,14 @@ jobs:
 
       - name: Update README with Last Updated Badge
         run: |
-          # Manually construct the date string with underscores
+          # Ensure the date format matches the manually verified format
           DATE=$(date +"%Y_%m_%d_%H_%M")
+          # Construct the badge URL
           BADGE_URL="https://img.shields.io/static/v1?label=Last%20Updated&message=${DATE}&color=blue&style=for-the-badge"
-          # Use sed to properly replace the existing "Last Updated" badge in README.md
-          sed -i "s|!\[statslast\].*|!\[statslast]($BADGE_URL)|" README.md
+          # Properly escape the badge URL for sed
+          ESCAPED_BADGE_URL=$(echo "$BADGE_URL" | sed 's|&|\\&|g')
+          # Use sed to replace the existing "Last Updated" badge in README.md
+          sed -i "s|!\[statslast\].*|!\[statslast\](${ESCAPED_BADGE_URL})|" README.md
 
       - name: Commit and Push if changed
         run: |
