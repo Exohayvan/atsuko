@@ -14,16 +14,16 @@
 
 *Disclaimer: Stats are updated every top of the hour for the hour before. To sum it up, stats are slightly delayed. To see updated stats check the `/stats` and `/uptime` commands with the bot itself.*
 
-![statslast](https://img.shields.io/badge/Last%20Updated-2024-03-04_01-58-41-blue?style=for-the-badge)
+![statslast](https://img.shields.io/badge/Last%20Updated-2024%2D03%2D04_02%2D34%2D05-blue?style=for-the-badge)
 
 ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
-![discordusers](https://img.shields.io/badge/Users-82210-blue?style=for-the-badge)
-![messageprocessed](https://img.shields.io/badge/Messages_Processed-1136-red?style=for-the-badge)
+![discordusers](https://img.shields.io/badge/Users-82212-blue?style=for-the-badge)
+![messageprocessed](https://img.shields.io/badge/Messages_Processed-1471-red?style=for-the-badge)
 
-![1uptime](https://img.shields.io/badge/1Day_Uptime-57.99%25-blue?style=for-the-badge)
-![7uptime](https://img.shields.io/badge/7Day_Uptime-8.43%25-blue?style=for-the-badge)
-![30uptime](https://img.shields.io/badge/30Day_Uptime-1.97%25-blue?style=for-the-badge)
-![365uptime](https://img.shields.io/badge/365Day_Uptime-0.16%25-blue?style=for-the-badge)
+![1uptime](https://img.shields.io/badge/1Day_Uptime-60.76%25-blue?style=for-the-badge)
+![7uptime](https://img.shields.io/badge/7Day_Uptime-9.03%25-blue?style=for-the-badge)
+![30uptime](https://img.shields.io/badge/30Day_Uptime-2.11%25-blue?style=for-the-badge)
+![365uptime](https://img.shields.io/badge/365Day_Uptime-0.17%25-blue?style=for-the-badge)
 
 *Note: Uptime collection for this bot started on 03/03/2024 at 12:00 AM EST.*
 
