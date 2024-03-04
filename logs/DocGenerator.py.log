@@ -1,97 +1,97 @@
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: DocGenerator Cog Loaded. Logging started...
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: Generating README.md
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: Processing cog: Family
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: Adding command "adopt" with "Sends an adoption request to another member." to readme
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: Command usage for adopt added to readme: !adopt <@member>
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: Adding command "marry" with "Sends a marriage request to another member." to readme
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: Command usage for marry added to readme: !marry <@member>
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: Adding command "family" with "Shows the family tree of the author." to readme
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: Command usage for family added to readme: !family
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: Processing cog: KeepClean
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: Command 'keepclean' in cog KeepClean is missing help details.
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: Missing command usage for None
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: Processing cog: InviteLeaderboard
-2024-03-04 03:52:53,356:INFO:DocGenerator.py: Adding command "invites" with "Display the invite leaderboard." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Missing command usage for None
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: EmojiManager
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "emoji_save" with "Saves multiple custom emojis to the local storage." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Command usage for emoji_save added to readme: !emoji_save <emoji1> <emoji2> ...
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "emoji_add" with "Saves multiple custom emojis to local storage and adds them to the server." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Command usage for emoji_add added to readme: !emoji_add <emoji1> <emoji2> ...
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: TopGGCog
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: No commands found for cog: TopGGCog
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: HyperBot
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "hyper" with "This is the hyper command." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Command usage for hyper added to readme: !hyper <usage>
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "embed" with "This is the embed command." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Command usage for embed added to readme: !embed <message>
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: Role
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: No commands found for cog: Role
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: AnilistFeed
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: No commands found for cog: AnilistFeed
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: AniList
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "anilist" with "AniList commands." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Missing command usage for None
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: Money
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: No commands found for cog: Money
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: Leveling
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: No commands found for cog: Leveling
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: CommandError
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: No commands found for cog: CommandError
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: Advertisement
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "deletead" with "Deletes the advertisement file for the specified server ID." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Missing command usage for None
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "addad" with "Adds or updates the advertisement message for the specified server ID." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Missing command usage for None
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "refresh_ads" with "Admin command to refresh the advertisement list." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Missing command usage for None
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: Fun
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "roll" with "Rolls a dice with the specified format (e.g., 2d6)." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Command usage for roll added to readme: !roll NdN
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "coinflip" with "Flips a coin and shows the result." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Command usage for coinflip added to readme: !coinflip
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: Counting
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "set_counting_channel" with "Sets the current channel as the counting channel." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Missing command usage for None
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: ChannelRelay
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "connect_channel" with "Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)" to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Command usage for connect_channel added to readme: !connect_channel
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "disconnect_channel" with "Disconnect the channel connected to the relay channels." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Command usage for disconnect_channel added to readme: !disconnect_channel
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: Random
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "random" with "Returns a random item. Currently you can use the following: image, color, number, emoji, or anime." to readme
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Command usage for random added to readme: random <item>
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: CommandToggle
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Skipping hidden command: disable
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Skipping hidden command: enable
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: BadgeUpdater
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: No commands found for cog: BadgeUpdater
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: OwnerCommands
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Skipping hidden command: unload_cog
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Skipping hidden command: execute
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Skipping hidden command: tree
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: GitAutoBackup
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: No commands found for cog: GitAutoBackup
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: DBSize
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Skipping hidden command: dbsize
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Processing cog: PullLog
-2024-03-04 03:52:53,357:INFO:DocGenerator.py: Adding command "pulllog" with "Send a log file or the entire log directory if no file is specified." to readme
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: Command usage for pulllog added to readme: pulllog <filename>
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: Processing cog: Cleanup
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: Skipping hidden command: cleanup
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: Processing cog: LatencyCog
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: No commands found for cog: LatencyCog
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: Processing cog: Uptime
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: No commands found for cog: Uptime
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: Processing cog: Info
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: Adding command "version" with "Shows the current version of the bot based on Git commits and the hash of the last commit." to readme
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: Command usage for version added to readme: !version
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: Processing cog: Presence
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: No commands found for cog: Presence
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: Processing cog: MessageCount
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: No commands found for cog: MessageCount
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: Processing cog: Python
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: Adding command "package_info" with "Provides information about a pip package." to readme
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: Missing command usage for None
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: README.md has been generated/updated.
-2024-03-04 03:52:53,358:INFO:DocGenerator.py: missing.txt has been generated/updated.
+2024-03-04 03:55:57,159:INFO:DocGenerator.py: DocGenerator Cog Loaded. Logging started...
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Generating README.md
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: Family
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Adding command "adopt" with "Sends an adoption request to another member." to readme
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Command usage for adopt added to readme: !adopt <@member>
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Adding command "marry" with "Sends a marriage request to another member." to readme
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Command usage for marry added to readme: !marry <@member>
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Adding command "family" with "Shows the family tree of the author." to readme
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Command usage for family added to readme: !family
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: KeepClean
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Command 'keepclean' in cog KeepClean is missing help details.
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Missing command usage for None
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: InviteLeaderboard
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Adding command "invites" with "Display the invite leaderboard." to readme
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Missing command usage for None
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: EmojiManager
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Adding command "emoji_save" with "Saves multiple custom emojis to the local storage." to readme
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Command usage for emoji_save added to readme: !emoji_save <emoji1> <emoji2> ...
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Adding command "emoji_add" with "Saves multiple custom emojis to local storage and adds them to the server." to readme
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Command usage for emoji_add added to readme: !emoji_add <emoji1> <emoji2> ...
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: TopGGCog
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: No commands found for cog: TopGGCog
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: HyperBot
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Adding command "hyper" with "This is the hyper command." to readme
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Command usage for hyper added to readme: !hyper <usage>
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Adding command "embed" with "This is the embed command." to readme
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Command usage for embed added to readme: !embed <message>
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: Role
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: No commands found for cog: Role
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: AnilistFeed
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: No commands found for cog: AnilistFeed
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: AniList
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Adding command "anilist" with "AniList commands." to readme
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Missing command usage for None
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: Money
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: No commands found for cog: Money
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: Leveling
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: No commands found for cog: Leveling
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: CommandError
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: No commands found for cog: CommandError
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: Advertisement
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Adding command "deletead" with "Deletes the advertisement file for the specified server ID." to readme
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Missing command usage for None
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Adding command "addad" with "Adds or updates the advertisement message for the specified server ID." to readme
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Missing command usage for None
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Adding command "refresh_ads" with "Admin command to refresh the advertisement list." to readme
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Missing command usage for None
+2024-03-04 03:55:57,160:INFO:DocGenerator.py: Processing cog: Fun
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Adding command "roll" with "Rolls a dice with the specified format (e.g., 2d6)." to readme
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Command usage for roll added to readme: !roll NdN
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Adding command "coinflip" with "Flips a coin and shows the result." to readme
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Command usage for coinflip added to readme: !coinflip
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: Counting
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Adding command "set_counting_channel" with "Sets the current channel as the counting channel." to readme
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Missing command usage for None
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: ChannelRelay
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Adding command "connect_channel" with "Connect a the current channel to the relay channels. (It's like a large groupchat across servers!)" to readme
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Command usage for connect_channel added to readme: !connect_channel
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Adding command "disconnect_channel" with "Disconnect the channel connected to the relay channels." to readme
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Command usage for disconnect_channel added to readme: !disconnect_channel
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: Random
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Adding command "random" with "Returns a random item. Currently you can use the following: image, color, number, emoji, or anime." to readme
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Command usage for random added to readme: random <item>
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: CommandToggle
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Skipping hidden command: disable
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Skipping hidden command: enable
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: BadgeUpdater
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: No commands found for cog: BadgeUpdater
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: OwnerCommands
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Skipping hidden command: unload_cog
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Skipping hidden command: execute
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Skipping hidden command: tree
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: GitAutoBackup
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: No commands found for cog: GitAutoBackup
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: DBSize
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Skipping hidden command: dbsize
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: PullLog
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Adding command "pulllog" with "Send a log file or the entire log directory if no file is specified." to readme
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Command usage for pulllog added to readme: pulllog <filename>
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: Cleanup
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Skipping hidden command: cleanup
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: LatencyCog
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: No commands found for cog: LatencyCog
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: Uptime
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: No commands found for cog: Uptime
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: Info
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Adding command "version" with "Shows the current version of the bot based on Git commits and the hash of the last commit." to readme
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Command usage for version added to readme: !version
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: Presence
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: No commands found for cog: Presence
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: MessageCount
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: No commands found for cog: MessageCount
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Processing cog: Python
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Adding command "package_info" with "Provides information about a pip package." to readme
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: Missing command usage for None
+2024-03-04 03:55:57,161:INFO:DocGenerator.py: README.md has been generated/updated.
+2024-03-04 03:55:57,162:INFO:DocGenerator.py: missing.txt has been generated/updated.
