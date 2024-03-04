@@ -14,7 +14,7 @@
 
 *Disclaimer: Stats are updated every top of the hour for the hour before. To sum it up, stats are slightly delayed. To see updated stats check the `/stats` and `/uptime` commands with the bot itself.*
 
-![statslast](https://img.shields.io/static/v1?label=Last%20Updated![statslast](https://img.shields.io/static/v1?label=Last%20Updated![statslast]()message=2024_03_04_02_57![statslast]()color=blue![statslast]()style=for-the-badge)message=2024_03_04_03_00![statslast](https://img.shields.io/static/v1?label=Last%20Updated![statslast]()message=2024_03_04_02_57![statslast]()color=blue![statslast]()style=for-the-badge)color=blue![statslast](https://img.shields.io/static/v1?label=Last%20Updated![statslast]()message=2024_03_04_02_57![statslast]()color=blue![statslast]()style=for-the-badge)style=for-the-badge)
+![statslast](https://img.shields.io/static/v1?label=Last%20Updated&message=2024_03_04_12_30&color=blue&style=for-the-badge)
 
 ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
 ![discordusers](https://img.shields.io/badge/Users-82212-blue?style=for-the-badge)
