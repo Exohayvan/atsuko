@@ -14,7 +14,7 @@
 
 *Disclaimer: Stats are updated every top of the hour for the hour before. To sum it up, stats are slightly delayed. To see updated stats check the `/stats` and `/uptime` commands with the bot itself.*
 
-![statslast](https://img.shields.io/badge/Last_Updated-2024_03_04-blue?style=for-the-badge)
+![statslast](https://img.shields.io/badge/Last%20Updated-2024-03-04_02-39-12-blue?style=for-the-badge)
 
 ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
 ![discordusers](https://img.shields.io/badge/Users-82212-blue?style=for-the-badge)
