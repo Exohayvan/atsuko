@@ -1,11 +1,5 @@
-2024-03-04 03:33:44,149:INFO:GitAutoBackup.py: GitAutoBackup Cog Loaded. Logging started...
-2024-03-04 03:33:48,330:INFO:GitAutoBackup.py: Cleaning up...
-2024-03-04 03:33:48,330:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-03-04 03:33:48,330:INFO:GitAutoBackup.py: Pulling new commits.
-2024-03-04 03:33:48,998:INFO:GitAutoBackup.py: Adding new changes.
-2024-03-04 03:33:49,005:INFO:GitAutoBackup.py: Creating new commit: Auto comment: 2024-03-04 03:33:49
-2024-03-04 03:33:49,014:INFO:GitAutoBackup.py: Pushing new commit.
-2024-03-04 03:42:11,542:INFO:GitAutoBackup.py: Cleaning up...
-2024-03-04 03:42:11,542:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
-2024-03-04 03:42:11,542:INFO:GitAutoBackup.py: Pulling new commits.
-2024-03-04 03:42:12,482:INFO:GitAutoBackup.py: Adding new changes.
+2024-03-04 03:46:27,346:INFO:GitAutoBackup.py: GitAutoBackup Cog Loaded. Logging started...
+2024-03-04 03:46:30,540:INFO:GitAutoBackup.py: Cleaning up...
+2024-03-04 03:46:30,540:INFO:GitAutoBackup.py: Cleaned up 0 .png files.
+2024-03-04 03:46:30,540:INFO:GitAutoBackup.py: Pulling new commits.
+2024-03-04 03:46:31,198:INFO:GitAutoBackup.py: Adding new changes.
