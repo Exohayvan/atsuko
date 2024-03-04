@@ -26,6 +26,8 @@
 ![30uptime](https://img.shields.io/badge/30Day_Uptime-4.61%25-00FFFF?style=for-the-badge)
 ![365uptime](https://img.shields.io/badge/365Day_Uptime-0.38%25-00FFFF?style=for-the-badge)
 
+*Disclaimer: Uptime Stats are still broken as of 03/04/2024 (will remove this when fixed)*
+
 *Note: Uptime collection for this bot started on 03/03/2024 at 12:00 AM EST.*
 
 *Uptime collection was somewhat broken until 03/03/2024 at 10:10 AM EST*
