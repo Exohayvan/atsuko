@@ -89,7 +89,7 @@ class BadgeUpdater(commands.Cog):
         except FileNotFoundError:
             print(f"File not found: {latency_file_path}")
             return
-        badge_url = await self.generate_badge_url('48hr_Avg_API_Latency', latency, 'blue')
+        badge_url = await self.generate_badge_url('48hr_Avg_API_Latency', latency, 'A020F0')
         with open('.github/badges/latency_badge_url.txt', 'w') as badge_file:
             badge_file.write(badge_url)
             
