@@ -47,7 +47,7 @@ class LatencyCog(commands.Cog):
     async def update_latency_file(self, latency):
         os.makedirs("./.github/badges", exist_ok=True)
         with open("./.github/badges/latency.txt", "w") as f:
-            f.write(f"Latest API Latency: {latency*1000:.2f}ms")
+            f.write(f"{latency*1000:.2f}ms")
 
 async def setup(bot):
     await bot.add_cog(LatencyCog(bot))
