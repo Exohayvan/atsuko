@@ -51,10 +51,12 @@ jobs:
 
       - name: Update README with Last Updated Badge
         run: |
-          # Ensure the date format matches the manually verified format
-          DATE=$(date +"%Y_%m_%d_%H_%M")
-          # Construct the badge URL
-          BADGE_URL="https://img.shields.io/static/v1?label=Last%20Updated&message=${DATE}&color=blue&style=for-the-badge"
+          # Generate the date in the "Month Day Year at Hour:Minute UTC" format
+          DATE=$(date +"%B %d %Y at %H:%M UTC")
+          # URL encode the date to ensure it's safe for URL usage
+          ENCODED_DATE=$(echo "$DATE" | sed -e 's| |%20|g' -e 's|:|%3A|g' -e 's|@|%40|g')
+          # Construct the badge URL with the encoded date
+          BADGE_URL="https://img.shields.io/static/v1?label=Last%20Updated&message=${ENCODED_DATE}&color=blue&style=for-the-badge"
           # Properly escape the badge URL for sed
           ESCAPED_BADGE_URL=$(echo "$BADGE_URL" | sed 's|&|\\&|g')
           # Use sed to replace the existing "Last Updated" badge in README.md
