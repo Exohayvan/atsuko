@@ -76,7 +76,7 @@ class BadgeUpdater(commands.Cog):
         user_count = sum(len(guild.members) for guild in self.bot.guilds)
         with open('.github/badges/users.txt', 'w') as file:
             file.write(str(user_count))
-        badge_url = await self.generate_badge_url('Users', user_count)
+        badge_url = await self.generate_badge_url('Users', user_count, 'yellow')
         with open('.github/badges/users_badge_url.txt', 'w') as badge_file:
             badge_file.write(badge_url)
 
