@@ -1,1 +1,1 @@
-https://img.shields.io/badge/365Day_Uptime-0.18%25-blue
+https://img.shields.io/badge/365Day_Uptime-0.20%25-blue
