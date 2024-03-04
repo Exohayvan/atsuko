@@ -51,11 +51,12 @@ jobs:
 
       - name: Update README with Last Updated Badge
         run: |
-          DATE=$(date +'%Y-%m-%d %H-%M-%S')
-          # Replace characters that might cause issues in URLs
-          SAFE_DATE=$(echo "$DATE" | sed 's| |%20|g; s|:|%3A|g; s|-|%2D|g')
-          # Use the static badge endpoint with dynamic content as query parameters
-          BADGE_URL="https://img.shields.io/static/v1?label=Last%20Updated&message=$SAFE_DATE&color=blue&style=for-the-badge"
+          DATE=$(date +'%Y-%m-%d %H:%M:%S')
+          # URL encode the date to ensure it's safe to use in a URL
+          ENCODED_DATE=$(echo "$DATE" | sed -e 's| |%20|g' -e 's|:|%3A|g' -e 's|-|%2D|g')
+          # Construct the badge URL using the static endpoint with label, message, and style parameters
+          BADGE_URL="https://img.shields.io/static/v1?label=Last%20Updated&message=${ENCODED_DATE}&color=blue&style=for-the-badge"
+          # Use sed to find and replace the placeholder in README.md with the new badge URL
           sed -i "s|!\[statslast].*|!\[statslast]($BADGE_URL)|" README.md
 
       - name: Commit and Push if changed
