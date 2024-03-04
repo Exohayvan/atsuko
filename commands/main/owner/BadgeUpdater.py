@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands, tasks
 import os
 from urllib.parse import quote
+import asyncio
 
 class BadgeUpdater(commands.Cog):
     def __init__(self, bot):
@@ -94,6 +95,7 @@ class BadgeUpdater(commands.Cog):
             
     @tasks.loop(minutes=10)
     async def update_badges(self):
+        await asyncio.sleep(30)
         await self.update_servers_txt()
         await self.update_users_txt()
         await self.update_uptime_badge_urls()
