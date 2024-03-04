@@ -13,13 +13,13 @@
 *Most stats started being recording on 03/03/2024*
 
 ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
-![discordusers](https://img.shields.io/badge/Users-82214-blue?style=for-the-badge)
-![messageprocessed](https://img.shields.io/badge/Messages_Processed-359-red?style=for-the-badge)
+![discordusers](https://img.shields.io/badge/Users-82212-blue?style=for-the-badge)
+![messageprocessed](https://img.shields.io/badge/Messages_Processed-902-red?style=for-the-badge)
 
-![1uptime](https://img.shields.io/badge/1Day_Uptime-51.74%25-blue?style=for-the-badge)
-![7uptime](https://img.shields.io/badge/7Day_Uptime-7.39%25-blue?style=for-the-badge)
-![30uptime](https://img.shields.io/badge/30Day_Uptime-1.72%25-blue?style=for-the-badge)
-![365uptime](https://img.shields.io/badge/365Day_Uptime-0.14%25-blue?style=for-the-badge)
+![1uptime](https://img.shields.io/badge/1Day_Uptime-54.86%25-blue?style=for-the-badge)
+![7uptime](https://img.shields.io/badge/7Day_Uptime-7.84%25-blue?style=for-the-badge)
+![30uptime](https://img.shields.io/badge/30Day_Uptime-1.83%25-blue?style=for-the-badge)
+![365uptime](https://img.shields.io/badge/365Day_Uptime-0.15%25-blue?style=for-the-badge)
 
 *Note: Uptime collection for this bot started on 03/03/2024 at 12:00 AM EST.*
 *Uptime should update every hour to every 2 hours.*
