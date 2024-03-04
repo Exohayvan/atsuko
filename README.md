@@ -12,6 +12,8 @@
 ### Astuko's Stats
 *Most stats started being recording on 03/03/2024*
 
+*Disclaimer: Stats are updated every top of the hour for the hour before. To sum it up, stats are slightly delayed. To see updated stats check the `/stats` and `/uptime` commands with the bot itself.*
+
 ![statslast]()
 
 ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
@@ -24,13 +26,10 @@
 ![365uptime](https://img.shields.io/badge/365Day_Uptime-0.15%25-blue?style=for-the-badge)
 
 *Note: Uptime collection for this bot started on 03/03/2024 at 12:00 AM EST.*
-*Uptime should update every hour to every 2 hours.*
 
-*Uptime collection was somewhat broken until 03/03/2024 at 1:10 AM EST*
+*Uptime collection was somewhat broken until 03/03/2024 at 10:10 EST*
 
-*Uptime is set as a check every 10th minute (Ex. 1:00am, 1:10am, 1:20am... 5:30am and so on), if bot is able to connect to discord API it counts bot as online and records it.*
-
-*Update: 10-minute checks weren't very accurate, changed to every 5th-minute on 03/03/2024 at 10:30 AM EST.*
+*Uptime is set as a check every 5th minute (Ex. 1:00am, 1:05am, 1:10am... 5:15am and so on), if bot is able to connect to discord API it counts bot as online and records it.*
 
 ## Disclaimer: Bot is going through a slash command update. As commands are being converted they may disappear from the help command and the ! prefix will no longer work for said command.
 ### [Click Here to Invite Bot](https://discord.com/oauth2/authorize?client_id=407929486206566400&permissions=2199023255551&scope=bot)
