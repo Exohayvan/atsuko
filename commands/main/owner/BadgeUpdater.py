@@ -80,12 +80,25 @@ class BadgeUpdater(commands.Cog):
         with open('.github/badges/users_badge_url.txt', 'w') as badge_file:
             badge_file.write(badge_url)
 
+    async def update_latency_txt(self):
+        latency_file_path = '.github/badges/latency.txt'
+        try:
+            with open(latency_file_path, 'r') as file:
+                latency = file.read().strip()
+        except FileNotFoundError:
+            print(f"File not found: {latency_file_path}")
+            return
+        badge_url = await self.generate_badge_url('API_Latency', latency, 'blue')
+        with open('.github/badges/latency_badge_url.txt', 'w') as badge_file:
+            badge_file.write(badge_url)
+            
     @tasks.loop(minutes=10)
     async def update_badges(self):
         await self.update_servers_txt()
         await self.update_users_txt()
         await self.update_uptime_badge_urls()
         await self.update_messagecount_txt()
+        await self.update_latency_txt()
         
     @update_badges.before_loop
     async def before_update_badges(self):
