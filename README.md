@@ -19,7 +19,7 @@
 ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
 ![discordusers](https://img.shields.io/badge/Users-82206-yellow?style=for-the-badge)
 ![messageprocessed](https://img.shields.io/badge/Messages_Processed-3711-red?style=for-the-badge)
-![Avg. Latency Last 48hrs](https://img.shields.io/badge/API_Latency-Latest API Latency: 41.22ms-blue?style=for-the-badge)
+![Avg. Latency Last 48hrs]()
 
 ![1uptime](https://img.shields.io/badge/1Day_Uptime-74.65%25-blue?style=for-the-badge)
 ![7uptime](https://img.shields.io/badge/7Day_Uptime-13.00%25-blue?style=for-the-badge)
