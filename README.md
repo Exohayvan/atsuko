@@ -14,17 +14,17 @@
 
 *Disclaimer: Stats are updated every top of the hour for the hour before. To sum it up, stats are slightly delayed. To see updated stats check the `/stats` and `/uptime` commands with the bot itself.*
 
-![statslast](https://img.shields.io/static/v1?label=Last%20Updated&message=March%2005%202024%20at%2001%3A40%20UTC&color=blue&style=for-the-badge)
+![statslast](https://img.shields.io/static/v1?label=Last%20Updated&message=March%2005%202024%20at%2002%3A14%20UTC&color=blue&style=for-the-badge)
 
 ![discordservers](https://img.shields.io/badge/Servers-39-green?style=for-the-badge)
-![discordusers](https://img.shields.io/badge/Users-82466-yellow?style=for-the-badge)
-![messageprocessed](https://img.shields.io/badge/Messages_Processed-8144-red?style=for-the-badge)
-![Avg. Latency Last 48hrs](https://img.shields.io/badge/48hr_Avg_API_Latency-29.64ms-A020F0?style=for-the-badge)
+![discordusers](https://img.shields.io/badge/Users-82463-yellow?style=for-the-badge)
+![messageprocessed](https://img.shields.io/badge/Messages_Processed-8551-red?style=for-the-badge)
+![Avg. Latency Last 48hrs](https://img.shields.io/badge/48hr_Avg_API_Latency-30.43ms-A020F0?style=for-the-badge)
 
-![1uptime](https://img.shields.io/badge/1Day_Uptime-72.92%25-00FFFF?style=for-the-badge)
-![7uptime](https://img.shields.io/badge/7Day_Uptime-21.68%25-00FFFF?style=for-the-badge)
-![30uptime](https://img.shields.io/badge/30Day_Uptime-5.06%25-00FFFF?style=for-the-badge)
-![365uptime](https://img.shields.io/badge/365Day_Uptime-0.42%25-00FFFF?style=for-the-badge)
+![1uptime](https://img.shields.io/badge/1Day_Uptime-72.22%25-00FFFF?style=for-the-badge)
+![7uptime](https://img.shields.io/badge/7Day_Uptime-22.17%25-00FFFF?style=for-the-badge)
+![30uptime](https://img.shields.io/badge/30Day_Uptime-5.17%25-00FFFF?style=for-the-badge)
+![365uptime](https://img.shields.io/badge/365Day_Uptime-0.43%25-00FFFF?style=for-the-badge)
 
 *Disclaimer: Uptime Stats are still broken as of 03/04/2024 (will remove this when fixed)*
 
