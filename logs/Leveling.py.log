@@ -25,3 +25,8 @@
 2024-03-04 15:53:34,596:INFO:Leveling.py: Voice channel join: _wcid#0 joined Gaming (64kbps)
 2024-03-04 15:53:50,447:INFO:Leveling.py: Voice channel leave: exohayvan#0 left Gaming (64kbps), earned 1686.9563590000002 XP
 2024-03-04 15:54:05,167:INFO:Leveling.py: Voice channel leave: _wcid#0 left Gaming (64kbps), earned 6.1115494 XP
+2024-03-04 23:18:20,002:INFO:Leveling.py: Voice channel join: exohayvan#0 joined Lobby (64kbps)
+2024-03-04 23:21:21,411:INFO:Leveling.py: Voice channel join: _wcid#0 joined Lobby (64kbps)
+2024-03-04 23:22:08,737:INFO:Leveling.py: Voice channel join: xdevilsacidx#0 joined Lobby (64kbps)
+2024-03-04 23:47:07,443:INFO:Leveling.py: Voice channel leave: _wcid#0 left Lobby (64kbps), earned 309.2059136 XP
+2024-03-04 23:47:32,002:INFO:Leveling.py: Voice channel join: _wcid#0 joined Lobby (64kbps)
