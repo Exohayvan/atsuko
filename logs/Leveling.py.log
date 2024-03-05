@@ -43,3 +43,5 @@
 2024-03-05 02:54:00,115:INFO:Leveling.py: Voice channel leave: xdevilsacidx#0 left Lobby (64kbps), earned 1267.9275058 XP
 2024-03-05 02:54:02,037:INFO:Leveling.py: Voice channel leave: _wcid#0 left Lobby (64kbps), earned 692.0307665999999 XP
 2024-03-05 02:55:00,172:INFO:Leveling.py: Voice channel join: Jockie Music#8158 is bot user, ignored
+2024-03-05 06:59:29,058:INFO:Leveling.py: Voice channel join: sepehrghafarian#0 joined Testing 2 (96kbps)
+2024-03-05 06:59:34,038:INFO:Leveling.py: Voice channel leave: sepehrghafarian#0 left Testing 2 (96kbps), earned 0.9935715999999999 XP
