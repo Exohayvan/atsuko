@@ -38,3 +38,5 @@
 2024-03-07 00:16:53,780:INFO:Leveling.py: Voice channel leave: exohayvan#0 left Gaming (64kbps), earned 1271.0562126000002 XP
 2024-03-07 00:17:57,489:INFO:Leveling.py: Voice channel join: exohayvan#0 joined General
 2024-03-07 00:19:54,274:INFO:Leveling.py: Voice channel join: Jockie Music#8158 is bot user, ignored
+2024-03-07 04:30:17,470:INFO:Leveling.py: Voice channel join: john_2023_62384#0 joined Testing
+2024-03-07 04:30:56,657:INFO:Leveling.py: Voice channel leave: john_2023_62384#0 left Testing, earned 7.8349508 XP
