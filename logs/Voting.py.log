@@ -1,2 +1,6 @@
 2024-03-07 17:05:39,836:INFO:Voting.py: Voting Cog Loaded. Logging started...
 2024-03-07 17:05:39,844:INFO:Voting.py: Loading votes.
+2024-03-07 17:05:46,688:INFO:Voting.py: 276782057412362241 voted for the first time.
+2024-03-07 17:05:46,688:INFO:Voting.py: Removing reaction for 276782057412362241
+2024-03-07 18:04:55,186:INFO:Voting.py: Voting expired, deleting votes from database.
+2024-03-07 18:04:55,198:INFO:Voting.py: Voting results: Next Anime Genre? (For March 7th) ended as Action/Adventure

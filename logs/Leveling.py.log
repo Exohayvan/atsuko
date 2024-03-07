@@ -1,1 +1,13 @@
 2024-03-07 17:05:39,762:INFO:Leveling.py: Leveling Cog Loaded. Logging started...
+2024-03-07 17:18:26,215:INFO:Leveling.py: Voice channel join: princiebean#0 joined stream
+2024-03-07 17:24:50,494:INFO:Leveling.py: Voice channel join: neymarciryttv14#0 joined General
+2024-03-07 17:24:53,811:INFO:Leveling.py: Voice channel leave: neymarciryttv14#0 left General, earned 0.6610432 XP
+2024-03-07 17:27:32,206:INFO:Leveling.py: Voice channel join: neymarciryttv14#0 joined The Stage
+2024-03-07 17:28:47,415:INFO:Leveling.py: Voice channel leave: neymarciryttv14#0 left The Stage, earned 15.039231599999999 XP
+2024-03-07 17:28:50,879:INFO:Leveling.py: Voice channel join: neymarciryttv14#0 joined The Stage
+2024-03-07 17:29:27,999:INFO:Leveling.py: Voice channel leave: neymarciryttv14#0 left The Stage, earned 7.4215284 XP
+2024-03-07 17:42:02,112:INFO:Leveling.py: Voice channel join: xdevilsacidx#0 joined Lobby (64kbps)
+2024-03-07 17:50:28,812:INFO:Leveling.py: Voice channel leave: xdevilsacidx#0 left Events, earned 101.33948360000002 XP
+2024-03-07 17:50:31,620:INFO:Leveling.py: Voice channel join: xdevilsacidx#0 joined Events
+2024-03-07 17:50:36,004:INFO:Leveling.py: Voice channel leave: xdevilsacidx#0 left Events, earned 0.874538 XP
+2024-03-07 17:51:19,749:INFO:Leveling.py: Voice channel join: xdevilsacidx#0 joined Lobby (64kbps)
