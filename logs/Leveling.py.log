@@ -29,3 +29,5 @@
 2024-03-07 19:02:46,056:INFO:Leveling.py: Voice channel leave: exohayvan#0 left Warframe (64kbps), earned 412.14839220000005 XP
 2024-03-07 19:04:57,281:INFO:Leveling.py: Voice channel leave: xdevilsacidx#0 left Warframe (64kbps), earned 69.31522819999999 XP
 2024-03-07 19:05:06,761:INFO:Leveling.py: Voice channel leave: jake1887.#0 left Warframe (64kbps), earned 148.218983 XP
+2024-03-07 22:47:47,334:INFO:Leveling.py: Voice channel join: echomana#0 joined Testing 2 (96kbps)
+2024-03-07 22:47:52,391:INFO:Leveling.py: Voice channel leave: echomana#0 left Testing 2 (96kbps), earned 1.0090308000000001 XP
