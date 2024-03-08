@@ -33,3 +33,5 @@
 2024-03-07 22:47:52,391:INFO:Leveling.py: Voice channel leave: echomana#0 left Testing 2 (96kbps), earned 1.0090308000000001 XP
 2024-03-08 00:28:45,616:INFO:Leveling.py: Voice channel join: medievalsamurai_#0 joined General
 2024-03-08 00:36:56,902:INFO:Leveling.py: Voice channel leave: medievalsamurai_#0 left General, earned 98.2548718 XP
+2024-03-08 12:21:24,805:INFO:Leveling.py: Voice channel join: jake1887.#0 joined Gaming (64kbps)
+2024-03-08 12:21:27,661:INFO:Leveling.py: Voice channel leave: jake1887.#0 left Gaming (64kbps), earned 0.5688076 XP
