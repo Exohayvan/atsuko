@@ -35,3 +35,7 @@
 2024-03-08 00:36:56,902:INFO:Leveling.py: Voice channel leave: medievalsamurai_#0 left General, earned 98.2548718 XP
 2024-03-08 12:21:24,805:INFO:Leveling.py: Voice channel join: jake1887.#0 joined Gaming (64kbps)
 2024-03-08 12:21:27,661:INFO:Leveling.py: Voice channel leave: jake1887.#0 left Gaming (64kbps), earned 0.5688076 XP
+2024-03-08 18:29:06,510:INFO:Leveling.py: Voice channel join: coocoemail#0 joined I’m Live!
+2024-03-08 18:29:27,191:INFO:Leveling.py: Voice channel leave: coocoemail#0 left I’m Live!, earned 4.1338716 XP
+2024-03-08 18:31:33,397:INFO:Leveling.py: Voice channel join: coocoemail#0 joined Gaming
+2024-03-08 18:31:42,676:INFO:Leveling.py: Voice channel leave: coocoemail#0 left Gaming, earned 1.8534275999999998 XP
