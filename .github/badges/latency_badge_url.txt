@@ -1,1 +1,1 @@
-https://img.shields.io/badge/48hr_Avg_API_Latency-28.01ms-A020F0
+https://img.shields.io/badge/48hr_Avg_API_Latency-30.54ms-A020F0
