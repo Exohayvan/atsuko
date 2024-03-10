@@ -4,3 +4,5 @@
 2024-03-07 17:05:46,688:INFO:Voting.py: Removing reaction for 276782057412362241
 2024-03-07 18:04:55,186:INFO:Voting.py: Voting expired, deleting votes from database.
 2024-03-07 18:04:55,198:INFO:Voting.py: Voting results: Next Anime Genre? (For March 7th) ended as Action/Adventure
+2024-03-10 06:33:53,296:INFO:Voting.py: Loading databases and resuming voting.
+2024-03-10 06:33:53,296:INFO:Voting.py: Loading votes.
