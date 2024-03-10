@@ -1,0 +1,9 @@
+Command 'keepclean' in cog KeepClean is missing help details.
+Command 'keepclean' in cog KeepClean is missing usage details.
+Command 'invites' in cog InviteLeaderboard is missing usage details.
+Command 'anilist' in cog AniList is missing usage details.
+Command 'deletead' in cog Advertisement is missing usage details.
+Command 'addad' in cog Advertisement is missing usage details.
+Command 'refresh_ads' in cog Advertisement is missing usage details.
+Command 'set_counting_channel' in cog Counting is missing usage details.
+Command 'package_info' in cog Python is missing usage details.

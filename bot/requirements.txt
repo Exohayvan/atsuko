@@ -1,0 +1,8 @@
+discord
+PyGithub
+graphviz
+emoji
+aiofiles
+PyNaCl
+watchdog
+aiohttp
