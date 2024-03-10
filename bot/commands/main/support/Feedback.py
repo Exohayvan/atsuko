@@ -6,7 +6,7 @@ import json
 import os
 
 def get_config():
-    with open('../config.json', 'r') as f:
+    with open('../../config.json', 'r') as f:
         config = json.load(f)
     return config
 
@@ -14,7 +14,7 @@ class Feedback(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.config = get_config()
-        self.github_repo = "Exohayvan/atsuko"  # Replace with your actual GitHub repository
+        self.github_repo = "Exohayvan/atsuko"
         self.app_id = self.config.get('APP_ID')
         self.installation_id = self.config.get('INSTALLATION_ID')
         self.private_key_path = self.config.get('PRIVATE_KEY_PATH')
