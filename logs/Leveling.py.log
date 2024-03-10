@@ -50,3 +50,6 @@
 2024-03-09 17:34:07,324:INFO:Leveling.py: Voice channel join: xdevilsacidx#0 joined Call of Duty (32kbps)
 2024-03-09 17:34:45,233:INFO:Leveling.py: Voice channel leave: xdevilsacidx#0 left Call of Duty (32kbps), earned 7.579553799999999 XP
 2024-03-09 18:27:51,456:INFO:Leveling.py: Voice channel join: xdevilsacidx#0 joined Gaming (64kbps)
+2024-03-09 19:21:08,576:INFO:Leveling.py: Voice channel join: exohayvan#0 joined Gaming (64kbps)
+2024-03-09 19:21:28,117:INFO:Leveling.py: Voice channel leave: exohayvan#0 left Gaming (64kbps), earned 3.9059095999999998 XP
+2024-03-09 19:25:00,896:INFO:Leveling.py: Voice channel join: exohayvan#0 joined Gaming (64kbps)
