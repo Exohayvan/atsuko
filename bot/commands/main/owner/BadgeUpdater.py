@@ -24,7 +24,7 @@ class BadgeUpdater(commands.Cog):
 
     async def update_messagecount_txt(self):
         # Read the message count from the file
-        messagecount_file_path = '.github/badges/messagecount.txt'
+        messagecount_file_path = '../.github/badges/messagecount.txt'
         try:
             with open(messagecount_file_path, 'r') as file:
                 message_count = file.read().strip()
@@ -36,7 +36,7 @@ class BadgeUpdater(commands.Cog):
         badge_url = await self.generate_badge_url('Messages_Processed', message_count, 'red')
         
         # Save the badge URL to a new file
-        badge_url_file_path = '.github/badges/messagecount_badge_url.txt'
+        badge_url_file_path = '../.github/badges/messagecount_badge_url.txt'
         with open(badge_url_file_path, 'w') as badge_file:
             badge_file.write(badge_url)
             
@@ -44,11 +44,11 @@ class BadgeUpdater(commands.Cog):
         # Define the periods for which to update uptime badge URLs
         periods = [1, 7, 30, 365]
         # Ensure the badges directory exists
-        os.makedirs('.github/badges/', exist_ok=True)
+        os.makedirs('../.github/badges/', exist_ok=True)
         
         for period in periods:
             # Read the uptime percentage from the file
-            uptime_file_path = f'.github/badges/{period}uptime.txt'
+            uptime_file_path = f'../.github/badges/{period}uptime.txt'
             try:
                 with open(uptime_file_path, 'r') as file:
                     uptime_percentage = file.read().strip()
@@ -61,28 +61,28 @@ class BadgeUpdater(commands.Cog):
             badge_url = await self.generate_badge_url(label, uptime_percentage, '00FFFF')
             
             # Save the badge URL to a new file
-            badge_url_file_path = f'.github/badges/{period}uptime_badge_url.txt'
+            badge_url_file_path = f'../.github/badges/{period}uptime_badge_url.txt'
             with open(badge_url_file_path, 'w') as badge_file:
                 badge_file.write(badge_url)
                 
     async def update_servers_txt(self):
         server_count = len(self.bot.guilds)
-        with open('.github/badges/servers.txt', 'w') as file:
+        with open('../.github/badges/servers.txt', 'w') as file:
             file.write(str(server_count))
         badge_url = await self.generate_badge_url('Servers', server_count, 'green')
-        with open('.github/badges/servers_badge_url.txt', 'w') as badge_file:
+        with open('../.github/badges/servers_badge_url.txt', 'w') as badge_file:
             badge_file.write(badge_url)
 
     async def update_users_txt(self):
         user_count = sum(len(guild.members) for guild in self.bot.guilds)
-        with open('.github/badges/users.txt', 'w') as file:
+        with open('../.github/badges/users.txt', 'w') as file:
             file.write(str(user_count))
         badge_url = await self.generate_badge_url('Users', user_count, 'yellow')
-        with open('.github/badges/users_badge_url.txt', 'w') as badge_file:
+        with open('../.github/badges/users_badge_url.txt', 'w') as badge_file:
             badge_file.write(badge_url)
 
     async def update_latency_txt(self):
-        latency_file_path = '.github/badges/latency.txt'
+        latency_file_path = '../.github/badges/latency.txt'
         try:
             with open(latency_file_path, 'r') as file:
                 latency = file.read().strip()
@@ -90,7 +90,7 @@ class BadgeUpdater(commands.Cog):
             print(f"File not found: {latency_file_path}")
             return
         badge_url = await self.generate_badge_url('48hr_Avg_API_Latency', latency, 'A020F0')
-        with open('.github/badges/latency_badge_url.txt', 'w') as badge_file:
+        with open('../.github/badges/latency_badge_url.txt', 'w') as badge_file:
             badge_file.write(badge_url)
             
     @tasks.loop(minutes=10)

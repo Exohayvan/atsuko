@@ -35,7 +35,7 @@ class MentalHealthSupportCog(commands.Cog):
                              "Here are some resources and support numbers."),
                 color=discord.Color.blue()
             )
-            embed.add_field(name="Crisis Support Numbers", value="[Click here for resources](https://github.com/Exohayvan/atsuko/blob/main/documents/Crisis-Support-Numbers.md)", inline=False)
+            embed.add_field(name="Crisis Support Numbers", value="[Click here for resources](https://github.com/Exohayvan/atsuko/blob/main/docs/Crisis-Support-Numbers.md)", inline=False)
             embed.set_footer(text="Remember, you are not alone.")
 
             await message.channel.send(embed=embed)

@@ -51,7 +51,7 @@ class Uptime(commands.Cog):
 
     async def update_uptime_badges(self):
         # Ensure the directory exists
-        os.makedirs('.github/badges/', exist_ok=True)
+        os.makedirs('../.github/badges/', exist_ok=True)
         
         # Define the periods for which to calculate uptime
         periods = [1, 7, 30, 365]
@@ -62,7 +62,7 @@ class Uptime(commands.Cog):
             percentage_online = (online_checks / total_checks) * 100 if total_checks else 0
             
             # Define the filename based on the period
-            filename = f'.github/badges/{period}uptime.txt'
+            filename = f'../.github/badges/{period}uptime.txt'
             
             # Write the percentage to the file
             with open(filename, 'w') as file:
