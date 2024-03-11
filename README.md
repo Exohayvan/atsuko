@@ -1,5 +1,7 @@
 # Astuko
 
+## I'm making a lot of file changes and updatinh to work on website support (https://atsuko.xyz) this README maybe outdated. Also entry point for scripts will be changing.
+
 ### GitHub Stats
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/exohayvan/atsuko?style=for-the-badge)
 ![Repo Size](https://img.shields.io/github/repo-size/Exohayvan/atsuko?style=for-the-badge)
