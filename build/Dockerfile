@@ -11,6 +11,10 @@ COPY ./atsuko /atsuko
 COPY ./config.json /
 COPY ./key.pem /
 
+# Install Git
+RUN apt-get update && \
+    apt-get install -y git
+
 # Install dependencies from both requirements.txt files
 RUN pip install --no-cache-dir -r ./web/requirements.txt
 RUN pip install --no-cache-dir -r ./bot/requirements.txt
