@@ -5,11 +5,18 @@ FROM python:latest
 WORKDIR /atsuko
 
 # Copy the entire 'atsuko' project folder into the container at /atsuko
-COPY . /atsuko
+COPY ./atsuko /atsuko
+
+# Copy the config.json and key.pem
+COPY ./config.json /
+COPY ./key.pem /
 
 # Install dependencies from both requirements.txt files
-RUN pip install --no-cache-dir -r /atsuko/web/requirements.txt
-RUN pip install --no-cache-dir -r /atsuko/bot/requirements.txt
+RUN pip install --no-cache-dir -r ./web/requirements.txt
+RUN pip install --no-cache-dir -r ./bot/requirements.txt
+
+# Debug for directories
+RUN ls -la /atsuko
 
 # Run main.py when the container launches
-CMD ["python3", "/atsuko/runtime/main.py"]
+CMD ["python3", "runtime/main.py"]

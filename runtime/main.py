@@ -2,6 +2,11 @@ import json
 import subprocess
 from time import sleep
 
+import os
+script_path = os.path.abspath(__file__)
+directory_path = os.path.dirname(script_path)
+os.chdir(directory_path)
+
 scripts = {
     "bot": "../bot/app.py",
     "web": "../web/app.py"

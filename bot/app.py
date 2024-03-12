@@ -9,6 +9,11 @@ from datetime import datetime, timedelta
 
 logging.basicConfig(level=logging.INFO)
 
+# Set CWD to current file path
+script_path = os.path.abspath(__file__)
+directory_path = os.path.dirname(script_path)
+os.chdir(directory_path)
+
 # Create logs directory if it doesn't exist
 if not os.path.exists('./logs'):
     os.makedirs('./logs')
