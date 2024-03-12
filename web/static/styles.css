@@ -1,0 +1,30 @@
+/* styles.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.top-bar {
+  background-color: cyan;
+  height: 50px; /* Adjust the height as needed */
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.bottom-bar {
+  background-color: #1a1a1a; /* A dark dark gray */
+  color: black; /* Ensuring black text is readable */
+  height: 50px; /* Adjust the height as needed */
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  text-align: center; /* Center the text inside the bar */
+  padding: 10px;
+}
