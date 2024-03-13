@@ -86,8 +86,9 @@ class GitAutoBackup(commands.Cog):
     @discord.app_commands.command(name="backup", description="Manually start a backup.")
     async def backup(self, interaction: discord.Interaction):
         # Check if the user is the bot owner
+        await interaction.response.defer(ephemeral=True)
         if not await self.bot.is_owner(interaction.user):
-            await interaction.response.send_message("You don't have permission to use this command.", ephemeral=True)
+            await interaction.followup.send("You don't have permission to use this command.", ephemeral=True)
             return
 
         # Execute the backup logic
