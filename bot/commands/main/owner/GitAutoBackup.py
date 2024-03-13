@@ -96,7 +96,7 @@ class GitAutoBackup(commands.Cog):
         logger.info("Manual backup started.")
 
         # Inform the user
-        await interaction.response.send_message("Backup completed.", ephemeral=True)
+        await interaction.followup.send("Backup completed.", ephemeral=True)
     
 async def setup(bot):
     config = get_config()
