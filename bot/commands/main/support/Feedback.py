@@ -21,7 +21,7 @@ class Feedback(commands.Cog):
 
     @discord.app_commands.command(name='feedback', description='Provide feedback about the bot.')
     async def feedback(self, interaction: discord.Interaction, message: str):
-        """Provide feedback to bot owners, feedback will be posted to GitHub. Link to issue will be sent after feedback is posted to GitHub."""
+        """Provide feedback to bot owners, feedback will be sent to owner."""
         issue_title = f"User Feedback: {interaction.user} - {interaction.id}"
         issue_body = (f"**User Message:** {message}\n"
                       f"**Author:** {interaction.user}\n"
@@ -41,10 +41,10 @@ class Feedback(commands.Cog):
             issue.add_to_labels(label)
         
             embed = discord.Embed(title='Feedback received', color=0x00ff00)
-            embed.add_field(name='Issue created on GitHub', value=f'[Link to issue]({issue.html_url})', inline=False)
+            embed.add_field(name='Feedback has been recorded and sent in.', inline=False)
             await interaction.response.send_message(embed=embed)
         except Exception as e:
-            await interaction.response.send_message(f"I am unable to open an issue on GitHub.")
+            await interaction.response.send_message(f"Oops, not sure what happened. Please try again.")
             await interaction.followup.send(f"An unexpected error occurred: {e}")
 
 async def setup(bot: commands.Bot):

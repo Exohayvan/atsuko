@@ -78,11 +78,11 @@ class CommandError(commands.Cog):
             issue.add_to_labels(bug_label)
 
             embed = Embed(title='An error occurred', color=0xff0000)
-            embed.add_field(name='Issue created on GitHub', value=f'[Link to issue]({issue.html_url})', inline=False)
+            embed.add_field(name='Error has been recorded and sent in.', inline=False)
             await ctx.send(embed=embed)
             logger.info(f"New issue opened on GitHub: {issue.html_url}")
         except Exception as e:
-            await ctx.send(f"I am unable to open an issue on GitHub.")
+            await ctx.send(f"Oops something happened. Unable to record errror to be looked at.")
             await ctx.send(f"An unexpected error occurred: {e}")
             logger.info(f"Unable to open an issue: {e}")
 

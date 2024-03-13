@@ -9,7 +9,7 @@ os.chdir(directory_path)
 
 scripts = {
     "bot": "../bot/app.py",
-    "web": "../web/app.py"
+    "web": "web.app:app"
 }
 processes = {}
 
@@ -24,7 +24,11 @@ def manage_scripts():
         if should_run:
             if script not in processes or processes[script].poll() is not None:
                 print(f"Starting {script}...")
-                processes[script] = subprocess.Popen(['python', scripts[script]])
+                if script == "web":
+                    command = ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", scripts[script]]
+                    processes[script] = subprocess.Popen(command, cwd="/atsuko")
+                else:
+                    processes[script] = subprocess.Popen(['python3', scripts[script]])
         else:
             if script in processes:
                 print(f"Stopping {script}...")

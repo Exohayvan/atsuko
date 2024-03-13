@@ -42,7 +42,7 @@ def build_docker_image():
     dockerfile_path = './Dockerfile'
     # Define the build context to be the project root, two levels up from the script location
     build_context = '../..'
-    image_name = 'atsuko'
+    image_name = 'exohayvan/atsuko:latest'
     
     # Build the Docker build command
     command = [
