@@ -19,8 +19,5 @@ RUN apt-get update && \
 RUN pip install --no-cache-dir -r ./web/requirements.txt
 RUN pip install --no-cache-dir -r ./bot/requirements.txt
 
-# Debug for directories
-RUN ls -la /atsuko
-
 # Run main.py when the container launches
 CMD ["python3", "runtime/main.py"]
