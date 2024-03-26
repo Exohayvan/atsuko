@@ -31,7 +31,7 @@ class FortniteBRStats(commands.Cog):
             "accountType": account_type,
             "timeWindow": time_window
         }
-        
+        await interaction.response.defer(ephemeral=True)
         # Using the bot's event loop to run the blocking requests.get call in a separate thread
         data = await self.bot.loop.run_in_executor(None, lambda: requests.get(api_url, headers=headers, params=params))
 
