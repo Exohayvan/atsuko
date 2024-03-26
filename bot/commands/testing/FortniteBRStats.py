@@ -31,17 +31,17 @@ class FortniteBRStats(commands.Cog):
             "accountType": account_type,
             "timeWindow": time_window
         }
-        await interaction.response.defer(ephemeral=True)
+        await interaction.response.defer()
         # Using the bot's event loop to run the blocking requests.get call in a separate thread
         data = await self.bot.loop.run_in_executor(None, lambda: requests.get(api_url, headers=headers, params=params))
 
         if data.status_code == 200:
             json_data = data.json()
             # Format the json_data as needed before sending
-            await interaction.response.send_message(f"Player BR Stats: {json_data}")
+            await interaction.followup.send(f"Player BR Stats: {json_data}")
             logger.info(f"Fortnite BR stats retrieved for {username}.")
         else:
-            await interaction.response.send_message("Failed to retrieve BR stats.")
+            await interaction.followup.send("Failed to retrieve BR stats.")
             logger.error(f"Failed to retrieve Fortnite BR stats for {username}.")
 
 async def setup(bot: commands.Bot) -> None:
