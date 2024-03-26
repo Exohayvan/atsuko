@@ -113,6 +113,13 @@ Send a log file or the entire log directory if no file is specified.
 Usage:
 `pulllog <filename>`
 
+## version
+
+Shows the current version of the bot based on Git commits and the hash of the last commit.
+
+Usage:
+`!version`
+
 ## package_info
 
 Provides information about a pip package.
