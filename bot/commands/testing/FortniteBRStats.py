@@ -19,7 +19,7 @@ class FortniteBRStats(commands.Cog):
     
     group = app_commands.Group(name="fortnite", description="Commands related to Fortnite.")
 
-    @app_commands.command(name="stats", description="Get Fortnite BR stats for a player.")
+    @group.command(name="stats", description="Get Fortnite BR stats for a player.")
     async def br_stats(self, interaction: discord.Interaction, username: str, account_type: str = 'epic', time_window: str = 'lifetime'):
         """ Fetches Fortnite BR player stats. """
         api_url = "https://fortnite-api.com/v2/stats/br/v2"
