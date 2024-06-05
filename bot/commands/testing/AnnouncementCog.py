@@ -22,7 +22,10 @@ class AnnouncementCog(commands.Cog):
                     print(f"Failed to send message to {guild.name}: {e}")
             
             # Add a delay between each message
-            await asyncio.sleep(2)  # Adjust the delay as needed
+            await asyncio.sleep(1) # Adjust the delay as needed
+
+        # Follow-up message indicating completion
+        await interaction.followup.send("Announcement has been sent to all servers.")
 
 async def setup(bot):
     await bot.add_cog(AnnouncementCog(bot))
