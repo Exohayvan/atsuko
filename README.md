@@ -1,5 +1,8 @@
 # Astuko
 
+## BOT IS CURRENTLY OFFLINE DUE TO MAJOR REWORK ERROR
+
+
 ### My Server Stats
 [![Discord Server Online](https://img.shields.io/discord/761673024004816936.svg?logo=discord&style=for-the-badge)](https://discord.gg/BYF6NTs)
 
