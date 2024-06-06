@@ -1,9 +1,0 @@
-// Family Tree
-digraph {
-	exohayvan -> f8talcvt
-	f8talcvt -> try105
-	try105 -> f8talcvt
-	f8talcvt -> try105
-	f8talcvt -> theofficalbootywarrior
-	f8talcvt -> theofficalbootywarrior
-}
